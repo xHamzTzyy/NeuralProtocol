@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gothic Kawaii - Dashboard Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --lime: #ccff00;
+            --purple-deep: #1a0836;
+            --cell-size: 42px;
+            --gap: 6px;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a0836 0%, #05020a 100%);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- HEADER & SCORE --- */
+        #photo-header {
+            margin-top: 20px;
+            width: 65px; height: 65px;
+            border-radius: 50%;
+            border: 2px solid var(--lime);
+            overflow: hidden;
+            box-shadow: 0 0 15px var(--lime);
+        }
+        #photo-header img { width: 100%; height: 100%; object-fit: cover; }
+
+        #score { 
+            font-size: 45px; font-weight: 900; margin: 10px 0;
+            background: linear-gradient(to bottom, #fff, var(--lime));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- GAME BOARD --- */
+        #grid-container {
+            display: grid;
+            grid-template-columns: repeat(8, var(--cell-size));
+            grid-template-rows: repeat(8, var(--cell-size));
+            gap: var(--gap);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(204, 255, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .cell { width: var(--cell-size); height: var(--cell-size); background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+        .block { background: linear-gradient(145deg, #e5ff80, #99cc00); border-radius: 4px; width: 100%; height: 100%; }
+
+        #dock { margin-top: 15px; display: flex; gap: 15px; height: 90px; align-items: center; }
+        .piece { display: grid; gap: 2px; cursor: grab; }
+        .piece-cell { width: 18px; height: 18px; border-radius: 3px; }
+
+        .dragging {
+            position: fixed !important; z-index: 1000; pointer-events: none;
+            gap: var(--gap) !important; transform: scale(1.1);
+        }
+        .dragging .piece-cell { width: var(--cell-size) !important; height: var(--cell-size) !important; }
+
+        /* --- NAVIGATION BAR (Sesuai Permintaan) --- */
+        #nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(5, 2, 10, 0.95);
+            border-top: 1px solid rgba(204, 255, 0, 0.2);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 25px 0;
+        }
+
+        .nav-item {
+            text-decoration: none; /* Hilangkan garis bawah link */
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            flex: 1;
+        }
+
+        .nav-item i { font-size: 20px; }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--lime);
+            text-shadow: 0 0 10px var(--lime);
+        }
+
+        /* --- GAME OVER --- */
+        #game-over {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
+        }
+        #btn-retry {
+            background: var(--lime); border: none; padding: 12px 35px;
+            border-radius: 25px; font-weight: bold; cursor: pointer;
+        }
+
+        .blasting { animation: explode 0.4s ease-out forwards; }
+        @keyframes explode { 0% { transform: scale(1); filter: brightness(2); } 100% { transform: scale(0); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div id="photo-header">
+        <img src="https://e.top4top.io/p_3648e6n7n1.jpg" alt="User">
+    </div>
+
+    <p id="score">0</p>
+
+    <div id="grid-container"></div>
+    <div id="dock"></div>
+
+    <nav id="nav-bar">
+        <a href="/dashboard" class="nav-item">
+            <i class="fa-solid fa-home"></i>
+            Home
+        </a>
+        <a href="/tools" class="nav-item active">
+            <i class="fa-solid fa-tools"></i>
+            Tools
+        </a>
+    </nav>
+
+    <div id="game-over">
+        <h1 style="color: var(--lime);">BOARD FULL</h1>
+        <button id="btn-retry" onclick="location.reload()">RESTART</button>
+    </div>
+
+    <script>
+        const GRID_SIZE = 8;
+        const boardEl = document.getElementById('grid-container');
+        const dockEl = document.getElementById('dock');
+        const scoreEl = document.getElementById('score');
+        const gameOverEl = document.getElementById('game-over');
+        
+        let board = [];
+        let score = 0;
+        let currentPiecesData = [];
+
+        function initGame() {
+            score = 0;
+            scoreEl.innerText = score;
+            board = Array(GRID_SIZE).fill().map(() => Array(GRID_SIZE).fill(0));
+            boardEl.innerHTML = '';
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                boardEl.appendChild(cell);
+            }
+            spawn();
+        }
+
+        const shapes = [
+            { s: [[1,1],[1,1]] }, { s: [[1,1,1,1]] }, { s: [[1,1,1]] },
+            { s: [[1,1,1],[0,1,0]] }, { s: [[1,0],[1,0],[1,1]] }, { s: [[1]] }
+        ];
+
+        function spawn() {
+            dockEl.innerHTML = '';
+            currentPiecesData = [];
+            for(let i=0; i<3; i++) {
+                const data = shapes[Math.floor(Math.random() * shapes.length)];
+                currentPiecesData.push({ id: i, shape: data.s });
+                const p = createUI(data.s, i);
+                dockEl.appendChild(p);
+            }
+            checkGameOver();
+        }
+
+        function createUI(shape, id) {
+            const el = document.createElement('div');
+            el.classList.add('piece');
+            el.style.gridTemplateColumns = `repeat(${shape[0].length}, 1fr)`;
+            shape.forEach(row => row.forEach(val => {
+                const c = document.createElement('div');
+                if(val) c.classList.add('piece-cell', 'block');
+                else c.style.visibility = 'hidden';
+                el.appendChild(c);
+            }));
+            setupDrag(el, shape, id);
+            return el;
+        }
+
+        function setupDrag(el, shape, id) {
+            const onMove = (e) => {
+                const x = e.touches ? e.touches[0].clientX : e.clientX;
+                const y = e.touches ? e.touches[0].clientY : e.clientY;
+                el.style.left = (x - el.offsetWidth/2) + 'px';
+                el.style.top = (y - el.offsetHeight - 40) + 'px';
+            };
+
+            const onEnd = (e) => {
+                const x = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+                const y = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+                el.style.display = 'none';
+                const targetEl = document.elementFromPoint(x, y - 60);
+                el.style.display = 'grid';
+
+                const idx = Array.from(boardEl.children).indexOf(targetEl);
+                if (idx !== -1) {
+                    const r = Math.floor(idx/8), c = idx%8;
+                    const sr = r - Math.floor(shape.length / 2);
+                    const sc = c - Math.floor(shape[0].length / 2);
+
+                    if (tryPlace(shape, sr, sc)) {
+                        el.remove();
+                        currentPiecesData = currentPiecesData.filter(p => p.id !== id);
+                        checkLines();
+                        if (currentPiecesData.length === 0) spawn();
+                        else checkGameOver();
+                    } else resetPiece();
+                } else resetPiece();
+
+                window.removeEventListener('mousemove', onMove);
+                window.removeEventListener('mouseup', onEnd);
+                window.removeEventListener('touchmove', onMove);
+                window.removeEventListener('touchend', onEnd);
+            };
+
+            function resetPiece() {
+                el.classList.remove('dragging');
+                el.style.position = 'relative'; el.style.left = '0'; el.style.top = '0';
+            }
+
+            el.onmousedown = el.ontouchstart = (e) => {
+                el.classList.add('dragging');
+                el.style.position = 'fixed';
+                onMove(e);
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onEnd);
+                window.addEventListener('touchmove', onMove, {passive: false});
+                window.addEventListener('touchend', onEnd);
+            };
+        }
+
+        function tryPlace(shape, sr, sc) {
+            const offsets = [[0,0], [-1,0], [1,0], [0,-1], [0,1]];
+            for(let o of offsets) {
+                let r = sr + o[0], c = sc + o[1];
+                if(canFit(shape, r, c)) {
+                    for(let i=0; i<shape.length; i++) {
+                        for(let j=0; j<shape[i].length; j++) {
+                            if(shape[i][j]) {
+                                board[r+i][c+j] = 1;
+                                boardEl.children[(r+i)*8+(c+j)].innerHTML = '<div class="block"></div>';
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function canFit(shape, r, c) {
+            for(let i=0; i<shape.length; i++) {
+                for(let j=0; j<shape[i].length; j++) {
+                    if(shape[i][j]) {
+                        let nr = r + i, nc = c + j;
+                        if(nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE || board[nr][nc]) return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function checkLines() {
+            let rs = [], cs = [];
+            for(let i=0; i<GRID_SIZE; i++) {
+                if(board[i].every(v => v === 1)) rs.push(i);
+                if(board.map(row => row[i]).every(v => v === 1)) cs.push(i);
+            }
+            rs.forEach(r => { for(let i=0; i<GRID_SIZE; i++) clearCell(r, i); });
+            cs.forEach(c => { for(let i=0; i<GRID_SIZE; i++) clearCell(i, c); });
+            if(rs.length || cs.length) {
+                score += (rs.length + cs.length) * 100;
+                scoreEl.innerText = score;
+            }
+        }
+
+        function clearCell(r, c) {
+            board[r][c] = 0;
+            const el = boardEl.children[r*8+c];
+            if(el.firstChild) {
+                el.firstChild.classList.add('blasting');
+                setTimeout(() => el.innerHTML = '', 400);
+            }
+        }
+
+        function checkGameOver() {
+            const anyPossibleMove = currentPiecesData.some(p => {
+                for(let r=0; r<GRID_SIZE; r++) {
+                    for(let c=0; c<GRID_SIZE; c++) {
+                        if(canFit(p.shape, r, c)) return true;
+                    }
+                }
+                return false;
+            });
+            if (!anyPossibleMove) setTimeout(() => gameOverEl.style.display = 'flex', 600);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

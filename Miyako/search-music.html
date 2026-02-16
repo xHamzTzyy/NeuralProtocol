@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Music Search</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050505;       
+            --bg-gradient: radial-gradient(circle at 50% 0%, #0d1a05 0%, #050505 100%);
+            --glass-bg: rgba(15, 20, 10, 0.85);
+            --glass-border: rgba(163, 255, 0, 0.2);
+            --accent-lime: #a3ff00;   
+            --text-main: #f0f0f0;
+            --text-gray: #888888;
+            --font-title: 'Orbitron', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #particle-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: var(--accent-lime); 
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-lime);
+            opacity: 0.2;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 50px 25px 20px; 
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 50;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .brand-title { 
+            font-family: var(--font-title); font-size: 14px; font-weight: 800; 
+            letter-spacing: 2px; color: var(--accent-lime);
+        }
+
+        /* --- TOP PROFILE BANNER --- */
+        .profile-banner {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(to right, rgba(163, 255, 0, 0.1), transparent);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-lime);
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(163, 255, 0, 0.3);
+        }
+        .profile-info h3 { font-family: var(--font-title); font-size: 16px; color: #fff; }
+        .profile-info p { font-family: var(--font-code); font-size: 11px; color: var(--accent-lime); }
+
+        /* --- MAIN CONTENT --- */
+        main { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 20px; 
+            padding-bottom: 180px; 
+        }
+        main::-webkit-scrollbar { display: none; }
+
+        /* --- SEARCH CARD --- */
+        .search-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 8px;
+            margin: 20px 0;
+        }
+        .input-group { display: flex; align-items: center; gap: 10px; padding: 5px; }
+        .input-field {
+            flex: 1; background: transparent; border: none; padding: 10px 15px;
+            color: white; font-family: var(--font-code); font-size: 15px; outline: none;
+        }
+        .search-btn {
+            width: 45px; height: 45px; background: var(--accent-lime);
+            border-radius: 15px; border: none; cursor: pointer; color: #000;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- SONG LIST --- */
+        .song-item {
+            display: flex; align-items: center; 
+            background: rgba(255,255,255,0.03);
+            margin-bottom: 10px; padding: 12px; border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .song-item:active { transform: scale(0.98); background: rgba(163, 255, 0, 0.1); }
+        .song-img { width: 50px; height: 50px; border-radius: 12px; margin-right: 15px; object-fit: cover; }
+        .song-title { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .song-artist { font-size: 11px; color: var(--text-gray); font-family: var(--font-code); }
+
+        /* --- BOTTOM NAVIGATION BAR --- */
+        .bottom-nav {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px;
+            background: rgba(10, 15, 5, 0.9);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 12px 10px; z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .nav-item { 
+            background: none; border: none;
+            color: var(--text-gray); 
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            transition: 0.3s; cursor: pointer; flex: 1;
+        }
+        .nav-item i { font-size: 18px; }
+        .nav-text { font-size: 10px; font-family: var(--font-code); text-transform: uppercase; }
+        .nav-item.active { color: var(--accent-lime); text-shadow: 0 0 10px var(--accent-lime); }
+
+        /* --- MUSIC PLAYER CARD --- */
+        .music-card {
+            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(150%);
+            width: 90%; max-width: 400px; background: var(--glass-bg);
+            backdrop-filter: blur(30px); border: 1px solid var(--glass-border);
+            border-radius: 35px; padding: 25px; z-index: 1500;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .music-card.active { transform: translateX(-50%) translateY(0); }
+        .card-art { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 15px; border: 2px solid var(--accent-lime); object-fit: cover; }
+        .btn-play { width: 60px; height: 60px; border-radius: 50%; background: var(--accent-lime); border: none; font-size: 20px; cursor: pointer; color: #000; }
+
+        /* --- LOADER --- */
+        .loader-wrapper { display: none; text-align: center; margin: 20px; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(163,255,0,0.1); border-top: 3px solid var(--accent-lime); border-radius: 50%; animation: spin 1s linear infinite; margin: auto; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="particle-container"></div>
+
+    <div class="profile-banner">
+        <img src="https://l.top4top.io/p_3647ovpaq1.jpg" class="profile-img" alt="Profile">
+        <div class="profile-info">
+            <h3>User Interface</h3>
+            <p>Status: Online / Decrypting...</p>
+        </div>
+    </div>
+
+    <main>
+        <div class="search-card">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="input-field" placeholder="Search track frequency...">
+                <button id="searchBtn" class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <div id="loader" class="loader-wrapper">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="songList" class="song-list"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-item" onclick="window.location.href='/dashboard'">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-item active" onclick="window.location.href='/tools'">
+            <i class="fas fa-tools"></i>
+            <span class="nav-text">Tools</span>
+        </button>
+        <button class="nav-item" onclick="window.location.href='/profile'">
+            <i class="fas fa-user-circle"></i>
+            <span class="nav-text">Profile</span>
+        </button>
+    </nav>
+
+    <div class="music-card" id="musicCard">
+        <img src="" class="card-art" id="cardArt">
+        <div style="margin-bottom: 20px;">
+            <h4 id="cardTitle" style="color: #fff; font-size: 16px;">Title</h4>
+            <p id="cardArtist" style="color: var(--accent-lime); font-size: 12px; font-family: var(--font-code);">Artist</p>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
+            <button style="background:none; border:none; color:#fff; cursor:pointer;" onclick="closePlayer()"><i class="fas fa-step-backward"></i></button>
+            <button class="btn-play" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></button>
+            <button style="background:none; border:none; color:#fff; cursor:pointer;" onclick="closePlayer()"><i class="fas fa-times"></i></button>
+        </div>
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <script>
+        // Background Particles Effect
+        const container = document.getElementById('particle-container');
+        for (let i = 0; i < 15; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 3 + 'px';
+            p.style.width = size;
+            p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDuration = Math.random() * 5 + 5 + 's';
+            container.appendChild(p);
+        }
+
+        // Search & Music Logic
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const songList = document.getElementById('songList');
+        const loader = document.getElementById('loader');
+        const musicCard = document.getElementById('musicCard');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const cardArt = document.getElementById('cardArt');
+        const cardTitle = document.getElementById('cardTitle');
+        const cardArtist = document.getElementById('cardArtist');
+        const playIcon = document.getElementById('playIcon');
+
+        async function searchMusic() {
+            const q = searchInput.value.trim();
+            if(!q) return;
+            
+            songList.innerHTML = '';
+            loader.style.display = 'block';
+            
+            try {
+                const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&limit=15`);
+                const data = await res.json();
+                loader.style.display = 'none';
+                
+                if(data.results.length === 0) {
+                    songList.innerHTML = '<p style="text-align:center; color:#888; font-size:12px;">No results found.</p>';
+                    return;
+                }
+
+                data.results.forEach(song => {
+                    const artwork = song.artworkUrl100.replace('100x100', '400x400');
+                    const item = document.createElement('div');
+                    item.className = 'song-item';
+                    item.innerHTML = `
+                        <img src="${artwork}" class="song-img">
+                        <div style="flex:1; overflow:hidden;">
+                            <div class="song-title">${song.trackName}</div>
+                            <div class="song-artist">${song.artistName}</div>
+                        </div>
+                        <i class="fas fa-play-circle" style="color:var(--accent-lime); font-size:20px;"></i>
+                    `;
+                    item.onclick = () => playSong(song.previewUrl, song.trackName, song.artistName, artwork);
+                    songList.appendChild(item);
+                });
+            } catch(e) { 
+                loader.style.display = 'none';
+                console.error("Search Error:", e);
+            }
+        }
+
+        function playSong(url, title, artist, img) {
+            if(!url) return alert("Preview not available for this track.");
+            cardTitle.innerText = title;
+            cardArtist.innerText = artist;
+            cardArt.src = img;
+            audioPlayer.src = url;
+            audioPlayer.play();
+            musicCard.classList.add('active');
+            playIcon.className = "fas fa-pause";
+        }
+
+        function togglePlay() {
+            if(audioPlayer.paused) { 
+                audioPlayer.play(); 
+                playIcon.className = "fas fa-pause"; 
+            } else { 
+                audioPlayer.pause(); 
+                playIcon.className = "fas fa-play"; 
+            }
+        }
+
+        function closePlayer() { 
+            musicCard.classList.remove('active'); 
+            audioPlayer.pause(); 
+        }
+
+        // Event Listeners
+        searchBtn.onclick = searchMusic;
+        searchInput.onkeypress = (e) => { if(e.key === 'Enter') searchMusic(); };
+    </script>
+</body>
+</html>

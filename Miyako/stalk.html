@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𐐪 Gothic Kawaii IG Stalker 𐑂</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(204, 255, 0, 0.05) 0%, transparent 80%),
+        linear-gradient(180deg, #050505 0%, #1a1a1a 100%);
+      color: #ccff00;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 2px solid #ccff00;
+      box-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 40px 20px;
+      margin-bottom: 100px; 
+    }
+
+    .box {
+      background: rgba(15, 15, 15, 0.75);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(204, 255, 0, 0.2);
+      padding: 30px;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      text-shadow: 0 0 10px #ccff00;
+      margin-bottom: 25px;
+      letter-spacing: 3px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ccff00;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 15px 15px 45px;
+      border-radius: 15px;
+      border: 1px solid rgba(204, 255, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #ccff00;
+      box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
+    }
+
+    button.main-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: #ccff00;
+      color: #000;
+      font-weight: 900;
+      border-radius: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: 0.3s;
+    }
+
+    button.main-btn:hover {
+      background: #fff;
+      box-shadow: 0 0 20px #fff;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      width: 90%;
+      max-width: 500px;
+      background: rgba(15, 15, 15, 0.85);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(204, 255, 0, 0.3);
+      padding: 12px;
+      border-radius: 25px;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: #ccff00;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item i {
+      font-size: 1.4rem;
+    }
+
+    .nav-item:hover {
+      color: #fff;
+      transform: translateY(-5px);
+      text-shadow: 0 0 8px #fff;
+    }
+
+    .profile-pic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #ccff00;
+      margin: 20px auto;
+      object-fit: cover;
+    }
+
+    .result {
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 20px;
+      text-align: left;
+      margin-top: 20px;
+      border: 1px solid rgba(204, 255, 0, 0.2);
+      line-height: 1.8;
+      font-size: 13px;
+    }
+
+    .result b i {
+      margin-right: 8px;
+      width: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="https://l.top4top.io/p_3649jvrry1.jpg" class="header-image">
+
+  <div class="container">
+    <div class="box">
+      <h2><i class="fa-brands fa"></i> STALKER IG <i class="fa-brands fa-instagram"></i></h2>
+      
+      <div class="input-wrapper">
+        <i class="fa-brands fa-instagram"></i>
+        <input type="text" id="username" placeholder="Target Soul Name...">
+      </div>
+      
+      <button class="main-btn" onclick="stalkIG()">
+        <i class="fa-solid fa-wand-sparkles"></i> Manifest
+      </button>
+
+      <div id="result-container"></div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="/dashboard" class="nav-item">
+      <i class="fa-solid fa-home"></i>
+      Home
+    </a>
+    <a href="/tools" class="nav-item active">
+      <i class="fa-solid fa-tools"></i>
+      Tools
+    </a>
+    <a href="/profile" class="nav-item">
+      <i class="fa-solid fa-user"></i>
+      Profile
+    </a>
+  </nav>
+
+<script>
+async function stalkIG() {
+  const user = document.getElementById("username").value;
+  const resultContainer = document.getElementById("result-container");
+  const apiKey = "APIKEY_KAMU";
+
+  if (!user) return;
+  resultContainer.innerHTML = "<p style='margin-top:20px;'><i class='fa-solid fa-spinner fa-spin'></i> Ritual in progress...</p>";
+
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/stalkig?apikey=${apiKey}&username=${user}`);
+    const json = await res.json();
+    if (!json.result) {
+      resultContainer.innerHTML = "<p style='margin-top:20px; color:#ff4d4d;'><i class='fa-solid fa-circle-xmark'></i> Soul not found</p>";
+      return;
+    }
+    const data = json.result;
+    resultContainer.innerHTML = `
+      <img src="${data.profile_pic}" class="profile-pic">
+      <div class="result">
+        <b><i class="fa-solid fa-user"></i> Identity:</b> ${data.fullname}<br>
+        <b><i class="fa-solid fa-users"></i> Coven:</b> ${data.followers} Followers<br>
+        <b><i class="fa-solid fa-camera-retro"></i> Rituals:</b> ${data.posts} Posts<br>
+        <b><i class="fa-solid fa-scroll"></i> Curse:</b> ${data.bio || "-"}
+      </div>
+    `;
+  } catch (e) {
+    resultContainer.innerHTML = "<p style='margin-top:20px; color:#ff4d4d;'>Ritual Error</p>";
+  }
+}
+</script>
+
+</body>
+</html>

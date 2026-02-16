@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Speed Test Premium </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Orbitron:wght@700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cyber-lime: #CCFF00;
+            --lime-glow: rgba(204, 255, 0, 0.5);
+            --gothic-black: #050505;
+            --glass-border: rgba(204, 255, 0, 0.3);
+            --glass-bg: rgba(0, 0, 0, 0.85);
+            --text-sub: #8b949e;
+        }
+
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body { 
+            background: #000; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; 
+            background: radial-gradient(circle at center, #0d1a00 0%, #000 100%);
+            overflow: hidden; 
+        }
+        
+        .page-container { 
+            width: 100%; height: 100vh; position: relative; 
+            display: flex; flex-direction: column; color: white; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+            overflow: hidden; 
+        }
+
+        @media (min-width: 769px) {
+            .page-container {
+                max-width: 414px; height: 90vh;
+                border-radius: 40px;
+                border: 1px solid var(--glass-border);
+                box-shadow: 0 0 40px rgba(204, 255, 0, 0.15);
+            }
+        }
+
+        /* Header Styling */
+        .lux-header-card {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 45px 25px 20px; flex-shrink: 0;
+        }
+        
+        .lux-head-custom-flex { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .lux-left-info { display: flex; gap: 15px; align-items: center; }
+        
+        .lux-icon-box {
+            background: rgba(204, 255, 0, 0.08); width: 50px; height: 50px; 
+            border-radius: 12px; border: 1px solid var(--glass-border); 
+            color: var(--cyber-lime); display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 0 15px var(--lime-glow);
+        }
+
+        .role-badge {
+            background: rgba(204, 255, 0, 0.1);
+            color: var(--cyber-lime);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            border: 1px solid var(--glass-border);
+            text-transform: uppercase;
+        }
+
+        /* Main Content */
+        .speed-test-wrapper {
+            flex: 1; overflow-y: auto; padding: 0 20px 100px;
+            display: flex; flex-direction: column; align-items: center;
+            scrollbar-width: none;
+        }
+
+        .wifi-circle-display {
+            width: 140px; height: 140px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid var(--glass-border);
+            display: flex; justify-content: center; align-items: center;
+            margin: 30px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .wifi-circle-display i { 
+            font-size: 45px; color: var(--cyber-lime); 
+            filter: drop-shadow(0 0 10px var(--cyber-lime)); 
+        }
+        
+        .wifi-circle-display.animating {
+            animation: pulseWifi 1.5s infinite;
+            border-color: var(--cyber-lime);
+        }
+
+        @keyframes pulseWifi {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 25px rgba(204, 255, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        #spLoadingText {
+            font-family: 'Orbitron'; 
+            color: var(--cyber-lime); 
+            font-size: 10px; 
+            letter-spacing: 3px; 
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px var(--cyber-lime);
+        }
+
+        /* Glass Result Box */
+        .speed-info-box {
+            width: 100%; 
+            background: linear-gradient(180deg, rgba(20, 30, 0, 0.3) 0%, rgba(0,0,0,0.5) 100%); 
+            border: 1px solid var(--glass-border);
+            border-radius: 25px; 
+            padding: 25px; 
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sp-row { 
+            display: flex; justify-content: space-between; 
+            margin-bottom: 15px; font-size: 13px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            padding-bottom: 10px; 
+        }
+        .sp-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .sp-row span:first-child { color: var(--text-sub); font-weight: 600; }
+        .sp-row span:last-child { color: var(--cyber-lime); font-family: 'JetBrains Mono'; font-weight: 800; }
+
+        .speed-info-box.blurred { filter: blur(10px); opacity: 0.5; transform: scale(0.98); }
+
+        /* Button Styling */
+        .yoshi-btn {
+            width: 100%;
+            background: var(--cyber-lime);
+            color: #000; 
+            border: none; 
+            padding: 18px;
+            border-radius: 16px; 
+            cursor: pointer; 
+            font-family: 'Orbitron'; 
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 900;
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            transition: 0.4s;
+            box-shadow: 0 0 20px var(--lime-glow);
+            text-transform: uppercase;
+        }
+
+        .yoshi-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .yoshi-btn:disabled { background: #111; color: #444; box-shadow: none; border: 1px solid #222; }
+
+        /* Navigation Bar */
+        .bottom-nav {
+            position: absolute; bottom: 20px; left: 50%;
+            transform: translateX(-50%);
+            width: 90%; max-width: 380px;
+            height: 65px;
+            background: rgba(10, 15, 0, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: rgba(204, 255, 0, 0.4); cursor: pointer; transition: 0.3s;
+        }
+
+        .nav-item.active { color: var(--cyber-lime); filter: drop-shadow(0 0 8px var(--lime-glow)); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 4px; }
+        .nav-item span { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; }
+
+        /* Toast */
+        .toast { 
+            position: fixed; bottom: 100px; left: 50%; 
+            transform: translateX(-50%); background: var(--cyber-lime); 
+            padding: 10px 25px; border-radius: 10px; 
+            color: #000; font-weight: 800; font-size: 0.7rem;
+            opacity: 0; transition: 0.4s; z-index: 9999; 
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<div id="page-speedtest" class="page-container">
+    <div class="lux-header-card">
+        <div class="lux-head-custom-flex">
+            <div class="lux-left-info">
+                <div class="lux-icon-box">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="lux-head-text">
+                    <h2 style="font-size:10px; color:var(--text-sub); margin:0; text-transform:uppercase; letter-spacing:2px; font-weight:800;">Network Node</h2>
+                    <p style="font-size:14px; color:#fff; font-weight:800; margin:0; font-family: 'JetBrains Mono';">USER GUEST</p>
+                </div>
+            </div>
+            <div class="lux-right-info">
+                <span class="role-badge"><i class="fas fa-crown" style="font-size:8px; margin-right:4px;"></i> VIP</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="speed-test-wrapper">
+        <div class="wifi-circle-display" id="wifiAnimIcon">
+            <i class="fas fa-wifi"></i>
+        </div>
+        
+        <div id="spLoadingText" style="display:none">ANALYZING SYSTEM...</div>
+
+        <div class="speed-info-box" id="speedResultBox">
+            <div class="sp-row">
+                <span><i class="fas fa-link" style="margin-right:8px;"></i> TYPE:</span>
+                <span id="spType">ENCRYPTED</span>
+            </div>
+            <div class="sp-row">
+                <span><i class="fas fa-tachometer-alt" style="margin-right:8px;"></i> SPEED:</span>
+                <span id="spSpeed">0.00 MBPS</span>
+            </div>
+            <div class="sp-row">
+                <span><i class="fas fa-globe" style="margin-right:8px;"></i> IPV4:</span>
+                <span id="spIp">WAITING...</span>
+            </div>
+            <div class="sp-row">
+                <span><i class="fas fa-calendar-alt" style="margin-right:8px;"></i> LOG:</span>
+                <span id="spDate">-</span>
+            </div>
+        </div>
+        
+        <button class="yoshi-btn" id="btnRunSpeed">
+            <i class="fas fa-ghost"></i> RUN SPEED TEST
+        </button>
+    </div>
+
+    <nav class="bottom-nav">
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/tools" class="nav-item active">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="/profile" class="nav-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+</div>
+
+<div class="toast" id="toast">
+    <span id="toast-msg"></span>
+</div>
+
+<script>
+    // FUNGSI ASLI TETAP TERJAGA
+    const btnTest = document.getElementById('btnRunSpeed');
+    const wifiIcon = document.getElementById('wifiAnimIcon');
+    const loadingText = document.getElementById('spLoadingText');
+    const resultBox = document.getElementById('speedResultBox');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+
+    function showToast(msg) {
+        toastMsg.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    btnTest.addEventListener('click', async () => {
+        btnTest.disabled = true;
+        wifiIcon.classList.add('animating');
+        loadingText.style.display = 'block';
+        resultBox.classList.add('blurred');
+        showToast("INITIALIZING TEST...");
+        
+        setTimeout(async () => {
+            // Get IP
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                document.getElementById('spIp').innerText = data.ip;
+            } catch (e) {
+                document.getElementById('spIp').innerText = "ERROR_LINK";
+            }
+
+            // Get Connection Info
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const type = connection ? connection.effectiveType.toUpperCase() : "WIFI/LAN";
+            const speed = connection ? connection.downlink : (Math.random() * 50 + 10).toFixed(2);
+
+            // Update UI
+            document.getElementById('spType').innerText = type;
+            document.getElementById('spSpeed').innerText = speed + " MBPS";
+            document.getElementById('spDate').innerText = new Date().toLocaleString('id-ID', {
+                day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit'
+            }).toUpperCase();
+
+            // Stop Animation
+            wifiIcon.classList.remove('animating');
+            loadingText.style.display = 'none';
+            resultBox.classList.remove('blurred');
+            btnTest.disabled = false;
+            showToast("SCAN_COMPLETE");
+        }, 3000); 
+    });
+
+    // Nav interaction
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelector('.nav-item.active').classList.remove('active');
+            this.classList.add('active');
+            showToast("ACCESS_NODE: " + this.querySelector('span').innerText);
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spam Telegram Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #08080c;
+            --accent-lime: #bfff00;
+            --accent-purple: #9d00ff;
+            --glass-bg: rgba(15, 15, 25, 0.7);
+            --glass-border: rgba(191, 255, 0, 0.2);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.5);
+            --success: #32d74b;
+            --error: #ff453a;
+            --ios-radius: 28px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(157, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(191, 255, 0, 0.05) 0%, transparent 50%);
+            padding-bottom: 100px; /* Jarak agar konten tidak tertutup navbar bawah */
+        }
+
+        /* --- BOTTOM NAV BAR STYLE --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 450px;
+            height: 70px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+            z-index: 1000;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 50px;
+        }
+
+        .nav-item span {
+            font-size: 0.6rem;
+            font-weight: 700;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent-lime);
+            transform: translateY(-5px);
+            text-shadow: 0 0 15px rgba(191, 255, 0, 0.5);
+        }
+
+        /* Indicator dot untuk item aktif */
+        .nav-item.active::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--accent-lime);
+            border-radius: 50%;
+            margin-top: 4px;
+            box-shadow: 0 0 8px var(--accent-lime);
+        }
+        /* --- END BOTTOM NAV BAR --- */
+
+        body::after {
+            content: '♰';
+            position: fixed;
+            bottom: -20px;
+            left: -20px;
+            font-size: 150px;
+            color: var(--accent-purple);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        .back-btn {
+            width: 45px; height: 45px;
+            border-radius: 14px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-lime);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            margin-bottom: 25px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            transition: 0.3s;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--ios-radius);
+            padding: 30px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-purple);
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(191, 255, 0, 0.1);
+            border-radius: 18px;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-lime);
+            background: rgba(191, 255, 0, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 5px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .range-value {
+            width: 60px !important;
+            padding: 8px !important;
+            border-radius: 12px !important;
+            background: var(--accent-lime) !important;
+            color: #000 !important;
+            font-weight: 800;
+            text-align: center;
+            border: none !important;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .quick-btn {
+            padding: 10px 0;
+            background: rgba(157, 0, 255, 0.1);
+            border: 1px solid rgba(157, 0, 255, 0.2);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-lime));
+            width: 0%;
+            box-shadow: 0 0 15px var(--accent-lime);
+            transition: width 0.5s ease;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 60px;
+            gap: 12px;
+        }
+
+        .btn {
+            height: 55px;
+            border-radius: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent-lime);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 69, 58, 0.15);
+            color: #ff453a;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+        }
+
+        .log-container {
+            height: 180px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .success { color: var(--accent-lime); }
+        .error { color: var(--error); }
+        .info { color: var(--accent-purple); }
+
+    </style>
+</head>
+
+<body>
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <a href="/dashboard" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+
+        <div class="card">
+            <div class="input-group" style="margin-bottom: 22px;">
+                <label><i class="fas fa-key"></i> Authentication</label>
+                <input type="text" id="tokenInput" placeholder="Telegram Bot Token">
+            </div>
+
+            <div class="input-group" style="margin-bottom: 22px;">
+                <label><i class="fas fa-crosshairs"></i> Target Identity</label>
+                <input type="text" id="chatId" placeholder="User or Group ID">
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-value" id="sentCount">0</span><br>
+                    <span style="font-size: 0.6rem; color: var(--text-dim);">TOTAL</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" style="color: var(--success)" id="successCount">0</span><br>
+                    <span style="font-size: 0.6rem; color: var(--text-dim);">SUCCESS</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" style="color: var(--error)" id="errorCount">0</span><br>
+                    <span style="font-size: 0.6rem; color: var(--text-dim);">FAILED</span>
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 22px;">
+                <label><i class="fas fa-comment-dots"></i> Message</label>
+                <textarea id="message" rows="3" placeholder="Type your message here...">hallo</textarea>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fas fa-sliders"></i> Intensity & Delay</label>
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px;">
+                    <input type="range" id="countRange" min="1" max="100" value="10" style="flex:1;">
+                    <input type="number" id="count" value="10" class="range-value">
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <input type="range" id="delayRange" min="100" max="5000" step="100" value="1000" style="flex:1;">
+                    <input type="number" id="delay" value="1000" class="range-value">
+                </div>
+            </div>
+
+            <div class="quick-grid">
+                <button class="quick-btn" onclick="setQuickSettings(5, 500)">LIGHT</button>
+                <button class="quick-btn" onclick="setQuickSettings(20, 1000)">MEDIUM</button>
+                <button class="quick-btn" onclick="setQuickSettings(50, 2000)">HEAVY</button>
+                <button class="quick-btn" onclick="setQuickSettings(100, 3000)">ULTRA</button>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startAttack()" id="attackBtn">
+                    <i class="fas fa-bolt"></i> Execute
+                </button>
+                <button class="btn btn-secondary" onclick="clearLog()">
+                    <i class="fas fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card" style="padding: 20px;">
+            <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 10px; text-transform: uppercase;">
+                <i class="fas fa-terminal"></i> System Console
+            </div>
+            <div class="log-container" id="log"></div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/dashboard" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/tools" class="nav-item active">
+            <i class="fas fa-tools"></i>
+            <span>Tools</span>
+        </a>
+        <a href="/profile" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        let isRunning = false;
+        let stats = { sent: 0, success: 0, error: 0 };
+
+        const utils = {
+            delay: ms => new Promise(r => setTimeout(r, ms)),
+            logMessage: (msg, type = 'info') => {
+                const log = document.getElementById('log');
+                const entry = document.createElement('div');
+                entry.className = `log-entry ${type}`;
+                entry.style.padding = "8px 0";
+                entry.style.borderBottom = "1px solid rgba(157, 0, 255, 0.1)";
+                entry.innerHTML = `<span style="opacity:0.4; font-size:0.6rem">${new Date().toLocaleTimeString()}</span> ${msg}`;
+                log.appendChild(entry);
+                log.scrollTop = log.scrollHeight;
+            },
+            updateStats: (type) => {
+                if (type) stats[type]++;
+                document.getElementById('sentCount').textContent = stats.sent;
+                document.getElementById('successCount').textContent = stats.success;
+                document.getElementById('errorCount').textContent = stats.error;
+                const total = parseInt(document.getElementById('count').value);
+                if (total > 0) {
+                    const progress = (stats.sent / total) * 100;
+                    document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+                }
+            }
+        };
+
+        const telegramAPI = {
+            sendMessage: async (botToken, chatId, text) => {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
+                });
+                return await response.json();
+            }
+        };
+
+        async function startAttack() {
+            if (isRunning) return;
+            const botToken = document.getElementById('tokenInput').value.trim();
+            const chatId = document.getElementById('chatId').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const count = parseInt(document.getElementById('count').value);
+            const delayMs = parseInt(document.getElementById('delay').value);
+
+            if (!botToken || !chatId || !message) { alert("Isi semua field!"); return; }
+
+            isRunning = true;
+            const attackBtn = document.getElementById('attackBtn');
+            attackBtn.innerHTML = '<i class="fas fa-stop"></i> Abort';
+            attackBtn.style.background = "#ff453a";
+            attackBtn.style.color = "white";
+
+            stats = { sent: 0, success: 0, error: 0 };
+            utils.updateStats();
+            document.getElementById('log').innerHTML = "";
+            utils.logMessage("Sequence started...", "info");
+
+            for (let i = 0; i < count && isRunning; i++) {
+                try {
+                    const result = await telegramAPI.sendMessage(botToken, chatId, message);
+                    if (result.ok) {
+                        utils.logMessage(`Sent packet ${i + 1}`, "success");
+                        utils.updateStats('success');
+                    } else {
+                        utils.logMessage(`Error: ${result.description}`, "error");
+                        utils.updateStats('error');
+                    }
+                    utils.updateStats('sent');
+                    await utils.delay(delayMs);
+                } catch (err) {
+                    utils.logMessage("Connection failed", "error");
+                    utils.updateStats('error');
+                }
+            }
+            finishAttack();
+        }
+
+        function stopAttack() { isRunning = false; }
+
+        function finishAttack() {
+            isRunning = false;
+            const attackBtn = document.getElementById('attackBtn');
+            attackBtn.innerHTML = '<i class="fas fa-bolt"></i> Execute';
+            attackBtn.style.background = "var(--accent-lime)";
+            attackBtn.style.color = "black";
+            utils.logMessage("Sequence finished.", "success");
+        }
+
+        function setQuickSettings(count, delay) {
+            document.getElementById('count').value = count;
+            document.getElementById('countRange').value = count;
+            document.getElementById('delay').value = delay;
+            document.getElementById('delayRange').value = delay;
+        }
+
+        function clearLog() { document.getElementById('log').innerHTML = ''; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sync = (rangeId, numId) => {
+                const r = document.getElementById(rangeId);
+                const n = document.getElementById(numId);
+                r.addEventListener('input', () => n.value = r.value);
+                n.addEventListener('input', () => r.value = n.value);
+            };
+            sync('countRange', 'count');
+            sync('delayRange', 'delay');
+        });
+    </script>
+</body>
+
+</html>

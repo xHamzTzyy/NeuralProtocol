@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Music - NEURAL PROTOCOL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette: Updated to Apple Lime Green */
+            --primary-neon: #a4e620;
+            /* Hijau Lime Apple */
+            --primary-glow: rgba(164, 230, 32, 0.5);
+            --accent-purple: #32ff00;
+            /* Neon Green Terang */
+            --bg-black: #050702;
+            --glass-bg: rgba(10, 20, 5, 0.85);
+            --glass-border: #a4e620;
+            --text-main: #ffffff;
+            --text-sub: #a4e620;
+            --accent-red: #ff3131;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            /* Cyber Grid Effect in Lime */
+            background-image:
+                linear-gradient(rgba(164, 230, 32, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(164, 230, 32, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Overlay */
+        body::after {
+            content: " ";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .page-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Cyber Card Design */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--primary-neon);
+            box-shadow: 0 0 20px rgba(164, 230, 32, 0.2);
+            position: relative;
+        }
+
+        /* Header Styles */
+        .lux-header-card {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 0 30px 0 30px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-neon);
+        }
+
+        .lux-head-custom-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lux-left-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lux-icon-box {
+            background: transparent;
+            border: 2px solid var(--primary-neon);
+            color: var(--primary-neon);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--primary-glow);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .role-badge {
+            background: var(--primary-neon);
+            color: #000;
+            padding: 4px 15px;
+            font-size: 9px;
+            font-family: 'Orbitron';
+            font-weight: 800;
+            text-transform: uppercase;
+            clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+        }
+
+        /* Search Styles */
+        .search-input-wrapper {
+            display: flex;
+            gap: 10px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--primary-neon);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(164, 230, 32, 0.3);
+        }
+
+        .search-action-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-neon);
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 20px;
+        }
+
+        .search-action-btn:hover {
+            color: var(--accent-purple);
+            text-shadow: 0 0 10px var(--accent-purple);
+        }
+
+        /* Video Results Styles */
+        .yt-results-container {
+            padding-bottom: 120px;
+        }
+
+        .yt-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 0 20px 0 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid rgba(164, 230, 32, 0.3);
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .yt-card:hover {
+            border-color: var(--primary-neon);
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(164, 230, 32, 0.3);
+        }
+
+        .yt-banner {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .yt-info {
+            padding: 15px;
+            background: linear-gradient(to top, #0a1105, transparent);
+        }
+
+        .yt-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            font-family: 'Rajdhani';
+            line-height: 1.2;
+        }
+
+        .yt-meta {
+            font-size: 10px;
+            color: var(--primary-neon);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Share Tech Mono';
+            text-transform: uppercase;
+        }
+
+        .yt-play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: rgba(164, 230, 32, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .yt-card:hover .yt-play-overlay {
+            opacity: 1;
+        }
+
+        .yt-play-icon {
+            font-size: 50px;
+            color: var(--primary-neon);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* Floating Player */
+        .floating-audio-player {
+            position: fixed;
+            bottom: 20px;
+            left: 15px;
+            right: 15px;
+            height: 90px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 10px;
+            border: 2px solid var(--primary-neon);
+            z-index: 20000;
+            display: none;
+            align-items: center;
+            padding: 0 15px;
+            gap: 15px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(164, 230, 32, 0.2);
+            animation: slideUp 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(150%) skewX(10deg);
+            }
+
+            to {
+                transform: translateY(0) skewX(0);
+            }
+        }
+
+        .player-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 1px solid var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .player-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .player-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            font-family: 'Rajdhani';
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-status {
+            font-size: 9px;
+            color: var(--primary-neon);
+            font-family: 'Orbitron';
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .p-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .p-btn:hover {
+            color: var(--primary-neon);
+            filter: drop-shadow(0 0 8px var(--primary-neon));
+        }
+
+        #ytLoading i {
+            text-shadow: 0 0 20px var(--primary-neon);
+            font-size: 40px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-neon);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="page-search-youtube" class="page-container">
+        <div class="lux-header-card glass-card">
+            <div class="lux-head-custom-flex">
+                <div class="lux-left-info">
+                    <div class="lux-icon-box" style="width:50px; height:50px; font-size:22px;">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="lux-head-text">
+                        <h2
+                            style="font-size:10px; color:var(--primary-neon); margin:0; text-transform:uppercase; letter-spacing:3px; font-family:'Orbitron';">
+                            System_v2.0</h2>
+                        <p
+                            style="font-size:20px; color:var(--text-main); font-weight:900; margin:0; text-transform: uppercase; font-family: 'Orbitron';">
+                            Audio Stream</p>
+                    </div>
+                </div>
+                <div class="lux-right-info">
+                    <span class="role-badge">ENCRYPTED</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-input-wrapper">
+            <input type="text" id="ytSearchInput" class="search-input"
+                placeholder="ACCESS DATA: Track / Artist Name...">
+            <button class="search-action-btn" id="btnYtSearchAction"><i class="fas fa-satellite-dish"></i></button>
+        </div>
+
+        <div id="ytLoading" style="text-align:center; color:var(--text-sub); margin-top:40px; display:none;">
+            <i class="fas fa-atom fa-spin" style="color:var(--primary-neon);"></i><br>
+            <span
+                style="font-size:11px; margin-top:15px; display:block; font-family:'Share Tech Mono'; text-transform:uppercase; letter-spacing:3px;">Decrypting
+                YouTube Database...</span>
+        </div>
+
+        <div id="ytResultsArea" class="yt-results-container"></div>
+
+        <audio id="globalAudioPlayer" style="display:none;"></audio>
+
+        <div id="floatingPlayer" class="floating-audio-player">
+            <img id="fpThumb" src="" class="player-thumb">
+            <div class="player-info">
+                <div class="player-title" id="fpTitle">Awaiting Signal...</div>
+                <div class="player-status" id="fpStatus">SYSTEM_IDLE</div>
+            </div>
+            <div class="player-controls">
+                <button class="p-btn" id="fpPlayBtn" style="color: var(--primary-neon);"><i
+                        class="fas fa-pause-circle"></i></button>
+                <button class="p-btn" onclick="stopAudio()" style="color:var(--accent-red); font-size: 32px;"><i
+                        class="fas fa-stop-circle"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addToHistory(action, detail) { console.log(`[History] ${action}: ${detail}`); }
+        function showPopup(title, msg, icon) { alert(`${icon} ${title}: ${msg}`); }
+
+        const btnSearch = document.getElementById('btnYtSearchAction');
+        const inputSearch = document.getElementById('ytSearchInput');
+        const resultsArea = document.getElementById('ytResultsArea');
+        const loading = document.getElementById('ytLoading');
+
+        btnSearch.addEventListener('click', async () => {
+            const query = inputSearch.value;
+            if (!query) return showPopup('Peringatan', 'Ketikkan sesuatu untuk mencari!', '⚠️');
+
+            loading.style.display = 'block';
+            resultsArea.innerHTML = '';
+
+            const apiEndpoints = [
+                `https://api.siputzx.my.id/api/s/youtube?query=${encodeURIComponent(query)}`,
+                `https://api.nvidiabotz.xyz/search/youtube?q=${encodeURIComponent(query)}`
+            ];
+
+            let foundData = null;
+
+            for (let endpoint of apiEndpoints) {
+                try {
+                    const res = await fetch(endpoint);
+                    const data = await res.json();
+                    const results = data.result || data.data || data;
+                    if (Array.isArray(results) && results.length > 0) {
+                        foundData = results;
+                        break;
+                    }
+                } catch (e) { console.log("Fail:", endpoint); continue; }
+            }
+
+            loading.style.display = 'none';
+
+            if (foundData) {
+                let html = '';
+                foundData.forEach(item => {
+                    const title = item.title || item.videoTitle || "No Title";
+                    const url = item.url || item.videoUrl || item.link || "";
+                    const thumb = item.thumbnail || item.image || item.thumb || "https://via.placeholder.com/300";
+                    const dur = item.duration || item.timestamp || "-";
+                    const views = item.views || item.view || "-";
+
+                    if (url) {
+                        html += `
+                    <div class="yt-card" onclick="playYouTubeAudio('${url}', '${title.replace(/'/g, "\\'")}', '${thumb}')">
+                        <div style="position:relative;">
+                             <img src="${thumb}" class="yt-banner">
+                             <div class="yt-play-overlay"><i class="fas fa-play-circle yt-play-icon"></i></div>
+                        </div>
+                        <div class="yt-info">
+                            <div class="yt-title">${title}</div>
+                            <div class="yt-meta">
+                                <span><i class="fas fa-bolt" style="color:var(--primary-neon)"></i> ${dur}</span>
+                                <span><i class="fas fa-eye" style="color:var(--accent-purple)"></i> ${views} SENSORS</span>
+                            </div>
+                        </div>
+                    </div>`;
+                    }
+                });
+                resultsArea.innerHTML = html;
+            } else {
+                resultsArea.innerHTML = '<div style="text-align:center; color:#ff3131; margin-top:30px; font-family:Orbitron; letter-spacing:2px;">DATA_NOT_FOUND</div>';
+            }
+        });
+
+        const globalAudio = document.getElementById('globalAudioPlayer');
+        const floatPlayer = document.getElementById('floatingPlayer');
+        const playBtn = document.getElementById('fpPlayBtn');
+
+        window.playYouTubeAudio = async (url, title, thumb) => {
+            floatPlayer.style.display = 'flex';
+            document.getElementById('fpThumb').src = thumb;
+            document.getElementById('fpTitle').innerText = title;
+            document.getElementById('fpStatus').innerText = "CONNECTING_TO_SATELITE...";
+            playBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+
+            const downloadEndpoints = [
+                `https://restapi-v2.simplebot.my.id/download/ytmp3?url=${encodeURIComponent(url)}`,
+                `https://api.azz.biz.id/download/ytmp3?url=${encodeURIComponent(url)}`
+            ];
+
+            let audioSrc = '';
+
+            for (let endpoint of downloadEndpoints) {
+                try {
+                    const res = await fetch(endpoint);
+                    const data = await res.json();
+                    const dl = data.data?.download || data.result?.download?.url || data.result?.url || data.url || data.download;
+                    if (dl) { audioSrc = dl; break; }
+                } catch (e) { continue; }
+            }
+
+            if (audioSrc) {
+                globalAudio.src = audioSrc;
+                globalAudio.play();
+                document.getElementById('fpStatus').innerText = "SIGNAL_ACTIVE: PLAYING";
+                playBtn.innerHTML = '<i class="fas fa-pause-circle"></i>';
+                playBtn.onclick = toggleAudio;
+                addToHistory('YouTube Music', title);
+            } else {
+                document.getElementById('fpStatus').innerText = "LINK_CORRUPTED";
+                playBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                showPopup('Gagal', 'Server download sedang sibuk.', '❌');
+            }
+        };
+
+        function toggleAudio() {
+            if (globalAudio.paused) {
+                globalAudio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause-circle"></i>';
+                document.getElementById('fpStatus').innerText = "SIGNAL_ACTIVE: PLAYING";
+            } else {
+                globalAudio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play-circle"></i>';
+                document.getElementById('fpStatus').innerText = "SIGNAL_PAUSED";
+            }
+        }
+
+        window.stopAudio = () => {
+            globalAudio.pause();
+            globalAudio.src = "";
+            floatPlayer.style.display = 'none';
+        };
+    </script>
+
+</body>
+
+</html>

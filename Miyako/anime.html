@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Station - Subnime Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variabel Warna Tema - Cyber Gothic Kawaii Lime */
+        :root {
+            --bg-main: #080a08;
+            --bg-gradient: radial-gradient(circle at top, #0d1a0d 0%, #050505 100%);
+            --card: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(50, 255, 50, 0.1);
+            --text-main: #ffffff;
+            --muted: #889988;
+            --accent: #32ff32; /* Kawaii Lime Neon */
+            --pink: #b6ff00; /* Lime Yellowish */
+            --lux-grad: linear-gradient(90deg, #32ff32, #b6ff00);
+            --card-border: rgba(50, 255, 50, 0.2);
+            --glass: blur(15px);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-main);
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 100px; 
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .page-container { 
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px 20px; 
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header & Badges */
+        .lux-header-card { 
+            margin-bottom: 30px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .role-badge {
+            background: var(--lux-grad);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-family: 'Rajdhani';
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #000;
+            box-shadow: 0 0 20px rgba(50, 255, 50, 0.4);
+        }
+
+        /* Search Bar Glass */
+        .search { position: relative; margin-bottom: 35px; }
+        .search input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: white;
+            font-family: 'Poppins';
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            transition: 0.3s;
+        }
+        .search input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(50, 255, 50, 0.3);
+            outline: none;
+        }
+        .search::before {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+        }
+
+        /* Kategori Chips */
+        .lux-section-title {
+            font-family: 'Rajdhani';
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(50, 255, 50, 0.3);
+        }
+        .lux-section-title::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .chips {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            overflow-x: auto;
+            padding: 5px 0;
+            scrollbar-width: none;
+        }
+        .chips::-webkit-scrollbar { display: none; }
+        .chip {
+            background: var(--card);
+            padding: 8px 22px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            transition: 0.3s;
+            color: #fff;
+            white-space: nowrap;
+            backdrop-filter: var(--glass);
+        }
+        .chip:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(50, 255, 50, 0.4);
+            border-color: var(--accent);
+        }
+
+        /* ===== GRID SYSTEM ===== */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 640px) { .anime-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .anime-grid { grid-template-columns: repeat(5, 1fr); } }
+
+        /* ===== CYBER GOTHIC CARD ===== */
+        .anime-card {
+            background: var(--card);
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
+            border: 1px solid var(--card-border);
+            position: relative;
+            backdrop-filter: var(--glass);
+        }
+
+        .anime-card:hover {
+            transform: scale(1.03);
+            background: var(--card-hover);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(50, 255, 50, 0.2);
+        }
+
+        .poster {
+            position: relative;
+            padding-top: 145%;
+            overflow: hidden;
+        }
+        .poster img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+            filter: contrast(1.1) brightness(0.9);
+        }
+        .anime-card:hover .poster img { transform: scale(1.1); filter: contrast(1.2) brightness(1); }
+
+        .episode {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 4px 12px;
+            font-size: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            z-index: 2;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .info { padding: 15px; position: relative; background: linear-gradient(to top, #000, transparent); }
+        .info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 38px;
+            color: #eee;
+        }
+        .meta {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.8;
+        }
+        
+        /* --- Bottom Nav iPhone Style --- */
+        .bottom-nav { 
+            display: flex;
+            position: fixed; 
+            bottom: 25px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 90%; 
+            max-width: 400px;
+            height: 75px; 
+            background: rgba(10, 15, 10, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            justify-content: space-around; 
+            align-items: center; 
+            z-index: 9999; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+        .nav-item-bottom { 
+            flex: 1;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-decoration: none; 
+            color: var(--muted);
+            transition: 0.3s;
+        }
+        .nav-item-bottom i, .nav-item-bottom svg { font-size: 20px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-item-bottom span { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .nav-item-bottom.active { 
+            color: var(--accent); 
+            filter: drop-shadow(0 0 8px rgba(50, 255, 50, 0.6));
+        }
+        .nav-item-bottom.active i { transform: translateY(-5px) scale(1.1); }
+
+    </style>
+</head>
+<body>
+
+<div id="page-anime" class="page-container">
+    <div class="lux-header-card">
+        <h2 style="font-family: 'Rajdhani'; letter-spacing: 3px;">SUB<span style="color:var(--accent)">NIME</span></h2>
+        <div class="lux-right-info">
+            <span class="role-badge"><i class="fa-solid fa-ghost" style="margin-right: 5px;"></i> Station</span>
+        </div>
+    </div>
+  
+    <div class="search">
+        <input type="text" placeholder="Search your favorite anime..." />
+    </div>
+
+    <section>
+        <div class="lux-section-title">QUICK EXPLORE</div>
+        <div class="chips">
+            <div class="chip">Anime</div>
+            <div class="chip">Hentai</div>
+            <div class="chip">Isekai</div>
+            <div class="chip">Donghua</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="lux-section-title">TRENDING NOW</div>
+        <div class="anime-grid">
+
+            <a href="https://subnime.com/anime/spy-x-family-season-3" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1697/151793l.jpg" alt="Spy x Family">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Spy x Family Season 3</h4>
+                  <div class="meta">11 EP • TV</div>
+                </div>
+            </a>
+
+            <a href="https://subnime.com/anime/boku-no-hero-academia-final-season" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1959/151055l.jpg" alt="Kingdom">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Kingdom Season 6</h4>
+                  <div class="meta">11 EP • TV</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/toujima-tanzaburou-wa-kamen-rider-ni-naritai" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1455/152139l.jpg" alt="Kamen Rider">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Toujima Tanzaburou wa Kamen Rider ni Naritai</h4>
+                  <div class="meta">1 EP • TV</div>
+                </div>
+            </a>
+
+            <a href="https://subnime.com/anime/nageki-no-bourei-wa-intai-shitai-part-2" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1651/152063.jpg" alt="Nogeki">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Nageki no Bourei wa Intai shitai</h4>
+                  <div class="meta">2 EP • TV</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/jujutsu-kaisen-shimetsu-kaiyuu" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1889/147024l.jpg" alt="Jujutsu Kaisen">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Jujutsu Kaisen: Shimetsu Kaiyuu</h4>
+                  <div class="meta">1 EP • TV</div>
+                </div>
+            </a>
+
+            <a href="https://subnime.com/anime/youjo-senki-ii" class="anime-card">
+                <div class="poster">
+                  <img src="https://cdn.myanimelist.net/images/anime/1437/115925l.jpg" alt="Senki">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Youjo Senki II</h4>
+                  <div class="meta">1 EP • TV</div>
+                </div>
+            </a>
+          
+            <a href="https://nontonanimeid.my.id/renegade-immortal-episode-119-subtitle-indonesia/" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/8942x6.jpg" alt="Wanglin">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Renegade Imortal</h4>
+                  <div class="meta">Donghua</div>
+                </div>
+            </a>
+
+            <a href="https://nontonanimeid.my.id/the-divine-emperor-of-destiny-episode-32-subtitle-indonesia/" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/mwxtsm.jpg" alt="Donghua">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>The Devine Emperor Of Destiny</h4>
+                  <div class="meta">Donghua</div>
+                </div>
+            </a>
+          
+            <a href="https://youtu.be/RcVHrS1K-Ag?si=Zc5M1DOgi-sLaC1k" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/m2fy0f.jpg" alt="Renegade Imortal">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Donghua Full Move</h4>
+                  <div class="meta">Full Movie 2Jam</div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/bxNlZZSy0GA?si=rBhjtBpE91YgrMYB" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/7dwbo7.jpg" alt="Top">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>The Goads</h4>
+                  <div class="meta">Donghua</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/naruto-shippuuden" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/1ymm13.jpg" alt="Naruto">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Naruto Shippuden</h4>
+                  <div class="meta">Remaja</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/one-punch-man" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/emccvn.jpg" alt="Botak">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>One Punch Man</h4>
+                  <div class="meta">Saitama</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/shingeki-no-kyojin-the-final-season-kanketsu-hen" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/dxngwk.jpg" alt="Eren Yeager">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Shingeki no Kyojin: The Final Season</h4>
+                  <div class="meta">Perpisahan</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/one-piece" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/sav753.jpg" alt="Luffy">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>One Piece</h4>
+                  <div class="meta">Terbaru</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/sakusei-byoutou-the-animation" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/7dgkb6.jpg" alt="Hentai">
+                  <div class="episode">🔞 18+</div>
+                </div>
+                <div class="info">
+                  <h4>Sakusei Byoutou</h4>
+                  <div class="meta">Hentai Edition</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/ane-wa-yanmama-junyuu-chuu" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/kkln2p.jpg" alt="Hentai">
+                  <div class="episode">🔞 18+</div>
+                </div>
+                <div class="info">
+                  <h4>Ane wa Yanmama Junyuu-chuu</h4>
+                  <div class="meta">Hentai Edition</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/haite-kudasai-takamine-san" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/6xfd30.jpg" alt="Hentai">
+                  <div class="episode">🔞 18+</div>
+                </div>
+                <div class="info">
+                  <h4>Haite Kudasai, Takamine-san</h4>
+                  <div class="meta">Hentai Edition</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/dandadan-season-2" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/5hwa39.jpg" alt="Dandadan">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Dandadan Season 2</h4>
+                  <div class="meta">Season 2</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/alma-chan-wa-kazoku-ni-naritai" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/igeas3.jpg" alt="AlmaChan">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Alma-chan wa Kazoku ni Naritai</h4>
+                  <div class="meta">New Release</div>
+                </div>
+            </a>
+          
+            <a href="https://subnime.com/anime/jigoku-sensei-nube-2025" class="anime-card">
+                <div class="poster">
+                  <img src="https://files.catbox.moe/flrxl0.jpg" alt="Jigaku">
+                  <div class="episode">2025</div>
+                </div>
+                <div class="info">
+                  <h4>Jigoku Sensei Nube</h4>
+                  <div class="meta">Populer</div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+</div>
+
+<nav class="bottom-nav">
+    <a href="/dashboard" class="nav-item-bottom"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="/tools" class="nav-item-bottom"><i class="fa-solid fa-tools"></i><span>Tools</span></a>
+    <a href="/anime" class="nav-item-bottom active"><i class="fa-solid fa-film"></i><span>Anime</span></a>
+</nav>
+
+</body>
+</html>

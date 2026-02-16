@@ -1,0 +1,504 @@
+<!DOCTYPE html> 
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MY SENDERS | LIME EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variabel Warna Apple Lime Green */
+        :root {
+            --primary-black: #050505;
+            --apple-lime: #32D74B; /* Apple System Green / Lime */
+            --lime-glow: rgba(50, 215, 75, 0.4);
+            --glass-bg: rgba(15, 15, 15, 0.75);
+            --glass-border: rgba(50, 215, 75, 0.15);
+            --error-red: #ff453a;
+            --text-main: #ffffff;
+            --text-dim: #a1a1a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-black);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Video */
+        .video-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .video-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.3) contrast(1.2) grayscale(0.5);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.85) 100%);
+            z-index: -1;
+        }
+
+        /* Header */
+        .page-header {
+            padding: 30px;
+            display: flex;
+            justify-content: flex-end;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--apple-lime);
+            font-family: 'Orbitron';
+            font-size: 11px;
+            letter-spacing: 2px;
+            padding: 10px 22px;
+            border: 1px solid var(--apple-lime);
+            background: rgba(50, 215, 75, 0.05);
+            border-radius: 8px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: var(--apple-lime);
+            color: black;
+            box-shadow: 0 0 25px var(--lime-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Main Section */
+        .user-sender-section {
+            max-width: 850px;
+            margin: 40px auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 45px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .dashboard-title {
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 45px;
+            letter-spacing: 8px;
+            background: linear-gradient(to bottom, #fff 30%, var(--apple-lime) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(50, 215, 75, 0.2));
+        }
+
+        /* Form */
+        .add-sender-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 45px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .input-label {
+            font-family: 'Orbitron';
+            font-size: 10px;
+            color: var(--apple-lime);
+            margin-bottom: 12px;
+            display: block;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #222;
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--apple-lime);
+            box-shadow: 0 0 15px rgba(50, 215, 75, 0.15);
+        }
+
+        .execute-btn {
+            background: var(--apple-lime);
+            color: #000;
+            border: none;
+            padding: 0 35px;
+            border-radius: 12px;
+            font-family: 'Orbitron';
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 54px;
+            margin-top: 25px;
+        }
+
+        .execute-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px var(--lime-glow);
+        }
+
+        /* Sender List */
+        .senders-list-container h4 {
+            font-family: 'Orbitron';
+            font-size: 13px;
+            margin-bottom: 25px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 1px;
+        }
+
+        .sender-item {
+            background: rgba(50, 215, 75, 0.03);
+            border: 1px solid rgba(50, 215, 75, 0.1);
+            border-radius: 18px;
+            padding: 20px 28px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sender-item:hover {
+            border-color: var(--apple-lime);
+            background: rgba(50, 215, 75, 0.06);
+            transform: translateX(5px);
+        }
+
+        .sender-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .sender-status.connected { 
+            background: var(--apple-lime); 
+            box-shadow: 0 0 15px var(--apple-lime); 
+        }
+
+        .sender-status.connecting, .sender-status.waiting_pairing { 
+            background: #ffcc00; 
+            animation: pulse 1.5s infinite; 
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .sender-number {
+            font-family: 'Orbitron';
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .delete-sender-btn {
+            background: transparent;
+            color: var(--error-red);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .delete-sender-btn:hover {
+            background: var(--error-red);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 69, 58, 0.3);
+        }
+
+        /* Modal */
+        .pairing-modal {
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(20px);
+        }
+
+        .pairing-modal-content {
+            background: #0a0a0a;
+            border: 1px solid var(--apple-lime);
+            border-radius: 35px;
+            padding: 45px;
+            box-shadow: 0 0 50px rgba(50, 215, 75, 0.15);
+        }
+
+        .code-display {
+            background: #111;
+            border: 2px dashed rgba(50, 215, 75, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .code-text {
+            font-size: 38px;
+            color: var(--apple-lime);
+            text-shadow: 0 0 25px var(--lime-glow);
+            font-family: 'Orbitron';
+            margin-bottom: 20px;
+        }
+
+        .copy-code-btn {
+            background: var(--apple-lime);
+            color: black;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron';
+        }
+
+        .notification {
+            background: var(--apple-lime);
+            color: black;
+            border-radius: 14px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .add-sender-form { grid-template-columns: 1fr; }
+            .dashboard-title { font-size: 1.8rem; letter-spacing: 4px; }
+            .user-sender-section { padding: 25px; margin: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-bg-container">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://e.top4top.io/m_3648e0ppf1.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="page-header">
+        <a href="/dashboard" class="back-btn">
+            <i class="fas fa-arrow-left"></i> DASHBOARD
+        </a>
+    </div>
+
+    <main>
+        <div class="user-sender-section">
+            <h1 class="dashboard-title">SENDERS</h1>
+            
+            <div class="sender-management">
+                <div class="add-sender-form">
+                    <div class="input-group">
+                        <label class="input-label">TARGET WHATSAPP NUMBER</label>
+                        <input type="text" id="newSenderNumber" class="input-field" placeholder="e.g. 62812345678">
+                    </div>
+                    <button id="addSenderBtn" class="execute-btn">
+                        <i class="fas fa-plus-circle"></i> ADD SENDER
+                    </button>
+                </div>
+                
+                <div class="senders-list-container">
+                    <h4><i class="fas fa-network-wired"></i> ESTABLISHED CONNECTIONS</h4>
+                    <div id="sendersList" class="senders-list">
+                        <div style="text-align: center; color: #444; padding: 20px;">Synchronizing...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /* SEMUA LOGIKA JAVASCRIPT ASLI TETAP DI SINI TANPA PERUBAHAN */
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 5000);
+        }
+
+        function initEventStream() {
+            const eventSource = new EventSource('/api/events');
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                switch(data.type) {
+                    case 'status': updateSenderStatus(data.number, data.status); break;
+                    case 'pairing_code': showPairingCodeModal(data); break;
+                    case 'success': showNotification(data.message, 'success'); loadUserSenders(); break;
+                    case 'error': showNotification(data.message, 'error'); break;
+                }
+            };
+            eventSource.onerror = () => setTimeout(initEventStream, 5000);
+        }
+
+        function showPairingCodeModal(data) {
+            const modalHtml = `
+                <div class="pairing-modal">
+                    <div class="pairing-modal-content">
+                        <h3 style="font-family:'Orbitron'; text-align:center; margin-bottom:20px; color:#32D74B;">PAIRING CODE</h3>
+                        <div class="code-display">
+                            <div class="code-text" id="pairingCodeValue">${data.code}</div>
+                            <button class="copy-code-btn" id="copyCodeBtn">COPY CODE</button>
+                        </div>
+                        <div style="font-size:13px; color:#888; margin:25px 0; line-height:1.6;">
+                            1. Open WhatsApp Settings<br>
+                            2. Linked Devices > Link with Phone Number<br>
+                            3. Enter the security code above.
+                        </div>
+                        <button class="close-modal-btn" id="closeModalBtn" style="width:100%; padding:15px; border-radius:12px; border:1px solid #32D74B; background:transparent; color:#32D74B; cursor:pointer; font-family:'Orbitron';">DISMISS</button>
+                    </div>
+                </div>
+            `;
+            const existingModal = document.querySelector('.pairing-modal');
+            if (existingModal) existingModal.remove();
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            window.currentPairingCode = data.code;
+            document.getElementById('copyCodeBtn').addEventListener('click', copyPairingCode);
+            document.getElementById('closeModalBtn').addEventListener('click', closePairingModal);
+        }
+
+        function copyPairingCode() {
+            const code = window.currentPairingCode;
+            const textArea = document.createElement('textarea');
+            textArea.value = code;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showNotification('Code copied to clipboard!', 'success');
+        }
+
+        function closePairingModal() {
+            const modal = document.querySelector('.pairing-modal');
+            if (modal) modal.remove();
+        }
+
+        function updateSenderStatus(number, status) {
+            const sendersList = document.getElementById('sendersList');
+            const senderItem = sendersList.querySelector(`[data-number="${number}"]`);
+            if (senderItem) {
+                const statusEl = senderItem.querySelector('.sender-status');
+                if (statusEl) {
+                    const statusMap = {
+                        'connected': 'connected',
+                        'connecting': 'connecting',
+                        'waiting_pairing': 'waiting_pairing'
+                    };
+                    statusEl.className = 'sender-status ' + (statusMap[status] || 'disconnected');
+                }
+            } else {
+                loadUserSenders();
+            }
+        }
+
+        function loadUserSenders() {
+            fetch('/api/my-senders')
+                .then(r => r.json())
+                .then(data => {
+                    const sendersList = document.getElementById('sendersList');
+                    if (!data.success || !data.senders || data.senders.length === 0) {
+                        sendersList.innerHTML = '<div style="text-align:center; padding:40px; color:#444;">No active connections found.</div>';
+                        return;
+                    }
+                    sendersList.innerHTML = data.senders.map(sender => `
+                        <div class="sender-item" data-number="${sender}">
+                            <div class="sender-info">
+                                <div class="sender-status connected"></div>
+                                <span class="sender-number">${sender}</span>
+                            </div>
+                            <button class="delete-sender-btn" onclick="deleteSender('${sender}')">
+                                <i class="fas fa-unlink"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                })
+                .catch(() => {
+                    document.getElementById('sendersList').innerHTML = '<div style="text-align:center; padding:20px; color:#444;">Offline mode.</div>';
+                });
+        }
+
+        function addSender() {
+            const input = document.getElementById('newSenderNumber');
+            let number = input.value.replace(/\D/g, '');
+            if (number.length < 8) return showNotification('Number too short!', 'error');
+            
+            const btn = document.getElementById('addSenderBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> PROCESSING';
+
+            fetch('/api/add-sender', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ number })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) { showNotification('Requesting pairing code...', 'success'); input.value = ''; }
+                else showNotification(data.error, 'error');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> ADD SENDER';
+            });
+        }
+
+        function deleteSender(number) {
+            if (!confirm(`Terminate connection with ${number}?`)) return;
+            fetch('/api/delete-sender', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ number })
+            })
+            .then(r => r.json())
+            .then(data => { if (data.success) loadUserSenders(); });
+        }
+
+        document.getElementById('addSenderBtn').addEventListener('click', addSender);
+        document.getElementById('newSenderNumber').addEventListener('keypress', (e) => { if (e.key === 'Enter') addSender(); });
+        document.addEventListener('DOMContentLoaded', () => {
+            initEventStream();
+            loadUserSenders();
+        });
+    </script>
+</body>
+</html>

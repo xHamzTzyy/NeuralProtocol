@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #1a1a1a;
+            --accent-green: #9dfc03;
+            --accent-pink: #ff0055;
+            --text-main: #ffffff;
+            --text-sub: #7a7a7a;
+            --sheet-bg: #0f0f10;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 120px;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .page-container { width: 100%; max-width: 450px; }
+
+        .section-title {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            margin: 25px 0 15px 10px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* --- GRID UTAMA --- */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .tool-box {
+            background: var(--card-bg);
+            padding: 25px 15px;
+            border-radius: 30px;
+            text-align: center;
+            transition: transform 0.2s, border 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tool-box:active { transform: scale(0.95); border-color: var(--accent-pink); }
+
+        .icon-wrapper {
+            width: 50px; height: 50px;
+            margin: 0 auto 15px auto;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; border-radius: 12px;
+        }
+
+        .icon-youtube { color: #ff0000; }
+        .icon-tiktok { color: #00f2ea; }
+        .icon-whatsapp { color: #25d366; }
+        .icon-instagram { color: #e1306c; }
+        .icon-ddos { color: #f2994a; }
+        .icon-telegram { color: #0088cc; }
+
+        .tool-box h3 { margin: 0 0 5px 0; font-size: 1.1rem; font-weight: 800; }
+        .tool-box p { margin: 0; font-size: 0.7rem; color: var(--text-sub); line-height: 1.4; }
+
+        /* --- BOTTOM SHEET --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            display: none; z-index: 1000;
+        }
+
+        .bottom-sheet {
+            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 450px; background: var(--sheet-bg);
+            border-radius: 40px 40px 0 0; z-index: 1001;
+            transition: bottom 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            border-top: 2px solid var(--accent-pink);
+            box-sizing: border-box; padding: 25px;
+        }
+
+        .bottom-sheet.active { bottom: 0; }
+
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .sheet-header h2 { font-size: 1.8rem; margin: 0; font-weight: 800; color: white; }
+
+        .close-sheet-btn {
+            background: var(--accent-pink); color: white;
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer;
+        }
+
+        /* --- TOOL-ITEM STYLE --- */
+        .sheet-menu-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .tool-item {
+            background: #1a1a1c;
+            border-radius: 20px;
+            transition: background 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tool-item:active { background: #252528; }
+
+        .tool-item a {
+            display: flex;
+            align-items: center;
+            padding: 22px;
+            text-decoration: none;
+            color: #ffffff;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tool-item i {
+            font-size: 24px;
+            margin-right: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .tool-item span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- NAV BAR --- */
+        .nav-bar {
+            position: fixed; bottom: 20px;
+            width: 90%; max-width: 400px; height: 75px;
+            background: #000000; border-radius: 40px;
+            display: flex; justify-content: space-around; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1); z-index: 100;
+        }
+
+        .nav-item { color: #555; text-decoration: none; font-size: 22px; }
+        .nav-item.active { color: var(--accent-green); }
+
+        /* Customizing SweetAlert Appearance */
+        .swal2-popup {
+            background: #1a1a1a !important;
+            color: #fff !important;
+            border-radius: 30px !important;
+            border: 1px solid var(--accent-pink) !important;
+        }
+        .swal2-title { color: #fff !important; }
+        .swal2-confirm { background-color: var(--accent-pink) !important; border-radius: 15px !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="section-title">Sosial Media</div>
+        <div class="tools-grid">
+            
+            <div class="tool-box" onclick="openSheet('Downloader', [
+                {name: 'Tiktok Downloader', icon: 'fa-brands fa-tiktok', color: '#ff0055', link: '/tiktok'},
+                {name: 'Tiktok Downloader2', icon: 'fa-brands fa-tiktok', color: '#ff0055', link: '/tiktok2'},
+                {name: 'Pint Downloader', icon: 'fa-brands fa-pinterest', color: '#e60023', link: '/pin'}
+            ])">
+                <i class="fas fa-download icon-wrapper" style="color: var(--accent-pink);"></i>
+                <h3>Downloader</h3>
+                <p>tiktok & pinterest</p>
+            </div>
+
+            <div class="tool-box" onclick="openSheet('YouTube', [
+                {name: 'YT Video Downloader', icon: 'fa-brands fa-youtube', color: '#ff0000', link: '/yt'},
+            ])">
+                <i class="fab fa-youtube icon-wrapper icon-youtube"></i>
+                <h3>YouTube</h3>
+                <p>downloader & stats</p>
+            </div>
+
+            <div class="tool-box" onclick="openSheet('WhatsApp', [
+                {name: 'WhatsApp Bot', icon: 'fa-brands fa-whatsapp', color: '#25d366', link: '/sender'},
+                {name: 'Spammer/Bug', icon: 'fas fa-mobile-alt', color: '#f2994a', link: '/execution'}
+            ])">
+                <i class="fab fa-whatsapp icon-wrapper icon-whatsapp"></i>
+                <h3>WhatsApp</h3>
+                <p>bot & spammer bug</p>
+            </div>
+
+            <div class="tool-box" onclick="openSheet('Instagram', [
+                {name: 'IG Story Saver', icon: 'fas fa-history', color: '#e1306c', link: '/ig-dl'},
+                {name: 'Profile Stalker', icon: 'fas fa-user-secret', color: '#e1306c', link: '/stalk'}
+            ])">
+                <i class="fab fa-instagram icon-wrapper icon-instagram"></i>
+                <h3>Instagram</h3>
+                <p>story & info stalker</p>
+            </div>
+        </div>
+
+        <div class="section-title">Network & System</div>
+        <div class="tools-grid">
+            <div class="tool-box" onclick="openSheet('DDoS Panel', [
+                {name: 'Layer 4 Stress', icon: 'fa-solid fa-bolt', color: '#f2994a', link: '/ddos'}
+            ])">
+                <i class="fas fa-bolt icon-wrapper icon-ddos"></i>
+                <h3>DDoS Panel</h3>
+                <p>network stress test</p>
+            </div>
+            <div class="tool-box" onclick="openSheet('Telegram', [
+                {name: 'Spam Message', icon: 'fa-solid fa-paper-plane', color: '#fff', link: '/spam'}
+            ])">
+                <i class="fab fa-telegram icon-wrapper icon-telegram"></i>
+                <h3>Telegram</h3>
+                <p>bot & spam mess</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeSheet()"></div>
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="sheet-header">
+            <h2 id="sheetTitle">Menu</h2>
+            <button class="close-sheet-btn" onclick="closeSheet()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sheet-menu-list" id="sheetMenuList">
+            </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="/dashboard" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="/tools" class="nav-item active"><i class="fas fa-wrench"></i></a>
+        <a href="/profile" class="nav-item"><i class="fas fa-user-circle"></i></a>
+    </nav>
+
+    <script>
+        function openSheet(title, options) {
+            const sheetTitle = document.getElementById('sheetTitle');
+            const menuList = document.getElementById('sheetMenuList');
+            
+            sheetTitle.innerText = title;
+            menuList.innerHTML = ''; 
+
+            options.forEach(opt => {
+                const toolItem = document.createElement('div');
+                toolItem.className = 'tool-item';
+                
+                toolItem.innerHTML = `
+                    <a href="${opt.link}">
+                        <i class="${opt.icon}" style="color: ${opt.color}; text-shadow: 0 0 10px ${opt.color}66;"></i>
+                        <span>${opt.name}</span>
+                    </a>
+                `;
+                menuList.appendChild(toolItem);
+            });
+
+            document.getElementById('overlay').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('bottomSheet').classList.add('active');
+            }, 10);
+        }
+
+        function closeSheet() {
+            document.getElementById('bottomSheet').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+            }, 400);
+        }
+
+        // Fungsi alert tetap dipertahankan jika ingin digunakan di tool lain nantinya
+        function showDevAlert() {
+            Swal.fire({
+                title: 'Coming Soon!',
+                text: 'PROYEK INI MASIH DALAM PENGEMBANGAN',
+                icon: 'info',
+                confirmButtonText: 'Siap!'
+            });
+        }
+    </script>
+</body>
+</html>

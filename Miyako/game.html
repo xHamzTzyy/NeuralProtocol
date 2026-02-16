@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothic Kawaii Arcade | Desktop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lime: #ccff00;
+            --purple-glow: #bc13fe;
+            --dark-bg: #0a0510;
+            --glass: rgba(20, 10, 30, 0.8);
+            --border: rgba(204, 255, 0, 0.3);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(188, 19, 254, 0.1) 0%, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(204, 255, 0, 0.08) 0%, transparent 35%);
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 120px; /* Ruang untuk nav-bar */
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        header {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Pirata One', cursive;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            color: var(--lime);
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            text-shadow: 0 0 20px rgba(204, 255, 0, 0.4);
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            color: var(--purple-glow);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* Main Content Grid */
+        .main-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Game Card Styling */
+        .game-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 35px;
+            padding: 40px 25px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--lime);
+            box-shadow: 0 15px 40px rgba(204, 255, 0, 0.15);
+        }
+
+        .icon-circle {
+            width: 110px;
+            height: 110px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            border: 2px solid var(--purple-glow);
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.3);
+            transition: 0.3s;
+        }
+
+        .game-card:hover .icon-circle {
+            border-color: var(--lime);
+            box-shadow: 0 0 25px var(--lime);
+            transform: rotate(10deg);
+        }
+
+        .game-card h2 {
+            font-family: 'Pirata One', cursive;
+            font-size: 2.2rem;
+            color: var(--lime);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .game-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d1b3ff;
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .play-tag {
+            font-weight: 700;
+            color: var(--lime);
+            border: 1px solid var(--lime);
+            padding: 8px 25px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .game-card:hover .play-tag {
+            background: var(--lime);
+            color: var(--dark-bg);
+        }
+
+        /* Floating Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 5, 25, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 10px 35px;
+            border-radius: 100px;
+            display: flex;
+            gap: 40px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+            opacity: 0.6;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        .nav-icon {
+            font-size: 1.6rem;
+        }
+
+        .nav-text {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--lime);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .bottom-nav {
+                width: 90%;
+                gap: 0;
+                justify-content: space-around;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <p class="tagline">✦ darksatoru Games ✦</p>
+        <h1>Version 5.0</h1>
+    </header>
+
+    <main class="main-container">
+        <a href="/casino" class="game-card">
+            <div class="icon-circle">🎮</div>
+            <h2>CASINO</h2>
+            <p>Memainkan Game Casino di darksatoru V3</p>
+            <span class="play-tag">Mainkan</span>
+        </a>
+
+        <a href="/slot" class="game-card">
+            <div class="icon-circle">🎰</div>
+            <h2>SLOT</h2>
+            <p>Game Slot 777 Atau Gambling di darksatoru V3</p>
+            <span class="play-tag">Mainkan</span>
+        </a>
+
+        <a href="/block" class="game-card">
+            <div class="icon-circle">🧱</div>
+            <h2>BLOCK BLAST</h2>
+            <p>Susun balok-balok nisan hingga rapi. Jangan biarkan mereka menyentuh langit.</p>
+            <span class="play-tag">Mainkan</span>
+        </a>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="/dashboard" class="nav-link">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="/game" class="nav-link active">
+            <span class="nav-icon">🎮</span>
+        </a>
+    </nav>
+
+</body>
+</html>

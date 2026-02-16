@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURAL PROTOCOL</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0a0b0a;
+            --card-bg: #141514;
+            --neon-lime: #a3ff12;
+            --neon-pink: #ff4d94;
+            --text-gray: #808080;
+            --border-color: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            padding: 20px;
+            padding-bottom: 120px;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR ULTRA MODERN --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -305px;
+            width: 290px;
+            height: 100%;
+            background: rgba(10, 11, 10, 0.98);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-right: 1px solid rgba(163, 255, 18, 0.2);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.9);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1500;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .side-header {
+            position: relative;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--neon-lime);
+        }
+
+        .side-header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .side-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(10, 11, 10, 1) 10%, rgba(10, 11, 10, 0.3) 50%, transparent 100%);
+            z-index: 2;
+        }
+
+        .side-header-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .side-username {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--neon-lime);
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 15px rgba(163, 255, 18, 0.5);
+        }
+
+        .side-badge-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .side-mini-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .side-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 15px;
+        }
+
+        .side-label {
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin: 20px 0 10px 10px;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+
+        .side-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: #efefef;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            border-radius: 14px;
+            transition: 0.3s;
+            margin-bottom: 6px;
+        }
+
+        .side-item i {
+            width: 32px;
+            text-align: center;
+            color: var(--neon-lime);
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .side-item:hover {
+            background: rgba(163, 255, 18, 0.1);
+            color: var(--neon-lime);
+            transform: translateX(8px);
+        }
+
+        .side-footer {
+            padding: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 77, 148, 0.1);
+            color: var(--neon-pink);
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 800;
+            border: 1px solid var(--neon-pink);
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        /* --- DASHBOARD UI --- */
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .app-title {
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .hamburger-btn {
+            font-size: 24px;
+            color: var(--neon-lime);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .banner-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+
+        .banner-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .banner-card {
+            min-width: 100%;
+            height: 180px;
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            scroll-snap-align: start;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .badge-beta {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--neon-pink);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .account-stats-container {
+            margin-bottom: 20px;
+        }
+
+        .acc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .acc-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .acc-box-wide {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .acc-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .acc-details p {
+            font-size: 11px;
+            color: var(--text-gray);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .acc-details h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .menu-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .bg-lime {
+            background: rgba(163, 255, 18, 0.1);
+            color: var(--neon-lime);
+        }
+
+        .bg-pink {
+            background: rgba(255, 77, 148, 0.1);
+            color: var(--neon-pink);
+        }
+
+        .wide-item {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .small-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .small-btn {
+            background: var(--card-bg);
+            padding: 12px 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: #111;
+            padding: 12px;
+            border-radius: 18px;
+            text-align: center;
+            border: 1px solid #1a1a1a;
+        }
+
+        .section-label {
+            font-size: 10px;
+            color: var(--text-gray);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin: 15px 0 10px 5px;
+            letter-spacing: 1px;
+            border-left: 3px solid var(--neon-pink);
+            padding-left: 8px;
+        }
+
+        .activity-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .act-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .act-info h5 {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .act-info p {
+            font-size: 10px;
+            color: var(--text-gray);
+        }
+
+        .perf-item {
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #222;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--neon-lime);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--neon-lime);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .tool-box {
+            background: var(--card-bg);
+            height: 70px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tool-box i {
+            font-size: 18px;
+            color: var(--neon-lime);
+        }
+
+        .tool-box span {
+            font-size: 9px;
+            font-weight: bold;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        .navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 460px;
+            background: #161716;
+            height: 70px;
+            border-radius: 22px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid #222;
+            z-index: 1000;
+        }
+
+        .nav-link {
+            text-align: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .nav-link i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-link.active {
+            color: var(--neon-lime);
+        }
+
+        /* --- NOTIFICATION SHEET (BOTTOM SHEET) --- */
+        .notif-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #121212;
+            border-top: 2px solid var(--neon-lime);
+            border-radius: 30px 30px 0 0;
+            padding: 25px;
+            padding-bottom: 40px;
+            z-index: 3000;
+            transition: 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .notif-sheet.active {
+            bottom: 0;
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 5px;
+            background: #333;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+        }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sheet-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--neon-lime);
+            letter-spacing: 1px;
+        }
+
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #252525;
+            display: flex;
+            gap: 12px;
+        }
+
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-pink);
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        /* Tombol Terpisah di bawah Server Status */
+        .notif-btn-separate {
+            background: rgba(163, 255, 18, 0.1);
+            color: var(--neon-lime);
+            border: 1px solid var(--neon-lime);
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            margin-top: 2px;
+        }
+
+        .notif-btn-separate:active {
+            background: var(--neon-lime);
+            color: #000;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <div class="notif-sheet" id="notifSheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+            <h3 class="sheet-title"><i class="fas fa-user"></i> Profile User</h3>
+            <i class="fas fa-times" onclick="toggleNotif()" style="color:#666; cursor:pointer;"></i>
+        </div>
+        <div class="notif-list">
+            <div class="notif-item">
+                <div class="notif-dot"></div>
+                <div>
+                    <h5 style="font-size: 13px; margin-bottom: 4px;">Credentials Account</h5>
+                    <p style="font-size: 11px; color: var(--text-gray);">Username: ${username}</p>
+                    <p style="font-size: 11px; color: var(--text-gray);">Roles: ${role}</p>
+                </div>
+            </div>
+
+            <a href="/edit-key" class="notif-btn-separate">
+                <i class="fas fa-key"></i> Change Password
+            </a>
+
+            <p style="text-align: center; color: #444; font-size: 10px; margin-top: 10px;">best view for all</p>
+        </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="side-header">
+            <img src="https://files.catbox.moe/l9yjkj.gif" class="side-header-bg" alt="Profile Background">
+            <div class="side-header-overlay"></div>
+            <div class="side-header-content">
+                <h2 class="side-username">Hi ${username}</h2>
+                <div class="side-badge-row">
+                    <div class="side-mini-badge">ID: #USER</div>
+                    <div class="side-mini-badge" style="color:var(--neon-lime); border-color:var(--neon-lime);">Roles:
+                        ${role}</div>
+                </div>
+            </div>
+        </div>
+        <div class="side-scroll-area">
+            <p class="side-label">Main System</p>
+            <nav>
+                <a href="/dashboard" class="side-item"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="/profile" class="side-item"><i class="far fa-user"></i> My Profile</a>
+                <a href="/sender" class="side-item"><i class="fas fa-mobile-alt"></i> Senders</a>
+            </nav>
+            <p class="side-label">Administration</p>
+            <nav>
+                <a href="/adduser" class="side-item"><i class="fas fa-user-shield"></i> Admin Menu</a>
+                <a href="/support" class="side-item"><i class="fas fa-heart"></i> Support</a>
+            </nav>
+            <div
+                style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
+                <p style="font-size: 10px; color: #555; text-align: center;">V 3.0 • NEURAL PROTOCOL ECOSYSTEM</p>
+            </div>
+        </div>
+        <div class="side-footer">
+            <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> LOGOUT SYSTEM</a>
+        </div>
+    </aside>
+
+    <div class="header-main">
+        <div class="app-title">NEURAL PROTOCOL</div>
+        <div class="header-right">
+            <i class="far fa-user" style="font-size: 20px; color: #fff; cursor: pointer;" onclick="toggleNotif()"></i>
+            <i class="fas fa-bars-staggered hamburger-btn" onclick="toggleSide()"></i>
+        </div>
+    </div>
+
+    <div class="banner-carousel">
+        <div class="banner-card"
+            style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://files.catbox.moe/l9yjkj.gif');">
+            <div class="badge-beta">Welcome</div>
+            <div class="banner-info">
+                <h2>NEURAL PROTOCOL</h2>
+                <p>Buy Access Chat @hamzneverlose</p>
+            </div>
+        </div>
+        <div class="banner-card"
+            style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://g.top4top.io/p_3647nm61i1.jpg');">
+            <div class="badge-beta">Information</div>
+            <div class="banner-info">
+                <h2>Follow Channel</h2>
+                <p>Get Information https://t.me/hamzneverlose</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+        <div class="menu-box" onclick="location.href='/execution';">
+            <div class="icon-box bg-lime"><i class="fas fa-virus"></i></div>
+            <div>
+                <h3>Attack</h3>
+                <p>Panel Serangan</p>
+            </div>
+        </div>
+        <div class="menu-box" onclick="location.href='/profile';">
+            <div class="icon-box bg-pink"><i class="far fa-user"></i></div>
+            <div>
+                <h3>Secure</h3>
+                <p>Info akun</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wide-item" onclick="window.open('https://t.me/Darksatoru1', '_blank');">
+        <div class="wide-content" style="display:flex; align-items:center; gap:15px;">
+            <div class="icon-box" style="background:rgba(255,255,0,0.1); color: #ffd700;"><i
+                    class="fas fa-paper-plane"></i></div>
+            <div>
+                <h4 style="font-size: 14px;">Telegram Channel</h4>
+                <p style="font-size: 10px; color: var(--text-gray);">klik untuk melihat info terbaru</p>
+            </div>
+        </div>
+        <i class="fas fa-chevron-right" style="color: #333; font-size: 12px;"></i>
+    </div>
+
+    <div class="small-grid">
+        <div class="small-btn" onclick="location.href='/anime';">
+            <div class="icon-box bg-lime" style="width:28px; height:28px; font-size:12px;"><i class="fas fa-play"></i>
+            </div> Anime Play
+        </div>
+        <div class="small-btn" onclick="location.href='/grup';">
+            <div class="icon-box bg-pink" style="width:28px; height:28px; font-size:12px;"><i
+                    class="fa-brands fa-whatsapp"></i></div> User Chat
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <p style="font-size:10px; color:var(--text-gray);">user online</p>
+            <p class="stat-value" style="color:var(--neon-lime);">${userOnline}</p>
+        </div>
+        <div class="stat-card">
+            <p style="font-size:10px; color:var(--text-gray);">sender aktif</p>
+            <p class="stat-value" style="color:var(--neon-pink);">${senderAktif}</p>
+        </div>
+    </div>
+
+    <p class="section-label">Account Statistics</p>
+    <div class="account-stats-container">
+        <div class="acc-grid">
+            <div class="acc-box">
+                <div class="acc-icon" style="background: rgba(255, 77, 77, 0.15); color: #ff4d4d;"><i
+                        class="fas fa-user"></i></div>
+                <div class="acc-details">
+                    <p>Username</p>
+                    <h4 style="color: #ff4d4d;">${username}</h4>
+                </div>
+            </div>
+            <div class="acc-box">
+                <div class="acc-icon" style="background: rgba(61, 133, 198, 0.15); color: #3d85c6;"><i
+                        class="fas fa-shield-alt"></i></div>
+                <div class="acc-details">
+                    <p>Role</p>
+                    <h4 style="color: #3d85c6;">${role}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="acc-box-wide">
+            <div class="acc-icon" style="background: rgba(255, 215, 0, 0.1); color: #ffd700;"><i
+                    class="far fa-calendar-alt"></i></div>
+            <div class="acc-details">
+                <p>Account Expires</p>
+                <h4 style="color: #ffd700; font-size: 12px;">${expiredDate}</h4>
+            </div>
+        </div>
+    </div>
+
+    <p class="section-label">System Performance</p>
+    <div class="activity-card" style="margin-bottom: 12px;">
+        <div class="perf-item">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 12px;">CPU Usage</span>
+                <span style="font-size: 12px; color: var(--neon-lime);">65%</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 65%;"></div>
+            </div>
+        </div>
+        <div class="perf-item">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 12px;">Memory RAM</span>
+                <span style="font-size: 12px; color: var(--neon-pink);">42%</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar"
+                    style="width: 42%; background: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink);"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tools-grid">
+        <div class="tool-box" onclick="location.href='/wifi';"><i class="fas fa-wifi"></i><span>Data</span></div>
+        <div class="tool-box" onclick="location.href='/hentai';"><i class="fas fa-video"></i><span>Hentai</span></div>
+        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/ddos';"><i
+                class="fas fa-shield-virus" style="color: var(--neon-pink);"></i><span>Ddos</span></div>
+        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/sender';"><i
+                class="fas fa-mobile-alt" style="color: var(--neon-pink);"></i><span
+                style="color: var(--neon-pink);">Senders</span></div>
+        <div class="tool-box" onclick="location.href='/fix';"><i class="fab fa-js-square"></i><span>Fix Js</span></div>
+        <div class="tool-box" onclick="location.href='/ai';"><i class="fas fa-brain"></i><span>Chat Ai</span></div>
+        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/game';"><i
+                class="fas fa-gamepad" style="color: var(--neon-pink);"></i><span>Game</span></div>
+        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/slot';"><i
+                class="fas fa-coins" style="color: var(--neon-pink);"></i><span>Slot</span></div>
+    </div>
+
+    <p class="section-label">What News</p>
+    <div class="activity-card">
+        <div class="activity-item">
+            <div class="act-icon"><i class="fas fa-star" style="color: #ffd700;"></i></div>
+            <div class="act-info">
+                <h5>News Fiture</h5>
+                <p>Totality Granted</p>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="act-icon"><i class="fas fa-heart" style="color: var(--neon-lime);"></i></div>
+            <div class="act-info">
+                <h5>Thanks Too</h5>
+                <p>Thanks For My Friends</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="/dashboard" class="nav-link active"><i class="fas fa-home"></i> HOME</a>
+        <a href="/tools" class="nav-link"><i class="fas fa-wrench"></i> TOOLS</a>
+        <a href="/stats" class="nav-link"><i class="fas fa-chart-bar"></i> STATS</a>
+        <a href="/profile" class="nav-link"><i class="fas fa-user-circle"></i> Profile</a>
+    </nav>
+
+    <script>
+        function toggleSide() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function toggleNotif() {
+            document.getElementById('notifSheet').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function closeAll() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('notifSheet').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

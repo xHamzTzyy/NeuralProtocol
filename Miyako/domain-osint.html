@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Domain Lookup</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --lime-gradient: linear-gradient(135deg, #32cd32, #adff2f, #7fff00, #00ff00);
+            --lime-neon: #adff2f;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-lime: #adff2f;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body,
+        html {
+            width: 100%;
+            min-height: 100vh;
+            background-color: #000;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(50, 205, 50, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 122, 255, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+            font-family: var(--font-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* PARTICLES BACKGROUND */
+        #particle-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--lime-neon);
+            opacity: 0.2;
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(0px) translateX(0px);
+            }
+
+            to {
+                transform: translateY(-120vh) translateX(20px);
+            }
+        }
+
+        /* IPHONE CONTAINER */
+        .page-container {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 100px;
+        }
+
+        /* JPG HEADER AREA */
+        .image-header-wrapper {
+            padding: 15px;
+            width: 100%;
+        }
+
+        .header-jpg {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            display: block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* NAVIGATION BAR */
+        .bottom-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 420px;
+            height: 75px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 9999;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .nav-item.active {
+            color: var(--text-lime);
+            text-shadow: 0 0 15px rgba(173, 255, 47, 0.5);
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        /* CONTENT SECTION */
+        .content-body {
+            padding: 15px 25px;
+        }
+
+        .lux-header-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lux-icon-box {
+            width: 70px;
+            height: 70px;
+            background: var(--lime-gradient);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+            color: #000;
+            box-shadow: 0 10px 25px rgba(50, 205, 50, 0.3);
+        }
+
+        .welcome-text-anim {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--lime-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .username-display {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* INPUT AREA */
+        .input-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 15px;
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--lime-gradient);
+            border: none;
+            border-radius: 15px;
+            color: #000;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* LOADER */
+        .loader-wrapper {
+            text-align: center;
+            display: none;
+            margin: 25px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--lime-neon);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* RESULTS */
+        .result-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 15px;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-title {
+            color: var(--text-lime);
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .data-row {
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-family: var(--font-mono);
+        }
+
+        .data-label {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .data-value {
+            color: #fff;
+            text-align: right;
+            max-width: 65%;
+            word-break: break-all;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: var(--lime-neon);
+            color: #000;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 12px;
+            z-index: 10000;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="particle-container"></div>
+
+    <div class="page-container">
+        <div class="image-header-wrapper">
+            <img src="https://l.top4top.io/p_3647ovpaq1.jpg" alt="Header Image" class="header-jpg">
+        </div>
+
+        <div class="content-body">
+            <div class="lux-header-card">
+                <div class="lux-icon-box">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="welcome-text-anim">NEURAL PROTOCOL V3</div>
+                <h2 class="username-display">Domain Lookup Scanner</h2>
+            </div>
+
+            <div class="input-card">
+                <input type="text" id="domainInput" class="input-field" placeholder="Masukkan nama domain...">
+                <button id="searchBtn" class="search-btn">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </div>
+
+            <div id="loader" class="loader-wrapper">
+                <div class="spinner"></div>
+                <div style="font-size: 10px; color: var(--text-lime); font-weight: 800; letter-spacing: 2px;">SCANNING
+                    DNS...</div>
+            </div>
+
+            <div id="resultsArea"></div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/tools" class="nav-item active">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="/profile" class="nav-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // LOGIKA PARTICLE (ASLI)
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("particle-container");
+            for (let i = 0; i < 35; i++) {
+                const p = document.createElement("div");
+                p.className = "particle";
+                const size = Math.random() * 3 + 2;
+                p.style.width = size + "px"; p.style.height = size + "px";
+                p.style.left = Math.random() * 100 + "vw";
+                p.style.top = Math.random() * 100 + "vh";
+                p.style.animationDuration = (Math.random() * 15 + 10) + "s";
+                p.style.animationDelay = "-" + (Math.random() * 20) + "s";
+                container.appendChild(p);
+            }
+        });
+
+        // DOMAIN LOOKUP LOGIC (ASLI TANPA DIHAPUS)
+        const domainInput = document.getElementById("domainInput");
+        const searchBtn = document.getElementById("searchBtn");
+        const resultsArea = document.getElementById("resultsArea");
+        const loader = document.getElementById("loader");
+        const toast = document.getElementById("toast");
+
+        const recordTypes = [
+            { type: 'A', name: 'IPv4 Address', icon: 'fa-globe' },
+            { type: 'AAAA', name: 'IPv6 Address', icon: 'fa-globe' },
+            { type: 'MX', name: 'Mail Exchange', icon: 'fa-envelope' },
+            { type: 'NS', name: 'Name Server', icon: 'fa-server' },
+            { type: 'TXT', name: 'Text Records', icon: 'fa-file-alt' }
+        ];
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2500);
+        }
+
+        async function lookupDomain() {
+            let domain = domainInput.value.trim();
+            if (!domain) return showToast("Masukkan nama domain!");
+            domain = domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            resultsArea.innerHTML = "";
+            loader.style.display = "block";
+            domainInput.blur();
+
+            try {
+                const promises = recordTypes.map(record =>
+                    fetch(`https://dns.google/resolve?name=${domain}&type=${record.type}`)
+                        .then(res => res.json())
+                        .then(data => ({
+                            ...data,
+                            recordName: record.name,
+                            type: record.type,
+                            icon: record.icon
+                        }))
+                );
+                const responses = await Promise.all(promises);
+                let ipAddress = null;
+                const aRecord = responses.find(r => r.type === "A" && r.Answer);
+                if (aRecord && aRecord.Answer[0]) ipAddress = aRecord.Answer[0].data;
+
+                loader.style.display = "none";
+                if (ipAddress) await createWhoisCard(ipAddress);
+
+                let hasData = false;
+                responses.forEach((res, index) => {
+                    if (res.Answer) {
+                        hasData = true;
+                        createCard(res, index);
+                    }
+                });
+
+                if (!hasData) {
+                    resultsArea.innerHTML = `<div class="result-card" style="text-align:center">Tidak ada data ditemukan untuk ${domain}</div>`;
+                }
+            } catch (error) {
+                loader.style.display = "none";
+                showToast("Koneksi Error. Coba lagi nanti.");
+            }
+        }
+
+        async function createWhoisCard(ip) {
+            try {
+                const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+                const geoData = await geoRes.json();
+                const card = document.createElement("div");
+                card.className = "result-card";
+                card.innerHTML = `
+                <div class="card-header"><span class="card-title"><i class="fas fa-info-circle"></i> Info Server</span></div>
+                <div class="data-row"><p class="data-label">IP Address</p><p class="data-value">${ip}</p></div>
+                <div class="data-row"><p class="data-label">Lokasi</p><p class="data-value">${geoData.city || 'N/A'}, ${geoData.country_name || 'N/A'}</p></div>
+                <div class="data-row"><p class="data-label">ISP / Org</p><p class="data-value">${geoData.org || 'N/A'}</p></div>
+            `;
+                resultsArea.appendChild(card);
+            } catch (e) { }
+        }
+
+        function createCard(data, index) {
+            const card = document.createElement("div");
+            card.className = "result-card";
+            let rows = "";
+            data.Answer.forEach(ans => {
+                rows += `<div class="data-row"><p class="data-label">TTL: ${ans.TTL}</p><p class="data-value">${ans.data}</p></div>`;
+            });
+            card.innerHTML = `<div class="card-header"><span class="card-title"><i class="fas ${data.icon}"></i> ${data.type} Record</span></div>${rows}`;
+            resultsArea.appendChild(card);
+        }
+
+        domainInput.addEventListener("keypress", e => { if (e.key === "Enter") lookupDomain(); });
+        searchBtn.addEventListener("click", lookupDomain);
+    </script>
+</body>
+
+</html>

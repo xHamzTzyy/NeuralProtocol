@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Instagram Downloader</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-neon: #f09433; /* Instagram Orange */
+            --secondary-neon: #e6683c; /* Instagram Red */
+            --accent-purple: #dc2743; /* Instagram Pink */
+            --accent-blue: #cc2366; /* Instagram Violet */
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --iphone-dark: #000000;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--iphone-dark);
+            background-image: 
+                radial-gradient(circle at top left, rgba(220, 39, 67, 0.2), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(240, 148, 51, 0.15), transparent 40%);
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 500px; 
+            min-height: 100vh;
+            background: rgba(13, 13, 13, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 90px;
+        }
+
+        /* --- NAVIGATION BAR (iOS Style) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* --- HEADER & CONTENT --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 15px;
+        }
+
+        .header-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 30px;
+            filter: brightness(0.9);
+            border: 1px solid var(--glass-border);
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .content-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .lux-header-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+        }
+
+        .lux-head-custom-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lux-icon-box {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 20px;
+        }
+
+        /* --- INPUT & BUTTONS --- */
+        .dark-input-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 24px;
+            outline: none;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .dark-input-box:focus {
+            border-color: var(--primary-neon);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .yoshi-btn {
+            width: 100%;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 24px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.2s active;
+        }
+
+        .yoshi-btn:active { transform: scale(0.98); }
+
+        /* --- RESULTS --- */
+        .ig-result-card {
+            margin-top: 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 30px;
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ig-thumb {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+        .ig-btn {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            background: linear-gradient(45deg, var(--primary-neon), var(--accent-purple));
+            color: #fff;
+            padding: 18px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
+        }
+
+        /* Loading & Popups */
+        #igLoading { text-align: center; padding: 20px; color: var(--primary-neon); font-weight: 700; }
+        .popup-cool {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
+            border-radius: 30px; padding: 30px; z-index: 9999; display: none;
+            width: 85%; max-width: 320px; text-align: center; border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <nav class="bottom-nav">
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/tools" class="nav-item active">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="/profile" class="nav-item">
+                <i class="fas fa-circle-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <div class="video-wrapper">
+            <button class="sound-toggle" id="btnToggleSound">
+                <i id="soundIcon" class="fas fa-volume-mute"></i>
+            </button>
+            <video id="headerVideo" class="header-video" autoplay loop muted playsinline>
+                <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="content-body">
+            <div class="lux-header-card">
+                <div class="lux-head-custom-flex">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div class="lux-icon-box">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; letter-spacing: 2px; opacity: 0.6;">INSTAGRAM SAVER</div>
+                            <div style="font-size:18px; font-weight:800;">DARK XAVIER</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 20px; color: var(--primary-neon);">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <input type="text" id="igUrlInput" class="dark-input-box" placeholder="Paste Instagram Link (Reels/Post)...">
+            
+            <button class="yoshi-btn" id="btnIgDownload">
+                <i class="fas fa-magic"></i> FETCH CONTENT
+            </button>
+
+            <div id="igLoading" style="display:none;">
+                <i class="fas fa-circle-notch fa-spin"></i> GENERATING LINK...
+            </div>
+
+            <div id="igResult" class="ig-result-card">
+                <img id="igThumb" src="" class="ig-thumb">
+                <p id="igTitle" style="font-size:13px; opacity:0.8; margin-bottom:15px; line-height:1.4;"></p>
+                <a id="btnDownload" href="#" target="_blank" class="ig-btn">
+                    <i class="fas fa-download mr-2"></i> DOWNLOAD FILE
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="popupCool" class="popup-cool">
+        <h3 id="popTitle" style="color:#fff; margin-top:0;"></h3>
+        <p id="popMsg" style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom: 25px;"></p>
+        <button onclick="document.getElementById('popupCool').style.display='none'" class="yoshi-btn">UNDERSTOOD</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('headerVideo');
+        const soundBtn = document.getElementById('btnToggleSound');
+        const soundIcon = document.getElementById('soundIcon');
+
+        // Sound Logic
+        soundBtn.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            } else {
+                video.muted = true;
+                soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            }
+        });
+
+        function showPopup(title, msg, icon) {
+            const pop = document.getElementById('popupCool');
+            document.getElementById('popTitle').innerText = icon + " " + title;
+            document.getElementById('popMsg').innerText = msg;
+            pop.style.display = 'block';
+        }
+
+        // Instagram Download Logic
+        document.getElementById('btnIgDownload').addEventListener('click', async () => {
+            const url = document.getElementById('igUrlInput').value; 
+            if(!url || !url.includes('instagram.com')) {
+                showPopup('ERROR', 'Please enter a valid Instagram link.', '❌');
+                return;
+            }
+            
+            const loading = document.getElementById('igLoading');
+            const result = document.getElementById('igResult');
+            
+            loading.style.display = 'block'; 
+            result.style.display = 'none';
+
+            try { 
+                // Menggunakan API Cobalt (Sangat stabil untuk IG)
+                const response = await fetch("https://api.cobalt.tools/api/json", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                    },
+                    body: JSON.stringify({
+                        url: url,
+                        vQuality: "720"
+                    })
+                });
+
+                const data = await response.json();
+
+                if(data.url){ 
+                    // Set result data
+                    document.getElementById('igThumb').src = "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"; // Placeholder thumb karena API Cobalt fokus ke stream link
+                    document.getElementById('igTitle').innerText = "Your content is ready for download. Click the button below."; 
+                    document.getElementById('btnDownload').href = data.url; 
+                    result.style.display = 'block'; 
+                } else {
+                    showPopup('FAIL', 'Content not found or private.', '⚠️');
+                }
+            } catch(e){
+                showPopup('SERVER ERROR', 'The ritual failed. Please try again.', '🥀');
+            } finally { 
+                loading.style.display = 'none'; 
+            }
+        });
+    </script>
+</body>
+</html>

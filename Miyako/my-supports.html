@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEURAL PROTOCOL - Support</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette - Updated to Apple Lime Green */
+            --bg-dark: #0a0d05;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #151a08 0%, #0a0d05 100%);
+            --card-bg: rgba(20, 25, 10, 0.8);
+            --accent-pink: #a4e620;
+            /* Lime Green Utama */
+            --accent-purple: #82cc14;
+            /* Lime Green Gelap */
+            --accent-cyan: #dfff2e;
+            /* Lime Green Terang */
+            --accent-green: #32ff00;
+            /* Status Online */
+            --text-gray: #9ca3af;
+
+            /* Fonts */
+            --font-title: 'Orbitron', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            color: #ffffff;
+            font-family: var(--font-code);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Particles */
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(164, 230, 32, 0.4);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 25px;
+            padding-top: 45px;
+            background: transparent;
+            z-index: 50;
+        }
+
+        .brand-title {
+            font-family: var(--font-title);
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(164, 230, 32, 0.6);
+        }
+
+        .back-btn {
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+            background: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: #000;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 20px 40px 20px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-bottom: 25px;
+            text-align: left;
+            padding-left: 5px;
+            border-left: 3px solid var(--accent-pink);
+            padding-left: 15px;
+        }
+
+        .page-title-text {
+            font-family: var(--font-title);
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            font-size: 12px;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* BANNER CARD */
+        .info-banner-container {
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease;
+        }
+
+        .banner-card {
+            width: 100%;
+            aspect-ratio: 16/7;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(164, 230, 32, 0.4);
+            background: #000;
+            box-shadow: 0 10px 40px -10px rgba(164, 230, 32, 0.3);
+        }
+
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: transform 5s ease;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #0a0d05 0%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .banner-tag {
+            background: var(--accent-pink);
+            color: #000;
+            font-size: 9px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            width: fit-content;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .banner-headline {
+            font-family: var(--font-title);
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* TEAM GRID */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .member-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .member-card:active {
+            transform: scale(0.97);
+            background: rgba(30, 35, 15, 0.9);
+            border-color: var(--accent-pink);
+        }
+
+        .avatar-box {
+            position: relative;
+            width: 65px;
+            height: 65px;
+            margin-bottom: 12px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: #111;
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: -3px;
+            right: -3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--text-gray);
+            border: 2px solid var(--bg-dark);
+            z-index: 2;
+        }
+
+        .status-dot.online {
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .m-name {
+            font-family: var(--font-title);
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .m-role {
+            font-size: 9px;
+            color: var(--accent-cyan);
+            background: rgba(223, 255, 46, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(223, 255, 46, 0.2);
+        }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tech-card {
+            background: #0d1105;
+            width: 100%;
+            max-width: 500px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            position: relative;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-top: 1px solid var(--accent-pink);
+            box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.9);
+            padding-bottom: 40px;
+        }
+
+        .modal-overlay.active .tech-card {
+            transform: translateY(0);
+        }
+
+        .drag-handle {
+            width: 50px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            margin: 15px auto 5px;
+        }
+
+        .tech-header-bg {
+            height: 90px;
+            width: 100%;
+            background: linear-gradient(135deg, #2a330e, #151a08);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tech-body {
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .tech-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            border: 4px solid #0d1105;
+            background: #0d1105;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .tech-name {
+            font-family: var(--font-title);
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .tech-username {
+            font-size: 13px;
+            color: var(--accent-pink);
+            margin-bottom: 25px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .tech-stats-box {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ts-div {
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .ts-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ts-label {
+            font-size: 9px;
+            color: #666;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .ts-value {
+            font-family: var(--font-title);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tech-bio {
+            font-size: 13px;
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .tech-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #82cc14, #a4e620);
+            color: black;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(164, 230, 32, 0.4);
+            transition: 0.2s;
+        }
+
+        .tech-btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-pop {
+            animation: popIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="particle-container"></div>
+
+    <header>
+        <a href="/dashboard" class="back-btn">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <div class="brand-title">SUPPORT UNIT</div>
+        <div style="width:40px"></div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1 class="page-title-text">SUPPORTER</h1>
+            <div class="page-subtitle"> Support Division</div>
+        </div>
+
+        <div class="info-banner-container">
+            <div class="banner-card">
+                <img src="https://files.catbox.moe/84ltya.jpg" class="banner-img"
+                    onerror="this.src='https://placehold.co/600x300/151a08/FFF?text=CORE+TEAM'">
+                <div class="banner-overlay">
+                    <div class="banner-tag">OFFICIAL</div>
+                    <div class="banner-headline">THANKS TO</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-grid" id="teamGrid"></div>
+    </main>
+
+    <div class="modal-overlay" id="profileModal">
+        <div class="tech-card">
+            <div class="tech-header-bg" id="modalHeaderBg"></div>
+            <div class="drag-handle"></div>
+            <div class="close-modal" id="closeModal"><i class="fas fa-times"></i></div>
+
+            <div class="tech-body">
+                <img src="" class="tech-avatar" id="modalImg">
+                <h2 class="tech-name" id="modalName">Name</h2>
+                <span class="tech-username" id="modalUser">@username</span>
+
+                <div class="tech-stats-box">
+                    <div class="ts-item">
+                        <span class="ts-label">SYSTEM ROLE</span>
+                        <span class="ts-value" id="modalRole" style="color:var(--accent-cyan)">DEV</span>
+                    </div>
+                    <div class="ts-div"></div>
+                    <div class="ts-item">
+                        <span class="ts-label">CURRENT STATUS</span>
+                        <span class="ts-value" id="modalStatus" style="color:var(--accent-green)">ONLINE</span>
+                    </div>
+                </div>
+
+                <div class="tech-bio" id="modalBio">Loading bio data...</div>
+
+                <a href="#" class="tech-btn" id="modalLink" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="currentColor">
+                        <path
+                            d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z">
+                        </path>
+                    </svg>CHAT
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('particle-container');
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const s = Math.random() * 3 + 1;
+                p.style.width = p.style.height = `${s}px`;
+                p.style.left = `${Math.random() * 100}vw`;
+                p.style.top = `${Math.random() * 100}vh`;
+                p.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                p.style.animationDelay = `-${Math.random() * 20}s`;
+                container.appendChild(p);
+            }
+
+            const members = [
+                { name: "– !`𝙍𝙚𝙨𝙯𝙯𝙤𝙛𝙛𝙘𝙞𝙖𝙡", username: "@Reszzjierr", role: "Dev", type: "Dev", status: "online", bio: "–`Reszzoffcial \ - `𝘿𝘼𝙍𝙆𝙎𝘼𝙏𝙊𝙍𝙐 \ Ferum esse optimum est \ strenue conari–`", avatar: "https://i.ibb.co.com/tPwK6Qjk/20260101-170949.jpg", banner: "linear-gradient(135deg, #dfff2e 0%, #a4e620 100%)", link: "https://t.me/Reszzjierr" },
+                { name: "⏤𝙍𝙞𝙙𝙝𝙤", username: "@mhdridhozz", role: "Support", type: "admin", status: "online", bio: "𝙍𝙞𝙙𝙝𝙤 ─ Darksatoru || True Developer || Not a clone account || My Channel @alltestimhdrdhoz204 || My Team 𝐓𝐬̽𝐖", avatar: "https://e.top4top.io/p_364583zcu1.jpg", banner: "linear-gradient(135deg, #a4e620 0%, #32ff00 100%)", link: "https://t.me/mhdridhozz" },
+                { name: "𝙋𝙖𝙡𝙡", username: "@Pallgantengye", role: "Support", type: "admin", status: "online", bio: "PALL | DARKSATORU | AURORASYSTEMS | ᴀᴜʀᴏʀᴀ FAMILY | REAL PT : @Dx_karzItshere1 & @RIZHUYOUKA_OFFICIAL | REAL ACCOUNT, NOT A CLONE OR A FAKE ACCOUNT", avatar: "https://i.ibb.co.com/jvQx2d7P/IMG-20260101-WA0020.jpg", banner: "linear-gradient(135deg, #82cc14 0%, #dfff2e 100%)", link: "https://t.me/Pallgantengye" },
+                { name: "𝘿𝙝𝙤𝙩", username: "@dhotganteng", role: "Support", type: "support", status: "online", bio: "Support", avatar: "https://i.ibb.co.com/bgL9g05y/IMG-20260104-221818-027.jpg", banner: "linear-gradient(135deg, #dfff2e 0%, #82cc14 100%)", link: "https://t.me/dhotganteng" },
+                { name: "𝘿𝙖𝙥𝙯𝙯", username: "@lolipopdapa", role: "Support", type: "support", status: "online", bio: "—!s ”Darksatoru | My Chanels t.me/stordapz , !s Bot Limit ", avatar: "https://i.ibb.co.com/wNHVywKs/IMG-20260101-233723-801.jpg", banner: "linear-gradient(135deg, #a4e620 0%, #dfff2e 100%)", link: "https://t.me/lolipopdapa" },
+                { name: "𝘽𝙖𝙡𝙯𝙯", username: "@balzy_md", role: "Support", type: "support", status: "online", bio: "xxx", avatar: "https://i.ibb.co.com/HDrJgczZ/IMG-20251230-202525-428.jpg", banner: "linear-gradient(135deg, #32ff00 0%, #a4e620 100%)", link: "https://t.me/balzy_md" },
+            ];
+
+            const grid = document.getElementById('teamGrid');
+            members.forEach((m, i) => {
+                const card = document.createElement('div');
+                card.className = 'member-card animate-pop';
+                card.style.animationDelay = `${i * 0.05}s`;
+
+                let roleColor = '#dfff2e';
+                if (m.type === 'Dev') roleColor = '#a4e620';
+                if (m.type === 'admin') roleColor = '#82cc14';
+
+                card.innerHTML = `
+                    <div class="avatar-box">
+                        <img src="${m.avatar}" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=${m.name}'">
+                        <div class="status-dot ${m.status}"></div>
+                    </div>
+                    <div class="m-name">${m.name}</div>
+                    <div class="m-role" style="color:${roleColor}; border-color:${roleColor}40; background:${roleColor}10">${m.role}</div>
+                `;
+                card.onclick = () => openModal(m);
+                grid.appendChild(card);
+            });
+
+            const modal = document.getElementById('profileModal');
+            function openModal(data) {
+                document.getElementById('modalImg').src = data.avatar;
+                document.getElementById('modalName').textContent = data.name;
+                document.getElementById('modalUser').textContent = data.username;
+                document.getElementById('modalRole').textContent = data.role.toUpperCase();
+                document.getElementById('modalBio').textContent = data.bio;
+                document.getElementById('modalLink').href = data.link;
+
+                if (data.banner) document.getElementById('modalHeaderBg').style.background = data.banner;
+                else document.getElementById('modalHeaderBg').style.background = 'linear-gradient(135deg, #2a330e, #151a08)';
+
+                const statusEl = document.getElementById('modalStatus');
+                statusEl.innerText = data.status.toUpperCase();
+                statusEl.style.color = data.status === 'online' ? '#32ff00' : '#6b7280';
+
+                modal.classList.add('active');
+            }
+
+            document.getElementById('closeModal').onclick = () => modal.classList.remove('active');
+            modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+        });
+    </script>
+</body>
+
+</html>

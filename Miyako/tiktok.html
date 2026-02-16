@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TikTok Downloader</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-neon: #bc13fe; 
+            --secondary-neon: #ff0055; 
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --iphone-dark: #000000;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--iphone-dark);
+            background-image: 
+                radial-gradient(circle at top left, rgba(188, 19, 254, 0.2), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(255, 0, 85, 0.15), transparent 40%);
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 500px; 
+            min-height: 100vh;
+            background: rgba(13, 13, 13, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 90px; /* Ruang untuk Nav Bar */
+        }
+
+        /* --- NAVIGATION BAR (iOS Style) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--secondary-neon);
+            text-shadow: 0 0 10px var(--secondary-neon);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* --- HEADER & CONTENT --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 15px;
+        }
+
+        .header-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 30px;
+            filter: brightness(0.9);
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .content-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .lux-header-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+        }
+
+        .lux-head-custom-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lux-icon-box {
+            background: linear-gradient(135deg, var(--primary-neon), var(--secondary-neon));
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 20px;
+        }
+
+        /* --- INPUT & BUTTONS --- */
+        .dark-input-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 24px;
+            outline: none;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .yoshi-btn {
+            width: 100%;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 24px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- RESULTS --- */
+        .tt-result-card {
+            margin-top: 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 30px;
+            display: none;
+        }
+
+        .tt-thumb {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .tt-btn {
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Loading & Popups */
+        #ttLoading { text-align: center; padding: 20px; color: var(--primary-neon); }
+        .popup-cool {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
+            border-radius: 30px; padding: 30px; z-index: 9999; display: none;
+            width: 80%; max-width: 320px; text-align: center; border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <nav class="bottom-nav">
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/tools" class="nav-item active">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="/profile" class="nav-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <div class="video-wrapper">
+            <button class="sound-toggle" id="btnToggleSound">
+                <i id="soundIcon" class="fas fa-volume-mute"></i>
+            </button>
+            <video id="headerVideo" class="header-video" autoplay loop muted playsinline>
+                <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="content-body">
+            <div class="lux-header-card">
+                <div class="lux-head-custom-flex">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div class="lux-icon-box">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div>
+                            <div class="welcome-text-anim">TIKTOK DOWNLOADER</div>
+                            <div style="font-size:18px; font-weight:800;">V4 PRO</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 20px; color: var(--secondary-neon);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <input type="text" id="ttUrlInput" class="dark-input-box" placeholder="Paste link video...">
+            
+            <button class="yoshi-btn" id="btnTtDownload">
+                <i class="fas fa-arrow-down"></i> GET VIDEO
+            </button>
+
+            <div id="ttLoading" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i> FETCHING DATA...
+            </div>
+
+            <div id="ttResult" class="tt-result-card">
+                <img id="ttThumb" src="" class="tt-thumb">
+                <p id="ttTitle" style="font-size:14px; font-weight:600; color:var(--text-kawaii); margin-bottom:15px;"></p>
+                <div class="tt-grid">
+                    <a id="btnMp4" href="#" target="_blank" class="tt-btn">DOWNLOAD MP4</a>
+                    <a id="btnMp3" href="#" target="_blank" class="tt-btn" style="background: rgba(255, 0, 85, 0.2); border-color: var(--secondary-neon);">AUDIO MP3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popupCool" class="popup-cool">
+        <h3 id="popTitle" style="color:#fff;"></h3>
+        <p id="popMsg" style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom: 25px;"></p>
+        <button onclick="document.getElementById('popupCool').style.display='none'" class="yoshi-btn">OK</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('headerVideo');
+        const soundBtn = document.getElementById('btnToggleSound');
+        const soundIcon = document.getElementById('soundIcon');
+
+        soundBtn.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            } else {
+                video.muted = true;
+                soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            }
+        });
+
+        function showPopup(title, msg, icon) {
+            const pop = document.getElementById('popupCool');
+            document.getElementById('popTitle').innerText = icon + " " + title;
+            document.getElementById('popMsg').innerText = msg;
+            pop.style.display = 'block';
+        }
+
+        document.getElementById('btnTtDownload').addEventListener('click', async () => {
+            const u = document.getElementById('ttUrlInput').value; 
+            if(!u) {
+                showPopup('NOTIFICATION', 'Link is required.', 'ℹ️');
+                return;
+            }
+            
+            document.getElementById('ttLoading').style.display = 'block'; 
+            document.getElementById('ttResult').style.display = 'none';
+
+            try { 
+                const r = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(u)}`); 
+                const d = await r.json();
+                if(d.code === 0){ 
+                    document.getElementById('ttThumb').src = d.data.cover; 
+                    document.getElementById('ttTitle').innerText = d.data.title; 
+                    document.getElementById('btnMp4').href = d.data.play; 
+                    document.getElementById('btnMp3').href = d.data.music; 
+                    document.getElementById('ttResult').style.display = 'block'; 
+                } else {
+                    showPopup('FAIL', 'Invalid video link.', '❌');
+                }
+            } catch(e){
+                showPopup('ERROR', 'System error.', '⚠️');
+            } finally { 
+                document.getElementById('ttLoading').style.display = 'none'; 
+            }
+        });
+    </script>
+</body>
+</html>

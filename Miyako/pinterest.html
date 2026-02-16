@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINTEREST DOWNLOAD</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=Comfortaa:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette: Lime Kawai Gothic */
+            --lime-neon: #ccff00;
+            --lime-glow: rgba(204, 255, 0, 0.4);
+            --dark-gothic: #050801;
+            --glass-bg: rgba(10, 15, 5, 0.7);
+            --glass-border: rgba(204, 255, 0, 0.2);
+            --font-mono: 'Share Tech Mono', monospace;
+            --font-kawai: 'Comfortaa', cursive;
+            --luxe-gradient: linear-gradient(135deg, #ccff00 0%, #00ffaa 100%);
+        }
+
+        /* --- Global Reset & Luxury Background --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--dark-gothic);
+            background-image:
+                radial-gradient(circle at 20% 20%, #1a2e00 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, #0a1100 0%, #050801 100%);
+            color: #e0ffe0;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Floating Particles Background --- */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* --- Scanlines Goth Effect --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(204, 255, 0, 0.03) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 3px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- Cyber Card: Lime Glassmorphism --- */
+        .cyber-card {
+            width: 90%;
+            max-width: 420px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 20px var(--lime-glow);
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            /* Sweeter Kawai Corners */
+            margin-bottom: 100px;
+            z-index: 10;
+        }
+
+        /* Luxury Lime Accent line */
+        .cyber-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--luxe-gradient);
+            box-shadow: 0 0 15px var(--lime-neon);
+        }
+
+        /* --- Top Image Header --- */
+        .image-header {
+            width: 100%;
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .image-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.5) brightness(0.7) sepia(1) hue-rotate(50deg);
+            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .cyber-card:hover .image-header img {
+            transform: scale(1.05) rotate(1deg);
+            filter: saturate(1) brightness(0.9) sepia(0);
+        }
+
+        .image-header::after {
+            content: "♥ EXTRATORS";
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            background: #ffffff;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 4px 4px 0px var(--lime-neon);
+        }
+
+        /* --- Content Body --- */
+        .content {
+            padding: 30px 25px;
+        }
+
+        .title-block {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px var(--lime-neon), 0 0 20px var(--lime-neon);
+        }
+
+        /* --- Input Styles --- */
+        .field-group {
+            margin-bottom: 25px;
+        }
+
+        .label-mono {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--lime-neon);
+            letter-spacing: 2px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--lime-neon);
+            font-family: var(--font-mono);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--lime-neon);
+            background: rgba(204, 255, 0, 0.05);
+            box-shadow: 0 0 20px var(--lime-glow);
+        }
+
+        /* --- Buttons --- */
+        .btn-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 12px;
+            border: none;
+            position: relative;
+            background: var(--lime-neon);
+            color: #000;
+            box-shadow: 0 5px 0px #88aa00;
+        }
+
+        button:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0px #88aa00;
+        }
+
+        button:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 20px var(--lime-glow);
+        }
+
+        .btn-alt {
+            background: #111;
+            border: 1px solid var(--lime-neon);
+            color: var(--lime-neon);
+            box-shadow: none;
+        }
+
+        .btn-alt:hover {
+            background: var(--lime-neon);
+            color: #000;
+        }
+
+        /* --- Console Log --- */
+        .console {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            height: 120px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            overflow-y: auto;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .log-line {
+            margin-bottom: 6px;
+            border-left: 3px solid var(--lime-neon);
+            padding-left: 12px;
+            animation: slideIn 0.4s ease-out;
+            color: #aaffaa;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .success {
+            border-color: #ffffff;
+            color: #fff;
+            text-shadow: 0 0 8px var(--lime-neon);
+        }
+
+        .error {
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        /* --- Bottom Navigation --- */
+        .nav {
+            position: fixed;
+            bottom: 20px;
+            /* Floating look */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 70px;
+            background: rgba(10, 15, 5, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: rgba(204, 255, 0, 0.3);
+            text-decoration: none;
+            transition: 0.3s;
+            flex: 1;
+        }
+
+        .nav-item-bottom i {
+            font-size: 18px;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--lime-neon);
+        }
+
+        .nav-item-bottom.active i {
+            filter: drop-shadow(0 0 5px var(--lime-neon));
+        }
+
+        .nav-item-bottom span {
+            font-size: 10px;
+            font-family: 'Comfortaa', cursive;
+            font-weight: bold;
+        }
+
+        /* Custom Scrollbar */
+        .console::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .console::-webkit-scrollbar-thumb {
+            background: var(--lime-neon);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particles" class="particles"></canvas>
+
+    <div class="cyber-card">
+        <div class="image-header">
+            <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000"
+                alt="Cyber Lime Goth">
+        </div>
+
+        <div class="content">
+            <div class="title-block">
+                <h1>Pin Extractor</h1>
+                <p
+                    style="font-size: 10px; letter-spacing: 2px; color: var(--lime-neon); font-weight: bold; font-family: 'Comfortaa';">
+                    NEURAL PROTOCOL</p>
+            </div>
+
+            <div class="field-group">
+                <span class="label-mono">> PINTEREST DL</span>
+                <input type="text" id="pinInput" placeholder="URL_PINTEREST_DISINI..." autocomplete="off">
+            </div>
+
+            <div class="btn-container">
+                <button onclick="runProcess()">FETCH ASSET</button>
+                <button class="btn-alt" onclick="clearAll()">PURGE</button>
+            </div>
+        </div>
+
+        <div class="console" id="console">
+            <div class="log-line">> SYSTEM BOOT: SUCCESS</div>
+            <div class="log-line">> APIKEY OS: READY</div>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <a href="/dashboard" class="nav-item-bottom">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="/tools" class="nav-item-bottom active">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Tools</span>
+        </a>
+        <a href="/anime" class="nav-item-bottom">
+            <i class="fa-solid fa-film"></i>
+            <span>Anime</span>
+        </a>
+    </nav>
+
+    <script>
+        // --- Luxury Particles Script (Lime Color) ---
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ccff00';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                p.y -= p.speed;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        initParticles();
+        drawParticles();
+
+        // --- Original Logic (Preserved) ---
+        const consoleEl = document.getElementById('console');
+        const inputEl = document.getElementById('pinInput');
+
+        function log(msg, type = '') {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            line.innerHTML = `[${time}] ${msg}`;
+            consoleEl.prepend(line);
+        }
+
+        function runProcess() {
+            const val = inputEl.value;
+            if (!val) {
+                log('ERROR: TARGET_NULL', 'error');
+                return;
+            }
+
+            log(`INITIATING_SCRAPE_PROTOCOL...`);
+
+            setTimeout(() => log('PENETRATING_SERVERS...'), 600);
+            setTimeout(() => log('LIME_SIGNAL_LOCKED', 'success'), 1400);
+            setTimeout(() => {
+                log('EXTRACTION_SUCCESSFUL', 'success');
+                alert("Download Dimulai!");
+            }, 2200);
+        }
+
+        function clearAll() {
+            inputEl.value = '';
+            consoleEl.innerHTML = '<div class="log-line">> MEMORY_PURGED. STANDBY.</div>';
+            log('SYSTEM_WIPE_COMPLETE', 'success');
+        }
+    </script>
+</body>
+
+</html>

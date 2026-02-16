@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ＰＲＩＭＲＯＳＥＸ ＧＰＴ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600&family=Creepster&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Palette Gothic Kawaii Lime */
+      --goth-black: #0d0d0d;
+      --goth-purple: #2e1065;
+      --lime-bright: #32ff7e;
+      --lime-glow: rgba(50, 255, 126, 0.4);
+      --glass-white: rgba(255, 255, 255, 0.07);
+      --glass-lime: rgba(50, 255, 126, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--goth-black);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* Background dengan aura gothic */
+      background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
+    }
+
+    /* Header Gothic Kawaii */
+    .chat-header {
+      background: rgba(13, 13, 13, 0.7);
+      backdrop-filter: blur(15px);
+      color: var(--lime-bright);
+      padding: 16px 10px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      border-bottom: 2px solid var(--lime-bright);
+      box-shadow: 0 0 20px var(--lime-glow);
+    }
+
+    .chat-header h1 {
+      font-family: 'Creepster', cursive;
+      /* Font Gothic */
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 0;
+      font-size: 24px;
+      text-shadow: 2px 2px 0px var(--goth-purple);
+    }
+
+    .chat-header p {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      opacity: 0.7;
+    }
+
+    /* Menu */
+    #menuBtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 6;
+      color: var(--lime-bright);
+      transition: 0.3s;
+      text-shadow: 0 0 10px var(--lime-bright);
+    }
+
+    #menuBtn:hover {
+      transform: rotate(90deg) scale(1.2);
+    }
+
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 220px;
+      height: 100vh;
+      background: rgba(20, 20, 20, 0.95);
+      backdrop-filter: blur(15px);
+      border-right: 2px solid var(--lime-bright);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: .4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
+    }
+
+    #sideMenu h3 {
+      color: var(--lime-bright);
+      font-family: 'Creepster', cursive;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #sideMenu button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 15px;
+      background: var(--glass-white);
+      border: 1px solid var(--lime-bright);
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #sideMenu button:hover {
+      background: var(--lime-bright);
+      color: #000;
+      box-shadow: 0 0 15px var(--lime-bright);
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 4;
+      display: none;
+    }
+
+    /* Chat Messages */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+      padding: 100px 15px 120px 15px;
+    }
+
+    /* Scroll to Bottom */
+    #scrollBottomBtn {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      background: var(--lime-bright);
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      box-shadow: 0 0 15px var(--lime-bright);
+    }
+
+    /* Pesan - Lime Glass Style */
+    .message {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message .icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .message.user .icon {
+      background: var(--lime-bright);
+      color: #000;
+    }
+
+    .message.bot .icon {
+      background: var(--goth-purple);
+      color: var(--lime-bright);
+      border: 1px solid var(--lime-bright);
+    }
+
+    .message .text {
+      padding: 14px 20px;
+      border-radius: 20px;
+      max-width: 75%;
+      font-size: 14.5px;
+      background: var(--glass-white);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(50, 255, 126, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      color: #f0f0f0;
+    }
+
+    .message.user .text {
+      border-bottom-right-radius: 2px;
+      border-left: 4px solid var(--lime-bright);
+    }
+
+    .message.bot .text {
+      border-bottom-left-radius: 2px;
+      border-right: 4px solid var(--lime-bright);
+    }
+
+    /* Input & Tombol Kirim */
+    .chat-input {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 800px;
+      display: flex;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .chat-input textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      height: 55px;
+      padding: 15px 20px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      border: 2px solid var(--lime-bright);
+      box-shadow: inset 0 0 10px var(--lime-glow);
+    }
+
+    .chat-input button {
+      width: 55px;
+      height: 55px;
+      border: none;
+      border-radius: 50%;
+      background: var(--lime-bright);
+      color: #000;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 15px var(--lime-glow);
+    }
+
+    .chat-input button:hover {
+      transform: scale(1.1) rotate(-10deg);
+      box-shadow: 0 0 25px var(--lime-bright);
+    }
+
+    .profile-icon {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: var(--goth-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      color: var(--lime-bright);
+      border: 2px solid var(--lime-bright);
+      box-shadow: 0 0 10px var(--lime-glow);
+    }
+
+    /* Efek Tambahan: Animasi Berdenyut pada Lime */
+    @keyframes pulse-lime {
+      0% {
+        box-shadow: 0 0 5px var(--lime-glow);
+      }
+
+      50% {
+        box-shadow: 0 0 20px var(--lime-bright);
+      }
+
+      100% {
+        box-shadow: 0 0 5px var(--lime-glow);
+      }
+    }
+
+    .chat-header {
+      animation: pulse-lime 3s infinite;
+    }
+
+    /* Responsive */
+    @media(max-width:600px) {
+      .chat-header h1 {
+        font-size: 20px;
+      }
+
+      .chat-input {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <i class="fa-solid fa-user profile-icon" onclick="window.location.href='/profile'"></i>
+  <div id="menuBtn"><i class="fas fa-bars"></i></div>
+  <div id="sideMenu">
+    <h3><br><br>NEURAL PROTOCOL</h3>
+    <button onclick="window.location='/dashboard'"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+  <div id="overlay"></div>
+
+  <div class="chat-header">
+    <h1>NEURAL PROTOCOL</h1>
+    <p>AI GENERATE NEURAL PROTOCOL</p>
+  </div>
+
+  <div class="chat-messages" id="chat"></div>
+
+  <button id="scrollBottomBtn"><i class="fas fa-angle-down"></i></button>
+
+  <div class="chat-input">
+    <textarea id="input" placeholder="Bisikkan sesuatu..."></textarea>
+    <button id="sendBtn"><i class="fas fa-user-ninja"></i></button>
+  </div>
+
+  <script>
+    // Seluruh logika JavaScript tetap sama
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+    const chatBox = document.getElementById('chat');
+    const scrollBtn = document.getElementById('scrollBottomBtn');
+
+    function closeMenu() { sideMenu.style.left = '-260px'; overlay.style.display = 'none'; }
+    menuBtn.onclick = () => { sideMenu.style.left === '0px' ? closeMenu() : (sideMenu.style.left = '0px', overlay.style.display = 'block'); };
+    overlay.onclick = closeMenu;
+
+    function escapeHTML(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\$/g, "&#36;")
+        .replace(/{/g, "&#123;")
+        .replace(/}/g, "&#125;");
+    }
+
+    function appendMessage(text, sender) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+
+      const icon = document.createElement('div');
+      icon.classList.add('icon');
+      icon.innerHTML = sender === 'user' ? '<i class="fas fa-user-ninja"></i>' : '<i class="fas fa-robot"></i>';
+
+      const content = document.createElement('div');
+      content.classList.add('text');
+      const safeText = escapeHTML(text)
+        .replace(/\*(.*?)\*/g, '<b>$1</b>')
+        .replace(/_(.*?)_/g, '<i>$1</i>')
+        .replace(/\n/g, '<br>');
+      content.innerHTML = safeText;
+
+      msg.appendChild(icon);
+      msg.appendChild(content);
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return content;
+    }
+
+    async function typewriterEffect(el, txt, speed = 25) {
+      let safeText = escapeHTML(txt)
+        .replace(/\*(.*?)\*/g, '<b>$1</b>')
+        .replace(/_(.*?)_/g, '<i>$1</i>')
+        .replace(/\n/g, '<br>');
+      el.innerHTML = "";
+      for (let i = 0; i < safeText.length; i++) {
+        el.innerHTML = safeText.substring(0, i + 1);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      appendMessage(msg, 'user');
+      input.value = '';
+      const botEl = appendMessage("...", 'bot');
+
+      try {
+        const res = await fetch('/api/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: msg })
+        }).then(r => r.json());
+
+        await typewriterEffect(botEl, res.text || "Kegelapan menyelimuti jawaban ini...", 25);
+      } catch (e) {
+        await typewriterEffect(botEl, "Error: " + e.message, 25);
+      }
+    }
+
+    document.getElementById('sendBtn').onclick = sendMessage;
+    document.getElementById('input').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+
+    chatBox.addEventListener('scroll', () => {
+      const nearBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < 200;
+      scrollBtn.style.display = nearBottom ? 'none' : 'flex';
+    });
+    scrollBtn.onclick = () => chatBox.scrollTop = chatBox.scrollHeight;
+  </script>
+
+</body>
+
+</html>

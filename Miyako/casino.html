@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothic Kawaii Lime - Crash Game</title>
+    <style>
+        :root {
+            --lime: #ccff00;
+            --dark-goth: #0d0d0d;
+            --neon-purple: #ff00ff;
+            --glass: rgba(13, 13, 13, 0.85);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a1a1a url('https://a.top4top.io/p_3648g57211.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Overlay gelap */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+        .iphone-ui {
+            z-index: 1;
+            width: 340px;
+            padding: 25px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            border: 1px solid rgba(204, 255, 0, 0.2);
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        /* Container Foto Karakter */
+        .character-header {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--lime);
+            background: #000;
+        }
+
+        .character-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .logo-area {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: var(--lime);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .balance-container {
+            font-size: 0.9rem;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 18px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid rgba(204, 255, 0, 0.4);
+        }
+
+        #multiplier {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin: 5px 0;
+            text-shadow: 0 0 15px var(--lime);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 70%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--lime);
+            padding: 12px;
+            border-radius: 15px;
+            color: var(--lime);
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            box-shadow: 0 0 10px var(--lime);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s active;
+            text-transform: uppercase;
+        }
+
+        .btn-bet {
+            background: var(--lime);
+            color: black;
+            box-shadow: 0 5px 15px rgba(204, 255, 0, 0.3);
+        }
+
+        .btn-cashout {
+            background: var(--neon-purple);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #bbb;
+            min-height: 1.2rem;
+            font-style: italic;
+        }
+
+        .kawaii-decor {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.6;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="iphone-ui">
+    <div class="kawaii-decor" style="top: 20px; left: 20px;">🎰️</div>
+    <div class="kawaii-decor" style="top: 20px; right: 20px;">🎰</div>
+
+    <div class="character-header">
+        <img src="https://a.top4top.io/p_3648g57211.jpg" alt="Gothic Background">
+    </div>
+
+    <div class="logo-area">Game Casino</div>
+    <div class="balance-container">Wallet: $<span id="balance">1000</span></div>
+    
+    <div id="multiplier">1.00x</div>
+    
+    <div class="input-group">
+        <input type="number" id="betAmount" value="50" min="1">
+    </div>
+    
+    <button id="mainBtn" onclick="togglePlay()" class="btn btn-bet">Start Game</button>
+    
+    <div id="status">Ready to win? ₍˄·͈༝·͈˄₎◞ ̑̑</div>
+</div>
+
+<script>
+    let balance = 1000;
+    let multiplier = 1.00;
+    let isPlaying = false;
+    let gameInterval;
+    let currentBet = 0;
+
+    const multEl = document.getElementById('multiplier');
+    const balanceEl = document.getElementById('balance');
+    const mainBtn = document.getElementById('mainBtn');
+    const statusEl = document.getElementById('status');
+    const betInput = document.getElementById('betAmount');
+
+    function togglePlay() {
+        if (!isPlaying) {
+            startGame();
+        } else {
+            cashOut();
+        }
+    }
+
+    function startGame() {
+        currentBet = parseInt(betInput.value);
+        if (isNaN(currentBet) || currentBet <= 0 || currentBet > balance) {
+            statusEl.innerText = "Check your balance! (u_u)";
+            return;
+        }
+
+        balance -= currentBet;
+        balanceEl.innerText = balance;
+        multiplier = 1.00;
+        isPlaying = true;
+
+        statusEl.innerText = "Wait for it... ♡";
+        mainBtn.innerText = "Cash Out";
+        mainBtn.className = "btn btn-cashout";
+        multEl.style.color = "white";
+
+        gameInterval = setInterval(() => {
+            // Kecepatan kenaikan multiplier
+            multiplier += 0.01 + (multiplier * 0.005);
+            multEl.innerText = multiplier.toFixed(2) + "x";
+
+            // Logika Probabilitas Crash (semakin tinggi multiplier, semakin besar peluang crash)
+            if (Math.random() < (0.005 + (multiplier * 0.008))) {
+                crash();
+            }
+        }, 100);
+    }
+
+    function cashOut() {
+        clearInterval(gameInterval);
+        let win = Math.floor(currentBet * multiplier);
+        balance += win;
+        balanceEl.innerText = balance;
+        statusEl.innerText = `You won $${win}! ＼(＾▽＾)／`;
+        resetUI();
+    }
+
+    function crash() {
+        clearInterval(gameInterval);
+        multEl.innerText = "BOOM!";
+        multEl.style.color = "var(--neon-purple)";
+        statusEl.innerText = "Crashed! Try again? (╥﹏╥)";
+        resetUI();
+    }
+
+    function resetUI() {
+        isPlaying = false;
+        mainBtn.innerText = "Start Game";
+        mainBtn.className = "btn btn-bet";
+    }
+</script>
+
+</body>
+</html>
