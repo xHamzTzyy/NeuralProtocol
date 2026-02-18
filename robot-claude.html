@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Chibi Lucu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .robot-container {
+            position: relative;
+        }
+
+        .robot {
+            position: relative;
+            width: 200px;
+            height: 280px;
+        }
+
+        /* Kepala Robot */
+        .head {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #ffd93d 0%, #ffb800 100%);
+            border-radius: 30px;
+            top: 20px;
+            left: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            animation: headFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes headFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Antena */
+        .antenna {
+            position: absolute;
+            width: 4px;
+            height: 25px;
+            background: #ff6b6b;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .antenna::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Mata Container */
+        .eyes-container {
+            position: absolute;
+            width: 100%;
+            height: 60px;
+            top: 40px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 25px;
+        }
+
+        .eye {
+            width: 35px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .pupil {
+            width: 18px;
+            height: 18px;
+            background: #2d3436;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+        }
+
+        .pupil::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            top: 4px;
+            left: 4px;
+        }
+
+        /* Mulut */
+        .mouth {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            border: 4px solid #2d3436;
+            border-top: none;
+            border-radius: 0 0 50px 50px;
+            top: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+
+        /* Pipi */
+        .cheek {
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: rgba(255, 107, 107, 0.4);
+            border-radius: 50%;
+            top: 75px;
+        }
+
+        .cheek.left { left: 15px; }
+        .cheek.right { right: 15px; }
+
+        /* Badan */
+        .body {
+            position: absolute;
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 20px;
+            top: 150px;
+            left: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .body::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Tangan */
+        .arm {
+            position: absolute;
+            width: 20px;
+            height: 60px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 10px;
+            top: 160px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .arm.left {
+            left: 10px;
+            animation: armWave 2s ease-in-out infinite;
+        }
+
+        .arm.right {
+            right: 10px;
+            animation: armWave 2s ease-in-out infinite 1s;
+        }
+
+        @keyframes armWave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* Kaki */
+        .leg {
+            position: absolute;
+            width: 25px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffd93d 0%, #ffb800 100%);
+            border-radius: 0 0 10px 10px;
+            top: 230px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .leg.left { left: 50px; }
+        .leg.right { right: 50px; }
+
+        /* Ekspresi Classes */
+        .happy .mouth {
+            border-radius: 0 0 50px 50px;
+            height: 25px;
+        }
+
+        .surprised .mouth {
+            width: 30px;
+            height: 30px;
+            border: 4px solid #2d3436;
+            border-radius: 50%;
+        }
+
+        .excited .mouth {
+            width: 60px;
+            height: 30px;
+            border-radius: 0 0 60px 60px;
+        }
+
+        .wink .eye.left {
+            height: 5px;
+            background: #2d3436;
+            border-radius: 0;
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="robot-container">
+        <div class="robot" id="robot">
+            <div class="head">
+                <div class="antenna"></div>
+                <div class="cheek left"></div>
+                <div class="cheek right"></div>
+                <div class="eyes-container">
+                    <div class="eye left">
+                        <div class="pupil left-pupil"></div>
+                    </div>
+                    <div class="eye right">
+                        <div class="pupil right-pupil"></div>
+                    </div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            <div class="body"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+        </div>
+        <div class="instruction">Gerakin cursor lu buat ngelihat mata robotnya ngikutin! 👀</div>
+    </div>
+
+    <script>
+        const robot = document.getElementById('robot');
+        const leftPupil = document.querySelector('.left-pupil');
+        const rightPupil = document.querySelector('.right-pupil');
+        const expressions = ['happy', 'surprised', 'excited', 'wink'];
+        let currentExpression = 'happy';
+
+        // Fungsi untuk menggerakkan mata mengikuti cursor
+        document.addEventListener('mousemove', (e) => {
+            const leftEye = document.querySelector('.eye.left');
+            const rightEye = document.querySelector('.eye.right');
+            
+            movePupil(leftPupil, leftEye, e.clientX, e.clientY);
+            movePupil(rightPupil, rightEye, e.clientX, e.clientY);
+        });
+
+        function movePupil(pupil, eye, mouseX, mouseY) {
+            const eyeRect = eye.getBoundingClientRect();
+            const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+            const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+            
+            const deltaX = mouseX - eyeCenterX;
+            const deltaY = mouseY - eyeCenterY;
+            const angle = Math.atan2(deltaY, deltaX);
+            const distance = Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 20, 8);
+            
+            const pupilX = Math.cos(angle) * distance;
+            const pupilY = Math.sin(angle) * distance;
+            
+            pupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`;
+        }
+
+        // Fungsi untuk mengubah ekspresi secara random
+        function changeExpression() {
+            robot.classList.remove(...expressions);
+            currentExpression = expressions[Math.floor(Math.random() * expressions.length)];
+            robot.classList.add(currentExpression);
+        }
+
+        // Ubah ekspresi setiap 3 detik
+        setInterval(changeExpression, 3000);
+        
+        // Set ekspresi awal
+        robot.classList.add('happy');
+    </script>
+</body>
+</html>

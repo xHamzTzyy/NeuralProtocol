@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Ganti Nama Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        h1 { color: #32CD32; }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #32CD32, #228B22);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Ganti Nama Bot WA</h1>
+        <input type="text" id="botName" placeholder="Masukkan nama bot...">
+        <button onclick="updateName()">Update Nama</button>
+    </div>
+
+    <script>
+        async function updateName() {
+            const name = document.getElementById('botName').value;
+            
+            if (!name) {
+                alert('Nama bot ga boleh kosong!');
+                return;
+            }
+            
+            try {
+                const res = await fetch('/api/update-bot-name', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name })
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    alert('✅ Nama bot WA berhasil diubah!');
+                } else {
+                    alert('❌ Gagal: ' + data.error);
+                }
+            } catch (e) {
+                alert('❌ Error: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>
