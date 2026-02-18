@@ -4093,7 +4093,8 @@ app.post("/execution", requireAuth, async (req, res) => {
   "delay-5gb",
   "crash-beta",
   "ivs-null",
-  "cosmo-uifc"
+  "cosmo-uifc",
+  "fcbos"
 ];
     if (!validModes.includes(mode)) {
       console.log(`[EXECUTION FAILED] Invalid mode: ${mode}`);
