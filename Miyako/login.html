@@ -15,16 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- THEME VARIABLES (UPDATED TO LIME GREEN) --- */
         :root {
-            --bg-dark: #050801;
-            --bg-gradient: radial-gradient(circle at 50% 0%, #0d1a05 0%, #050801 80%);
+            --bg-dark: #080101;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #1a0505 0%, #080101 80%);
 
-            --card-bg: rgba(13, 26, 5, 0.85);
-            --accent-pink: #a3e635;
-            /* Lime Green Primary */
-            --accent-purple: #4d7c0f;
-            /* Darker Lime/Olive */
+            --card-bg: rgba(26, 5, 5, 0.85);
+            --accent-pink: #FF2D2D;
+            --accent-purple: #cc1a1a;
             --accent-cyan: #22d3ee;
             --accent-green: #10b981;
             --accent-red: #ef4444;
@@ -78,7 +75,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(163, 230, 53, 0.3);
+            border: 1px solid rgba(255, 45, 45, 0.3);
             border-radius: 25px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
             display: flex;
@@ -173,7 +170,7 @@
             border-radius: 50%;
             padding: 3px;
             background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            box-shadow: 0 0 30px rgba(163, 230, 53, 0.4);
+            box-shadow: 0 0 30px rgba(255, 45, 45, 0.4);
             position: relative;
         }
 
@@ -193,22 +190,22 @@
             width: 14px;
             height: 14px;
             background: var(--accent-pink);
-            border: 3px solid #0d1a05;
+            border: 3px solid #1a0505;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.7);
+                box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.7);
             }
 
             70% {
-                box-shadow: 0 0 0 8px rgba(163, 230, 53, 0);
+                box-shadow: 0 0 0 8px rgba(255, 45, 45, 0);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(163, 230, 53, 0);
+                box-shadow: 0 0 0 0 rgba(255, 45, 45, 0);
             }
         }
 
@@ -219,7 +216,7 @@
             letter-spacing: 2px;
             color: white;
             margin-bottom: 5px;
-            text-shadow: 0 0 15px rgba(163, 230, 53, 0.6);
+            text-shadow: 0 0 15px rgba(255, 45, 45, 0.6);
         }
 
         p.brand-sub {
@@ -244,7 +241,7 @@
             height: 85px;
             background: #000;
             border-radius: 10px;
-            border: 2px solid rgba(163, 230, 53, 0.3);
+            border: 2px solid rgba(255, 45, 45, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             overflow: hidden;
             position: relative;
@@ -257,7 +254,7 @@
             margin-left: -10%;
             opacity: 0.9;
             transform: skewX(12deg);
-            filter: hue-rotate(80deg) contrast(1.2) brightness(0.8);
+            filter: hue-rotate(0deg) contrast(1.2) brightness(0.8);
         }
 
         /* --- BUTTONS --- */
@@ -285,7 +282,7 @@
         }
 
         .action-btn:active {
-            background: rgba(163, 230, 53, 0.15);
+            background: rgba(255, 45, 45, 0.15);
             border-color: var(--accent-pink);
             transform: scale(0.98);
         }
@@ -293,20 +290,20 @@
         .btn-icon-sq {
             width: 40px;
             height: 40px;
-            background: rgba(163, 230, 53, 0.1);
+            background: rgba(255, 45, 45, 0.1);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent-pink);
-            border: 1px solid rgba(163, 230, 53, 0.2);
+            border: 1px solid rgba(255, 45, 45, 0.2);
             flex-shrink: 0;
             transition: all 0.3s ease;
         }
 
         .action-btn:hover .btn-icon-sq {
             background: var(--accent-pink);
-            color: #000;
+            color: #fff;
             box-shadow: 0 0 20px var(--accent-pink);
             transform: rotate(5deg);
         }
@@ -354,7 +351,7 @@
             font-weight: 700;
             color: white;
             letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(163, 230, 53, 0.4);
+            text-shadow: 0 0 15px rgba(255, 45, 45, 0.4);
             line-height: 1;
             margin-bottom: 8px;
         }
@@ -461,8 +458,8 @@
 
         .inp:focus {
             border-color: var(--accent-pink);
-            background: rgba(163, 230, 53, 0.05);
-            box-shadow: 0 0 20px rgba(163, 230, 53, 0.2);
+            background: rgba(255, 45, 45, 0.05);
+            box-shadow: 0 0 20px rgba(255, 45, 45, 0.2);
         }
 
         .inp.error-border {
@@ -520,7 +517,7 @@
 
         .checkbox-custom.active::after {
             content: '✓';
-            color: #000;
+            color: #fff;
             font-weight: bold;
             font-size: 12px;
         }
@@ -543,13 +540,13 @@
             border-radius: 12px;
             border: none;
             background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            color: #000;
+            color: #fff;
             font-family: var(--font-title);
             font-weight: 700;
             letter-spacing: 2px;
             cursor: pointer;
             margin-top: 10px;
-            box-shadow: 0 8px 25px rgba(163, 230, 53, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 45, 45, 0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -558,7 +555,7 @@
 
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(163, 230, 53, 0.5);
+            box-shadow: 0 12px 30px rgba(255, 45, 45, 0.5);
         }
 
         .submit-btn:active {
@@ -585,13 +582,13 @@
             transform: translateX(-5px);
         }
 
-        /* --- IMPROVED NOTIFICATION (TOAST) --- */
+        /* --- NOTIFICATION (TOAST) --- */
         #notification-box {
             position: fixed;
             top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(10, 20, 5, 0.95);
+            background: rgba(20, 5, 5, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--accent-pink);
             padding: 15px 20px;
@@ -652,14 +649,14 @@
         }
 
         .device-modal-content {
-            background: linear-gradient(135deg, #0d1a05, #050801);
+            background: linear-gradient(135deg, #1a0505, #080101);
             border: 1px solid var(--accent-pink);
             width: 100%;
             max-width: 350px;
             padding: 30px 25px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(163, 230, 53, 0.2);
+            box-shadow: 0 20px 50px rgba(255, 45, 45, 0.2);
             transform: scale(0.9);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             backdrop-filter: blur(10px);
@@ -701,7 +698,7 @@
 
         .btn-logout-others {
             background: var(--accent-pink);
-            color: #000;
+            color: #fff;
         }
 
         .btn-logout-current {
@@ -716,7 +713,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 8, 1, 0.95);
+            background: rgba(8, 1, 1, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -735,12 +732,12 @@
         .auto-login-spinner {
             width: 60px;
             height: 60px;
-            border: 3px solid rgba(163, 230, 53, 0.2);
+            border: 3px solid rgba(255, 45, 45, 0.2);
             border-radius: 50%;
             border-top-color: var(--accent-pink);
             animation: spin 1s ease-in-out infinite;
             margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(163, 230, 53, 0.3);
+            box-shadow: 0 0 20px rgba(255, 45, 45, 0.3);
         }
 
         @keyframes spin {
@@ -754,7 +751,7 @@
             color: var(--accent-pink);
             font-size: 1rem;
             letter-spacing: 3px;
-            text-shadow: 0 0 15px rgba(163, 230, 53, 0.5);
+            text-shadow: 0 0 15px rgba(255, 45, 45, 0.5);
         }
 
         /* Particles */
@@ -777,7 +774,6 @@
             }
         }
 
-        /* Media Queries remain same */
         @media (max-width: 375px) {
             .container-card {
                 border-radius: 20px;
@@ -786,6 +782,79 @@
 
             .view-section {
                 padding: 1.2rem;
+            }
+        }
+
+        /* --- INTRO OVERLAY --- */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .intro-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .intro-overlay.fadeout {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .intro-text-box {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            animation: introTextFade 1s ease forwards;
+        }
+
+        .intro-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 6px;
+            text-shadow: 0 0 20px rgba(255, 45, 45, 0.8), 0 0 40px rgba(255, 45, 45, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .intro-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-pink);
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 45, 45, 0.5);
+            opacity: 0.85;
+        }
+
+        @keyframes introTextFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -850,9 +919,8 @@
 
             <div class="video-wrapper">
                 <div class="video-display-box">
-                    <video class="video-content" autoplay loop muted playsinline>
-                        <source src="https://c.top4top.io/m_3648bbxt71.mp4" type="video/mp4">
-                    </video>
+                    <img src="https://files.catbox.moe/addb26.gif" alt="Video Feed" class="video-content"
+                        onerror="this.src='https://ui-avatars.com/api/?name=VIDEO+FEED&background=a3e635&color=000'">
                 </div>
             </div>
 
@@ -946,6 +1014,16 @@
         </div>
 
     </div>
+    <div class="intro-overlay" id="introOverlay">
+        <video class="intro-video" id="introVideo" playsinline>
+            <source src="https://tmpfiles.org/dl/24844378/ssstik.io_piopiooo67_1771413979755.mp4" type="video/mp4">
+        </video>
+        <!-- teks di bawah video -->
+        <div class="intro-text-box">
+            <div class="intro-title">NEURAL PROTOCOL</div>
+            <div class="intro-sub">BUKANKAH INI MY...</div>
+        </div>
+    </div>
 
     <script>
         const card = document.getElementById('mainCard');
@@ -996,7 +1074,9 @@
         function setupAudio() {
             bgMusic.volume = 0.5;
             document.body.addEventListener('click', function () {
-                if (bgMusic.paused) { bgMusic.play().catch(() => { }); }
+                if (bgMusic.paused && !window.isIntroPlaying) {
+                    bgMusic.play().catch(() => { });
+                }
             }, { once: true });
         }
 
@@ -1004,6 +1084,48 @@
             loginForm.addEventListener('submit', function (e) {
                 e.preventDefault();
                 validateAndLogin();
+            });
+        }
+
+        function showIntroVideo(redirectUrl) {
+            const overlay = document.getElementById('introOverlay');
+            const video = document.getElementById('introVideo');
+
+            window.isIntroPlaying = true; // kasih tau audio jangan nyala
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+
+            overlay.classList.add('active');
+            video.currentTime = 0;
+            video.muted = false;
+            video.volume = 1.0;
+
+            // block semua klik di overlay biar ga trigger audio
+            overlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            video.play().catch(() => {
+                window.location.href = redirectUrl;
+            });
+
+            let redirected = false;
+
+            const doRedirect = () => {
+                if (redirected) return;
+                redirected = true;
+                window.isIntroPlaying = false;
+                overlay.classList.add('fadeout');
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 800);
+            };
+
+            video.addEventListener('ended', () => doRedirect());
+
+            video.addEventListener('loadedmetadata', () => {
+                const duration = video.duration * 1000;
+                setTimeout(() => doRedirect(), duration + 300);
             });
         }
 
@@ -1135,7 +1257,9 @@
                         localStorage.setItem('indictive_username', username);
                         localStorage.setItem('indictive_password', password);
                     }
-                    window.location.href = response.url;
+                    // simpan dulu url dashboard nya
+                    const dashUrl = response.url;
+                    showIntroVideo(dashUrl);
                 } else {
                     // Jika login gagal (biasanya karena device conflict ditandai via URL param)
                     // Logic ini bergantung pada backend Anda mengirimkan redirect ke /login?msg=...

@@ -208,7 +208,7 @@ body {
 }
 
 .header-main {
-    background-color: #111111c;
+    background-color: #1111118c;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 20px 20px;
@@ -689,7 +689,7 @@ body {
 
     <aside class="sidebar" id="sidebar">
         <div class="side-header">
-            <img src="https://files.catbox.moe/l9yjkj.gif" class="side-header-bg" alt="Profile Background">
+            <img src="https://tmpfiles.org/dl/24843958/frommainklickpincf-images-ext-1discordappnet-3ltwz5yml1.gif" class="side-header-bg" alt="Profile Background">
             <div class="side-header-overlay"></div>
             <div class="side-header-content">
                 <h2 class="side-username">Hi ${username}</h2>
@@ -725,7 +725,7 @@ body {
     </aside>
 
     <div class="header-main">
-        <div class="app-title">NEURAL PROTOCOL</div>
+        <div class="app-title">NEURAL<span style="color: var(--neon-lime);"> PROTOCOL</span></div>
         <div class="header-right">
             <i class="far fa-user" style="font-size: 20px; color: #fff; cursor: pointer;" onclick="toggleNotif()"></i>
             <i class="fas fa-bars-staggered hamburger-btn" onclick="toggleSide()"></i>
@@ -734,11 +734,11 @@ body {
 
     <div class="banner-carousel">
         <div class="banner-card"
-            style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://files.catbox.moe/l9yjkj.gif');">
+            style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://tmpfiles.org/dl/24843958/frommainklickpincf-images-ext-1discordappnet-3ltwz5yml1.gif');">
             <div class="badge-beta">Welcome</div>
             <div class="banner-info">
-                <h2>NEURAL PROTOCOL</h2>
-                <p>Buy Access Chat @hamzneverlose</p>
+                <h2 style="color: var(--neon-lime); font-size: 17px;">NEURAL PROTOCOL</h2>
+                <p style="font-size: 14px;">Buy Access Chat @hamzneverlose</p>
             </div>
         </div>
         <div class="banner-card"
@@ -756,7 +756,7 @@ body {
             <div class="icon-box bg-lime"><i class="fas fa-virus"></i></div>
             <div>
                 <h3>Attack</h3>
-                <p>Panel Serangan</p>
+                <p>Bug menu</p>
             </div>
         </div>
         <div class="menu-box" onclick="location.href='/profile';">
@@ -770,7 +770,7 @@ body {
 
     <div class="wide-item" onclick="window.open('https://t.me/Darksatoru1', '_blank');">
         <div class="wide-content" style="display:flex; align-items:center; gap:15px;">
-            <div class="icon-box" style="background:rgba(255,255,0,0.1); color: #ffd700;"><i
+            <div class="icon-box" style="background:rgba(255, 45, 45, 0.1); color: #ff2d2d;"><i
                     class="fas fa-paper-plane"></i></div>
             <div>
                 <h4 style="font-size: 14px;">Telegram Channel</h4>
@@ -793,7 +793,7 @@ body {
 
     <div class="stats-row">
         <div class="stat-card">
-            <p style="font-size:10px; color:var(--text-gray);">user online</p>
+            <p style="font-size:10px; color:var(--text-gray);">user terdaftar</p>
             <p class="stat-value" style="color:var(--neon-lime);">${userOnline}</p>
         </div>
         <div class="stat-card">
@@ -814,20 +814,20 @@ body {
                 </div>
             </div>
             <div class="acc-box">
-                <div class="acc-icon" style="background: rgba(61, 133, 198, 0.15); color: #3d85c6;"><i
+                <div class="acc-icon" style="background: rgba(255, 77, 77, 0.15); color: #ff4d4d;"><i
                         class="fas fa-shield-alt"></i></div>
                 <div class="acc-details">
                     <p>Role</p>
-                    <h4 style="color: #3d85c6;">${role}</h4>
+                    <h4 style="color: #ff4d4d;">${role}</h4>
                 </div>
             </div>
         </div>
         <div class="acc-box-wide">
-            <div class="acc-icon" style="background: rgba(255, 215, 0, 0.1); color: #ffd700;"><i
+            <div class="acc-icon" style="background: rgba(255, 45, 45, 0.1); color: #ff2d2d;"><i
                     class="far fa-calendar-alt"></i></div>
             <div class="acc-details">
                 <p>Account Expires</p>
-                <h4 style="color: #ffd700; font-size: 12px;">${expiredDate}</h4>
+                <h4 style="color: #ff2d2d; font-size: 12px;">${expiredDate}</h4>
             </div>
         </div>
     </div>
@@ -858,23 +858,20 @@ body {
     <div class="tools-grid">
         <div class="tool-box" onclick="location.href='/wifi';"><i class="fas fa-wifi"></i><span>Data</span></div>
         <div class="tool-box" onclick="location.href='/hentai';"><i class="fas fa-video"></i><span>Hentai</span></div>
-        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/ddos';"><i
-                class="fas fa-shield-virus" style="color: var(--neon-pink);"></i><span>Ddos</span></div>
-        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/sender';"><i
-                class="fas fa-mobile-alt" style="color: var(--neon-pink);"></i><span
-                style="color: var(--neon-pink);">Senders</span></div>
+        <div class="tool-box" onclick="location.href='/ddos';"><i
+                class="fas fa-shield-virus"></i><span>Ddos</span></div>
+        <div class="tool-box" onclick="location.href='/sender';"><i
+                class="fas fa-mobile-alt"></i><span>Senders</span></div>
         <div class="tool-box" onclick="location.href='/fix';"><i class="fab fa-js-square"></i><span>Fix Js</span></div>
         <div class="tool-box" onclick="location.href='/ai';"><i class="fas fa-brain"></i><span>Chat Ai</span></div>
-        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/game';"><i
-                class="fas fa-gamepad" style="color: var(--neon-pink);"></i><span>Game</span></div>
-        <div class="tool-box" style="border-color: var(--neon-pink);" onclick="location.href='/slot';"><i
-                class="fas fa-coins" style="color: var(--neon-pink);"></i><span>Slot</span></div>
+        <div class="tool-box" onclick="location.href='/game';"><i class="fas fa-gamepad"></i><span>Game</span></div>
+        <div class="tool-box" onclick="location.href='/slot';"><i class="fas fa-coins"></i><span>Slot</span></div>
     </div>
 
     <p class="section-label">What News</p>
     <div class="activity-card">
         <div class="activity-item">
-            <div class="act-icon"><i class="fas fa-star" style="color: #ffd700;"></i></div>
+            <div class="act-icon"><i class="fas fa-star" style="color: #ff2d2d;"></i></div>
             <div class="act-info">
                 <h5>News Fiture</h5>
                 <p>Totality Granted</p>
