@@ -8706,6 +8706,7 @@ body {
     { id: 'crash-beta', icon: 'fas fa-bug', title: 'Crash Beta' },
     { id: 'ivs-null', icon: 'fas fa-ban', title: 'IvsNull Crash' },
     { id: 'cosmo-uifc', icon: 'fas fa-meteor', title: 'Cosmo UI FC' },
+    { id: 'fcbos', icon: 'fas fa-layer-group', title: 'force close one msg' },
     { id: 'force-close', icon: 'fas fa-times-circle', title: 'Force Close' }
 ];
 
