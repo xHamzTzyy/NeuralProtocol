@@ -1223,7 +1223,7 @@ async function FcOneMsg(sock, target) {
        value: 1,
        offset: 0,
        currencyCodeIso4217: "IDR",
-       requestFrom: isTarget,
+       requestFrom: target,
        expiryTimestamp: Date.now() + 8000
       },
       contextInfo: {
