@@ -3,27 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MY SENDERS | LIME EDITION</title>
+    <title>MY SENDERS | RED EDITION</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Variabel Warna Apple Lime Green */
         :root {
-            --primary-black: #050505;
-            --apple-lime: #32D74B; /* Apple System Green / Lime */
-            --lime-glow: rgba(50, 215, 75, 0.4);
-            --glass-bg: rgba(15, 15, 15, 0.75);
-            --glass-border: rgba(50, 215, 75, 0.15);
+            --primary-black: #050101;
+            --apple-lime: #FF2D2D;
+            --lime-glow: rgba(255, 45, 45, 0.4);
+            --glass-bg: rgba(15, 5, 5, 0.75);
+            --glass-border: rgba(255, 45, 45, 0.15);
             --error-red: #ff453a;
             --text-main: #ffffff;
             --text-dim: #a1a1a6;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -33,34 +28,27 @@
             overflow-x: hidden;
         }
 
-        /* Background Video */
         .video-bg-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -2;
         }
-        
+
         .video-bg {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             filter: brightness(0.3) contrast(1.2) grayscale(0.5);
         }
 
         .video-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.85) 100%);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(5, 0, 0, 0.9) 100%);
             z-index: -1;
         }
 
-        /* Header */
         .page-header {
             padding: 30px;
             display: flex;
@@ -77,7 +65,7 @@
             letter-spacing: 2px;
             padding: 10px 22px;
             border: 1px solid var(--apple-lime);
-            background: rgba(50, 215, 75, 0.05);
+            background: rgba(255, 45, 45, 0.05);
             border-radius: 8px;
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
@@ -85,12 +73,11 @@
 
         .back-btn:hover {
             background: var(--apple-lime);
-            color: black;
+            color: #fff;
             box-shadow: 0 0 25px var(--lime-glow);
             transform: translateY(-2px);
         }
 
-        /* Main Section */
         .user-sender-section {
             max-width: 850px;
             margin: 40px auto;
@@ -112,19 +99,18 @@
             background: linear-gradient(to bottom, #fff 30%, var(--apple-lime) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(50, 215, 75, 0.2));
+            filter: drop-shadow(0 0 15px rgba(255, 45, 45, 0.2));
         }
 
-        /* Form */
         .add-sender-form {
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 20px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             padding: 30px;
             border-radius: 20px;
             margin-bottom: 45px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .input-label {
@@ -139,8 +125,8 @@
 
         .input-field {
             width: 100%;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid #222;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #221010;
             padding: 16px 20px;
             border-radius: 12px;
             color: white;
@@ -151,12 +137,12 @@
 
         .input-field:focus {
             border-color: var(--apple-lime);
-            box-shadow: 0 0 15px rgba(50, 215, 75, 0.15);
+            box-shadow: 0 0 15px rgba(255, 45, 45, 0.15);
         }
 
         .execute-btn {
             background: var(--apple-lime);
-            color: #000;
+            color: #fff;
             border: none;
             padding: 0 35px;
             border-radius: 12px;
@@ -173,7 +159,6 @@
             box-shadow: 0 0 30px var(--lime-glow);
         }
 
-        /* Sender List */
         .senders-list-container h4 {
             font-family: 'Orbitron';
             font-size: 13px;
@@ -186,8 +171,8 @@
         }
 
         .sender-item {
-            background: rgba(50, 215, 75, 0.03);
-            border: 1px solid rgba(50, 215, 75, 0.1);
+            background: rgba(255, 45, 45, 0.03);
+            border: 1px solid rgba(255, 45, 45, 0.1);
             border-radius: 18px;
             padding: 20px 28px;
             margin-bottom: 15px;
@@ -199,7 +184,7 @@
 
         .sender-item:hover {
             border-color: var(--apple-lime);
-            background: rgba(50, 215, 75, 0.06);
+            background: rgba(255, 45, 45, 0.06);
             transform: translateX(5px);
         }
 
@@ -209,14 +194,15 @@
             border-radius: 50%;
         }
 
-        .sender-status.connected { 
-            background: var(--apple-lime); 
-            box-shadow: 0 0 15px var(--apple-lime); 
+        .sender-status.connected {
+            background: var(--apple-lime);
+            box-shadow: 0 0 15px var(--apple-lime);
         }
 
-        .sender-status.connecting, .sender-status.waiting_pairing { 
-            background: #ffcc00; 
-            animation: pulse 1.5s infinite; 
+        .sender-status.connecting,
+        .sender-status.waiting_pairing {
+            background: #ffcc00;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
@@ -250,21 +236,30 @@
 
         /* Modal */
         .pairing-modal {
-            background: rgba(0,0,0,0.92);
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .pairing-modal-content {
-            background: #0a0a0a;
+            background: #0a0303;
             border: 1px solid var(--apple-lime);
             border-radius: 35px;
             padding: 45px;
-            box-shadow: 0 0 50px rgba(50, 215, 75, 0.15);
+            box-shadow: 0 0 50px rgba(255, 45, 45, 0.15);
+            max-width: 400px;
+            width: 100%;
         }
 
         .code-display {
-            background: #111;
-            border: 2px dashed rgba(50, 215, 75, 0.3);
+            background: #110505;
+            border: 2px dashed rgba(255, 45, 45, 0.3);
             padding: 30px;
             border-radius: 20px;
             text-align: center;
@@ -280,7 +275,7 @@
 
         .copy-code-btn {
             background: var(--apple-lime);
-            color: black;
+            color: #fff;
             border-radius: 12px;
             padding: 12px 25px;
             font-weight: 800;
@@ -290,10 +285,39 @@
         }
 
         .notification {
-            background: var(--apple-lime);
-            color: black;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            padding: 15px 20px;
             border-radius: 14px;
             font-weight: 700;
+            font-family: 'Orbitron';
+            font-size: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.success {
+            background: var(--apple-lime);
+            color: #fff;
+            box-shadow: 0 0 20px var(--lime-glow);
+        }
+
+        .notification.error {
+            background: #ff453a;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 69, 58, 0.4);
+        }
+
+        .notification.info {
+            background: rgba(255, 45, 45, 0.15);
+            color: var(--apple-lime);
+            border: 1px solid var(--apple-lime);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         @media (max-width: 768px) {
@@ -343,7 +367,6 @@
     </main>
 
     <script>
-        /* SEMUA LOGIKA JAVASCRIPT ASLI TETAP DI SINI TANPA PERUBAHAN */
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -375,7 +398,7 @@
             const modalHtml = `
                 <div class="pairing-modal">
                     <div class="pairing-modal-content">
-                        <h3 style="font-family:'Orbitron'; text-align:center; margin-bottom:20px; color:#32D74B;">PAIRING CODE</h3>
+                        <h3 style="font-family:'Orbitron'; text-align:center; margin-bottom:20px; color:#FF2D2D;">PAIRING CODE</h3>
                         <div class="code-display">
                             <div class="code-text" id="pairingCodeValue">${data.code}</div>
                             <button class="copy-code-btn" id="copyCodeBtn">COPY CODE</button>
@@ -385,7 +408,7 @@
                             2. Linked Devices > Link with Phone Number<br>
                             3. Enter the security code above.
                         </div>
-                        <button class="close-modal-btn" id="closeModalBtn" style="width:100%; padding:15px; border-radius:12px; border:1px solid #32D74B; background:transparent; color:#32D74B; cursor:pointer; font-family:'Orbitron';">DISMISS</button>
+                        <button class="close-modal-btn" id="closeModalBtn" style="width:100%; padding:15px; border-radius:12px; border:1px solid #FF2D2D; background:transparent; color:#FF2D2D; cursor:pointer; font-family:'Orbitron';">DISMISS</button>
                     </div>
                 </div>
             `;
@@ -419,11 +442,7 @@
             if (senderItem) {
                 const statusEl = senderItem.querySelector('.sender-status');
                 if (statusEl) {
-                    const statusMap = {
-                        'connected': 'connected',
-                        'connecting': 'connecting',
-                        'waiting_pairing': 'waiting_pairing'
-                    };
+                    const statusMap = { 'connected': 'connected', 'connecting': 'connecting', 'waiting_pairing': 'waiting_pairing' };
                     statusEl.className = 'sender-status ' + (statusMap[status] || 'disconnected');
                 }
             } else {
@@ -442,7 +461,7 @@
                     }
                     sendersList.innerHTML = data.senders.map(sender => `
                         <div class="sender-item" data-number="${sender}">
-                            <div class="sender-info">
+                            <div class="sender-info" style="display:flex; align-items:center; gap:12px;">
                                 <div class="sender-status connected"></div>
                                 <span class="sender-number">${sender}</span>
                             </div>
