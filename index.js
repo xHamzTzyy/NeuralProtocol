@@ -3838,7 +3838,7 @@ app.get("/tiktok", requireAuth, (req, res) => {
   });
 });
 
-app.get("/tiktok2", requireAuth, (req, res) => {
+app.get("/ttstalk", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "tiktok.html");
   fs.readFile(filePath, "utf8", (err, html) => {
     if (err) return res.status(500).send("❌ File tidak ditemukan");
@@ -3992,6 +3992,14 @@ app.get("/stalk", requireAuth, (req, res) => {
 
 app.get("/ig-dl", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "reels.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+app.get("/ttsearch", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "music2.html");
   fs.readFile(filePath, "utf8", (err, html) => {
     if (err) return res.status(500).send("❌ File tidak ditemukan");
     res.send(html);

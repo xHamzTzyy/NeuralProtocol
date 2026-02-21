@@ -1,354 +1,1108 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikTok Downloader</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TKSTALKER — TikTok Profile Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+  --red: #FF0033;
+  --red2: #CC0028;
+  --red3: #FF4466;
+  --red4: rgba(255,0,51,0.08);
+  --bg: #050505;
+  --bg2: #0C0C0C;
+  --bg3: #131313;
+  --bg4: #1A1A1A;
+  --border: rgba(255,0,51,0.1);
+  --border2: rgba(255,255,255,0.06);
+  --text: #EFEFEF;
+  --muted: #444;
+  --muted2: #777;
+  --muted3: #AAA;
+  --glow: rgba(255,0,51,0.16);
+}
 
-    <style>
-        :root {
-            --primary-neon: #bc13fe; 
-            --secondary-neon: #ff0055; 
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --iphone-dark: #000000;
-        }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-        }
+body {
+  font-family: 'Familjen Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        body {
-            background-color: var(--iphone-dark);
-            background-image: 
-                radial-gradient(circle at top left, rgba(188, 19, 254, 0.2), transparent 40%),
-                radial-gradient(circle at bottom right, rgba(255, 0, 85, 0.15), transparent 40%);
-            background-attachment: fixed;
-            color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
+/* Scanline effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
 
-        .page-container {
-            width: 100%;
-            max-width: 500px; 
-            min-height: 100vh;
-            background: rgba(13, 13, 13, 0.6);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            padding-bottom: 90px; /* Ruang untuk Nav Bar */
-        }
+/* Red top accent */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red) 30%, var(--red3) 70%, transparent);
+  z-index: 100;
+}
 
-        /* --- NAVIGATION BAR (iOS Style) --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 35px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
+/* ── HEADER ── */
+.hdr {
+  padding: 38px 0 32px;
+  text-align: center;
+}
 
-        .nav-item.active {
-            color: var(--secondary-neon);
-            text-shadow: 0 0 10px var(--secondary-neon);
-        }
+.hdr-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
 
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
+.hdr-icon {
+  width: 46px; height: 46px;
+  background: var(--red);
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  box-shadow: 0 6px 28px rgba(255,0,51,0.35);
+  flex-shrink: 0;
+}
 
-        /* --- HEADER & CONTENT --- */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding: 15px;
-        }
+.hdr-name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  line-height: 1;
+}
 
-        .header-video {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 30px;
-            filter: brightness(0.9);
-        }
+.hdr-name span { color: var(--red); }
 
-        .sound-toggle {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            z-index: 10;
-        }
+.hdr-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted2);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
 
-        .content-body {
-            padding: 20px;
-            flex-grow: 1;
-        }
+/* ── SEARCH ── */
+.search-section { margin-bottom: 32px; }
 
-        .lux-header-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 20px;
-            border-radius: 30px;
-            margin-bottom: 25px;
-        }
+.search-pill {
+  display: flex;
+  align-items: center;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 0 6px 0 18px;
+  gap: 10px;
+  transition: all 0.22s;
+}
 
-        .lux-head-custom-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.search-pill:focus-within {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--glow);
+}
 
-        .lux-icon-box {
-            background: linear-gradient(135deg, var(--primary-neon), var(--secondary-neon));
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 14px;
-            font-size: 20px;
-        }
+.at-sign {
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--red);
+  flex-shrink: 0;
+  line-height: 1;
+  opacity: 0.8;
+}
 
-        /* --- INPUT & BUTTONS --- */
-        .dark-input-box {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 20px;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 24px;
-            outline: none;
-            margin-bottom: 15px;
-            transition: 0.3s;
-        }
+.search-pill input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  color: var(--text);
+  padding: 15px 0;
+  min-width: 0;
+}
 
-        .yoshi-btn {
-            width: 100%;
-            background: #ffffff;
-            color: #000;
-            border: none;
-            padding: 20px;
-            border-radius: 24px;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+.search-pill input::placeholder { color: var(--muted); }
 
-        /* --- RESULTS --- */
-        .tt-result-card {
-            margin-top: 25px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 20px;
-            border-radius: 30px;
-            display: none;
-        }
+.pill-clear {
+  background: none; border: none;
+  color: var(--muted2);
+  cursor: pointer;
+  padding: 4px 6px; font-size: 13px;
+  transition: color 0.15s;
+  display: none; flex-shrink: 0;
+}
+.pill-clear:hover { color: var(--red); }
+.pill-clear.show { display: block; }
 
-        .tt-thumb {
-            width: 100%;
-            border-radius: 20px;
-            margin-bottom: 15px;
-        }
+.pill-go {
+  background: var(--red);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.pill-go:hover { background: var(--red3); box-shadow: 0 3px 14px var(--glow); }
+.pill-go:active { transform: scale(0.92); }
+.pill-go.loading { opacity: 0.6; pointer-events: none; }
 
-        .tt-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+/* History chips */
+.history-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
-        .tt-btn {
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 15px;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-            border: 1px solid var(--glass-border);
-        }
+.history-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
 
-        /* Loading & Popups */
-        #ttLoading { text-align: center; padding: 20px; color: var(--primary-neon); }
-        .popup-cool {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(20px);
-            border-radius: 30px; padding: 30px; z-index: 9999; display: none;
-            width: 80%; max-width: 320px; text-align: center; border: 1px solid var(--glass-border);
-        }
-    </style>
+.h-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted3);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.h-chip:hover { border-color: var(--red); color: var(--red3); }
+
+/* ── STATES ── */
+.state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.state-ico {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 18px;
+  opacity: 0.12;
+}
+
+.state-t {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--muted3);
+  margin-bottom: 6px;
+}
+
+.state-s {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted2);
+}
+
+.spin-box {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  padding: 80px 20px;
+}
+
+.spin {
+  width: 38px; height: 38px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spin-t {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted2);
+}
+
+/* ── PROFILE CARD ── */
+.profile-card {
+  animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero */
+.hero {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+/* Blurred cover bg */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) saturate(1.5) brightness(0.15);
+  transform: scale(1.2);
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding: 32px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Avatar */
+.avatar-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.avatar-ring {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--red), var(--red3), var(--red2));
+  box-shadow: 0 8px 32px rgba(255,0,51,0.4);
+}
+
+.avatar-ring img {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: var(--bg3);
+  border: 3px solid var(--bg2);
+}
+
+.avatar-status {
+  position: absolute;
+  bottom: 4px; right: 4px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 2px solid var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+
+/* Badges row */
+.badges {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-verified {
+  background: rgba(255,214,0,0.12);
+  border: 1px solid rgba(255,214,0,0.3);
+  color: #FFD600;
+}
+
+.badge-private {
+  background: rgba(255,0,51,0.1);
+  border: 1px solid rgba(255,0,51,0.3);
+  color: var(--red3);
+}
+
+.badge-public {
+  background: rgba(0,230,100,0.08);
+  border: 1px solid rgba(0,230,100,0.25);
+  color: #00E664;
+}
+
+.badge-seller {
+  background: rgba(255,165,0,0.1);
+  border: 1px solid rgba(255,165,0,0.3);
+  color: orange;
+}
+
+.badge-org {
+  background: rgba(80,120,255,0.1);
+  border: 1px solid rgba(80,120,255,0.3);
+  color: #7099FF;
+}
+
+/* Name */
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+
+.profile-username {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--red3);
+  margin-bottom: 12px;
+}
+
+.profile-bio {
+  font-size: 14px;
+  color: var(--muted3);
+  line-height: 1.55;
+  max-width: 380px;
+  margin-bottom: 16px;
+}
+
+/* Region */
+.profile-region {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+/* Visit btn */
+.visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--red);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 4px 18px var(--glow);
+}
+.visit-btn:hover { background: var(--red3); transform: translateY(-2px); }
+
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 16px 10px;
+  text-align: center;
+  transition: all 0.18s;
+  cursor: default;
+}
+
+.stat-box:hover {
+  border-color: var(--border);
+  background: var(--bg3);
+}
+
+.stat-val {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.stat-val.red { color: var(--red3); }
+
+.stat-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--muted2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── INFO ROWS ── */
+.info-section {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.info-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted2);
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-section-title i { color: var(--red); font-size: 11px; }
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s;
+}
+
+.info-row:last-child { border-bottom: none; }
+.info-row:hover { background: rgba(255,255,255,0.02); }
+
+.info-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted2);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.info-key i {
+  width: 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.info-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted3);
+  text-align: right;
+  max-width: 60%;
+  word-break: break-all;
+}
+
+.info-val.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.info-val.green { color: #00E664; }
+.info-val.red { color: var(--red3); }
+.info-val.yellow { color: #FFD600; }
+.info-val.blue { color: #7099FF; }
+
+/* Copy btn */
+.copy-id {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--muted2);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.copy-id:hover { border-color: var(--red); color: var(--red3); }
+
+/* Activity gauge */
+.activity-bar {
+  height: 6px;
+  background: var(--bg4);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.activity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red2), var(--red), var(--red3));
+  border-radius: 10px;
+  transition: width 1s cubic-bezier(0.16,1,0.3,1);
+  width: 0%;
+}
+
+.activity-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* Ratio bars */
+.ratio-section {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.ratio-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratio-title i { color: var(--red); font-size: 11px; }
+
+.ratio-item {
+  margin-bottom: 14px;
+}
+
+.ratio-item:last-child { margin-bottom: 0; }
+
+.ratio-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.ratio-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+}
+
+.ratio-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted3);
+}
+
+.ratio-track {
+  height: 5px;
+  background: var(--bg4);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ratio-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  width: 0%;
+}
+
+.ratio-fill.followers { background: var(--red); }
+.ratio-fill.following { background: #7099FF; }
+.ratio-fill.friends { background: #00E664; }
+.ratio-fill.likes { background: #FFD600; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px; color: var(--text);
+  z-index: 9999;
+  transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast i { color: var(--red); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,0,51,0.2); border-radius: 4px; }
+
+@media (max-width: 500px) {
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-inner { padding: 24px 18px 18px; }
+}
+</style>
 </head>
 <body>
 
-    <div class="page-container">
-        <nav class="bottom-nav">
-            <a href="/dashboard" class="nav-item">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="/tools" class="nav-item active">
-                <i class="fas fa-tools"></i>
-                <span>Tools</span>
-            </a>
-            <a href="/profile" class="nav-item">
-                <i class="fas fa-user-circle"></i>
-                <span>Profile</span>
-            </a>
-        </nav>
+<div class="wrap">
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-logo">
+      <div class="hdr-icon"><i class="fa-brands fa-tiktok"></i></div>
+      <div class="hdr-name">TK<span>STALKER</span></div>
+    </div>
+    <div class="hdr-sub">TikTok Profile Viewer</div>
+  </div>
 
-        <div class="video-wrapper">
-            <button class="sound-toggle" id="btnToggleSound">
-                <i id="soundIcon" class="fas fa-volume-mute"></i>
-            </button>
-            <video id="headerVideo" class="header-video" autoplay loop muted playsinline>
-                <source src="https://a.top4top.io/m_3644qg30k1.mp4" type="video/mp4">
-            </video>
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-pill">
+      <span class="at-sign">@</span>
+      <input type="text" id="q" placeholder="username tiktok..." autocomplete="off" spellcheck="false">
+      <button class="pill-clear" id="clear-btn"><i class="fa-solid fa-xmark"></i></button>
+      <button class="pill-go" id="go-btn" onclick="doStalk()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+    <div class="history-row" id="history-row" style="display:none">
+      <span class="history-lbl">RIWAYAT</span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+    <div class="state">
+      <i class="fa-brands fa-tiktok state-ico"></i>
+      <div class="state-t">Cari profil TikTok</div>
+      <div class="state-s">Masukkan username untuk melihat info lengkap</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+const API = 'https://api-faa.my.id/faa/tiktokstalk?username=';
+let history = JSON.parse(localStorage.getItem('tk_history') || '[]');
+
+const qEl = document.getElementById('q');
+const clearBtn = document.getElementById('clear-btn');
+
+qEl.addEventListener('input', () => {
+  clearBtn.classList.toggle('show', qEl.value.length > 0);
+});
+
+qEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doStalk();
+});
+
+clearBtn.addEventListener('click', () => {
+  qEl.value = '';
+  clearBtn.classList.remove('show');
+  qEl.focus();
+});
+
+// Render history
+function renderHistory() {
+  const row = document.getElementById('history-row');
+  if (history.length === 0) { row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+
+  // Remove old chips
+  row.querySelectorAll('.h-chip').forEach(c => c.remove());
+
+  history.slice(0, 6).forEach(u => {
+    const chip = document.createElement('button');
+    chip.className = 'h-chip';
+    chip.textContent = '@' + u;
+    chip.onclick = () => { qEl.value = u; clearBtn.classList.add('show'); doStalk(); };
+    row.appendChild(chip);
+  });
+}
+
+renderHistory();
+
+// ── STALK ──
+async function doStalk() {
+  const raw = qEl.value.trim().replace(/^@/, '');
+  if (!raw) { qEl.focus(); return; }
+
+  const btn = document.getElementById('go-btn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  document.getElementById('content').innerHTML = `
+    <div class="spin-box">
+      <div class="spin"></div>
+      <div class="spin-t">Mengintip profil @${esc(raw)}...</div>
+    </div>`;
+
+  try {
+    const res = await fetch(API + encodeURIComponent(raw));
+    if (!res.ok) throw new Error('fetch error');
+    const data = await res.json();
+
+    if (!data.status || !data.result) throw new Error('no result');
+
+    // Save history
+    history = [raw, ...history.filter(h => h !== raw)].slice(0, 10);
+    localStorage.setItem('tk_history', JSON.stringify(history));
+    renderHistory();
+
+    renderProfile(data.result);
+
+  } catch(e) {
+    document.getElementById('content').innerHTML = `
+      <div class="state">
+        <i class="fa-solid fa-user-slash state-ico"></i>
+        <div class="state-t">Profil tidak ditemukan</div>
+        <div class="state-s">Username salah atau akun tidak ada</div>
+      </div>`;
+  } finally {
+    btn.classList.remove('loading');
+    btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
+  }
+}
+
+function renderProfile(r) {
+  const stats = r.stats || {};
+  const followers = stats.followers || 0;
+  const following = stats.following || 0;
+  const likes = stats.likes || 0;
+  const videos = stats.videos || 0;
+  const friends = stats.friend || 0;
+
+  // Compute engagement ratio
+  const maxStat = Math.max(followers, following, likes, friends, 1);
+  const engagementScore = followers > 0
+    ? Math.min(100, Math.round((likes / (followers || 1)) * 100))
+    : 0;
+
+  // Account age
+  const createDate = r.create_time
+    ? new Date(r.create_time * 1000).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+    : 'Tidak diketahui';
+
+  const ageMs = r.create_time ? Date.now() - (r.create_time * 1000) : 0;
+  const ageDays = Math.floor(ageMs / 86400000);
+  const ageStr = ageDays > 365
+    ? `${Math.floor(ageDays/365)} tahun ${Math.floor((ageDays%365)/30)} bulan`
+    : `${ageDays} hari`;
+
+  const followRatio = following > 0 ? (followers / following).toFixed(2) : followers.toFixed(2);
+
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'profile-card';
+
+  card.innerHTML = `
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-inner">
+        <div class="avatar-wrap">
+          <div class="avatar-ring">
+            <img id="avatar-img" src="${esc(r.avatar)}" alt="">
+          </div>
+          <div class="avatar-status" style="background:${r.private ? 'rgba(255,0,51,0.15)' : 'rgba(0,230,100,0.15)'}">
+            <i class="fa-solid fa-${r.private ? 'lock' : 'lock-open'}" style="color:${r.private ? 'var(--red3)' : '#00E664'}; font-size:8px;"></i>
+          </div>
         </div>
 
-        <div class="content-body">
-            <div class="lux-header-card">
-                <div class="lux-head-custom-flex">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="lux-icon-box">
-                            <i class="fab fa-tiktok"></i>
-                        </div>
-                        <div>
-                            <div class="welcome-text-anim">TIKTOK DOWNLOADER</div>
-                            <div style="font-size:18px; font-weight:800;">V4 PRO</div>
-                        </div>
-                    </div>
-                    <div style="font-size: 20px; color: var(--secondary-neon);">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                </div>
-            </div>
-
-            <input type="text" id="ttUrlInput" class="dark-input-box" placeholder="Paste link video...">
-            
-            <button class="yoshi-btn" id="btnTtDownload">
-                <i class="fas fa-arrow-down"></i> GET VIDEO
-            </button>
-
-            <div id="ttLoading" style="display:none;">
-                <i class="fas fa-spinner fa-spin"></i> FETCHING DATA...
-            </div>
-
-            <div id="ttResult" class="tt-result-card">
-                <img id="ttThumb" src="" class="tt-thumb">
-                <p id="ttTitle" style="font-size:14px; font-weight:600; color:var(--text-kawaii); margin-bottom:15px;"></p>
-                <div class="tt-grid">
-                    <a id="btnMp4" href="#" target="_blank" class="tt-btn">DOWNLOAD MP4</a>
-                    <a id="btnMp3" href="#" target="_blank" class="tt-btn" style="background: rgba(255, 0, 85, 0.2); border-color: var(--secondary-neon);">AUDIO MP3</a>
-                </div>
-            </div>
+        <!-- Badges -->
+        <div class="badges">
+          ${r.verified ? '<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> VERIFIED</span>' : ''}
+          ${r.private ? '<span class="badge badge-private"><i class="fa-solid fa-lock"></i> PRIVATE</span>' : '<span class="badge badge-public"><i class="fa-solid fa-globe"></i> PUBLIC</span>'}
+          ${r.seller ? '<span class="badge badge-seller"><i class="fa-solid fa-shop"></i> SELLER</span>' : ''}
+          ${r.organization ? '<span class="badge badge-org"><i class="fa-solid fa-building"></i> ORG</span>' : ''}
         </div>
+
+        <div class="profile-name">${esc(r.name || r.username)}</div>
+        <div class="profile-username">@${esc(r.username)}</div>
+        ${r.bio ? `<div class="profile-bio">${esc(r.bio)}</div>` : ''}
+        ${r.region ? `<div class="profile-region"><i class="fa-solid fa-earth-asia"></i> ${esc(r.region.toUpperCase())}</div>` : ''}
+
+        <a class="visit-btn" href="${esc(r.link)}" target="_blank">
+          <i class="fa-brands fa-tiktok"></i> Buka Profil
+        </a>
+      </div>
     </div>
 
-    <div id="popupCool" class="popup-cool">
-        <h3 id="popTitle" style="color:#fff;"></h3>
-        <p id="popMsg" style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom: 25px;"></p>
-        <button onclick="document.getElementById('popupCool').style.display='none'" class="yoshi-btn">OK</button>
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val red">${fmtNum(followers)}</div>
+        <div class="stat-key">FOLLOWERS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${fmtNum(following)}</div>
+        <div class="stat-key">FOLLOWING</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${fmtNum(likes)}</div>
+        <div class="stat-key">LIKES</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${fmtNum(videos)}</div>
+        <div class="stat-key">VIDEOS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${fmtNum(friends)}</div>
+        <div class="stat-key">FRIENDS</div>
+      </div>
     </div>
 
-    <script>
-        const video = document.getElementById('headerVideo');
-        const soundBtn = document.getElementById('btnToggleSound');
-        const soundIcon = document.getElementById('soundIcon');
+    <!-- RATIO BARS -->
+    <div class="ratio-section">
+      <div class="ratio-title"><i class="fa-solid fa-chart-bar"></i> PERBANDINGAN STATISTIK</div>
 
-        soundBtn.addEventListener('click', () => {
-            if (video.muted) {
-                video.muted = false;
-                soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-            } else {
-                video.muted = true;
-                soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
-            }
-        });
+      <div class="ratio-item">
+        <div class="ratio-head">
+          <span class="ratio-label">Followers</span>
+          <span class="ratio-num">${fmtNum(followers)}</span>
+        </div>
+        <div class="ratio-track">
+          <div class="ratio-fill followers" data-pct="${Math.min(100, (followers/maxStat)*100)}"></div>
+        </div>
+      </div>
 
-        function showPopup(title, msg, icon) {
-            const pop = document.getElementById('popupCool');
-            document.getElementById('popTitle').innerText = icon + " " + title;
-            document.getElementById('popMsg').innerText = msg;
-            pop.style.display = 'block';
-        }
+      <div class="ratio-item">
+        <div class="ratio-head">
+          <span class="ratio-label">Following</span>
+          <span class="ratio-num">${fmtNum(following)}</span>
+        </div>
+        <div class="ratio-track">
+          <div class="ratio-fill following" data-pct="${Math.min(100, (following/maxStat)*100)}"></div>
+        </div>
+      </div>
 
-        document.getElementById('btnTtDownload').addEventListener('click', async () => {
-            const u = document.getElementById('ttUrlInput').value; 
-            if(!u) {
-                showPopup('NOTIFICATION', 'Link is required.', 'ℹ️');
-                return;
-            }
-            
-            document.getElementById('ttLoading').style.display = 'block'; 
-            document.getElementById('ttResult').style.display = 'none';
+      <div class="ratio-item">
+        <div class="ratio-head">
+          <span class="ratio-label">Friends (mutual)</span>
+          <span class="ratio-num">${fmtNum(friends)}</span>
+        </div>
+        <div class="ratio-track">
+          <div class="ratio-fill friends" data-pct="${Math.min(100, (friends/maxStat)*100)}"></div>
+        </div>
+      </div>
 
-            try { 
-                const r = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(u)}`); 
-                const d = await r.json();
-                if(d.code === 0){ 
-                    document.getElementById('ttThumb').src = d.data.cover; 
-                    document.getElementById('ttTitle').innerText = d.data.title; 
-                    document.getElementById('btnMp4').href = d.data.play; 
-                    document.getElementById('btnMp3').href = d.data.music; 
-                    document.getElementById('ttResult').style.display = 'block'; 
-                } else {
-                    showPopup('FAIL', 'Invalid video link.', '❌');
-                }
-            } catch(e){
-                showPopup('ERROR', 'System error.', '⚠️');
-            } finally { 
-                document.getElementById('ttLoading').style.display = 'none'; 
-            }
-        });
-    </script>
+      <div class="ratio-item">
+        <div class="ratio-head">
+          <span class="ratio-label">Total Likes</span>
+          <span class="ratio-num">${fmtNum(likes)}</span>
+        </div>
+        <div class="ratio-track">
+          <div class="ratio-fill likes" data-pct="${Math.min(100, (likes/maxStat)*100)}"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO DETAIL -->
+    <div class="info-section">
+      <div class="info-section-title"><i class="fa-solid fa-circle-info"></i> INFO AKUN</div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-id-badge"></i> User ID</div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span class="info-val mono" id="uid-val">${esc(r.id)}</span>
+          <button class="copy-id" onclick="copyText('${escJs(r.id)}')">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-at"></i> Username</div>
+        <span class="info-val mono">@${esc(r.username)}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-calendar-plus"></i> Bergabung</div>
+        <span class="info-val mono">${createDate}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-hourglass"></i> Umur Akun</div>
+        <span class="info-val mono">${ageStr}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-scale-balanced"></i> Follow Ratio</div>
+        <span class="info-val mono ${parseFloat(followRatio) >= 1 ? 'green' : 'red'}">${followRatio}x</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-user-plus"></i> Followers Baru</div>
+        <span class="info-val mono ${(r.new_followers||0) > 0 ? 'green' : ''}">${r.new_followers > 0 ? '+' : ''}${r.new_followers || 0}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-eye"></i> Recent Views</div>
+        <span class="info-val mono">${fmtNum(r.recent_view || 0)}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-lock"></i> Privasi</div>
+        <span class="info-val ${r.private ? 'red' : 'green'}">${r.private ? 'Private' : 'Public'}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-certificate"></i> Terverifikasi</div>
+        <span class="info-val ${r.verified ? 'yellow' : ''}">${r.verified ? 'Ya — Terverifikasi' : 'Tidak'}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-shop"></i> Seller</div>
+        <span class="info-val">${r.seller ? 'Ya' : 'Tidak'}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-building"></i> Organisasi</div>
+        <span class="info-val">${r.organization ? 'Ya' : 'Tidak'}</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-key"><i class="fa-solid fa-language"></i> Region</div>
+        <span class="info-val mono">${(r.region || '-').toUpperCase()}</span>
+      </div>
+    </div>
+
+    <!-- ENGAGEMENT -->
+    <div class="info-section">
+      <div class="info-section-title"><i class="fa-solid fa-fire"></i> ANALISIS ENGAGEMENT</div>
+      <div style="padding: 16px 20px 18px;">
+        <div class="activity-labels">
+          <span>ENGAGEMENT RATE</span>
+          <span>${engagementScore}%</span>
+        </div>
+        <div class="activity-bar">
+          <div class="activity-fill" data-pct="${engagementScore}"></div>
+        </div>
+
+        <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">
+          <div class="info-key"><i class="fa-solid fa-chart-line"></i> Likes / Followers</div>
+          <span class="info-val mono">${followers > 0 ? (likes/followers).toFixed(2) : '-'}</span>
+        </div>
+        <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">
+          <div class="info-key"><i class="fa-solid fa-film"></i> Likes / Video</div>
+          <span class="info-val mono">${videos > 0 ? fmtNum(Math.round(likes/videos)) : '-'}</span>
+        </div>
+        <div class="info-row" style="padding: 10px 0;">
+          <div class="info-key"><i class="fa-solid fa-handshake"></i> Friend Rate</div>
+          <span class="info-val mono">${followers > 0 ? ((friends/followers)*100).toFixed(1) + '%' : '-'}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  content.appendChild(card);
+
+  // Set blurred bg from avatar
+  const avatarImg = card.querySelector('#avatar-img');
+  const heroBg = card.querySelector('#hero-bg');
+  if (r.avatar) {
+    heroBg.style.backgroundImage = `url('${esc(r.avatar)}')`;
+    avatarImg.onerror = () => {
+      avatarImg.src = '';
+      avatarImg.style.background = 'var(--bg3)';
+    };
+  }
+
+  // Animate bars after mount
+  setTimeout(() => {
+    card.querySelectorAll('.ratio-fill[data-pct]').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+    card.querySelectorAll('.activity-fill[data-pct]').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  }, 100);
+}
+
+// ── HELPERS ──
+function fmtNum(n) {
+  if (!n && n !== 0) return '-';
+  if (n >= 1_000_000) return (n/1_000_000).toFixed(1) + 'M';
+  if (n >= 1_000) return (n/1_000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escJs(s) {
+  return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+}
+
+function copyText(t) {
+  navigator.clipboard.writeText(t).then(() => showToast('Disalin!')).catch(() => showToast('Gagal salin', 'fa-triangle-exclamation'));
+}
+
+let toastTimer;
+function showToast(msg, icon = 'fa-circle-check') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.querySelector('i').className = `fa-solid ${icon}`;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+</script>
 </body>
 </html>

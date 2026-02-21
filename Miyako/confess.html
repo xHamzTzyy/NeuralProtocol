@@ -1683,6 +1683,11 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                // Tambah ini sebelum res.json()
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.error || 'Server error');
+                }
                 const data = await res.json();
 
                 if (data.success) {
@@ -1694,7 +1699,7 @@
                     showToast('Failed: ' + data.error, 'error');
                 }
             } catch (e) {
-                showToast('Connection error', 'error');
+                showToast(e.message || 'Connection error', 'error');
             } finally {
                 btn.prop('disabled', false).html('<i class="fas fa-rocket"></i> KIRIM PESAN');
             }

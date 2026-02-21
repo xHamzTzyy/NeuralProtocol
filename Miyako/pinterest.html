@@ -1,470 +1,907 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PINTEREST DOWNLOAD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PINBOARD — Image Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+  --red: #E60023;
+  --red2: #AD081B;
+  --red3: #FF4D67;
+  --bg: #0C0608;
+  --bg2: #130A0C;
+  --bg3: #1C1012;
+  --border: rgba(230,0,35,0.12);
+  --border2: rgba(255,255,255,0.07);
+  --text: #F5EDEF;
+  --muted: #7A5560;
+  --muted2: #B08090;
+  --glow: rgba(230,0,35,0.18);
+}
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=Comfortaa:wght@700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    <style>
-        :root {
-            /* Palette: Lime Kawai Gothic */
-            --lime-neon: #ccff00;
-            --lime-glow: rgba(204, 255, 0, 0.4);
-            --dark-gothic: #050801;
-            --glass-bg: rgba(10, 15, 5, 0.7);
-            --glass-border: rgba(204, 255, 0, 0.2);
-            --font-mono: 'Share Tech Mono', monospace;
-            --font-kawai: 'Comfortaa', cursive;
-            --luxe-gradient: linear-gradient(135deg, #ccff00 0%, #00ffaa 100%);
-        }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        /* --- Global Reset & Luxury Background --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* Subtle dot pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(230,0,35,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-        body {
-            background-color: var(--dark-gothic);
-            background-image:
-                radial-gradient(circle at 20% 20%, #1a2e00 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, #0a1100 0%, #050801 100%);
-            color: #e0ffe0;
-            font-family: 'Rajdhani', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+/* Red ambient glow top */
+body::after {
+  content: '';
+  position: fixed;
+  top: -300px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(230,0,35,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-        /* --- Floating Particles Background --- */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
-        }
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
 
-        /* --- Scanlines Goth Effect --- */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(204, 255, 0, 0.03) 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 3px;
-            pointer-events: none;
-            z-index: 100;
-        }
+/* ── HEADER ── */
+.header {
+  padding: 32px 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 28px;
+}
 
-        /* --- Cyber Card: Lime Glassmorphism --- */
-        .cyber-card {
-            width: 90%;
-            max-width: 420px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px) saturate(150%);
-            -webkit-backdrop-filter: blur(25px) saturate(150%);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 20px var(--lime-glow);
-            position: relative;
-            overflow: hidden;
-            border-radius: 30px;
-            /* Sweeter Kawai Corners */
-            margin-bottom: 100px;
-            z-index: 10;
-        }
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-        /* Luxury Lime Accent line */
-        .cyber-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--luxe-gradient);
-            box-shadow: 0 0 15px var(--lime-neon);
-        }
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--red);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(230,0,35,0.35);
+}
 
-        /* --- Top Image Header --- */
-        .image-header {
-            width: 100%;
-            height: 150px;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid var(--glass-border);
-        }
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--text);
+}
 
-        .image-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.5) brightness(0.7) sepia(1) hue-rotate(50deg);
-            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
+.logo-text span { color: var(--red); }
 
-        .cyber-card:hover .image-header img {
-            transform: scale(1.05) rotate(1deg);
-            filter: saturate(1) brightness(0.9) sepia(0);
-        }
+.logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
 
-        .image-header::after {
-            content: "♥ EXTRATORS";
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            background: #ffffff;
-            color: #000;
-            padding: 4px 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            box-shadow: 4px 4px 0px var(--lime-neon);
-        }
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        /* --- Content Body --- */
-        .content {
-            padding: 30px 25px;
-        }
+.meta-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 5px 12px;
+  display: none;
+}
 
-        .title-block {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+.meta-chip.show { display: block; }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 10px var(--lime-neon), 0 0 20px var(--lime-neon);
-        }
+/* ── SEARCH ── */
+.search-section { margin-bottom: 28px; }
 
-        /* --- Input Styles --- */
-        .field-group {
-            margin-bottom: 25px;
-        }
+.search-pill {
+  display: flex;
+  align-items: center;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 0 6px 0 18px;
+  gap: 12px;
+  transition: all 0.22s;
+}
 
-        .label-mono {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            margin-bottom: 10px;
-            display: block;
-            color: var(--lime-neon);
-            letter-spacing: 2px;
-        }
+.search-pill:focus-within {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--glow);
+}
 
-        input {
-            width: 100%;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid var(--glass-border);
-            border-radius: 15px;
-            color: var(--lime-neon);
-            font-family: var(--font-mono);
-            outline: none;
-            transition: 0.3s;
-        }
+.pill-ico {
+  color: var(--muted);
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
 
-        input:focus {
-            border-color: var(--lime-neon);
-            background: rgba(204, 255, 0, 0.05);
-            box-shadow: 0 0 20px var(--lime-glow);
-        }
+.search-pill:focus-within .pill-ico { color: var(--red); }
 
-        /* --- Buttons --- */
-        .btn-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+.search-pill input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  padding: 14px 0;
+  min-width: 0;
+}
 
-        button {
-            padding: 15px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 900;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 12px;
-            border: none;
-            position: relative;
-            background: var(--lime-neon);
-            color: #000;
-            box-shadow: 0 5px 0px #88aa00;
-        }
+.search-pill input::placeholder { color: var(--muted); }
 
-        button:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0px #88aa00;
-        }
+.pill-clear {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 13px;
+  transition: color 0.15s;
+  display: none;
+  flex-shrink: 0;
+}
 
-        button:hover {
-            filter: brightness(1.2);
-            box-shadow: 0 0 20px var(--lime-glow);
-        }
+.pill-clear:hover { color: var(--red); }
+.pill-clear.show { display: block; }
 
-        .btn-alt {
-            background: #111;
-            border: 1px solid var(--lime-neon);
-            color: var(--lime-neon);
-            box-shadow: none;
-        }
+.pill-go {
+  background: var(--red);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
 
-        .btn-alt:hover {
-            background: var(--lime-neon);
-            color: #000;
-        }
+.pill-go:hover { background: var(--red3); box-shadow: 0 3px 14px var(--glow); }
+.pill-go:active { transform: scale(0.92); }
+.pill-go.loading { opacity: 0.6; pointer-events: none; }
 
-        /* --- Console Log --- */
-        .console {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            height: 120px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            overflow-y: auto;
-            border-top: 1px solid var(--glass-border);
-        }
+/* Opts row */
+.opts-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
 
-        .log-line {
-            margin-bottom: 6px;
-            border-left: 3px solid var(--lime-neon);
-            padding-left: 12px;
-            animation: slideIn 0.4s ease-out;
-            color: #aaffaa;
-        }
+.opt-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+}
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
+.limit-btns {
+  display: flex;
+  gap: 4px;
+}
 
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+.lbtn {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 5px 13px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
 
-        .success {
-            border-color: #ffffff;
-            color: #fff;
-            text-shadow: 0 0 8px var(--lime-neon);
-        }
+.lbtn:hover { border-color: rgba(230,0,35,0.4); color: var(--red3); }
+.lbtn.active { background: rgba(230,0,35,0.15); border-color: var(--red); color: var(--red); }
 
-        .error {
-            border-color: #ff4d4d;
-            color: #ff4d4d;
-            font-weight: bold;
-        }
+/* Layout toggle */
+.layout-btns {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
 
-        /* --- Bottom Navigation --- */
-        .nav {
-            position: fixed;
-            bottom: 20px;
-            /* Floating look */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            height: 70px;
-            background: rgba(10, 15, 5, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1500;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
+.layout-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
 
-        .nav-item-bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: rgba(204, 255, 0, 0.3);
-            text-decoration: none;
-            transition: 0.3s;
-            flex: 1;
-        }
+.layout-btn:hover { border-color: rgba(230,0,35,0.4); color: var(--red3); }
+.layout-btn.active { background: rgba(230,0,35,0.15); border-color: var(--red); color: var(--red); }
 
-        .nav-item-bottom i {
-            font-size: 18px;
-        }
+/* ── STATES ── */
+.state {
+  text-align: center;
+  padding: 90px 20px;
+  color: var(--muted);
+}
 
-        .nav-item-bottom.active {
-            color: var(--lime-neon);
-        }
+.state-ico {
+  font-size: 52px;
+  margin-bottom: 18px;
+  display: block;
+  opacity: 0.2;
+}
 
-        .nav-item-bottom.active i {
-            filter: drop-shadow(0 0 5px var(--lime-neon));
-        }
+.state-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--muted2);
+  margin-bottom: 6px;
+}
 
-        .nav-item-bottom span {
-            font-size: 10px;
-            font-family: 'Comfortaa', cursive;
-            font-weight: bold;
-        }
+.state-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
 
-        /* Custom Scrollbar */
-        .console::-webkit-scrollbar {
-            width: 4px;
-        }
+.spinner-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 90px 20px;
+}
 
-        .console::-webkit-scrollbar-thumb {
-            background: var(--lime-neon);
-            border-radius: 10px;
-        }
-    </style>
+.spin {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spin-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── MASONRY GRID ── */
+.masonry {
+  columns: 5;
+  column-gap: 12px;
+}
+
+.masonry.cols-4 { columns: 4; }
+.masonry.cols-3 { columns: 3; }
+.masonry.cols-2 { columns: 2; }
+
+/* ── IMAGE CARD ── */
+.img-card {
+  break-inside: avoid;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  transition: all 0.22s;
+  animation: fadeUp 0.4s ease both;
+}
+
+.img-card:hover {
+  border-color: rgba(230,0,35,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.6), 0 0 0 1px rgba(230,0,35,0.06);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger delays */
+.img-card:nth-child(1)  { animation-delay: 0.03s }
+.img-card:nth-child(2)  { animation-delay: 0.06s }
+.img-card:nth-child(3)  { animation-delay: 0.09s }
+.img-card:nth-child(4)  { animation-delay: 0.12s }
+.img-card:nth-child(5)  { animation-delay: 0.15s }
+.img-card:nth-child(6)  { animation-delay: 0.18s }
+.img-card:nth-child(7)  { animation-delay: 0.21s }
+.img-card:nth-child(8)  { animation-delay: 0.24s }
+.img-card:nth-child(9)  { animation-delay: 0.27s }
+.img-card:nth-child(10) { animation-delay: 0.30s }
+.img-card:nth-child(11) { animation-delay: 0.33s }
+.img-card:nth-child(12) { animation-delay: 0.36s }
+.img-card:nth-child(13) { animation-delay: 0.39s }
+.img-card:nth-child(14) { animation-delay: 0.42s }
+.img-card:nth-child(15) { animation-delay: 0.45s }
+
+.img-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.img-card:hover img { transform: scale(1.03); }
+
+/* Hover overlay */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.22s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.img-card:hover .card-overlay { opacity: 1; }
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.card-act-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.card-act-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.img-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.4);
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+
+/* Broken image placeholder */
+.img-broken {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg3);
+  color: var(--muted);
+  font-size: 24px;
+  opacity: 0.3;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(16px);
+}
+
+.lightbox.open { display: flex; }
+
+.lb-wrap {
+  position: relative;
+  max-width: 900px;
+  max-height: 90vh;
+  width: 100%;
+  animation: lbIn 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+@keyframes lbIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.lb-img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+}
+
+.lb-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: rgba(20,10,12,0.9);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.15s;
+}
+
+.lb-close:hover { border-color: var(--red); color: var(--red); background: rgba(230,0,35,0.15); }
+
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20,10,12,0.85);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.15s;
+  backdrop-filter: blur(10px);
+}
+
+.lb-nav:hover { border-color: var(--red); color: var(--red); background: rgba(230,0,35,0.15); }
+.lb-nav.prev { left: 16px; }
+.lb-nav.next { right: 16px; }
+
+.lb-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  background: rgba(20,10,12,0.8);
+  border: 1px solid var(--border2);
+  padding: 6px 14px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+
+.lb-toolbar {
+  position: fixed;
+  bottom: 20px;
+  right: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.lb-tool {
+  background: rgba(20,10,12,0.85);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.lb-tool:hover { border-color: var(--red); color: var(--red); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px;
+  color: var(--text);
+  z-index: 9999;
+  transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast i { color: var(--red); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(230,0,35,0.25); border-radius: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) { .masonry { columns: 4; } .masonry.cols-4 { columns: 3; } }
+@media (max-width: 680px) { .masonry, .masonry.cols-4, .masonry.cols-3 { columns: 2; } }
+@media (max-width: 400px) { .masonry, .masonry.cols-4, .masonry.cols-3, .masonry.cols-2 { columns: 2; } }
+</style>
 </head>
-
 <body>
 
-    <canvas id="particles" class="particles"></canvas>
-
-    <div class="cyber-card">
-        <div class="image-header">
-            <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1000"
-                alt="Cyber Lime Goth">
-        </div>
-
-        <div class="content">
-            <div class="title-block">
-                <h1>Pin Extractor</h1>
-                <p
-                    style="font-size: 10px; letter-spacing: 2px; color: var(--lime-neon); font-weight: bold; font-family: 'Comfortaa';">
-                    NEURAL PROTOCOL</p>
-            </div>
-
-            <div class="field-group">
-                <span class="label-mono">> PINTEREST DL</span>
-                <input type="text" id="pinInput" placeholder="URL_PINTEREST_DISINI..." autocomplete="off">
-            </div>
-
-            <div class="btn-container">
-                <button onclick="runProcess()">FETCH ASSET</button>
-                <button class="btn-alt" onclick="clearAll()">PURGE</button>
-            </div>
-        </div>
-
-        <div class="console" id="console">
-            <div class="log-line">> SYSTEM BOOT: SUCCESS</div>
-            <div class="log-line">> APIKEY OS: READY</div>
-        </div>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fa-brands fa-pinterest-p"></i></div>
+      <div>
+        <div class="logo-text">PIN<span>BOARD</span></div>
+        <div class="logo-sub">PINTEREST IMAGE SEARCH</div>
+      </div>
     </div>
+    <div class="header-meta">
+      <div class="meta-chip" id="result-chip"></div>
+    </div>
+  </div>
 
-    <nav class="nav">
-        <a href="/dashboard" class="nav-item-bottom">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-pill">
+      <i class="fa-brands fa-pinterest-p pill-ico"></i>
+      <input type="text" id="q" placeholder="Cari gambar di Pinterest..." autocomplete="off" spellcheck="false">
+      <button class="pill-clear" id="clear-btn"><i class="fa-solid fa-xmark"></i></button>
+      <button class="pill-go" id="search-btn" onclick="doSearch()">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+    <div class="opts-row">
+      <span class="opt-label">LIMIT</span>
+      <div class="limit-btns">
+        <button class="lbtn" onclick="setLimit(10)">10</button>
+        <button class="lbtn active" onclick="setLimit(20)">20</button>
+        <button class="lbtn" onclick="setLimit(30)">30</button>
+        <button class="lbtn" onclick="setLimit(50)">50</button>
+      </div>
+      <div class="layout-btns">
+        <button class="layout-btn active" id="lay5" onclick="setLayout(5)" title="5 kolom">
+          <i class="fa-solid fa-border-all"></i>
+        </button>
+        <button class="layout-btn" id="lay4" onclick="setLayout(4)" title="4 kolom">
+          <i class="fa-solid fa-table-cells-large"></i>
+        </button>
+        <button class="layout-btn" id="lay3" onclick="setLayout(3)" title="3 kolom">
+          <i class="fa-solid fa-table-columns"></i>
+        </button>
+        <button class="layout-btn" id="lay2" onclick="setLayout(2)" title="2 kolom">
+          <i class="fa-solid fa-grip-lines-vertical"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+    <div class="state">
+      <i class="fa-brands fa-pinterest state-ico"></i>
+      <div class="state-title">Cari gambar Pinterest</div>
+      <div class="state-sub">Masukkan kata kunci untuk mulai</div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()"><i class="fa-solid fa-xmark"></i></button>
+  <button class="lb-nav prev" onclick="lbNav(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+  <div class="lb-wrap">
+    <img class="lb-img" id="lb-img" src="" alt="">
+  </div>
+  <button class="lb-nav next" onclick="lbNav(1)"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="lb-counter" id="lb-counter">1 / 10</div>
+  <div class="lb-toolbar">
+    <a class="lb-tool" id="lb-open" href="#" target="_blank" title="Buka asli">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+    <button class="lb-tool" onclick="copyImgUrl()" title="Copy URL">
+      <i class="fa-regular fa-copy"></i>
+    </button>
+    <a class="lb-tool" id="lb-dl" href="#" download title="Download">
+      <i class="fa-solid fa-download"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check"></i>
+  <span id="toast-msg">Copied!</span>
+</div>
+
+<script>
+const API = 'https://api.dyysilence.biz.id/api/search/pinterestsearch';
+let limit = 20;
+let cols = 5;
+let images = [];
+let lbIndex = 0;
+
+// Input
+const qEl = document.getElementById('q');
+const clearBtn = document.getElementById('clear-btn');
+
+qEl.addEventListener('input', () => {
+  clearBtn.classList.toggle('show', qEl.value.length > 0);
+});
+
+qEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+clearBtn.addEventListener('click', () => {
+  qEl.value = '';
+  clearBtn.classList.remove('show');
+  qEl.focus();
+});
+
+function setLimit(n) {
+  limit = n;
+  document.querySelectorAll('.lbtn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent) === n);
+  });
+}
+
+function setLayout(n) {
+  cols = n;
+  document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lay' + n).classList.add('active');
+  const grid = document.getElementById('masonry-grid');
+  if (grid) {
+    grid.className = 'masonry' + (n !== 5 ? ' cols-' + n : '');
+  }
+}
+
+// Search
+async function doSearch() {
+  const q = qEl.value.trim();
+  if (!q) return;
+
+  const btn = document.getElementById('search-btn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  document.getElementById('content').innerHTML = `
+    <div class="spinner-box">
+      <div class="spin"></div>
+      <div class="spin-lbl">Mencari gambar...</div>
+    </div>`;
+
+  document.getElementById('result-chip').classList.remove('show');
+
+  try {
+    const url = `${API}?q=${encodeURIComponent(q.replace(/ /g, '+'))}&limit=${limit}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('fetch error');
+    const data = await res.json();
+
+    if (data.status && data.images && data.images.length > 0) {
+      images = data.images;
+      renderImages(images);
+      const chip = document.getElementById('result-chip');
+      chip.textContent = `${images.length} gambar`;
+      chip.classList.add('show');
+    } else {
+      showEmpty(q);
+    }
+  } catch(e) {
+    showError();
+  } finally {
+    btn.classList.remove('loading');
+    btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+  }
+}
+
+function renderImages(imgs) {
+  const grid = document.createElement('div');
+  grid.id = 'masonry-grid';
+  grid.className = 'masonry' + (cols !== 5 ? ' cols-' + cols : '');
+
+  imgs.forEach((url, i) => {
+    const card = document.createElement('div');
+    card.className = 'img-card';
+    card.onclick = () => openLb(i);
+
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.onerror = function() {
+      this.replaceWith(Object.assign(document.createElement('div'), { className: 'img-broken', innerHTML: '<i class="fa-solid fa-image-slash"></i>' }));
+    };
+
+    const overlay = document.createElement('div');
+    overlay.className = 'card-overlay';
+    overlay.innerHTML = `
+      <div class="card-actions">
+        <button class="card-act-btn" onclick="event.stopPropagation(); openLb(${i})" title="Lihat">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+        <button class="card-act-btn" onclick="event.stopPropagation(); copyUrl('${escUrl(url)}')" title="Copy URL">
+          <i class="fa-regular fa-copy"></i>
+        </button>
+        <a class="card-act-btn" href="${escUrl(url)}" download target="_blank" onclick="event.stopPropagation()" title="Download">
+          <i class="fa-solid fa-download"></i>
         </a>
-        <a href="/tools" class="nav-item-bottom active">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            <span>Tools</span>
-        </a>
-        <a href="/anime" class="nav-item-bottom">
-            <i class="fa-solid fa-film"></i>
-            <span>Anime</span>
-        </a>
-    </nav>
+      </div>
+      <div class="img-num">${i + 1}</div>`;
 
-    <script>
-        // --- Luxury Particles Script (Lime Color) ---
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+    card.appendChild(img);
+    card.appendChild(overlay);
+    grid.appendChild(card);
+  });
 
-        function initParticles() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            for (let i = 0; i < 40; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2,
-                    speed: Math.random() * 0.5 + 0.2
-                });
-            }
-        }
+  document.getElementById('content').innerHTML = '';
+  document.getElementById('content').appendChild(grid);
+}
 
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ccff00';
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                p.y -= p.speed;
-                if (p.y < 0) p.y = canvas.height;
-            });
-            requestAnimationFrame(drawParticles);
-        }
+// Lightbox
+function openLb(i) {
+  lbIndex = i;
+  updateLb();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-        initParticles();
-        drawParticles();
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + images.length) % images.length;
+  updateLb();
+}
 
-        // --- Original Logic (Preserved) ---
-        const consoleEl = document.getElementById('console');
-        const inputEl = document.getElementById('pinInput');
+function updateLb() {
+  const url = images[lbIndex];
+  const img = document.getElementById('lb-img');
+  img.src = url;
+  img.onerror = function() { this.alt = 'Gambar tidak tersedia'; };
+  document.getElementById('lb-counter').textContent = `${lbIndex + 1} / ${images.length}`;
+  document.getElementById('lb-open').href = url;
+  document.getElementById('lb-dl').href = url;
+}
 
-        function log(msg, type = '') {
-            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
-            const line = document.createElement('div');
-            line.className = `log-line ${type}`;
-            line.innerHTML = `[${time}] ${msg}`;
-            consoleEl.prepend(line);
-        }
+function copyImgUrl() {
+  copyUrl(images[lbIndex]);
+}
 
-        function runProcess() {
-            const val = inputEl.value;
-            if (!val) {
-                log('ERROR: TARGET_NULL', 'error');
-                return;
-            }
+function copyUrl(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('URL disalin!');
+  }).catch(() => {
+    showToast('Gagal salin', 'fa-triangle-exclamation');
+  });
+}
 
-            log(`INITIATING_SCRAPE_PROTOCOL...`);
+function escUrl(url) {
+  return url.replace(/"/g, '%22');
+}
 
-            setTimeout(() => log('PENETRATING_SERVERS...'), 600);
-            setTimeout(() => log('LIME_SIGNAL_LOCKED', 'success'), 1400);
-            setTimeout(() => {
-                log('EXTRACTION_SUCCESSFUL', 'success');
-                alert("Download Dimulai!");
-            }, 2200);
-        }
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
 
-        function clearAll() {
-            inputEl.value = '';
-            consoleEl.innerHTML = '<div class="log-line">> MEMORY_PURGED. STANDBY.</div>';
-            log('SYSTEM_WIPE_COMPLETE', 'success');
-        }
-    </script>
+// Click bg to close lightbox
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLb();
+});
+
+// States
+function showEmpty(q) {
+  document.getElementById('content').innerHTML = `
+    <div class="state">
+      <i class="fa-solid fa-face-sad-tear state-ico"></i>
+      <div class="state-title">Tidak ada gambar untuk "${q}"</div>
+      <div class="state-sub">Coba kata kunci yang berbeda</div>
+    </div>`;
+}
+
+function showError() {
+  document.getElementById('content').innerHTML = `
+    <div class="state">
+      <i class="fa-solid fa-triangle-exclamation state-ico"></i>
+      <div class="state-title">Gagal mengambil gambar</div>
+      <div class="state-sub">Periksa koneksi dan coba lagi</div>
+    </div>`;
+}
+
+let toastTimer;
+function showToast(msg, icon = 'fa-circle-check') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.querySelector('i').className = `fa-solid ${icon}`;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+</script>
 </body>
-
 </html>
