@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
@@ -111,6 +112,8 @@
             border: 1px solid var(--glass-border);
             display: block;
             filter: brightness(0.8);
+            aspect-ratio: 16/9;
+            object-fit: cover;
         }
 
         .sound-toggle-btn {
@@ -292,15 +295,6 @@
             </a>
         </nav>
 
-        <div class="video-wrapper">
-            <div id="soundToggle" class="sound-toggle-btn">
-                <i id="soundIcon" class="fas fa-volume-mute"></i>
-            </div>
-            <video id="miyakoVideo" class="header-video" autoplay muted loop playsinline>
-                <source src="https://files.catbox.moe/wgcar3.mp4" type="video/mp4">
-            </video>
-        </div>
-
         <div class="content-body">
             <div id="page-nikparse">
                 <div class="lux-header-card">
@@ -331,26 +325,18 @@
     </div>
 
     <script>
-        // Logika Sound Toggle
-        const video = document.getElementById('miyakoVideo');
-        const soundBtn = document.getElementById('soundToggle');
-        const soundIcon = document.getElementById('soundIcon');
-
-        soundBtn.addEventListener('click', () => {
-            if (video.muted) {
-                video.muted = false;
-                soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-            } else {
-                video.muted = true;
-                soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
-            }
-        });
-
         // Logika API Asli
         document.getElementById('btnCheckNikPage').addEventListener('click', async () => {
             const nik = document.getElementById('nikInputPage').value;
             if (!nik) {
-                alert('Silakan masukkan NIK terlebih dahulu.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Input Kosong',
+                    text: 'Silakan masukkan NIK terlebih dahulu.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#adff2f'
+                });
                 return;
             }
 
@@ -374,10 +360,24 @@
                     tableArea.innerHTML = h;
                     container.style.display = 'block';
                 } else {
-                    alert('Data tidak ditemukan atau format NIK salah.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Data tidak ditemukan atau format NIK salah.',
+                        background: '#1a1a1a',
+                        color: '#fff',
+                        confirmButtonColor: '#ff2d2d'
+                    });
                 }
             } catch (e) {
-                alert('Gangguan koneksi ke server pusat.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gangguan koneksi ke server pusat.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#ff2d2d'
+                });
             } finally {
                 loading.style.display = 'none';
             }

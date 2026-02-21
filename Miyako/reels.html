@@ -351,26 +351,17 @@
             result.style.display = 'none';
 
             try { 
-                // Menggunakan API Cobalt (Sangat stabil untuk IG)
-                const response = await fetch("https://api.cobalt.tools/api/json", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                    },
-                    body: JSON.stringify({
-                        url: url,
-                        vQuality: "720"
-                    })
-                });
+                // Menggunakan API Skylen
+                const response = await fetch(`https://api.skylen.my.id/api/instagram?url=${encodeURIComponent(url)}`);
+                const json = await response.json();
 
-                const data = await response.json();
-
-                if(data.url){ 
+                if(json.data && json.data.response && json.data.response.url && json.data.response.url.length > 0){ 
+                    const downloadUrl = json.data.response.url[0];
+                    const metadata = json.data.response.metadata || {};
                     // Set result data
-                    document.getElementById('igThumb').src = "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"; // Placeholder thumb karena API Cobalt fokus ke stream link
-                    document.getElementById('igTitle').innerText = "Your content is ready for download. Click the button below."; 
-                    document.getElementById('btnDownload').href = data.url; 
+                    document.getElementById('igThumb').src = "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"; // Placeholder thumb
+                    document.getElementById('igTitle').innerText = metadata.caption || "Your content is ready for download. Click the button below."; 
+                    document.getElementById('btnDownload').href = downloadUrl; 
                     result.style.display = 'block'; 
                 } else {
                     showPopup('FAIL', 'Content not found or private.', '⚠️');

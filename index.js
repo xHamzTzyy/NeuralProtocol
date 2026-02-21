@@ -4020,6 +4020,28 @@ app.get("/music", requireAuth, (req, res) => {
   });
 });
 
+app.get("/domain", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "domain-osint.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/nikparse", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "nikparse.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
 app.get("/codesnap", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "codesnap.html");
   fs.readFile(filePath, "utf8", (err, html) => {
