@@ -8291,6 +8291,7 @@ body {
     background: #050505;
     color: #FFFFFF;
     min-height: 100vh;
+    padding-bottom: 40px;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -8535,7 +8536,7 @@ body {
     background: var(--bg-dark);
     color: var(--text-main);
     padding: 20px;
-    padding-bottom: 80px;
+    padding-bottom: 120px;
     display: flex;
     justify-content: center;
     /* Background glow merah */
@@ -8837,29 +8838,120 @@ body {
 .modal-content.success { border-color: var(--success-green); }
 .modal-content.success .modal-header { background: var(--success-green); color: white; }
 
-/* Bottom Nav */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 450px;
-    background: #000;
-    display: flex;
-    justify-content: space-around;
-    padding: 12px;
-    border-top: 1px solid #1a0505;
-}
+/* NAVBAR REBORN: Floating Crimson Tech */
+        .navbar {
+            position: fixed;
+            bottom: 25px;
+            /* Sedikit lebih naik agar tidak mepet */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 50px);
+            max-width: 400px;
+            background: rgba(10, 0, 0, 0.7);
+            /* Deep Dark Glass */
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            height: 75px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255, 0, 0, 0.15);
+            /* Edge lighting merah tipis */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+            padding: 0 10px;
+        }
 
-.nav-item {
-    text-align: center;
-    font-size: 10px;
-    color: #444;
-    text-decoration: none;
-    flex: 1;
-}
+        .nav-link {
+            position: relative;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            /* Gray transparan */
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
 
-.nav-item.active { color: var(--accent-pink); }
-.nav-item i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+        .nav-link i {
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect - Icon Menyala */
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Active State - Crimson Glow */
+        .nav-link.active {
+            color: #ff0000;
+        }
+
+        .nav-link.active i {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
+        }
+
+        /* Indikator Garis Menyala di Bawah Item Active */
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 12px;
+            width: 15px;
+            height: 3px;
+            background: #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff0000, 0 0 5px #ff0000;
+            animation: lineGlow 1.5s infinite alternate;
+        }
+
+        /* Efek Click/Active yang "Deep" */
+        .nav-link:active {
+            transform: scale(0.9);
+        }
+
+        /* Animasi Denyut untuk Indikator */
+        @keyframes lineGlow {
+            from {
+                opacity: 0.6;
+                width: 10px;
+            }
+
+            to {
+                opacity: 1;
+                width: 18px;
+            }
+        }
+
+        /* Blur tambahan untuk area belakang navbar agar konten web tidak bertabrakan */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(5, 0, 0, 0.9));
+            pointer-events: none;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
@@ -8928,11 +9020,12 @@ body {
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <a href="/dashboard" class="nav-item"><i class="fas fa-home"></i>Home</a>
-        <a href="/execution" class="nav-item active"><i class="fab fa-whatsapp"></i>WhatsApp</a>
-        <a href="/tools" class="nav-item"><i class="fas fa-tools"></i>Tools</a>
-    </div>
+    <nav class="navbar">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i></a>
+        <a href="/tools" class="nav-link"><i class="fas fa-wrench"></i></a>
+        <a href="/stats" class="nav-link"><i class="fas fa-chart-bar"></i></a>
+        <a href="/profile" class="nav-link"><i class="fas fa-user-circle"></i></a>
+    </nav>
 
     <script>
         // BACKEND CONFIGURATION

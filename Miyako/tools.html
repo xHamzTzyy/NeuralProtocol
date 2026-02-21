@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +9,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* Rombak Total: Obsidian Glass - Crimson Red Edition */
         :root {
-            --bg-color: #0b0b0b;
-            --card-bg: #1a1a1a;
-            --accent-green: #9dfc03;
-            --accent-pink: #ff0055;
+            --bg-color: #050505;
+            --card-bg: rgba(20, 20, 20, 0.6);
+            /* Glass effect base */
+            --accent-red: #ff0000;
+            --accent-dark-red: #8b0000;
             --text-main: #ffffff;
-            --text-sub: #7a7a7a;
-            --sheet-bg: #0f0f10;
+            --text-sub: #888888;
+            --sheet-bg: rgba(10, 10, 10, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --red-glow: rgba(255, 0, 0, 0.2);
         }
 
         body {
             background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 50% -20%, var(--accent-dark-red) 0%, transparent 40%),
+                radial-gradient(circle at 0% 100%, #1a0000 0%, transparent 30%);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -28,20 +36,34 @@
             display: flex;
             justify-content: center;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        .page-container { width: 100%; max-width: 450px; }
+        .page-container {
+            width: 100%;
+            max-width: 450px;
+        }
 
         .section-title {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
             color: var(--text-sub);
-            margin: 25px 0 15px 10px;
+            margin: 35px 0 20px 5px;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
         }
 
-        /* --- GRID UTAMA --- */
+        .section-title::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+            margin-left: 15px;
+        }
+
+        /* --- GRID UTAMA (Glass Effect) --- */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -50,77 +72,206 @@
 
         .tool-box {
             background: var(--card-bg);
-            padding: 25px 15px;
-            border-radius: 30px;
+            padding: 30px 20px;
+            border-radius: 24px;
             text-align: center;
-            transition: transform 0.2s, border 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            position: relative;
+            /* HAPUS top: 40px; agar tidak menghalangi sheet */
+            overflow: hidden;
+            z-index: 1;
+            /* Pastikan di bawah sheet dan navbar */
         }
 
-        .tool-box:active { transform: scale(0.95); border-color: var(--accent-pink); }
+        /* Hover & Active State - Menghilangkan kesan alay */
+        .tool-box:hover {
+            border-color: rgba(255, 0, 0, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--red-glow);
+        }
+
+        .tool-box:active {
+            transform: scale(0.95);
+        }
 
         .icon-wrapper {
-            width: 50px; height: 50px;
-            margin: 0 auto 15px auto;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; border-radius: 12px;
+            width: 45px;
+            height: 45px;
+            margin: 0 auto 18px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            border-radius: 12px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+            transition: 0.3s;
         }
 
-        .icon-youtube { color: #ff0000; }
-        .icon-tiktok { color: #00f2ea; }
-        .icon-whatsapp { color: #25d366; }
-        .icon-instagram { color: #e1306c; }
-        .icon-ddos { color: #f2994a; }
-        .icon-telegram { color: #0088cc; }
+        .tool-box:hover .icon-wrapper {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 12px var(--accent-red));
+        }
 
-        .tool-box h3 { margin: 0 0 5px 0; font-size: 1.1rem; font-weight: 800; }
-        .tool-box p { margin: 0; font-size: 0.7rem; color: var(--text-sub); line-height: 1.4; }
+        /* Icon Colors - Disesuaikan agar tetap elegan */
+        .icon-youtube {
+            color: #ff0000;
+        }
 
-        /* --- BOTTOM SHEET --- */
+        .icon-tiktok {
+            color: #fff;
+        }
+
+        .icon-whatsapp {
+            color: #25d366;
+        }
+
+        .icon-instagram {
+            color: #fff;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .icon-ddos {
+            color: var(--accent-red);
+        }
+
+        .icon-telegram {
+            color: #0088cc;
+        }
+
+        .tool-box h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-box p {
+            margin: 0;
+            font-size: 0.65rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* --- BOTTOM SHEET (Premium Glass) --- */
         .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            display: none; z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
         }
 
+        /* --- BOTTOM SHEET RE-STYLING --- */
         .bottom-sheet {
-            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 450px; background: var(--sheet-bg);
-            border-radius: 40px 40px 0 0; z-index: 1001;
-            transition: bottom 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            border-top: 2px solid var(--accent-pink);
-            box-sizing: border-box; padding: 25px;
+            position: fixed;
+            /* Kita ganti bottom: 0 jadi bottom: 20px agar melayang (floating) */
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 20px);
+            /* Kasih gap kiri kanan sedikit */
+            max-width: 430px;
+            background: var(--sheet-bg);
+            border-radius: 30px;
+            /* Buat membulat di semua sisi agar terlihat melayang */
+            z-index: 1001;
+            transition: bottom 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.7);
+            box-sizing: border-box;
+            padding: 25px;
+            /* Tambahkan margin bawah di dalam sheet agar item terakhir tidak tertutup navbar */
+            padding-bottom: 100px;
         }
 
-        .bottom-sheet.active { bottom: 0; }
+        .bottom-sheet.active {
+            /* Naikkan sedikit dari dasar layar */
+            bottom: 20px;
+        }
 
-        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .sheet-header h2 { font-size: 1.8rem; margin: 0; font-weight: 800; color: white; }
+        /* Handle bar di atas bottom sheet */
+        .bottom-sheet::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .sheet-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+        }
 
         .close-sheet-btn {
-            background: var(--accent-pink); color: white;
-            width: 30px; height: 30px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: none; cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-sheet-btn:hover {
+            background: var(--accent-red);
+            border-color: transparent;
         }
 
         /* --- TOOL-ITEM STYLE --- */
-        .sheet-menu-list { display: flex; flex-direction: column; gap: 12px; }
+        .sheet-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .tool-item {
-            background: #1a1a1c;
-            border-radius: 20px;
-            transition: background 0.3s;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .tool-item:active { background: #252528; }
+        .tool-item:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.2);
+            transform: translateX(5px);
+        }
 
         .tool-item a {
             display: flex;
             align-items: center;
-            padding: 22px;
+            padding: 18px 22px;
             text-decoration: none;
             color: #ffffff;
             width: 100%;
@@ -128,51 +279,170 @@
         }
 
         .tool-item i {
-            font-size: 24px;
-            margin-right: 20px;
-            width: 30px;
+            font-size: 20px;
+            margin-right: 18px;
+            width: 25px;
             text-align: center;
+            color: var(--accent-red);
         }
 
         .tool-item span {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
         }
 
-        /* --- NAV BAR --- */
-        .nav-bar {
-            position: fixed; bottom: 20px;
-            width: 90%; max-width: 400px; height: 75px;
-            background: #00000071; border-radius: 40px;
-            backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-            display: flex; justify-content: space-around; align-items: center;
-            border: 1px solid rgba(255,255,255,0.1); z-index: 100;
+        /* NAVBAR REBORN: Floating Crimson Tech */
+        .navbar {
+            position: fixed;
+            bottom: 25px;
+            /* Sedikit lebih naik agar tidak mepet */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 50px);
+            max-width: 400px;
+            background: rgba(10, 0, 0, 0.7);
+            /* Deep Dark Glass */
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            height: 75px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255, 0, 0, 0.15);
+            /* Edge lighting merah tipis */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+            padding: 0 10px;
         }
 
-        .nav-item { color: #555; text-decoration: none; font-size: 22px; }
-        .nav-item.active { color: var(--accent-green); }
+        .nav-link {
+            position: relative;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            /* Gray transparan */
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
 
-        /* Customizing SweetAlert Appearance */
+        .nav-link i {
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect - Icon Menyala */
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Active State - Crimson Glow */
+        .nav-link.active {
+            color: #ff0000;
+        }
+
+        .nav-link.active i {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
+        }
+
+        /* Indikator Garis Menyala di Bawah Item Active */
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 12px;
+            width: 15px;
+            height: 3px;
+            background: #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff0000, 0 0 5px #ff0000;
+            animation: lineGlow 1.5s infinite alternate;
+        }
+
+        /* Efek Click/Active yang "Deep" */
+        .nav-link:active {
+            transform: scale(0.9);
+        }
+
+        /* Animasi Denyut untuk Indikator */
+        @keyframes lineGlow {
+            from {
+                opacity: 0.6;
+                width: 10px;
+            }
+
+            to {
+                opacity: 1;
+                width: 18px;
+            }
+        }
+
+        /* Blur tambahan untuk area belakang navbar agar konten web tidak bertabrakan */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(5, 0, 0, 0.9));
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* SweetAlert Custom - Clean Red */
         .swal2-popup {
-            background: #1a1a1a !important;
-            color: #fff !important;
-            border-radius: 30px !important;
-            border: 1px solid var(--accent-pink) !important;
+            background: #0f0f0f !important;
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px);
         }
-        .swal2-title { color: #fff !important; }
-        .swal2-confirm { background-color: var(--accent-pink) !important; border-radius: 15px !important; }
 
+        .swal2-confirm {
+            background-color: var(--accent-red) !important;
+            border-radius: 12px !important;
+            padding: 12px 30px !important;
+            font-weight: 600 !important;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="page-container">
         <div class="section-title">Sosial Media</div>
         <div class="tools-grid">
-            
+
             <div class="tool-box" onclick="openSheet('Downloader', [
                 {name: 'Tiktok Downloader', icon: 'fa-brands fa-tiktok', color: '#ff0055', link: '/tiktok'},
-                {name: 'Tiktok Stalker', icon: 'fa-brands fas fa-user-secret', color: '#ff0055', link: '/ttstalk'},
+                { name: 'Tiktok Stalker', icon: 'fas fa-user-secret', color: '#ff0000', link: '/ttstalk' },
                 {name: 'Pint Downloader', icon: 'fa-brands fa-pinterest', color: '#e60023', link: '/pin'}
             ])">
                 <i class="fas fa-download icon-wrapper" style="color: var(--accent-pink);"></i>
@@ -234,27 +504,28 @@
             </button>
         </div>
         <div class="sheet-menu-list" id="sheetMenuList">
-            </div>
+        </div>
     </div>
 
-    <nav class="nav-bar">
-        <a href="/dashboard" class="nav-item"><i class="fas fa-home"></i></a>
-        <a href="/tools" class="nav-item active"><i class="fas fa-wrench"></i></a>
-        <a href="/profile" class="nav-item"><i class="fas fa-user-circle"></i></a>
+    <nav class="navbar">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i></a>
+        <a href="/tools" class="nav-link active"><i class="fas fa-wrench"></i></a>
+        <a href="/stats" class="nav-link"><i class="fas fa-chart-bar"></i></a>
+        <a href="/profile" class="nav-link"><i class="fas fa-user-circle"></i></a>
     </nav>
 
     <script>
         function openSheet(title, options) {
             const sheetTitle = document.getElementById('sheetTitle');
             const menuList = document.getElementById('sheetMenuList');
-            
+
             sheetTitle.innerText = title;
-            menuList.innerHTML = ''; 
+            menuList.innerHTML = '';
 
             options.forEach(opt => {
                 const toolItem = document.createElement('div');
                 toolItem.className = 'tool-item';
-                
+
                 toolItem.innerHTML = `
                     <a href="${opt.link}">
                         <i class="${opt.icon}" style="color: ${opt.color}; text-shadow: 0 0 10px ${opt.color}66;"></i>
@@ -288,4 +559,5 @@
         }
     </script>
 </body>
+
 </html>

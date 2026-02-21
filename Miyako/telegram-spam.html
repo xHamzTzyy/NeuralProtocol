@@ -42,62 +42,106 @@
             padding-bottom: 100px; /* Jarak agar konten tidak tertutup navbar bawah */
         }
 
-        /* --- BOTTOM NAV BAR STYLE --- */
-        .bottom-nav {
+        /* NAVBAR REBORN: Floating Crimson Tech */
+        .navbar {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
+            /* Sedikit lebih naik agar tidak mepet */
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 450px;
-            height: 70px;
-            background: var(--glass-bg);
+            width: calc(100% - 50px);
+            max-width: 400px;
+            background: rgba(10, 0, 0, 0.7);
+            /* Deep Dark Glass */
             backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            height: 75px;
+            border-radius: 25px;
             display: flex;
-            align-items: center;
             justify-content: space-around;
-            padding: 0 10px;
-            z-index: 1000;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 50px;
+            border: 1px solid rgba(255, 0, 0, 0.15);
+            /* Edge lighting merah tipis */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+            padding: 0 10px;
         }
 
-        .nav-item span {
-            font-size: 0.6rem;
+        .nav-link {
+            position: relative;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            /* Gray transparan */
+            text-decoration: none;
+            font-size: 10px;
             font-weight: 700;
-            margin-top: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
         }
 
-        .nav-item:hover, .nav-item.active {
-            color: var(--accent-lime);
+        .nav-link i {
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect - Icon Menyala */
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Active State - Crimson Glow */
+        .nav-link.active {
+            color: #ff0000;
+        }
+
+        .nav-link.active i {
             transform: translateY(-5px);
-            text-shadow: 0 0 15px rgba(191, 255, 0, 0.5);
+            filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
         }
 
-        /* Indicator dot untuk item aktif */
-        .nav-item.active::after {
+        /* Indikator Garis Menyala di Bawah Item Active */
+        .nav-link.active::after {
             content: '';
-            width: 4px;
-            height: 4px;
-            background: var(--accent-lime);
-            border-radius: 50%;
-            margin-top: 4px;
-            box-shadow: 0 0 8px var(--accent-lime);
+            position: absolute;
+            bottom: 12px;
+            width: 15px;
+            height: 3px;
+            background: #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff0000, 0 0 5px #ff0000;
+            animation: lineGlow 1.5s infinite alternate;
+        }
+
+        /* Efek Click/Active yang "Deep" */
+        .nav-link:active {
+            transform: scale(0.9);
+        }
+
+        /* Animasi Denyut untuk Indikator */
+        @keyframes lineGlow {
+            from {
+                opacity: 0.6;
+                width: 10px;
+            }
+
+            to {
+                opacity: 1;
+                width: 18px;
+            }
         }
         /* --- END BOTTOM NAV BAR --- */
 
@@ -369,19 +413,11 @@
         </div>
     </div>
 
-    <nav class="bottom-nav">
-        <a href="/dashboard" class="nav-item">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="/tools" class="nav-item active">
-            <i class="fas fa-tools"></i>
-            <span>Tools</span>
-        </a>
-        <a href="/profile" class="nav-item">
-            <i class="fas fa-user-circle"></i>
-            <span>Profile</span>
-        </a>
+    <nav class="navbar">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i></a>
+        <a href="/tools" class="nav-link active"><i class="fas fa-wrench"></i></a>
+        <a href="/stats" class="nav-link"><i class="fas fa-chart-bar"></i></a>
+        <a href="/profile" class="nav-link"><i class="fas fa-user-circle"></i></a>
     </nav>
 
     <script>

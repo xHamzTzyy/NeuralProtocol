@@ -7,93 +7,104 @@
     <title>NEURAL PROTOCOL Ddos</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Base Setup - AMOLED */
+        /* Base Setup - Premium AMOLED Crimson */
         :root {
-            --lime: #32CD32;
-            --dark-glass: rgba(20, 25, 20, 0.6);
-            --border-glass: rgba(50, 205, 50, 0.25);
+            --accent: #ff0000;
+            --accent-glow: rgba(255, 0, 0, 0.4);
+            --dark-glass: rgba(15, 15, 15, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.03);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
         body {
-            background: #000000;
-            height: 100vh;
+            background: #050505;
+            background-image: radial-gradient(circle at 50% -20%, #440000 0%, transparent 50%);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             color: #fff;
+            padding: 20px;
+            padding-bottom: 50px;
         }
 
         /* Main Container */
         .center {
             width: 100%;
-            max-width: 480px;
-            padding: 20px;
+            max-width: 440px;
             z-index: 10;
         }
 
         .card {
             background: var(--dark-glass);
-            backdrop-filter: blur(35px) saturate(160%);
-            -webkit-backdrop-filter: blur(35px) saturate(160%);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid var(--border-glass);
-            border-radius: 45px;
-            padding: 30px;
+            border-radius: 40px;
+            padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+            position: relative;
             overflow: hidden;
         }
 
-        /* Header Image / Banner */
+        /* Header Image / Banner - Lebih Sleek */
         .banner {
             width: 100%;
-            height: 180px;
-            background: #111;
-            border-radius: 30px;
+            height: 160px;
+            background: #000;
+            border-radius: 25px;
             margin-bottom: 25px;
             overflow: hidden;
-            border: 1px solid var(--border-glass);
+            border: 1px solid rgba(255, 0, 0, 0.2);
         }
 
         .banner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8;
+            opacity: 0.7;
+            transition: 0.5s;
+        }
+
+        .card:hover .banner img {
+            transform: scale(1.05);
+            opacity: 0.9;
         }
 
         .card h2 {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 800;
-            color: var(--lime);
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(50, 205, 50, 0.4);
+            color: #fff;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* Form Styling */
+        /* Form Styling - Cyberpunk Minimalist */
         .form-group {
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(50, 205, 50, 0.15);
-            border-radius: 20px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
             padding: 0 20px;
-            height: 60px;
-            transition: 0.4s;
+            height: 65px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-group:focus-within {
-            border-color: var(--lime);
-            background: rgba(50, 205, 50, 0.05);
+            border-color: var(--accent);
+            background: rgba(255, 0, 0, 0.02);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
         }
 
         .form-group input {
@@ -103,31 +114,39 @@
             background: transparent;
             color: #fff;
             font-size: 15px;
+            font-weight: 500;
         }
 
         .form-group i {
-            color: var(--lime);
+            color: var(--accent);
             margin-right: 15px;
             font-size: 18px;
+            filter: drop-shadow(0 0 5px var(--accent-glow));
         }
 
-        /* Custom Select */
+        /* Custom Select - Glass Style */
         .select-wrapper {
             position: relative;
             margin-bottom: 20px;
         }
 
         .select-selected {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--input-bg);
             color: #fff;
-            padding: 0 20px;
-            border: 1px solid rgba(50, 205, 50, 0.15);
-            border-radius: 20px;
+            padding: 0 25px;
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 60px;
+            height: 65px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .select-selected:hover {
+            border-color: rgba(255, 0, 0, 0.3);
         }
 
         .select-items {
@@ -135,124 +154,188 @@
             top: 110%;
             left: 0;
             width: 100%;
-            background: rgba(10, 15, 10, 0.98);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--lime);
-            border-radius: 25px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
             display: none;
             flex-direction: column;
             z-index: 100;
             overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
         .select-items div {
-            padding: 15px 25px;
+            padding: 18px 25px;
             cursor: pointer;
-            border-bottom: 1px solid rgba(50, 205, 50, 0.1);
-            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.2s;
+            font-size: 14px;
         }
 
         .select-items div:hover {
-            background: rgba(50, 205, 50, 0.2);
+            background: var(--accent);
+            color: #fff;
         }
 
-        /* Launch Button */
+        /* Attack Button - Full Crimson */
         button#attackBtn {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--lime), #1b8a1b);
+            padding: 20px;
+            background: var(--accent);
             border: none;
-            border-radius: 22px;
-            color: #000;
+            border-radius: 18px;
+            color: #fff;
             font-weight: 800;
+            text-transform: uppercase;
             cursor: pointer;
-            font-size: 15px;
-            letter-spacing: 1px;
+            font-size: 14px;
+            letter-spacing: 2px;
             transition: 0.4s;
-            box-shadow: 0 10px 30px rgba(50, 205, 50, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
         }
 
         button#attackBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(50, 205, 50, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.4);
+            background: #ff1a1a;
         }
 
-        /* Bottom Navigation Bar */
-        .nav-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        button#attackBtn:active {
+            transform: scale(0.98);
         }
 
-        .nav-item {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            transition: 0.3s;
-            flex: 1;
-        }
-
-        .nav-item i {
-            font-size: 20px;
-        }
-
-        .nav-item span {
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .nav-item.active,
-        .nav-item:hover {
-            color: var(--lime);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
+        /* Modal - Dark & Sharp */
         .modal-content {
-            background: rgba(10, 15, 10, 0.98);
-            border: 1px solid var(--lime);
-            border-radius: 35px;
-            padding: 35px;
-            text-align: center;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        .modal-content.success h3 {
-            color: var(--lime);
-        }
-
-        .modal-content.error h3 {
-            color: #ff5555;
+            background: #0f0f0f;
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1);
         }
 
         .modal-content button {
-            background: var(--lime);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 15px;
-            font-weight: bold;
-            margin-top: 20px;
-            cursor: pointer;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 12px;
+            width: 100%;
+            height: 50px;
+            font-weight: 700;
+        }
+
+        /* NAVBAR REBORN: Floating Crimson Tech */
+        .navbar {
+            position: fixed;
+            bottom: 25px;
+            /* Sedikit lebih naik agar tidak mepet */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 50px);
+            max-width: 400px;
+            background: rgba(10, 0, 0, 0.7);
+            /* Deep Dark Glass */
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            height: 75px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255, 0, 0, 0.15);
+            /* Edge lighting merah tipis */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+            padding: 0 10px;
+        }
+
+        .nav-link {
+            position: relative;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            /* Gray transparan */
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link i {
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect - Icon Menyala */
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Active State - Crimson Glow */
+        .nav-link.active {
+            color: #ff0000;
+        }
+
+        .nav-link.active i {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
+        }
+
+        /* Indikator Garis Menyala di Bawah Item Active */
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 12px;
+            width: 15px;
+            height: 3px;
+            background: #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff0000, 0 0 5px #ff0000;
+            animation: lineGlow 1.5s infinite alternate;
+        }
+
+        /* Efek Click/Active yang "Deep" */
+        .nav-link:active {
+            transform: scale(0.9);
+        }
+
+        /* Animasi Denyut untuk Indikator */
+        @keyframes lineGlow {
+            from {
+                opacity: 0.6;
+                width: 10px;
+            }
+
+            to {
+                opacity: 1;
+                width: 18px;
+            }
+        }
+
+        /* Blur tambahan untuk area belakang navbar agar konten web tidak bertabrakan */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(5, 0, 0, 0.9));
+            pointer-events: none;
+            z-index: 999;
         }
     </style>
 </head>
@@ -262,7 +345,7 @@
     <div class="center">
         <div class="card">
             <div class="banner">
-                <img src="https://files.catbox.moe/dexbxr.jpg" alt="Cyber Banner">
+                <img src="https://files.catbox.moe/actocb.gif" alt="Cyber Banner">
             </div>
 
             <h2>DDOS-SYSTEM</h2>
@@ -291,21 +374,15 @@
             </div>
 
             <button id="attackBtn">LAUNCH PROTOCOL</button>
-
-            <div class="nav-bar">
-                <a href="/dashboard" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-                <a href="/tools" class="nav-item active"><i class="fa-solid fa-tools"></i><span>Tools</span></a>
-            </div>
         </div>
     </div>
 
-    <div id="popup" class="modal">
-        <div class="modal-content" id="popupContent">
-            <h3 id="popupTitle"></h3>
-            <p id="popupMessage" style="margin-top: 10px; color: #ccc;"></p>
-            <button onclick="closePopup()">OK</button>
-        </div>
-    </div>
+    <nav class="navbar">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i></a>
+        <a href="/tools" class="nav-link"><i class="fas fa-wrench"></i></a>
+        <a href="/stats" class="nav-link"><i class="fas fa-chart-bar"></i></a>
+        <a href="/profile" class="nav-link"><i class="fas fa-user-circle"></i></a>
+    </nav>
 
     <script>
         const token = localStorage.getItem('authToken');
