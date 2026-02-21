@@ -74,6 +74,47 @@ body::after {
 .hdr {
   padding: 38px 0 32px;
   text-align: center;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  color: var(--muted2);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.back-btn i {
+  font-size: 11px;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--bg3);
+  border-color: var(--red);
+  color: var(--red3);
+}
+
+.back-btn:hover i {
+  transform: translateX(-3px);
+}
+
+@media (max-width: 500px) {
+  .back-btn span { display: none; }
+  .back-btn { padding: 9px 12px; }
 }
 
 .hdr-logo {
@@ -180,6 +221,21 @@ body::after {
   transition: all 0.18s;
   flex-shrink: 0;
 }
+
+.pill-back {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  color: var(--muted2);
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.pill-back:hover { border-color: var(--red); color: var(--red3); background: rgba(255,0,51,0.08); }
 .pill-go:hover { background: var(--red3); box-shadow: 0 3px 14px var(--glow); }
 .pill-go:active { transform: scale(0.92); }
 .pill-go.loading { opacity: 0.6; pointer-events: none; }
@@ -710,6 +766,9 @@ body::after {
       <span class="at-sign">@</span>
       <input type="text" id="q" placeholder="username tiktok..." autocomplete="off" spellcheck="false">
       <button class="pill-clear" id="clear-btn"><i class="fa-solid fa-xmark"></i></button>
+      <a href="/dashboard" class="pill-back" title="Dashboard">
+        <i class="fa-solid fa-house"></i>
+      </a>
       <button class="pill-go" id="go-btn" onclick="doStalk()">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>

