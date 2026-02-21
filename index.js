@@ -4657,14 +4657,8 @@ app.post("/api/send-confess", requireAuth, async (req, res) => {
     const targetJid = `${cleanTarget}@s.whatsapp.net`;
 
     // Format pesan confess yang lebih menarik
-    const formattedMessage = `*💌 MENFESS MESSAGE 💌*
-
-_Seseorang mengirim pesan rahasia untukmu!_
-
-------------------------------------------------
-"${message}"
-*_from neural protocol_*
-------------------------------------------------`;
+    const formattedMessage = `*HAI ${cleanTarget}!, kamu dapet pesan rahasia nih!*
+"${message}"`;
 
     await sock.sendMessage(targetJid, { text: formattedMessage });
 
