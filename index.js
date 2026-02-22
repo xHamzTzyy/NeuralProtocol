@@ -8158,6 +8158,158 @@ app.get("/emergency-user", (req, res) => {
   res.send(`✅ <b>User Darurat Berhasil Dibuat!</b><br><br>Username: <b>admin</b><br>Key: <b>12345</b><br><br>👉 <a href="/login">KLIK DISINI UNTUK LOGIN</a>`);
 });
 
+// ═══════════════════════════════════════════
+// TEMPMAIL ROUTES - tambah di index.js
+// Letakkan SEBELUM app.listen(PORT, ...)
+// ═══════════════════════════════════════════
+
+// Route halaman tempmail
+app.get("/tempmail", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "tempmail.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+// Proxy GuerillaMail - get email address
+app.get("/api/guerrilla/email", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://api.guerrillamail.com/ajax.php?f=get_email_address&ip=127.0.0.1&agent=Mozilla",
+      { timeout: 10000 }
+    );
+    if (!response.data?.email_addr) throw new Error("Gagal mendapat email");
+    res.json({
+      email: response.data.email_addr,
+      sid_token: response.data.sid_token
+    });
+  } catch (error) {
+    console.error("Proxy Error (guerrilla/email):", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Proxy GuerillaMail - cek inbox
+app.get("/api/guerrilla/inbox", async (req, res) => {
+  try {
+    const { sid } = req.query;
+    if (!sid) return res.status(400).json({ error: "sid required" });
+    const response = await axios.get(
+      `https://api.guerrillamail.com/ajax.php?f=check_email&sid_token=${sid}&seq=0`,
+      { timeout: 10000 }
+    );
+    res.json({ messages: response.data?.list || [] });
+  } catch (error) {
+    console.error("Proxy Error (guerrilla/inbox):", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Proxy GuerillaMail - fetch + parse email
+app.get("/api/guerrilla/fetch", async (req, res) => {
+  try {
+    const { sid, id } = req.query;
+    if (!sid || !id) return res.status(400).json({ error: "sid and id required" });
+
+    const response = await axios.get(
+      `https://api.guerrillamail.com/ajax.php?f=fetch_email&sid_token=${sid}&email_id=${id}`,
+      { timeout: 10000 }
+    );
+
+    const data = response.data;
+    if (!data) return res.status(404).json({ error: "Email not found" });
+
+    const rawBody = data.mail_body || "";
+    const bodyText = cleanHtmlTempmail(rawBody);
+    const combined = `${data.mail_subject || ""} ${bodyText}`;
+    const primaryCode = findCodeTempmail(combined);
+    const allCodes = findAllCodesTempmail(combined);
+
+    res.json({
+      id: data.mail_id,
+      subject: data.mail_subject || "(no subject)",
+      from: data.mail_from || "Unknown",
+      timestamp: data.mail_timestamp,
+      bodyHtml: rawBody,
+      bodyText,
+      primaryCode,
+      allCodes
+    });
+  } catch (error) {
+    console.error("Proxy Error (guerrilla/fetch):", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ── Helper functions untuk tempmail (paste di atas routes) ──
+function cleanHtmlTempmail(raw) {
+  return (raw || "")
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<head[^>]*>[\s\S]*?<\/head>/gi, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/<\/div>/gi, "\n")
+    .replace(/<div[^>]*>/gi, "")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "• ")
+    .replace(/<\/h[1-6]>/gi, "\n\n")
+    .replace(/<h[1-6][^>]*>/gi, "")
+    .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, "$2")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&mdash;/g, "—")
+    .replace(/&ndash;/g, "–")
+    .replace(/&#(\d+);/g, (m, dec) => String.fromCharCode(dec))
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/^\s+/gm, "")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim();
+}
+
+function findCodeTempmail(text) {
+  const patterns = [
+    { regex: /verification code[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /verify code[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /confirmation code[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /security code[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /kode verifikasi[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /kode otp[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /your code is[:\s]+([A-Z0-9]{4,10})/i, priority: 1 },
+    { regex: /\[([A-Z0-9]{4,10})\]/, priority: 2 },
+    { regex: /(?:code|kode|otp|pin)[:\s]+([A-Z0-9]{4,10})/i, priority: 3 },
+    { regex: /\b([0-9]{6})\b/, priority: 5 },
+    { regex: /\b([0-9]{4,8})\b/, priority: 7 },
+    { regex: /\b([A-Z0-9]{6,10})\b/, priority: 8 }
+  ];
+  let best = null, bestP = Infinity;
+  for (const p of patterns) {
+    const m = text.match(p.regex);
+    if (m && p.priority < bestP) { best = m[1] || m[0]; bestP = p.priority; }
+  }
+  return best;
+}
+
+function findAllCodesTempmail(text) {
+  const codes = [];
+  const patterns = [/\b([0-9]{4,8})\b/g, /\b([A-Z0-9]{6,10})\b/g, /\[([A-Z0-9]{4,10})\]/g];
+  for (const pattern of patterns) {
+    for (const m of text.matchAll(pattern)) {
+      const code = m[1] || m[0];
+      if (!codes.includes(code)) codes.push(code);
+    }
+  }
+  return codes;
+}
+
 app.listen(PORT, () => {
   console.log(`✓ Server aktif di port ${PORT}`);
 

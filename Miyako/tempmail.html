@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>TMPML — Temporary Email</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --g: #FF3355;
+            --g2: #CC2A44;
+            --g3: rgba(255, 51, 85, 0.07);
+            --g4: rgba(255, 51, 85, 0.13);
+            --red: #FF3355;
+            --yellow: #FFD600;
+            --bg: #070303;
+            --bg2: #0D0808;
+            --bg3: #130D0D;
+            --bg4: #1A1313;
+            --b: rgba(255, 51, 85, 0.08);
+            --b2: rgba(255, 51, 85, 0.15);
+            --b3: rgba(255, 255, 255, 0.05);
+            --tx: #EDC8C8;
+            --m: #503A3A;
+            --m2: #705A5A;
+            --m3: #AA8A8A
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html {
+            font-size: 16px
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--tx);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.055) 3px, rgba(0, 0, 0, 0.055) 4px);
+            pointer-events: none;
+            z-index: 999
+        }
+
+        .hdr {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 3, 3, 0.96);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--b);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            gap: 10px
+        }
+
+        .hdr-l {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0
+        }
+
+        .logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--g);
+            text-shadow: 0 0 18px rgba(255, 51, 85, 0.35);
+            flex-shrink: 0
+        }
+
+        .spill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg3);
+            border: 1px solid var(--b);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 10px;
+            color: var(--m3);
+            white-space: nowrap
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--m);
+            flex-shrink: 0;
+            transition: all 0.3s
+        }
+
+        .dot.live {
+            background: var(--g);
+            box-shadow: 0 0 6px var(--g);
+            animation: blink 1.6s ease-in-out infinite
+        }
+
+        .dot.wait {
+            background: var(--yellow);
+            box-shadow: 0 0 6px var(--yellow)
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--b3);
+            border-radius: 8px;
+            color: var(--m3);
+            font-size: 11px;
+            text-decoration: none;
+            transition: all 0.18s;
+            white-space: nowrap;
+            flex-shrink: 0
+        }
+
+        .back-btn:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        .page {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: calc(100vh - 53px);
+            height: calc(100dvh - 53px);
+            overflow: hidden
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--b);
+            background: var(--bg2);
+            overflow: hidden
+        }
+
+        .sec-lbl {
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            color: var(--m2);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .sec-lbl i {
+            color: var(--g);
+            font-size: 9px
+        }
+
+        .email-sec {
+            padding: 14px 14px 12px;
+            border-bottom: 1px solid rgba(255, 51, 85, 0.05)
+        }
+
+        .epill {
+            display: flex;
+            align-items: center;
+            background: var(--bg3);
+            border: 1px solid var(--b2);
+            border-radius: 10px;
+            padding: 0 4px 0 12px;
+            gap: 4px;
+            margin-bottom: 8px
+        }
+
+        .etxt {
+            flex: 1;
+            font-size: 11.5px;
+            color: var(--g);
+            padding: 11px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+            cursor: default
+        }
+
+        .etxt.loading {
+            color: var(--m2);
+            font-style: italic;
+            font-size: 10px
+        }
+
+        .ibtn {
+            background: none;
+            border: none;
+            color: var(--m2);
+            cursor: pointer;
+            padding: 8px;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .ibtn:hover {
+            color: var(--g);
+            background: var(--g3)
+        }
+
+        .regen {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 8px 14px;
+            background: var(--g3);
+            border: 1px solid var(--b);
+            border-radius: 9px;
+            color: var(--m3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.18s
+        }
+
+        .regen:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        .regen.sp i {
+            animation: rot 0.6s linear infinite
+        }
+
+        @keyframes rot {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .tsec {
+            padding: 12px 14px 10px;
+            border-bottom: 1px solid rgba(255, 51, 85, 0.05)
+        }
+
+        .trow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 7px
+        }
+
+        .tlbl {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--m2)
+        }
+
+        .tval {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--g);
+            font-variant-numeric: tabular-nums
+        }
+
+        .tval.low {
+            color: var(--red)
+        }
+
+        .ttrack {
+            height: 3px;
+            background: var(--bg4);
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        .tfill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--g2), var(--g));
+            border-radius: 10px;
+            transition: width 1s linear, background 1s;
+            width: 100%
+        }
+
+        .tfill.low {
+            background: linear-gradient(90deg, #CC4400, var(--red))
+        }
+
+        .ihdr {
+            padding: 12px 14px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0
+        }
+
+        .icnt {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--g);
+            background: var(--g3);
+            border: 1px solid var(--b);
+            border-radius: 5px;
+            padding: 2px 8px
+        }
+
+        .ilist {
+            flex: 1;
+            overflow-y: auto
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 51, 85, 0.12);
+            border-radius: 3px
+        }
+
+        .iempty {
+            padding: 36px 14px;
+            text-align: center;
+            color: var(--m2)
+        }
+
+        .iempty i {
+            font-size: 26px;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.14
+        }
+
+        .iempty-t {
+            font-size: 12px;
+            margin-bottom: 3px
+        }
+
+        .iempty-s {
+            font-size: 10px;
+            color: var(--m)
+        }
+
+        .iitem {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 51, 85, 0.035);
+            cursor: pointer;
+            transition: background 0.15s;
+            position: relative
+        }
+
+        .iitem:hover {
+            background: rgba(255, 51, 85, 0.025)
+        }
+
+        .iitem.active {
+            background: var(--g3);
+            border-left: 2px solid var(--g)
+        }
+
+        .udot {
+            width: 5px;
+            height: 5px;
+            background: var(--g);
+            border-radius: 50%;
+            box-shadow: 0 0 5px var(--g);
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none
+        }
+
+        .iitem.unread .udot {
+            display: block
+        }
+
+        .iitem.unread .if {
+            color: var(--tx)
+        }
+
+        .if {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--m3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px
+        }
+
+        .is {
+            font-size: 10px;
+            color: var(--m2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px
+        }
+
+        .ifoot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .it {
+            font-size: 9px;
+            color: var(--m)
+        }
+
+        .ict {
+            font-size: 9px;
+            font-weight: 700;
+            background: rgba(255, 51, 85, 0.1);
+            border: 1px solid rgba(255, 51, 85, 0.25);
+            color: var(--g);
+            border-radius: 3px;
+            padding: 1px 6px;
+            display: none;
+            letter-spacing: 0.5px
+        }
+
+        .ict.on {
+            display: block
+        }
+
+        .pstrip {
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            border-top: 1px solid rgba(255, 51, 85, 0.05);
+            font-size: 10px;
+            color: var(--m);
+            flex-shrink: 0
+        }
+
+        .pds span {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            background: var(--m);
+            border-radius: 50%;
+            margin: 0 1px;
+            animation: blink 1.4s ease-in-out infinite
+        }
+
+        .pds span:nth-child(2) {
+            animation-delay: 0.2s
+        }
+
+        .pds span:nth-child(3) {
+            animation-delay: 0.4s
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--bg)
+        }
+
+        .mempty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 40px;
+            text-align: center
+        }
+
+        .mempty i {
+            font-size: 46px;
+            color: var(--g);
+            opacity: 0.07
+        }
+
+        .mempty-t {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--m3);
+            text-transform: uppercase
+        }
+
+        .mempty-s {
+            font-size: 11px;
+            color: var(--m2)
+        }
+
+        .eview {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .eview.show {
+            display: flex
+        }
+
+        .vhdr {
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid var(--b);
+            background: var(--bg2);
+            flex-shrink: 0
+        }
+
+        .vsubj {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: var(--tx);
+            line-height: 1.25;
+            margin-bottom: 10px
+        }
+
+        .vmetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px
+        }
+
+        .vm {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--m2)
+        }
+
+        .vm i {
+            color: var(--g);
+            font-size: 9px
+        }
+
+        .vm strong {
+            color: var(--m3)
+        }
+
+        .cbox {
+            margin: 14px 22px 0;
+            padding: 14px 18px;
+            background: rgba(255, 51, 85, 0.04);
+            border: 1px solid rgba(255, 51, 85, 0.17);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+            animation: glowin 0.5s ease
+        }
+
+        @keyframes glowin {
+            from {
+                box-shadow: 0 0 0 rgba(255, 51, 85, 0)
+            }
+
+            to {
+                box-shadow: 0 0 20px rgba(255, 51, 85, 0.07)
+            }
+        }
+
+        .cico {
+            width: 40px;
+            height: 40px;
+            background: var(--g3);
+            border: 1px solid var(--b2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--g);
+            font-size: 16px;
+            flex-shrink: 0
+        }
+
+        .cinfo {
+            flex: 1;
+            min-width: 0
+        }
+
+        .clbl {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--m2);
+            text-transform: uppercase;
+            margin-bottom: 3px
+        }
+
+        .cval {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--g);
+            letter-spacing: 4px;
+            text-shadow: 0 0 16px rgba(255, 51, 85, 0.3);
+            line-height: 1
+        }
+
+        .cpcopy {
+            background: var(--g3);
+            border: 1px solid var(--b2);
+            border-radius: 8px;
+            color: var(--g);
+            padding: 8px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.18s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0
+        }
+
+        .cpcopy:hover {
+            background: rgba(255, 51, 85, 0.13);
+            box-shadow: 0 0 12px rgba(255, 51, 85, 0.12)
+        }
+
+        .acodes {
+            margin: 10px 22px 0;
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-shrink: 0
+        }
+
+        .albl {
+            font-size: 9px;
+            color: var(--m2);
+            letter-spacing: 1px
+        }
+
+        .chip {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 5px;
+            background: var(--bg3);
+            border: 1px solid var(--b3);
+            color: var(--m3);
+            cursor: pointer;
+            transition: all 0.15s
+        }
+
+        .chip:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        .chip.p {
+            background: var(--g3);
+            border-color: var(--b2);
+            color: var(--g)
+        }
+
+        .vbody {
+            padding: 16px 22px;
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0
+        }
+
+        .btabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 14px
+        }
+
+        .btab {
+            background: none;
+            border: 1px solid var(--b3);
+            border-radius: 7px;
+            color: var(--m2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: all 0.15s
+        }
+
+        .btab:hover {
+            color: var(--m3)
+        }
+
+        .btab.on {
+            background: var(--g3);
+            border-color: var(--b2);
+            color: var(--g)
+        }
+
+        .bplain {
+            font-size: 12px;
+            line-height: 1.75;
+            color: var(--m3);
+            white-space: pre-wrap;
+            word-break: break-word
+        }
+
+        .bhtml {
+            width: 100%;
+            border: 1px solid var(--b3);
+            border-radius: 10px;
+            background: #fff;
+            min-height: 280px;
+            display: none
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(70px);
+            background: var(--bg3);
+            border: 1px solid var(--b2);
+            border-radius: 9px;
+            padding: 10px 18px;
+            font-size: 12px;
+            color: var(--tx);
+            z-index: 9999;
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6)
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0)
+        }
+
+        .toast i {
+            color: var(--g)
+        }
+
+        @media(max-width:700px) {
+            .page {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+                height: auto;
+                overflow: visible
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--b);
+                max-height: none;
+                overflow: visible
+            }
+
+            .ilist {
+                max-height: 220px;
+                overflow-y: auto
+            }
+
+            .main {
+                min-height: 65vh;
+                overflow: visible
+            }
+
+            .eview {
+                overflow: visible
+            }
+
+            .eview.show {
+                display: flex;
+                flex-direction: column
+            }
+
+            .vbody {
+                overflow: visible;
+                min-height: auto
+            }
+
+            .cbox {
+                margin: 12px 14px 0;
+                flex-wrap: wrap
+            }
+
+            .cval {
+                font-size: 20px
+            }
+
+            .acodes {
+                margin: 8px 14px 0
+            }
+
+            .vhdr {
+                padding: 14px 14px 12px
+            }
+
+            .vbody {
+                padding: 12px 14px
+            }
+
+            .back-btn span {
+                display: none
+            }
+
+            .back-btn {
+                padding: 7px 10px
+            }
+
+            .spill span {
+                display: none
+            }
+        }
+
+        @media(max-width:420px) {
+            .logo {
+                font-size: 21px
+            }
+
+            .cval {
+                font-size: 17px;
+                letter-spacing: 2px
+            }
+
+            .vsubj {
+                font-size: 17px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hdr">
+        <div class="hdr-l">
+            <div class="logo">TMPML</div>
+            <div class="spill">
+                <div class="dot wait" id="sdot"></div>
+                <span id="stxt">Memuat...</span>
+            </div>
+        </div>
+        <a href="/dashboard" class="back-btn">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
+
+    <div class="page">
+        <div class="sidebar">
+            <div class="email-sec">
+                <div class="sec-lbl"><i class="fa-solid fa-at"></i> ALAMAT EMAIL ANDA</div>
+                <div class="epill">
+                    <div class="etxt loading" id="eaddr">Mengambil email...</div>
+                    <button class="ibtn" onclick="copyEmail()"><i class="fa-regular fa-copy"></i></button>
+                </div>
+                <button class="regen" id="regen" onclick="regenerate()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Generate email baru
+                </button>
+            </div>
+
+            <div class="tsec">
+                <div class="trow">
+                    <span class="tlbl">SISA WAKTU</span>
+                    <span class="tval" id="tval">10:00</span>
+                </div>
+                <div class="ttrack">
+                    <div class="tfill" id="tfill"></div>
+                </div>
+            </div>
+
+            <div class="ihdr">
+                <div class="sec-lbl" style="margin-bottom:0"><i class="fa-solid fa-inbox"></i> INBOX</div>
+                <div class="icnt" id="icnt">0</div>
+            </div>
+            <div class="ilist" id="ilist">
+                <div class="iempty">
+                    <i class="fa-regular fa-envelope"></i>
+                    <div class="iempty-t">Inbox kosong</div>
+                    <div class="iempty-s">Gunakan email di atas untuk daftar</div>
+                </div>
+            </div>
+            <div class="pstrip">
+                <div class="pds"><span></span><span></span><span></span></div>
+                <span id="ptxt">Menunggu email masuk...</span>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="mempty" id="mempty">
+                <i class="fa-regular fa-envelope-open"></i>
+                <div class="mempty-t">Pilih Email</div>
+                <div class="mempty-s">Klik email di inbox untuk membaca</div>
+            </div>
+
+            <div class="eview" id="eview">
+                <div class="vhdr">
+                    <div class="vsubj" id="vsubj"></div>
+                    <div class="vmetas">
+                        <div class="vm"><i class="fa-solid fa-user"></i><strong>Dari:</strong><span id="vfrom"></span>
+                        </div>
+                        <div class="vm"><i class="fa-regular fa-clock"></i><strong>Waktu:</strong><span
+                                id="vtime"></span></div>
+                    </div>
+                </div>
+                <div class="cbox" id="cbox" style="display:none">
+                    <div class="cico"><i class="fa-solid fa-key"></i></div>
+                    <div class="cinfo">
+                        <div class="clbl">KODE TERDETEKSI</div>
+                        <div class="cval" id="vcod">------</div>
+                    </div>
+                    <button class="cpcopy" onclick="copyCode()"><i class="fa-regular fa-copy"></i> Salin</button>
+                </div>
+                <div class="acodes" id="acodes" style="display:none">
+                    <span class="albl">Semua kode:</span>
+                </div>
+                <div class="vbody">
+                    <div class="btabs">
+                        <button class="btab on" id="tp" onclick="switchTab('plain')">PLAIN</button>
+                        <button class="btab" id="th" onclick="switchTab('html')">HTML</button>
+                    </div>
+                    <pre class="bplain" id="vplain"></pre>
+                    <iframe class="bhtml" id="vhtml" sandbox="allow-same-origin"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="tmsg"></span>
+    </div>
+
+    <script>
+        const TOTAL = 600;
+        let sid = '', addr = '', seen = new Set(), inbox = [], actId = null, actData = {};
+        let pt = null, ct = null, secs = TOTAL;
+
+        async function init() {
+            try {
+                const r = await fetch('/api/guerrilla/email');
+                const d = await r.json();
+                if (d.error) throw new Error(d.error);
+                sid = d.sid_token; addr = d.email;
+                const el = document.getElementById('eaddr');
+                el.textContent = addr; el.classList.remove('loading');
+                setSt('live', 'Monitoring aktif');
+                startPoll(); startCD();
+            } catch (e) { setSt('wait', 'Gagal'); showT('Gagal: ' + e.message, 'fa-triangle-exclamation'); }
+        }
+
+        async function regenerate() {
+            const btn = document.getElementById('regen');
+            btn.classList.add('sp'); btn.disabled = true;
+            stopPoll(); stopCD(); seen.clear(); inbox = []; actId = null;
+            renderInbox([]); closeView();
+            const el = document.getElementById('eaddr');
+            el.textContent = 'Mengambil...'; el.classList.add('loading');
+            secs = TOTAL; updateCD();
+            try {
+                const r = await fetch('/api/guerrilla/email');
+                const d = await r.json();
+                if (d.error) throw new Error(d.error);
+                sid = d.sid_token; addr = d.email;
+                el.textContent = addr; el.classList.remove('loading');
+                setSt('live', 'Monitoring aktif');
+                startPoll(); startCD(); showT('Email baru dibuat!');
+            } catch (e) { el.textContent = 'Gagal'; showT('Gagal regen', 'fa-triangle-exclamation'); }
+            finally { btn.classList.remove('sp'); btn.disabled = false; }
+        }
+
+        function startPoll() { doPoll(); pt = setInterval(doPoll, 5000); }
+        function stopPoll() { clearInterval(pt); }
+
+        async function doPoll() {
+            if (!sid) return;
+            try {
+                const r = await fetch('/api/guerrilla/inbox?sid=' + encodeURIComponent(sid));
+                const d = await r.json();
+                const nw = (d.messages || []).filter(m => !seen.has(m.mail_id));
+                if (nw.length) {
+                    for (const m of nw) {
+                        seen.add(m.mail_id);
+                        inbox.unshift({ id: m.mail_id, from: m.mail_from, subject: m.mail_subject, timestamp: m.mail_timestamp, read: false, primaryCode: null, allCodes: [], loaded: false });
+                    }
+                    for (const m of nw) pfetch(m.mail_id);
+                }
+                document.getElementById('icnt').textContent = inbox.length;
+                document.getElementById('ptxt').textContent = inbox.length ? `${inbox.length} email · polling aktif` : 'Menunggu email masuk...';
+                renderInbox(inbox);
+            } catch (e) { }
+        }
+
+        async function pfetch(id) {
+            if (!sid) return null;
+            try {
+                const r = await fetch('/api/guerrilla/fetch?sid=' + encodeURIComponent(sid) + '&id=' + encodeURIComponent(id));
+                const d = await r.json();
+                if (d.error) return null;
+                const e = inbox.find(x => x.id === id);
+                if (e) { e.primaryCode = d.primaryCode; e.allCodes = d.allCodes; e.loaded = true; }
+                renderInbox(inbox);
+                if (actId === id) renderView(d);
+                return d;
+            } catch (e) { return null; }
+        }
+
+        function renderInbox(items) {
+            const list = document.getElementById('ilist');
+            if (!items.length) { list.innerHTML = '<div class="iempty"><i class="fa-regular fa-envelope"></i><div class="iempty-t">Inbox kosong</div><div class="iempty-s">Gunakan email di atas untuk daftar</div></div>'; return; }
+            list.innerHTML = '';
+            items.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'iitem' + (item.id === actId ? ' active' : '') + (!item.read ? ' unread' : '');
+                const t = item.timestamp ? new Date(parseInt(item.timestamp) * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
+                el.innerHTML = '<div class="udot"></div><div class="if">' + esc(item.from) + '</div><div class="is">' + esc(item.subject) + '</div><div class="ifoot"><div class="it">' + t + '</div><div class="ict ' + (item.primaryCode ? 'on' : '') + '">' + (item.primaryCode ? 'OTP: ' + item.primaryCode : '') + '</div></div>';
+                el.onclick = () => openEmail(item.id);
+                list.appendChild(el);
+            });
+        }
+
+        async function openEmail(id) {
+            actId = id;
+            const entry = inbox.find(e => e.id === id);
+            if (entry) entry.read = true;
+            renderInbox(inbox);
+            document.getElementById('mempty').style.display = 'none';
+            document.getElementById('eview').classList.add('show');
+            document.getElementById('vsubj').textContent = entry?.subject || '...';
+            document.getElementById('vfrom').textContent = entry?.from || '...';
+            document.getElementById('vplain').textContent = 'Memuat...';
+            document.getElementById('cbox').style.display = 'none';
+            document.getElementById('acodes').style.display = 'none';
+            const data = await pfetch(id);
+            if (data) renderView(data);
+        }
+
+        function renderView(d) {
+            document.getElementById('vsubj').textContent = d.subject;
+            document.getElementById('vfrom').textContent = d.from;
+            const t = d.timestamp ? new Date(parseInt(d.timestamp) * 1000).toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+            document.getElementById('vtime').textContent = t;
+            document.getElementById('vplain').textContent = d.bodyText || '(kosong)';
+            const frame = document.getElementById('vhtml');
+            if (d.bodyHtml) frame.srcdoc = d.bodyHtml;
+            const cb = document.getElementById('cbox');
+            if (d.primaryCode) { document.getElementById('vcod').textContent = d.primaryCode; cb.style.display = 'flex'; }
+            else cb.style.display = 'none';
+            const ar = document.getElementById('acodes');
+            if (d.allCodes?.length) {
+                ar.style.display = 'flex'; ar.querySelectorAll('.chip').forEach(c => c.remove());
+                d.allCodes.forEach(code => { const chip = document.createElement('button'); chip.className = 'chip' + (code === d.primaryCode ? ' p' : ''); chip.textContent = code; chip.onclick = () => { cpyT(code); showT('Kode ' + code + ' disalin!'); }; ar.appendChild(chip); });
+            } else ar.style.display = 'none';
+            actData = d;
+        }
+
+        function closeView() { document.getElementById('mempty').style.display = ''; document.getElementById('eview').classList.remove('show'); }
+
+        function startCD() { secs = TOTAL; updateCD(); ct = setInterval(() => { secs--; updateCD(); if (secs <= 0) { stopCD(); stopPoll(); setSt('wait', 'Sesi berakhir'); showT('Sesi berakhir, generate ulang', 'fa-triangle-exclamation'); } }, 1000); }
+        function stopCD() { clearInterval(ct); }
+        function updateCD() {
+            const m = String(Math.floor(secs / 60)).padStart(2, '0'), s = String(secs % 60).padStart(2, '0');
+            const el = document.getElementById('tval');
+            el.textContent = m + ':' + s; el.className = 'tval' + (secs < 120 ? ' low' : '');
+            const f = document.getElementById('tfill');
+            f.style.width = (secs / TOTAL * 100) + '%'; f.className = 'tfill' + (secs < 120 ? ' low' : '');
+        }
+
+        function switchTab(tab) {
+            document.getElementById('tp').classList.toggle('on', tab === 'plain');
+            document.getElementById('th').classList.toggle('on', tab === 'html');
+            document.getElementById('vplain').style.display = tab === 'plain' ? 'block' : 'none';
+            document.getElementById('vhtml').style.display = tab === 'html' ? 'block' : 'none';
+        }
+
+        function setSt(type, txt) { document.getElementById('sdot').className = 'dot ' + type; document.getElementById('stxt').textContent = txt; }
+        function copyEmail() { if (addr) { cpyT(addr); showT('Email disalin!'); } }
+        function copyCode() { if (actData.primaryCode) { cpyT(actData.primaryCode); showT('Kode disalin!'); } }
+        function cpyT(t) { navigator.clipboard.writeText(t).catch(() => { const el = Object.assign(document.createElement('textarea'), { value: t }); document.body.appendChild(el); el.select(); document.execCommand('copy'); el.remove(); }); }
+        function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+        let tT; function showT(msg, icon = 'fa-circle-check') { const t = document.getElementById('toast'); document.getElementById('tmsg').textContent = msg; t.querySelector('i').className = 'fa-solid ' + icon; t.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => t.classList.remove('show'), 2600); }
+
+        init();
+    </script>
+</body>
+
+</html>
