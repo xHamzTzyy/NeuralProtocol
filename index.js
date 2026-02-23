@@ -4031,6 +4031,94 @@ app.get("/quran", requireAuth, (req, res) => {
   });
 });
 
+app.get("/qiblat", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "qiblat.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/panduan-wudhu", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "panduan-wudhu.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/panduan-sholat", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "panduan-sholat.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/kisah-nabi", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "kisah-nabi.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/asmaul-husna", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "asmaul-husna.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/asbabun-nuzul", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "asbabun-nuzul.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/doa", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "doa.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/islam-menu", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "islamic-menu.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
 app.get("/music", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "search-music.html");
   fs.readFile(filePath, "utf8", (err, html) => {

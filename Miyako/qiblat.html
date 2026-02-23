@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arah Qiblat</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:560px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.compass-wrap{display:flex;justify-content:center;margin-bottom:1.5rem;}
+.compass{width:260px;height:260px;position:relative;}
+.compass-ring{width:100%;height:100%;border-radius:50%;border:2px solid var(--br);background:var(--c1);display:flex;align-items:center;justify-content:center;position:relative;}
+.compass-ring::before{content:'';position:absolute;inset:8px;border-radius:50%;border:1px solid var(--bs);}
+.compass-dirs{position:absolute;inset:0;}
+.compass-dirs span{position:absolute;font-family:var(--fh);font-size:.7rem;font-weight:600;}
+.cd-n{top:6px;left:50%;transform:translateX(-50%);color:var(--gold);}
+.cd-s{bottom:6px;left:50%;transform:translateX(-50%);color:var(--cm);}
+.cd-e{right:8px;top:50%;transform:translateY(-50%);color:var(--cm);}
+.cd-w{left:8px;top:50%;transform:translateY(-50%);color:var(--cm);}
+.compass-inner{width:180px;height:180px;border-radius:50%;background:var(--c2);border:1px solid var(--bs);display:flex;align-items:center;justify-content:center;position:relative;}
+.needle-wrap{position:absolute;width:100%;height:100%;transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
+.needle{position:absolute;left:50%;top:50%;transform:translateX(-50%);}
+.needle-n{width:4px;height:60px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,.3));border-radius:2px;transform:translateX(-50%) translateY(-100%);transform-origin:bottom center;}
+.needle-s{width:4px;height:40px;background:linear-gradient(to top,var(--cm),rgba(245,240,232,.1));border-radius:2px;transform:translateX(-50%);transform-origin:top center;}
+.compass-center{width:12px;height:12px;background:var(--gold);border-radius:50%;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;box-shadow:0 0 8px rgba(201,168,76,.5);}
+.qiblat-arrow{position:absolute;width:8px;height:70px;background:linear-gradient(to bottom,var(--el),rgba(37,160,110,.2));border-radius:4px;left:50%;top:50%;transform:translateX(-50%) translateY(-100%);transform-origin:bottom center;transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
+.qiblat-tip{position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid var(--el);}
+.info-panel{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.1rem;margin-bottom:.7rem;}
+.ip-title{font-family:var(--fh);font-size:.72rem;color:var(--gold);margin-bottom:.7rem;}
+.ip-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--bs);font-size:.78rem;}
+.ip-row:last-child{border-bottom:none;}
+.ip-label{color:var(--cm);}
+.ip-val{color:var(--cr);font-weight:500;}
+.ip-val.green{color:var(--el);}
+.btn-locate{width:100%;padding:.75rem;background:linear-gradient(135deg,var(--em),var(--el));border:none;border-radius:10px;color:#fff;font-family:var(--fh);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:.2s;margin-bottom:.7rem;}
+.btn-locate:hover{opacity:.9;}
+.btn-locate:disabled{opacity:.5;cursor:not-allowed;}
+.status-box{background:var(--eg);border:1px solid rgba(37,160,110,.2);border-radius:10px;padding:.8rem;text-align:center;font-size:.78rem;color:var(--el);margin-bottom:.7rem;display:none;}
+.err-box{background:rgba(225,112,85,.08);border:1px solid rgba(225,112,85,.2);border-radius:10px;padding:.8rem;text-align:center;font-size:.75rem;color:#e17055;margin-bottom:.7rem;display:none;}
+.kota-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.7rem;}
+.kota-btn{padding:.5rem;background:var(--c2);border:1px solid var(--bs);border-radius:8px;text-align:center;cursor:pointer;transition:.2s;font-size:.7rem;color:var(--cd);}
+.kota-btn:hover{border-color:var(--br);color:var(--cr);}
+.kota-btn.on{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.section-label{font-size:.7rem;color:var(--cm);margin-bottom:.4rem;font-family:var(--fh);text-transform:uppercase;letter-spacing:.05em;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:600px){.main{padding:0 1rem 4rem;}.kota-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard">
+    <div class="ni"><i class="fa-solid fa-mosque"></i></div>
+    <span class="nt">IslamiHub</span>
+  </a>
+  <div class="nbtns">
+    <a class="nb" href="/panduan-sholat"><i class="fa-solid fa-person-praying"></i> Sholat</a>
+    <a class="nb gold" href="/qiblat"><i class="fa-solid fa-compass"></i> Qiblat</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">القِبلَة</div>
+  <div class="h-ti">Arah Qiblat</div>
+  <div class="h-su">Temukan arah sholat menuju Masjidil Haram, Mekah</div>
+</div>
+
+<div class="main">
+  <div class="compass-wrap">
+    <div class="compass">
+      <div class="compass-ring">
+        <div class="compass-dirs">
+          <span class="cd-n">U</span>
+          <span class="cd-s">S</span>
+          <span class="cd-e">T</span>
+          <span class="cd-w">B</span>
+        </div>
+        <div class="compass-inner">
+          <div class="needle-wrap" id="needle-wrap">
+            <div class="needle">
+              <div class="needle-n"></div>
+            </div>
+            <div class="needle">
+              <div class="needle-s"></div>
+            </div>
+          </div>
+          <div class="needle-wrap" id="qiblat-wrap">
+            <div class="qiblat-arrow">
+              <div class="qiblat-tip"></div>
+            </div>
+          </div>
+          <div class="compass-center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-box" id="status-box"></div>
+  <div class="err-box" id="err-box"></div>
+
+  <button class="btn-locate" id="locate-btn" onclick="getLocation()">
+    <i class="fa-solid fa-location-crosshairs"></i>
+    Temukan Lokasi Saya
+  </button>
+
+  <div class="info-panel" id="info-panel">
+    <div class="ip-title">Informasi Qiblat</div>
+    <div class="ip-row"><span class="ip-label">Lokasi</span><span class="ip-val" id="ip-lokasi">—</span></div>
+    <div class="ip-row"><span class="ip-label">Koordinat</span><span class="ip-val" id="ip-coord">—</span></div>
+    <div class="ip-row"><span class="ip-label">Arah Qiblat</span><span class="ip-val green" id="ip-arah">—</span></div>
+    <div class="ip-row"><span class="ip-label">Jarak ke Mekah</span><span class="ip-val" id="ip-jarak">—</span></div>
+  </div>
+
+  <div class="section-label">Pilih Kota</div>
+  <div class="kota-grid" id="kota-grid"></div>
+
+  <div class="info-panel">
+    <div class="ip-title">Cara Menggunakan Kompas</div>
+    <div style="font-size:.73rem;color:var(--cd);line-height:1.7">
+      <b style="color:var(--el)">Jarum hijau</b> menunjukkan arah qiblat.<br>
+      Putar dirimu hingga jarum hijau mengarah ke atas (Utara kompas).<br>
+      Kemudian hadap ke arah yang ditunjukkan panah hijau.<br><br>
+      <b style="color:var(--gold)">Tips:</b> Jauhkan dari benda logam besar saat menggunakan kompas.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KAABA = {lat: 21.4225, lng: 39.8262};
+
+const kota = [
+  {name:'Jakarta',lat:-6.2088,lng:106.8456},
+  {name:'Surabaya',lat:-7.2575,lng:112.7521},
+  {name:'Bandung',lat:-6.9175,lng:107.6191},
+  {name:'Medan',lat:3.5952,lng:98.6722},
+  {name:'Makassar',lat:-5.1477,lng:119.4327},
+  {name:'Yogyakarta',lat:-7.7956,lng:110.3695},
+  {name:'Semarang',lat:-6.9932,lng:110.4203},
+  {name:'Palembang',lat:-2.9761,lng:104.7754},
+  {name:'Cilacap',lat:-7.7269,lng:109.0158},
+];
+
+let qiblatDeg = null;
+let deviceHeading = 0;
+
+function toRad(deg){return deg * Math.PI / 180;}
+function toDeg(rad){return rad * 180 / Math.PI;}
+
+function calcQiblat(lat, lng){
+  const dLng = toRad(KAABA.lng - lng);
+  const lat1 = toRad(lat);
+  const lat2 = toRad(KAABA.lat);
+  const y = Math.sin(dLng) * Math.cos(lat2);
+  const x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLng);
+  const bearing = (toDeg(Math.atan2(y, x)) + 360) % 360;
+  return Math.round(bearing);
+}
+
+function calcDistance(lat1, lng1, lat2, lng2){
+  const R = 6371;
+  const dLat = toRad(lat2-lat1);
+  const dLng = toRad(lng2-lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
+function bearingToText(deg){
+  const dirs = ['Utara','Timur Laut','Timur','Tenggara','Selatan','Barat Daya','Barat','Barat Laut'];
+  return dirs[Math.round(deg/45)%8] + ` (${deg}°)`;
+}
+
+function updateCompass(qiblat, deviceHeading=0){
+  qiblatDeg = qiblat;
+  const qAngle = qiblat - deviceHeading;
+  document.getElementById('qiblat-wrap').style.transform = `rotate(${qAngle}deg)`;
+}
+
+function showInfo(name, lat, lng){
+  const q = calcQiblat(lat, lng);
+  const d = calcDistance(lat, lng, KAABA.lat, KAABA.lng);
+  document.getElementById('ip-lokasi').textContent = name;
+  document.getElementById('ip-coord').textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  document.getElementById('ip-arah').textContent = bearingToText(q);
+  document.getElementById('ip-jarak').textContent = `± ${d.toLocaleString('id')} km`;
+  updateCompass(q);
+  showStatus(`Arah qiblat dari ${name}: ${q}°`);
+}
+
+function showStatus(msg){
+  const b = document.getElementById('status-box');
+  b.textContent = msg;
+  b.style.display = 'block';
+  document.getElementById('err-box').style.display = 'none';
+}
+
+function showErr(msg){
+  const b = document.getElementById('err-box');
+  b.textContent = msg;
+  b.style.display = 'block';
+  document.getElementById('status-box').style.display = 'none';
+}
+
+function getLocation(){
+  const btn = document.getElementById('locate-btn');
+  if(!navigator.geolocation){
+    showErr('Browser tidak mendukung geolokasi.');
+    return;
+  }
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari lokasi...';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const {latitude:lat, longitude:lng} = pos.coords;
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Temukan Lokasi Saya';
+      showInfo('Lokasi Kamu', lat, lng);
+      document.querySelectorAll('.kota-btn').forEach(b=>b.classList.remove('on'));
+    },
+    err => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Temukan Lokasi Saya';
+      showErr('Gagal mendapatkan lokasi. Pastikan izin lokasi diaktifkan.');
+    }
+  );
+}
+
+function renderKota(){
+  document.getElementById('kota-grid').innerHTML = kota.map((k,i)=>`
+    <div class="kota-btn" id="kb-${i}" onclick="selectKota(${i})">${k.name}</div>
+  `).join('');
+}
+
+function selectKota(i){
+  document.querySelectorAll('.kota-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('kb-'+i).classList.add('on');
+  const k = kota[i];
+  showInfo(k.name, k.lat, k.lng);
+}
+
+// Try device orientation for real compass
+if(window.DeviceOrientationEvent){
+  window.addEventListener('deviceorientationabsolute', e=>{
+    if(e.alpha !== null){
+      deviceHeading = e.alpha;
+      if(qiblatDeg !== null) updateCompass(qiblatDeg, deviceHeading);
+    }
+  }, true);
+}
+
+renderKota();
+// Auto-select Cilacap as default since it's the user's location
+selectKota(kota.findIndex(k=>k.name==='Cilacap'));
+</script>
+</body>
+</html>

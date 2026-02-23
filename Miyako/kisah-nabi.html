@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kisah Para Nabi</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.top{max-width:1100px;margin:1.2rem auto 0;padding:0 1.5rem;display:flex;gap:.8rem;}
+.srch{flex:1;position:relative;}
+.srch input{width:100%;padding:.6rem 1rem .6rem 2.2rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.srch input:focus{border-color:var(--br);}
+.srch input::placeholder{color:var(--cm);}
+.srch i{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--cm);font-size:.8rem;}
+.main{max-width:1100px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.7rem;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;overflow:hidden;transition:all .22s;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+.card-banner{height:70px;background:linear-gradient(135deg,var(--em),var(--c3));position:relative;display:flex;align-items:center;justify-content:center;}
+.card-icon{font-family:var(--fa);font-size:2.2rem;color:rgba(201,168,76,.3);}
+.card-num{position:absolute;top:.5rem;left:.8rem;font-family:var(--fh);font-size:.65rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .4rem;border-radius:4px;}
+.card-body{padding:1rem;}
+.ct{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.cn{font-family:var(--fh);font-size:.68rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.12rem .5rem;border-radius:5px;}
+.cmb{width:24px;height:24px;border-radius:6px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.68rem;transition:.2s;}
+.cmb:hover,.cmb.on{background:var(--eg);border-color:var(--el);color:var(--el);}
+.nabi-ar{font-family:var(--fa);font-size:1.6rem;color:var(--gl);margin-bottom:.2rem;}
+.nabi-name{font-family:var(--fh);font-size:.9rem;margin-bottom:.3rem;}
+.nabi-as{font-size:.72rem;color:var(--gold);margin-bottom:.5rem;}
+.nabi-desc{font-size:.75rem;color:var(--cd);line-height:1.6;}
+.detail-box{display:none;border-top:1px solid var(--bs);padding-top:.7rem;margin-top:.7rem;}
+.card.exp .detail-box{display:block;}
+.detail-item{display:flex;gap:.5rem;margin-bottom:.4rem;font-size:.72rem;}
+.di-label{color:var(--gold);min-width:70px;font-weight:600;}
+.di-val{color:var(--cd);}
+.mukjizat{margin-top:.5rem;}
+.mukjizat-title{font-size:.7rem;color:var(--gold);font-weight:600;margin-bottom:.3rem;}
+.mukjizat-list{list-style:none;display:flex;flex-wrap:wrap;gap:.3rem;}
+.mukjizat-list li{font-size:.66rem;background:var(--eg);border:1px solid rgba(37,160,110,.2);color:var(--el);padding:.15rem .5rem;border-radius:4px;}
+.cex{font-size:.67rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.5rem;display:block;}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);}
+.ov.on{display:flex;}
+.qbox{background:var(--c1);border:1px solid var(--br);border-radius:18px;padding:1.8rem;max-width:460px;width:100%;max-height:88vh;overflow-y:auto;}
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.qht{font-family:var(--fh);color:var(--gold);font-size:.93rem;}
+.qcl{background:none;border:1px solid var(--bs);color:var(--cd);width:28px;height:28px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+.qq{font-size:.85rem;color:var(--cr);margin-bottom:1rem;line-height:1.5;}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.qo{padding:.7rem .5rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;cursor:pointer;font-size:.78rem;color:var(--cr);transition:.2s;text-align:center;font-family:var(--fb);}
+.qo:hover{border-color:var(--br);}
+.qo.ok{border-color:#00b894;background:rgba(0,184,148,.1);color:#00b894;}
+.qo.no{border-color:#e17055;background:rgba(225,112,85,.1);color:#e17055;}
+.qsc{text-align:right;font-size:.72rem;color:var(--cm);margin-top:.6rem;}
+.qnxt{width:100%;padding:.7rem;background:var(--em);border:none;border-radius:9px;color:#fff;font-family:var(--fb);font-size:.88rem;font-weight:600;cursor:pointer;margin-top:.8rem;transition:.2s;}
+.qnxt:hover{background:var(--el);}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+.empty i{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.3;}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.qopts{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard">
+    <div class="ni"><i class="fa-solid fa-mosque"></i></div>
+    <span class="nt">IslamiHub</span>
+  </a>
+  <div class="nbtns">
+    <a class="nb" href="/doa"><i class="fa-solid fa-book-quran"></i> Doa</a>
+    <a class="nb gold" href="/kisah-nabi"><i class="fa-solid fa-star-and-crescent"></i> Kisah Nabi</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">قِصَصُ الأَنْبِيَاء</div>
+  <div class="h-ti">Kisah Para Nabi</div>
+  <div class="h-su">25 Nabi & Rasul yang wajib diketahui umat Islam</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filterNabi('all',this)">Semua</button>
+    <button class="fp" onclick="filterNabi('ulul-azmi',this)">Ulul Azmi</button>
+    <button class="fp" onclick="filterNabi('israel',this)">Bani Israel</button>
+    <button class="fp" onclick="filterNabi('arab',this)">Arab</button>
+  </div>
+</div>
+
+<div class="top">
+  <div class="srch">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Cari nama nabi..." id="search-input" oninput="doSearch()">
+  </div>
+</div>
+
+<div class="main">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-wind"></i>Nabi tidak ditemukan</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const nabis = [
+  {id:1,no:'01',ar:'آدَم',name:'Adam',as:'AS',cat:'arab',desc:'Nabi pertama dan manusia pertama yang diciptakan Allah dari tanah. Diturunkan ke bumi bersama Hawa setelah memakan buah larangan.',detail:{gelar:'Abul Basyar (Bapak Manusia)',wilayah:'Surga kemudian Bumi',mukjizat:['Diciptakan langsung dari tanah','Diajari nama-nama benda','Diampuni dosanya']}},
+  {id:2,no:'02',ar:'إِدْرِيس',name:'Idris',as:'AS',cat:'arab',desc:'Nabi yang diangkat ke tempat yang tinggi. Dikenal sebagai orang pertama yang menulis dengan pena.',detail:{gelar:'Kiyasan dengan Henokh',wilayah:'Mesir',mukjizat:["Diangkat Allah ke tempat yang tinggi",'Orang pertama menulis dengan pena']}},
+  {id:3,no:'03',ar:'نُوح',name:'Nuh',as:'AS',cat:'ulul-azmi',desc:'Nabi yang berdakwah selama 950 tahun. Membangun bahtera besar atas perintah Allah untuk menyelamatkan kaum beriman dari banjir besar.',detail:{gelar:'Syaikhul Anbiya',wilayah:'Mesopotamia',mukjizat:['Membangun bahtera raksasa','Banjir besar menenggelamkan kaum kafir','Berdakwah 950 tahun']}},
+  {id:4,no:'04',ar:'هُود',name:'Hud',as:'AS',cat:'arab',desc:'Diutus kepada kaum Ad yang sombong dan kuat. Kaum Ad akhirnya dihancurkan dengan angin kencang karena menolak ajaran Nabi Hud.',detail:{gelar:'—',wilayah:'Hadramaut, Yaman',mukjizat:['Angin kencang menghancurkan kaum Ad']}},
+  {id:5,no:'05',ar:'صَالِح',name:'Shalih',as:'AS',cat:'arab',desc:'Diutus kepada kaum Tsamud. Mukjizat berupa unta betina yang harus dijaga. Kaum Tsamud dibinasakan karena menyembelih unta tersebut.',detail:{gelar:'—',wilayah:'Al-Hijr, Arab Saudi',mukjizat:['Unta betina keluar dari batu','Gempa bumi menghancurkan kaum Tsamud']}},
+  {id:6,no:'06',ar:'إِبْرَاهِيم',name:'Ibrahim',as:'AS',cat:'ulul-azmi',desc:'Bapak para nabi. Membangun Kabah bersama putranya Ismail. Diuji dengan membakar diri dan mengorbankan putra tercintanya.',detail:{gelar:'Khalilullah (Kekasih Allah), Abul Anbiya',wilayah:'Ur Kasdim, Irak',mukjizat:["Api tidak membakar tubuhnya",'Membangun Kabah','Ismail selamat dari penyembelihan']}},
+  {id:7,no:'07',ar:'لُوط',name:'Luth',as:'AS',cat:'israel',desc:'Keponakan Nabi Ibrahim. Diutus kepada kaum Sodom yang melakukan perbuatan keji. Kaum tersebut dihancurkan Allah dengan hujan batu.',detail:{gelar:'—',wilayah:'Sodom, Palestina',mukjizat:['Kaum Luth dihancurkan hujan batu','Diselamatkan bersama pengikutnya']}},
+  {id:8,no:'08',ar:'إِسْمَاعِيل',name:'Ismail',as:'AS',cat:'arab',desc:'Putra Nabi Ibrahim dari Hajar. Bersama ayahnya membangun Kabah. Nenek moyang bangsa Arab dan leluhur Nabi Muhammad SAW.',detail:{gelar:'Sayyidus Syuhada',wilayah:'Mekah, Arab Saudi',mukjizat:['Zamzam keluar saat bayi','Bersama Ibrahim membangun Kabah']}},
+  {id:9,no:'09',ar:'إِسْحَاق',name:'Ishaq',as:'AS',cat:'israel',desc:'Putra Nabi Ibrahim dari Sarah. Ayah dari Nabi Yaqub. Nenek moyang Bani Israel.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Lahir dari ibu yang sudah sangat tua']}},
+  {id:10,no:'10',ar:'يَعْقُوب',name:'Yaqub',as:'AS',cat:'israel',desc:'Cucu Nabi Ibrahim. Memiliki 12 putra yang menjadi cikal bakal 12 suku Bani Israel. Dikenal juga dengan nama Israel.',detail:{gelar:'Israel',wilayah:'Palestina & Mesir',mukjizat:['Penglihatannya pulih setelah baju Yusuf diusapkan']}},
+  {id:11,no:'11',ar:'يُوسُف',name:'Yusuf',as:'AS',cat:'israel',desc:'Putra Nabi Yaqub. Dikisahkan dalam Al-Quran sebagai "sebaik-baik kisah". Dijual sebagai budak, dipenjara, akhirnya menjadi pembesar Mesir.',detail:{gelar:'Al-Amin',wilayah:'Mesir',mukjizat:["Menafsirkan mimpi raja",'Wajah tampan luar biasa','Bertemu kembali dengan ayahnya']}},
+  {id:12,no:'12',ar:'أَيُّوب',name:'Ayyub',as:'AS',cat:'israel',desc:'Nabi yang sangat sabar menghadapi cobaan penyakit selama 18 tahun. Menjadi simbol kesabaran dan ketawakalan dalam Islam.',detail:{gelar:'Shadiqul Wafa',wilayah:'Hauran, Suriah',mukjizat:['Disembuhkan dari penyakit berat','Sumber air penyembuh']}},
+  {id:13,no:'13',ar:'شُعَيب',name:'Syuaib',as:'AS',cat:'arab',desc:'Diutus kepada penduduk Madyan yang curang dalam timbangan dan takaran. Disebut juga khathibul anbiya karena fasih berdakwah.',detail:{gelar:'Khathibul Anbiya',wilayah:'Madyan, Arab Saudi',mukjizat:['Diselamatkan dari azab yang menimpa kaumnya']}},
+  {id:14,no:'14',ar:'مُوسَى',name:'Musa',as:'AS',cat:'ulul-azmi',desc:'Nabi yang menerima kitab Taurat. Memimpin Bani Israel keluar dari perbudakan Firaun. Pernah berbicara langsung dengan Allah.',detail:{gelar:'Kalimullah',wilayah:'Mesir & Sinai',mukjizat:['Tongkat menjadi ular','Membelah Laut Merah','Menerima Taurat di Sinai','Tangan bercahaya']}},
+  {id:15,no:'15',ar:'هَارُون',name:'Harun',as:'AS',cat:'israel',desc:'Saudara Nabi Musa. Membantu Musa berdakwah kepada Firaun. Dikenal fasih berbicara.',detail:{gelar:'—',wilayah:'Mesir',mukjizat:['Membantu membelah Laut Merah']}},
+  {id:16,no:'16',ar:'ذُو الكِفل',name:'Zulkifli',as:'AS',cat:'israel',desc:'Nabi yang sabar dan selalu menepati janji. Dianugerahi nama Zulkifli karena sanggup menanggung beban berat.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Kesabaran dan keteguhan luar biasa']}},
+  {id:17,no:'17',ar:'دَاوُد',name:'Dawud',as:'AS',cat:'israel',desc:'Raja dan Nabi yang menerima kitab Zabur. Membunuh Jalut (Goliath) dengan batu lemparan katapel saat masih muda.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Membunuh Jalut','Kitab Zabur','Besi menjadi lunak di tangannya','Bicara dengan burung']}},
+  {id:18,no:'18',ar:'سُلَيمَان',name:'Sulaiman',as:'AS',cat:'israel',desc:'Raja terkaya dalam sejarah. Dapat berbicara dengan binatang dan menguasai jin. Membangun Baitul Maqdis yang megah.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Bicara dengan binatang','Menguasai jin & angin','Permadani terbang','Ratu Balqis takluk']}},
+  {id:19,no:'19',ar:'إِلْيَاس',name:'Ilyas',as:'AS',cat:'israel',desc:'Diutus kepada Bani Israel yang menyembah berhala Baal. Berjuang keras melawan penyembahan berhala.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Diangkat Allah ke langit','Api dari langit mengalahkan penyembah Baal']}},
+  {id:20,no:'20',ar:'اليَسَع',name:'Ilyasa',as:'AS',cat:'israel',desc:'Penerus dakwah Nabi Ilyas. Nabi yang teguh dan terpilih di antara orang-orang yang baik.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Melanjutkan mukjizat Nabi Ilyas']}},
+  {id:21,no:'21',ar:'يُونُس',name:'Yunus',as:'AS',cat:'israel',desc:'Diutus kepada penduduk Niniwe. Pernah ditelan ikan paus besar setelah meninggalkan kaumnya. Diselamatkan Allah setelah berdoa.',detail:{gelar:'Dzun Nun (Pemilik Ikan Paus)',wilayah:'Niniwe, Irak',mukjizat:["Selamat dari perut ikan paus",'Kaumnya diselamatkan karena bertobat']}},
+  {id:22,no:'22',ar:'زَكَرِيَّا',name:'Zakaria',as:'AS',cat:'israel',desc:'Penjaga Baitul Maqdis dan pengasuh Maryam. Berdoa kepada Allah agar diberi keturunan di usia tua dan dikabulkan.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Dikaruniai putra (Yahya) di usia tua']}},
+  {id:23,no:'23',ar:'يَحيَى',name:'Yahya',as:'AS',cat:'israel',desc:'Putra Nabi Zakaria. Lahir dari orang tua yang sudah sangat tua. Saleh sejak kecil. Dikisahkan syahid dibunuh penguasa zalim.',detail:{gelar:'—',wilayah:'Palestina',mukjizat:['Lahir dari ibu mandul dan bapak tua','Saleh sejak kecil']}},
+  {id:24,no:'24',ar:'عِيسَى',name:'Isa',as:'AS',cat:'ulul-azmi',desc:'Nabi yang lahir tanpa ayah dari Maryam. Menerima kitab Injil. Dapat menyembuhkan penyakit dan menghidupkan orang mati atas izin Allah.',detail:{gelar:'Kalimatullah, Ruhullah',wilayah:'Palestina',mukjizat:['Lahir tanpa ayah','Menyembuhkan penyakit lepra & buta','Menghidupkan orang mati','Bicara saat bayi','Injil diturunkan']}},
+  {id:25,no:'25',ar:'مُحَمَّد',name:'Muhammad',as:'SAW',cat:'ulul-azmi',desc:'Nabi dan Rasul terakhir penutup para nabi. Menerima Al-Quran sebagai mukjizat terbesar. Diutus untuk seluruh umat manusia.',detail:{gelar:'Al-Amin, Khatamul Anbiya, Rahmatan lil Alamin',wilayah:'Mekah & Madinah',mukjizat:['Al-Quran','Isra Miraj','Terbelahnya bulan','Air keluar dari jari','Syafaat di hari kiamat']}},
+];
+
+let savedNabi = JSON.parse(localStorage.getItem('nabi-fav')||'[]');
+let currentFilter = 'all';
+
+function render(list){
+  const g = document.getElementById('grid');
+  const e = document.getElementById('empty');
+  if(!list.length){g.innerHTML='';e.style.display='block';return;}
+  e.style.display='none';
+  g.innerHTML = list.map((n,i)=>`
+    <div class="card" style="animation-delay:${i*0.04}s">
+      <div class="card-banner">
+        <div class="card-icon">${n.ar}</div>
+        <span class="card-num">No. ${n.no}</span>
+      </div>
+      <div class="card-body">
+        <div class="ct">
+          <span class="cn">${n.cat.toUpperCase()}</span>
+          <button class="cmb${savedNabi.includes(n.id)?' on':''}" onclick="toggleFav(${n.id},this)"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <div class="nabi-ar">${n.ar}</div>
+        <div class="nabi-name">Nabi ${n.name}</div>
+        <div class="nabi-as">${n.as}</div>
+        <div class="nabi-desc">${n.desc}</div>
+        <div class="detail-box">
+          ${n.detail.gelar&&n.detail.gelar!=='—'?`<div class="detail-item"><span class="di-label">Gelar</span><span class="di-val">${n.detail.gelar}</span></div>`:''}
+          <div class="detail-item"><span class="di-label">Wilayah</span><span class="di-val">${n.detail.wilayah}</span></div>
+          <div class="mukjizat">
+            <div class="mukjizat-title">Mukjizat</div>
+            <ul class="mukjizat-list">${n.detail.mukjizat.map(m=>`<li>${m}</li>`).join('')}</ul>
+          </div>
+        </div>
+        <button class="cex" onclick="toggleExp(this)">Lihat detail ▾</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleExp(btn){
+  btn.closest('.card').classList.toggle('exp');
+  btn.textContent = btn.closest('.card').classList.contains('exp') ? 'Tutup ▴' : 'Lihat detail ▾';
+}
+
+function toggleFav(id, btn){
+  if(savedNabi.includes(id)) savedNabi = savedNabi.filter(x=>x!==id);
+  else savedNabi.push(id);
+  localStorage.setItem('nabi-fav', JSON.stringify(savedNabi));
+  btn.classList.toggle('on');
+  showToast(savedNabi.includes(id)?'Ditambahkan ke favorit':'Dihapus dari favorit');
+}
+
+function filterNabi(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll('.fp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let list = cat==='all' ? nabis : nabis.filter(n=>n.cat===cat);
+  if(q) list = list.filter(n=>n.name.toLowerCase().includes(q)||n.ar.includes(q)||n.desc.toLowerCase().includes(q));
+  render(list);
+}
+
+function doSearch(){
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let list = currentFilter==='all' ? nabis : nabis.filter(n=>n.cat===currentFilter);
+  if(q) list = list.filter(n=>n.name.toLowerCase().includes(q)||n.ar.includes(q)||n.desc.toLowerCase().includes(q));
+  render(list);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+render(nabis);
+</script>
+</body>
+</html>

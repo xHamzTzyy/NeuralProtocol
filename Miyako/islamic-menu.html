@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IslamiHub Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #04080d;
+            --card-bg: rgba(13, 24, 33, 0.6);
+            --accent-gold: #c9a84c;
+            --accent-green: #1a6b4a;
+            --accent-light-green: #25a06e;
+            --text-main: #f5f0e8;
+            --text-sub: #7a8a99;
+            --sheet-bg: rgba(5, 10, 16, 0.97);
+            --glass-border: rgba(201, 168, 76, 0.1);
+            --gold-glow: rgba(201, 168, 76, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 50% -20%, rgba(26,107,74,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(201,168,76,0.08) 0%, transparent 35%),
+                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(201,168,76,.015) 40px, rgba(201,168,76,.015) 41px),
+                repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(201,168,76,.015) 40px, rgba(201,168,76,.015) 41px);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 130px;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .page-container { width: 100%; max-width: 450px; }
+
+        .hero-header { text-align: center; padding: 30px 0 10px; margin-bottom: 10px; }
+        .hero-arabic { font-family: 'Scheherazade New', serif; font-size: 2.4rem; color: #e8cc7a; line-height: 1.2; text-shadow: 0 0 30px rgba(201,168,76,.3); }
+        .hero-title { font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: .1em; color: var(--text-main); margin: 4px 0 2px; }
+        .hero-sub { font-size: .72rem; color: var(--text-sub); }
+
+        .section-title {
+            font-size: 0.7rem; letter-spacing: 3px; color: var(--text-sub);
+            margin: 35px 0 20px 5px; text-transform: uppercase; font-weight: 700;
+            display: flex; align-items: center;
+        }
+        .section-title::after {
+            content: ""; height: 1px; flex: 1;
+            background: linear-gradient(90deg, rgba(201,168,76,0.2), transparent);
+            margin-left: 15px;
+        }
+
+        .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+
+        .tool-box {
+            background: var(--card-bg); padding: 28px 18px; border-radius: 24px;
+            text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            position: relative; overflow: hidden; z-index: 1;
+        }
+        .tool-box::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,.04), transparent);
+            pointer-events: none;
+        }
+        .tool-box:hover {
+            border-color: rgba(201,168,76,0.4); transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--gold-glow);
+        }
+        .tool-box:active { transform: scale(0.95); }
+
+        .icon-wrap {
+            width: 48px; height: 48px; margin: 0 auto 16px auto;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; border-radius: 14px; transition: 0.3s;
+            border: 1px solid rgba(201,168,76,.15);
+        }
+        .tool-box:hover .icon-wrap { transform: scale(1.1); }
+        .ig { background: rgba(201,168,76,.12); color: #c9a84c; }
+        .igg { background: rgba(26,107,74,.2); color: #25a06e; }
+        .igb { background: rgba(30,90,160,.2); color: #5ba4f5; }
+
+        .tool-box h3 { margin: 0 0 7px 0; font-size: .95rem; font-weight: 700; color: var(--text-main); }
+        .tool-box p { margin: 0; font-size: 0.62rem; color: var(--text-sub); line-height: 1.5; }
+        .card-ar {
+            font-family: 'Scheherazade New', serif; font-size: 1.4rem;
+            color: rgba(232,204,122,.4); position: absolute; bottom: 6px;
+            right: 12px; line-height: 1; pointer-events: none;
+        }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            display: none; z-index: 1000; animation: fadeIn 0.3s ease;
+        }
+
+        .bottom-sheet {
+            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 20px); max-width: 430px;
+            background: var(--sheet-bg); border-radius: 30px; z-index: 1001;
+            transition: bottom 0.5s cubic-bezier(0.32, 1, 0.23, 1);
+            border: 1px solid rgba(201,168,76,0.2);
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.8);
+            box-sizing: border-box; padding: 25px; padding-bottom: 100px;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .bottom-sheet.active { bottom: 20px; }
+        .bottom-sheet::before {
+            content: ""; position: absolute; top: 12px; left: 50%;
+            transform: translateX(-50%); width: 40px; height: 4px;
+            background: rgba(201,168,76,0.15); border-radius: 10px;
+        }
+
+        .sheet-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; margin-top: 8px;
+        }
+        .sheet-header-left { display: flex; flex-direction: column; }
+        .sheet-header h2 { font-size: 1.4rem; margin: 0; font-weight: 800; color: var(--text-main); }
+        .sheet-arabic { font-family: 'Scheherazade New', serif; font-size: 1.1rem; color: #e8cc7a; margin-top: 2px; }
+
+        .close-btn {
+            background: rgba(255,255,255,0.05); color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: 0.3s; flex-shrink: 0;
+        }
+        .close-btn:hover { background: var(--accent-green); border-color: var(--accent-light-green); }
+
+        .sheet-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .sheet-item {
+            background: rgba(255,255,255,0.03); border-radius: 18px;
+            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+        }
+        .sheet-item:hover { background: rgba(26,107,74,0.12); border-color: rgba(26,107,74,0.3); transform: translateX(5px); }
+        .sheet-item a {
+            display: flex; align-items: center; padding: 17px 20px;
+            text-decoration: none; color: var(--text-main);
+            width: 100%; box-sizing: border-box; gap: 16px;
+        }
+        .si-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .si-text { flex: 1; }
+        .si-name { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 1px; }
+        .si-desc { font-size: 0.65rem; color: var(--text-sub); }
+        .si-arrow { color: rgba(255,255,255,0.2); font-size: 12px; }
+
+        .navbar {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 50px); max-width: 400px;
+            background: rgba(5,10,16,0.75);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            height: 72px; border-radius: 25px; display: flex;
+            justify-content: space-around; align-items: center;
+            border: 1px solid rgba(201,168,76,0.12);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.04);
+            z-index: 9999; padding: 0 10px;
+        }
+        .nav-link {
+            position: relative; text-align: center; color: rgba(245,240,232,0.3);
+            text-decoration: none; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; flex: 1;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1); height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
+        }
+        .nav-link i { font-size: 20px; transition: all 0.3s ease; }
+        .nav-link:hover { color: rgba(245,240,232,0.7); }
+        .nav-link:hover i { transform: translateY(-3px); }
+        .nav-link.active { color: var(--accent-gold); }
+        .nav-link.active i { transform: translateY(-4px); filter: drop-shadow(0 0 10px rgba(201,168,76,0.8)); }
+        .nav-link.active::after {
+            content: ''; position: absolute; bottom: 12px; width: 15px; height: 3px;
+            background: var(--accent-gold); border-radius: 10px;
+            box-shadow: 0 0 15px var(--accent-gold), 0 0 5px var(--accent-gold);
+            animation: lineGlow 1.5s infinite alternate;
+        }
+        .nav-link:active { transform: scale(0.9); }
+
+        @keyframes lineGlow { from { opacity: 0.6; width: 10px; } to { opacity: 1; width: 18px; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        body::after {
+            content: ''; position: fixed; bottom: 0; left: 0; right: 0; height: 100px;
+            background: linear-gradient(transparent, rgba(4,8,13,0.9));
+            pointer-events: none; z-index: 999;
+        }
+        .bottom-sheet::-webkit-scrollbar { width: 3px; }
+        .bottom-sheet::-webkit-scrollbar-track { background: transparent; }
+        .bottom-sheet::-webkit-scrollbar-thumb { background: rgba(201,168,76,.3); border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="hero-header">
+        <div class="hero-arabic">&#x628;&#x650;&#x633;&#x652;&#x645;&#x650; &#x627;&#x644;&#x644;&#x647;&#x650;</div>
+        <div class="hero-title">IslamiHub</div>
+        <div class="hero-sub">Panduan lengkap ibadah sehari-hari</div>
+    </div>
+
+    <div class="section-title">Al-Quran & Doa</div>
+    <div class="tools-grid">
+        <div class="tool-box" onclick="openSheet('doa')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-book-quran"></i></div>
+            <h3>Doa & Dzikir</h3>
+            <p>doa harian & hafalan</p>
+            <span class="card-ar">&#x623;&#x62F;&#x639;&#x64A;&#x629;</span>
+        </div>
+        <div class="tool-box" onclick="openSheet('asbabun')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-scroll"></i></div>
+            <h3>Asbabun Nuzul</h3>
+            <p>sebab turunnya ayat</p>
+            <span class="card-ar">&#x627;&#x644;&#x646;&#x632;&#x648;&#x644;</span>
+        </div>
+    </div>
+
+    <div class="section-title">Ibadah & Panduan</div>
+    <div class="tools-grid">
+        <div class="tool-box" onclick="openSheet('sholat')">
+            <div class="icon-wrap igg"><i class="fa-solid fa-person-praying"></i></div>
+            <h3>Panduan Sholat</h3>
+            <p>tata cara & bacaan</p>
+            <span class="card-ar">&#x627;&#x644;&#x635;&#x644;&#x627;&#x629;</span>
+        </div>
+        <div class="tool-box" onclick="openSheet('wudhu')">
+            <div class="icon-wrap igb"><i class="fa-solid fa-droplet"></i></div>
+            <h3>Panduan Wudhu</h3>
+            <p>rukun & sunnah wudhu</p>
+            <span class="card-ar">&#x627;&#x644;&#x648;&#x636;&#x648;&#x621;</span>
+        </div>
+    </div>
+
+    <div class="section-title">Sejarah & Arah</div>
+    <div class="tools-grid">
+        <div class="tool-box" onclick="openSheet('nabi')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-star-and-crescent"></i></div>
+            <h3>Kisah Nabi</h3>
+            <p>25 nabi & mukjizat</p>
+            <span class="card-ar">&#x627;&#x644;&#x623;&#x646;&#x628;&#x64A;&#x627;&#x621;</span>
+        </div>
+        <div class="tool-box" onclick="openSheet('qiblat')">
+            <div class="icon-wrap igg"><i class="fa-solid fa-compass"></i></div>
+            <h3>Arah Qiblat</h3>
+            <p>kompas menuju mekah</p>
+            <span class="card-ar">&#x627;&#x644;&#x642;&#x628;&#x644;&#x629;</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<div class="bottom-sheet" id="bottomSheet">
+    <div class="sheet-header">
+        <div class="sheet-header-left">
+            <h2 id="sheetTitle">Menu</h2>
+            <span class="sheet-arabic" id="sheetAr"></span>
+        </div>
+        <button class="close-btn" onclick="closeSheet()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sheet-list" id="sheetList"></div>
+</div>
+
+<nav class="navbar">
+    <a href="/dashboard" class="nav-link active"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="/doa" class="nav-link"><i class="fa-solid fa-book-quran"></i><span>Doa</span></a>
+    <a href="/panduan-sholat" class="nav-link"><i class="fa-solid fa-person-praying"></i><span>Sholat</span></a>
+    <a href="/qiblat" class="nav-link"><i class="fa-solid fa-compass"></i><span>Qiblat</span></a>
+</nav>
+
+<script>
+// Semua data di sini, bukan di HTML attribute
+// Solusi biar ga error karena karakter arab & tanda kutip di onclick
+var sheets = {
+    doa: {
+        title: 'Doa & Dzikir',
+        ar: '\u0623\u064E\u062F\u0652\u0639\u0650\u064A\u064E\u0629',
+        items: [
+            {name:'Doa Harian', desc:'Doa pagi, sore, tidur, makan', icon:'fa-solid fa-book-open', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/doa'},
+            {name:'Dzikir Al-Quran', desc:'Kumpulan dzikir dari ayat Al-Quran', icon:'fa-solid fa-book-quran', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/doa'},
+            {name:'Quiz Hafalan', desc:'Uji hafalan doa kamu', icon:'fa-solid fa-circle-check', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/doa'}
+        ]
+    },
+    asbabun: {
+        title: 'Asbabun Nuzul',
+        ar: '\u0623\u0633\u0628\u064E\u0627\u0628\u064F \u0627\u0644\u0646\u064F\u0632\u064F\u0648\u0644',
+        items: [
+            {name:'Surah Makkiyah', desc:'Ayat yang turun di Mekah', icon:'fa-solid fa-kaaba', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/asbabun-nuzul'},
+            {name:'Surah Madaniyah', desc:'Ayat yang turun di Madinah', icon:'fa-solid fa-mosque', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/asbabun-nuzul'},
+            {name:'Semua Asbabun Nuzul', desc:'Browse lengkap beserta hikmah', icon:'fa-solid fa-scroll', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/asbabun-nuzul'}
+        ]
+    },
+    sholat: {
+        title: 'Panduan Sholat',
+        ar: '\u0627\u0644\u0635\u064E\u0644\u0627\u0629',
+        items: [
+            {name:'Waktu Sholat', desc:'Jadwal & info 5 waktu sholat', icon:'fa-solid fa-clock', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-sholat'},
+            {name:'Tata Cara Sholat', desc:'Rukun, bacaan & gerakan lengkap', icon:'fa-solid fa-person-praying', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/panduan-sholat'},
+            {name:'Sholat Subuh', desc:'Panduan 2 rakaat subuh', icon:'fa-solid fa-sun', color:'#f2c94c', bg:'rgba(242,201,76,.1)', link:'/panduan-sholat'},
+            {name:'Sholat Dzuhur & Ashar', desc:'Panduan 4 rakaat', icon:'fa-solid fa-cloud-sun', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/panduan-sholat'},
+            {name:'Sholat Maghrib & Isya', desc:'Panduan 3 & 4 rakaat', icon:'fa-solid fa-moon', color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/panduan-sholat'}
+        ]
+    },
+    wudhu: {
+        title: 'Panduan Wudhu',
+        ar: '\u0627\u0644\u0648\u064F\u0636\u064F\u0648\u0621',
+        items: [
+            {name:'Rukun Wudhu', desc:'6 rukun wajib yang harus dilakukan', icon:'fa-solid fa-droplet', color:'#5ba4f5', bg:'rgba(91,164,245,.12)', link:'/panduan-wudhu'},
+            {name:'Sunnah Wudhu', desc:'9 amalan sunnah saat berwudhu', icon:'fa-solid fa-star', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-wudhu'},
+            {name:'Pembatal Wudhu', desc:'Hal-hal yang membatalkan wudhu', icon:'fa-solid fa-circle-xmark', color:'#e17055', bg:'rgba(225,112,85,.1)', link:'/panduan-wudhu'}
+        ]
+    },
+    nabi: {
+        title: 'Kisah Para Nabi',
+        ar: '\u0642\u0650\u0635\u064E\u0635\u064F \u0627\u0644\u0623\u064E\u0646\u0652\u0628\u0650\u064A\u064E\u0627\u0621',
+        items: [
+            {name:'25 Nabi & Rasul', desc:'Semua kisah & mukjizat nabi', icon:'fa-solid fa-star-and-crescent', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/kisah-nabi'},
+            {name:'Ulul Azmi', desc:'5 nabi dengan keteguhan tertinggi', icon:'fa-solid fa-crown', color:'#e8cc7a', bg:'rgba(232,204,122,.12)', link:'/kisah-nabi'},
+            {name:'Nabi Bani Israel', desc:'Para nabi dari keturunan Israel', icon:'fa-solid fa-scroll', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/kisah-nabi'},
+            {name:'Nabi Arab', desc:'Nabi-nabi dari tanah Arab', icon:'fa-solid fa-kaaba', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/kisah-nabi'}
+        ]
+    },
+    qiblat: {
+        title: 'Arah Qiblat',
+        ar: '\u0627\u0644\u0642\u0650\u0628\u0644\u064E\u0629',
+        items: [
+            {name:'Kompas Qiblat', desc:'Kompas interaktif menuju Mekah', icon:'fa-solid fa-compass', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/qiblat'},
+            {name:'Deteksi Lokasi', desc:'Temukan qiblat dari GPS kamu', icon:'fa-solid fa-location-crosshairs', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/qiblat'},
+            {name:'Pilih Kota', desc:'Arah qiblat dari kota di Indonesia', icon:'fa-solid fa-city', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/qiblat'}
+        ]
+    }
+};
+
+function openSheet(key) {
+    var d = sheets[key];
+    if (!d) return;
+    document.getElementById('sheetTitle').textContent = d.title;
+    document.getElementById('sheetAr').textContent = d.ar;
+    var list = document.getElementById('sheetList');
+    list.innerHTML = '';
+    d.items.forEach(function(opt) {
+        var wrap = document.createElement('div');
+        wrap.className = 'sheet-item';
+        var a = document.createElement('a');
+        a.href = opt.link;
+        var iconBox = document.createElement('div');
+        iconBox.className = 'si-icon';
+        iconBox.style.background = opt.bg;
+        iconBox.style.color = opt.color;
+        var ico = document.createElement('i');
+        ico.className = opt.icon;
+        iconBox.appendChild(ico);
+        var txt = document.createElement('div');
+        txt.className = 'si-text';
+        var nm = document.createElement('span');
+        nm.className = 'si-name';
+        nm.textContent = opt.name;
+        var dc = document.createElement('span');
+        dc.className = 'si-desc';
+        dc.textContent = opt.desc;
+        txt.appendChild(nm);
+        txt.appendChild(dc);
+        var arr = document.createElement('i');
+        arr.className = 'fa-solid fa-chevron-right si-arrow';
+        a.appendChild(iconBox);
+        a.appendChild(txt);
+        a.appendChild(arr);
+        wrap.appendChild(a);
+        list.appendChild(wrap);
+    });
+    document.getElementById('overlay').style.display = 'block';
+    setTimeout(function() {
+        document.getElementById('bottomSheet').classList.add('active');
+    }, 10);
+}
+
+function closeSheet() {
+    document.getElementById('bottomSheet').classList.remove('active');
+    setTimeout(function() {
+        document.getElementById('overlay').style.display = 'none';
+    }, 400);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doa & Al-Quran</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.pw{max-width:460px;margin:1.2rem auto 0;padding:0 1.5rem;}
+.pl{display:flex;justify-content:space-between;font-size:.73rem;color:var(--cd);margin-bottom:.35rem;}
+.pt{height:4px;background:var(--c3);border-radius:2px;}
+.pf{height:100%;background:linear-gradient(90deg,var(--el),var(--gold));border-radius:2px;transition:width .5s;}
+.top{max-width:1100px;margin:1.2rem auto 0;padding:0 1.5rem;display:flex;gap:.8rem;}
+.srch{flex:1;position:relative;}
+.srch input{width:100%;padding:.6rem 1rem .6rem 2.2rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.srch input:focus{border-color:var(--br);}
+.srch input::placeholder{color:var(--cm);}
+.srch i{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--cm);font-size:.8rem;}
+.main{max-width:1100px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.7rem;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.1rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card::after{content:attr(data-n);position:absolute;bottom:-6px;right:8px;font-family:var(--fh);font-size:3.2rem;color:rgba(201,168,76,.05);pointer-events:none;line-height:1;}
+.card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+.card.mem{border-left:3px solid var(--el);}
+.ct{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+.cn{font-family:var(--fh);font-size:.68rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.12rem .5rem;border-radius:5px;}
+.cmb{width:24px;height:24px;border-radius:6px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.68rem;transition:.2s;}
+.cmb:hover,.cmb.on{background:var(--eg);border-color:var(--el);color:var(--el);}
+.ca{font-family:var(--fa);font-size:1.75rem;color:var(--gl);text-align:right;direction:rtl;margin-bottom:.25rem;line-height:1.4;}
+.cl{font-size:.83rem;font-weight:600;color:var(--cr);margin-bottom:.12rem;}
+.cme{font-size:.74rem;color:var(--cd);}
+.cdesc{font-size:.71rem;color:var(--cm);line-height:1.65;display:none;border-top:1px solid var(--bs);padding-top:.65rem;margin-top:.65rem;}
+.card.exp .cdesc{display:block;}
+.cex{font-size:.67rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.45rem;display:block;}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);}
+.ov.on{display:flex;}
+.qbox{background:var(--c1);border:1px solid var(--br);border-radius:18px;padding:1.8rem;max-width:460px;width:100%;max-height:88vh;overflow-y:auto;}
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.qht{font-family:var(--fh);color:var(--gold);font-size:.93rem;}
+.qcl{background:none;border:1px solid var(--bs);color:var(--cd);width:28px;height:28px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+.qar{font-family:var(--fa);font-size:2rem;text-align:center;direction:rtl;color:var(--gl);padding:1rem;background:var(--c2);border-radius:10px;margin-bottom:.8rem;line-height:1.6;}
+.qq{font-size:.82rem;color:var(--cd);text-align:center;margin-bottom:.8rem;}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.qo{padding:.7rem .5rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;cursor:pointer;font-size:.78rem;color:var(--cr);transition:.2s;text-align:center;font-family:var(--fb);}
+.qo:hover{border-color:var(--br);}
+.qo.ok{border-color:#00b894;background:rgba(0,184,148,.1);color:#00b894;}
+.qo.no{border-color:#e17055;background:rgba(225,112,85,.1);color:#e17055;}
+.qsc{text-align:right;font-size:.72rem;color:var(--cm);margin-top:.6rem;}
+.qnxt{width:100%;padding:.7rem;background:var(--em);border:none;border-radius:9px;color:#fff;font-family:var(--fb);font-size:.88rem;font-weight:600;cursor:pointer;margin-top:.8rem;transition:.2s;}
+.qnxt:hover{background:var(--el);}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+.empty i{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.3;}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.qopts{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="index.html">
+    <div class="ni"><i class="fa-solid fa-mosque"></i></div>
+    <span class="nt">IslamiHub</span>
+  </a>
+  <div class="nbtns">
+    <a class="nb" href="/panduan-sholat"><i class="fa-solid fa-person-praying"></i> Sholat</a>
+    <a class="nb gold" href="/dashboard"><i class="fa-solid fa-home"></i></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">أَدْعِيَة</div>
+  <div class="h-ti">Doa & Dzikir Al-Quran</div>
+  <div class="h-su">Kumpulan doa harian dari Al-Quran dan Hadits Shahih</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filter('all',this)">Semua</button>
+    <button class="fp" onclick="filter('pagi',this)">Pagi</button>
+    <button class="fp" onclick="filter('sore',this)">Sore</button>
+    <button class="fp" onclick="filter('tidur',this)">Tidur</button>
+    <button class="fp" onclick="filter('makan',this)">Makan</button>
+    <button class="fp" onclick="filter('safar',this)">Safar</button>
+  </div>
+  <div class="pw">
+    <div class="pl"><span>Progress Hafalan</span><span id="prog-txt">0 / 10</span></div>
+    <div class="pt"><div class="pf" id="prog-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="top">
+  <div class="srch">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Cari doa..." id="search-input" oninput="doSearch()">
+  </div>
+</div>
+
+<div class="main">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-wind"></i>Doa tidak ditemukan</div>
+</div>
+
+<div class="ov" id="quiz-ov">
+  <div class="qbox">
+    <div class="qh">
+      <span class="qht">Uji Hafalan</span>
+      <button class="qcl" onclick="closeQuiz()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="qar" id="q-ar"></div>
+    <div class="qq" id="q-q">Apa arti dari doa ini?</div>
+    <div class="qopts" id="q-opts"></div>
+    <div class="qsc">Skor: <span id="q-sc">0</span></div>
+    <button class="qnxt" id="q-nxt" style="display:none" onclick="nextQ()">Lanjut</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const duas = [
+  {id:1,cat:'pagi',ar:'بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ',lat:'Bismillahir rahmanir rahim',art:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',desc:'Dibaca sebelum memulai aktivitas apapun. Termasuk makan, minum, belajar, bekerja.',n:'1'},
+  {id:2,cat:'pagi',ar:'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ',lat:'Ashbahna wa asbahal mulku lillah',art:'Kami memasuki waktu pagi dan kerajaan hanya milik Allah',desc:'Doa pagi hari yang dibaca setelah subuh. Diriwayatkan dari Abu Dawud.',n:'2'},
+  {id:3,cat:'sore',ar:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ',lat:'Amsaina wa amsal mulku lillah',art:'Kami memasuki waktu sore dan kerajaan hanya milik Allah',desc:'Doa sore hari dibaca setelah ashar. Pasangan dari doa pagi.',n:'3'},
+  {id:4,cat:'tidur',ar:'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',lat:'Bismika Allahumma amuutu wa ahya',art:'Dengan nama-Mu ya Allah aku mati dan hidup',desc:'Doa sebelum tidur. Tidur diibaratkan seperti kematian kecil.',n:'4'},
+  {id:5,cat:'makan',ar:'اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا',lat:'Allahumma barik lana fima razaqtana',art:'Ya Allah berkahilah kami pada apa yang Engkau rezekikan kepada kami',desc:'Doa sebelum makan. Memohon keberkahan pada makanan yang akan dimakan.',n:'5'},
+  {id:6,cat:'makan',ar:'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا',lat:'Alhamdulillahil ladzi ath-amana wa saqana',art:'Segala puji bagi Allah yang telah memberi kami makan dan minum',desc:'Doa sesudah makan. Bentuk syukur atas nikmat makanan.',n:'6'},
+  {id:7,cat:'safar',ar:'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا',lat:'Subhanalladzi sakhkhara lana hadza',art:'Maha Suci Allah yang telah menundukkan ini untuk kami',desc:'Doa naik kendaraan. Dari QS Az-Zukhruf:13. Dibaca saat naik kendaraan apapun.',n:'7'},
+  {id:8,cat:'pagi',ar:'رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ',lat:"Rabbi a'udzu bika min hamazatish shayatin",art:'Ya Tuhanku aku berlindung kepada-Mu dari bisikan-bisikan setan',desc:'Doa perlindungan dari gangguan setan. Dari QS Al-Mukminun:97-98.',n:'8'},
+  {id:9,cat:'sore',ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ',lat:"Allahumma inni as'alukal 'afiyah",art:'Ya Allah sesungguhnya aku memohon kesehatan kepada-Mu',desc:'Doa memohon kesehatan. Salah satu doa yang dianjurkan Nabi SAW.',n:'9'},
+  {id:10,cat:'tidur',ar:'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',lat:'Allahumma qini adzabaka yawma tab-atsu ibadaka',art:'Ya Allah jauhkan aku dari azab-Mu pada hari Engkau membangkitkan hamba-hamba-Mu',desc:'Doa tidur dari hadits Abu Dawud. Dibaca 3 kali.',n:'10'},
+];
+
+let memorized = JSON.parse(localStorage.getItem('doa-mem')||'[]');
+let currentFilter = 'all';
+let quizIdx = 0, quizScore = 0, answered = false;
+
+function render(list){
+  const g = document.getElementById('grid');
+  const e = document.getElementById('empty');
+  if(!list.length){g.innerHTML='';e.style.display='block';return;}
+  e.style.display='none';
+  g.innerHTML = list.map((d,i)=>`
+    <div class="card${memorized.includes(d.id)?' mem':''}" data-n="${d.n}" data-id="${d.id}" style="animation-delay:${i*0.04}s">
+      <div class="ct">
+        <span class="cn">${d.cat.toUpperCase()}</span>
+        <button class="cmb${memorized.includes(d.id)?' on':''}" onclick="toggleMem(${d.id},this)" title="Hafal">
+          <i class="fa-solid fa-bookmark"></i>
+        </button>
+      </div>
+      <div class="ca">${d.ar}</div>
+      <div class="cl">${d.lat}</div>
+      <div class="cme">${d.art}</div>
+      <div class="cdesc">${d.desc}</div>
+      <button class="cex" onclick="toggleExp(this)">Lihat penjelasan ▾</button>
+    </div>
+  `).join('');
+  updateProgress();
+}
+
+function toggleExp(btn){
+  btn.closest('.card').classList.toggle('exp');
+  btn.textContent = btn.closest('.card').classList.contains('exp') ? 'Tutup ▴' : 'Lihat penjelasan ▾';
+}
+
+function toggleMem(id, btn){
+  if(memorized.includes(id)) memorized = memorized.filter(x=>x!==id);
+  else memorized.push(id);
+  localStorage.setItem('doa-mem', JSON.stringify(memorized));
+  btn.classList.toggle('on');
+  btn.closest('.card').classList.toggle('mem');
+  updateProgress();
+  showToast(memorized.includes(id) ? 'Ditandai sebagai hafal' : 'Tanda hafal dihapus');
+}
+
+function updateProgress(){
+  const total = duas.length;
+  const done = memorized.length;
+  document.getElementById('prog-txt').textContent = `${done} / ${total}`;
+  document.getElementById('prog-bar').style.width = (done/total*100)+'%';
+}
+
+function filter(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll('.fp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let list = cat==='all' ? duas : duas.filter(d=>d.cat===cat);
+  if(q) list = list.filter(d=>d.lat.toLowerCase().includes(q)||d.art.toLowerCase().includes(q));
+  render(list);
+}
+
+function doSearch(){
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let list = currentFilter==='all' ? duas : duas.filter(d=>d.cat===currentFilter);
+  if(q) list = list.filter(d=>d.lat.toLowerCase().includes(q)||d.art.toLowerCase().includes(q)||d.ar.includes(q));
+  render(list);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+// Quiz
+let quizPool = [], qCurrent = 0, qScore = 0;
+function startQuiz(){
+  quizPool = [...duas].sort(()=>Math.random()-.5).slice(0,5);
+  qCurrent = 0; qScore = 0;
+  document.getElementById('quiz-ov').classList.add('on');
+  loadQ();
+}
+
+function loadQ(){
+  const d = quizPool[qCurrent];
+  document.getElementById('q-ar').textContent = d.ar;
+  document.getElementById('q-q').textContent = 'Apa arti dari doa ini?';
+  document.getElementById('q-sc').textContent = qScore;
+  document.getElementById('q-nxt').style.display='none';
+  answered = false;
+  const wrongs = duas.filter(x=>x.id!==d.id).sort(()=>Math.random()-.5).slice(0,3).map(x=>x.art);
+  const opts = [...wrongs, d.art].sort(()=>Math.random()-.5);
+  document.getElementById('q-opts').innerHTML = opts.map(o=>`
+    <button class="qo" onclick="answerQ(this,'${o.replace(/'/g,"\\'")}','${d.art.replace(/'/g,"\\'")}')">${o}</button>
+  `).join('');
+}
+
+function answerQ(btn, chosen, correct){
+  if(answered) return;
+  answered = true;
+  document.querySelectorAll('.qo').forEach(b=>{
+    if(b.textContent===correct) b.classList.add('ok');
+    else b.classList.add('no');
+  });
+  if(chosen===correct) qScore++;
+  document.getElementById('q-sc').textContent = qScore;
+  document.getElementById('q-nxt').style.display='block';
+}
+
+function nextQ(){
+  qCurrent++;
+  if(qCurrent>=quizPool.length){
+    document.getElementById('q-opts').innerHTML=`<div style="grid-column:span 2;text-align:center;color:var(--gl);font-family:var(--fh);padding:1rem">Selesai! Skor: ${qScore}/${quizPool.length}</div>`;
+    document.getElementById('q-nxt').textContent='Tutup';
+    document.getElementById('q-nxt').onclick=closeQuiz;
+    return;
+  }
+  loadQ();
+}
+
+function closeQuiz(){
+  document.getElementById('quiz-ov').classList.remove('on');
+  document.getElementById('q-nxt').textContent='Lanjut';
+  document.getElementById('q-nxt').onclick=nextQ;
+}
+
+render(duas);
+</script>
+</body>
+</html>

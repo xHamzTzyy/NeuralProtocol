@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asmaul Husna — 99 Nama Allah</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.pw{max-width:460px;margin:1.2rem auto 0;padding:0 1.5rem;}
+.pl{display:flex;justify-content:space-between;font-size:.73rem;color:var(--cd);margin-bottom:.35rem;}
+.pt{height:4px;background:var(--c3);border-radius:2px;}
+.pf{height:100%;background:linear-gradient(90deg,var(--el),var(--gold));border-radius:2px;transition:width .5s;}
+.top{max-width:1100px;margin:1.2rem auto 0;padding:0 1.5rem;display:flex;gap:.8rem;}
+.srch{flex:1;position:relative;}
+.srch input{width:100%;padding:.6rem 1rem .6rem 2.2rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.srch input:focus{border-color:var(--br);}
+.srch input::placeholder{color:var(--cm);}
+.srch i{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--cm);font-size:.8rem;}
+.main{max-width:1100px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.7rem;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.1rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card::after{content:attr(data-n);position:absolute;bottom:-6px;right:8px;font-family:var(--fh);font-size:3.2rem;color:rgba(201,168,76,.05);pointer-events:none;line-height:1;}
+.card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+.card.mem{border-left:3px solid var(--el);}
+.ct{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+.cn{font-family:var(--fh);font-size:.68rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.12rem .5rem;border-radius:5px;}
+.cmb{width:24px;height:24px;border-radius:6px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.68rem;transition:.2s;}
+.cmb:hover,.cmb.on{background:var(--eg);border-color:var(--el);color:var(--el);}
+.ca{font-family:var(--fa);font-size:1.75rem;color:var(--gl);text-align:right;direction:rtl;margin-bottom:.25rem;line-height:1.4;}
+.cl{font-size:.83rem;font-weight:600;color:var(--cr);margin-bottom:.12rem;}
+.cme{font-size:.74rem;color:var(--cd);}
+.cdesc{font-size:.71rem;color:var(--cm);line-height:1.65;display:none;border-top:1px solid var(--bs);padding-top:.65rem;margin-top:.65rem;}
+.card.exp .cdesc{display:block;}
+.cex{font-size:.67rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.45rem;display:block;}
+/* QUIZ overlay */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);}
+.ov.on{display:flex;}
+.qbox{background:var(--c1);border:1px solid var(--br);border-radius:18px;padding:1.8rem;max-width:460px;width:100%;max-height:88vh;overflow-y:auto;}
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.qht{font-family:var(--fh);color:var(--gold);font-size:.93rem;}
+.qcl{background:none;border:1px solid var(--bs);color:var(--cd);width:28px;height:28px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+.qar{font-family:var(--fa);font-size:2rem;text-align:center;direction:rtl;color:var(--gl);padding:1rem;background:var(--c2);border-radius:10px;margin-bottom:.8rem;line-height:1.6;}
+.qq{font-size:.82rem;color:var(--cd);text-align:center;margin-bottom:.8rem;}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.qo{padding:.7rem .5rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;cursor:pointer;font-size:.78rem;color:var(--cr);transition:.2s;text-align:center;font-family:var(--fb);}
+.qo:hover{border-color:var(--br);}
+.qo.ok{border-color:#00b894;background:rgba(0,184,148,.1);color:#00b894;}
+.qo.no{border-color:#e17055;background:rgba(225,112,85,.1);color:#e17055;}
+.qsc{text-align:right;font-size:.72rem;color:var(--cm);margin-top:.6rem;}
+.qnxt{width:100%;padding:.7rem;background:var(--em);border:none;border-radius:9px;color:#fff;font-family:var(--fb);font-size:.88rem;font-weight:600;cursor:pointer;margin-top:.8rem;transition:.2s;}
+.qnxt:hover{background:var(--el);}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+.empty i{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.3;}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.qopts{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="mushaf.html"><div class="ni"><i class="fas fa-book-quran"></i></div><span class="nt">Mushaf</span></a>
+  <div class="nbtns">
+    <button class="nb gold" onclick="document.getElementById('qov').classList.add('on');renderQ()"><i class="fas fa-brain"></i> Kuis</button>
+    <button class="nb" onclick="window.location.href='/dashboard'"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">أَسْمَاءُ اللَّهِ الْحُسْنَى</div>
+  <div class="h-ti">Asmaul Husna</div>
+  <div class="h-su">99 Nama-Nama Allah Yang Indah</div>
+  <div class="filters">
+    <span class="fp on" onclick="fAll(this)">Semua (99)</span>
+    <span class="fp" onclick="fMem(this)"><i class="fas fa-check-circle"></i> Hafalan</span>
+    <span class="fp gp" onclick="document.getElementById('qov').classList.add('on');renderQ()"><i class="fas fa-brain"></i> Mulai Kuis</span>
+  </div>
+  <div class="pw">
+    <div class="pl"><span>Progress Hafalan</span><span id="pLbl">0 / 99</span></div>
+    <div class="pt"><div class="pf" id="pFil" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="top">
+  <div class="srch"><i class="fas fa-search"></i><input type="text" placeholder="Cari nama, arti..." oninput="doSearch(this.value)" id="searchIn"></div>
+</div>
+
+<div class="main"><div class="grid" id="grid"></div></div>
+<div class="ov" id="qov" onclick="if(event.target===this)this.classList.remove('on')">
+  <div class="qbox">
+    <div class="qh"><span class="qht"><i class="fas fa-brain"></i> Kuis Asmaul Husna</span><button class="qcl" onclick="document.getElementById('qov').classList.remove('on')"><i class="fas fa-times"></i></button></div>
+    <div id="qc"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const D=[
+  {n:1,ar:"اللَّهُ",lat:"Allah",art:"Allah, Tuhan Yang Berhak Disembah",d:"Nama yang paling agung, mencakup semua sifat kesempurnaan. Dialah satu-satunya yang berhak diibadahi oleh seluruh makhluk."},
+  {n:2,ar:"الرَّحْمَنُ",lat:"Ar-Rahman",art:"Yang Maha Pengasih",d:"Pengasih kepada seluruh makhluk di dunia, baik mukmin maupun kafir, kasih-Nya meliputi segalanya."},
+  {n:3,ar:"الرَّحِيمُ",lat:"Ar-Rahim",art:"Yang Maha Penyayang",d:"Penyayang khusus kepada orang-orang beriman di akhirat kelak dengan kasih sayang yang sempurna."},
+  {n:4,ar:"الْمَلِكُ",lat:"Al-Malik",art:"Yang Maha Merajai",d:"Pemilik dan penguasa seluruh alam semesta tanpa kekurangan sedikit pun."},
+  {n:5,ar:"الْقُدُّوسُ",lat:"Al-Quddus",art:"Yang Maha Suci",d:"Maha Suci dari segala kekurangan, aib, dan sekutu. Kesucian-Nya melampaui segala sesuatu."},
+  {n:6,ar:"السَّلامُ",lat:"As-Salam",art:"Yang Maha Memberi Keselamatan",d:"Sumber segala keselamatan dan kedamaian. Memberi keselamatan kepada hamba-hamba-Nya."},
+  {n:7,ar:"الْمُؤْمِنُ",lat:"Al-Mukmin",art:"Yang Maha Mengamankan",d:"Memberikan rasa aman kepada makhluk-Nya dan membenarkan para rasul-Nya."},
+  {n:8,ar:"الْمُهَيْمِنُ",lat:"Al-Muhaimin",art:"Yang Maha Memelihara",d:"Mengawasi, memelihara, dan melindungi seluruh makhluk-Nya dengan sempurna."},
+  {n:9,ar:"الْعَزِيزُ",lat:"Al-Aziz",art:"Yang Maha Perkasa",d:"Memiliki keperkasaan dan kekuatan yang tidak tertandingi oleh siapa pun."},
+  {n:10,ar:"الْجَبَّارُ",lat:"Al-Jabbar",art:"Yang Maha Berkuasa",d:"Yang memaksakan kehendak-Nya dan memperbaiki keadaan hamba yang lemah."},
+  {n:11,ar:"الْمُتَكَبِّرُ",lat:"Al-Mutakabbir",art:"Yang Maha Megah",d:"Memiliki keagungan dan kebesaran yang sempurna, jauh di atas segala sesuatu."},
+  {n:12,ar:"الْخَالِقُ",lat:"Al-Khaliq",art:"Yang Maha Pencipta",d:"Pencipta segala sesuatu dari tiada menjadi ada, dengan takdir dan hikmah-Nya yang sempurna."},
+  {n:13,ar:"الْبَارِئُ",lat:"Al-Bari",art:"Yang Maha Mengadakan",d:"Mengadakan makhluk sesuai dengan yang dikehendaki-Nya tanpa ada contoh sebelumnya."},
+  {n:14,ar:"الْمُصَوِّرُ",lat:"Al-Musawwir",art:"Yang Maha Membentuk Rupa",d:"Membentuk segala sesuatu dengan rupa yang dikehendaki-Nya, tiap makhluk berbeda-beda."},
+  {n:15,ar:"الْغَفَّارُ",lat:"Al-Ghaffar",art:"Yang Maha Pengampun",d:"Selalu mengampuni dosa hamba yang bertobat, betapapun banyak dan besarnya dosa tersebut."},
+  {n:16,ar:"الْقَهَّارُ",lat:"Al-Qahhar",art:"Yang Maha Memaksa",d:"Menundukkan segala sesuatu di bawah kekuasaan dan kehendak-Nya yang mutlak."},
+  {n:17,ar:"الْوَهَّابُ",lat:"Al-Wahhab",art:"Yang Maha Pemberi",d:"Memberikan nikmat dan karunia kepada makhluk-Nya tanpa mengharapkan imbalan apapun."},
+  {n:18,ar:"الرَّزَّاقُ",lat:"Ar-Razzaq",art:"Yang Maha Pemberi Rezeki",d:"Menjamin dan memberikan rezeki kepada semua makhluk, baik yang lahir maupun batin."},
+  {n:19,ar:"الْفَتَّاحُ",lat:"Al-Fattah",art:"Yang Maha Pembuka",d:"Membuka pintu rahmat, rezeki, dan kemenangan bagi hamba-hamba-Nya."},
+  {n:20,ar:"الْعَلِيمُ",lat:"Al-Alim",art:"Yang Maha Mengetahui",d:"Ilmu-Nya meliputi segala sesuatu, yang tersembunyi maupun yang tampak, masa lalu dan masa depan."},
+  {n:21,ar:"الْقَابِضُ",lat:"Al-Qabidh",art:"Yang Maha Menyempitkan",d:"Menyempitkan rezeki bagi siapa yang dikehendaki-Nya dengan hikmah yang sempurna."},
+  {n:22,ar:"الْبَاسِطُ",lat:"Al-Basith",art:"Yang Maha Melapangkan",d:"Melapangkan rezeki dan karunia bagi siapa yang dikehendaki-Nya dengan penuh kebijaksanaan."},
+  {n:23,ar:"الْخَافِضُ",lat:"Al-Khafidh",art:"Yang Maha Merendahkan",d:"Merendahkan derajat orang-orang yang sombong dan durhaka kepada-Nya."},
+  {n:24,ar:"الرَّافِعُ",lat:"Ar-Rafi",art:"Yang Maha Meninggikan",d:"Meninggikan derajat orang-orang beriman dan bertakwa kepada-Nya."},
+  {n:25,ar:"الْمُعِزُّ",lat:"Al-Muizz",art:"Yang Maha Memuliakan",d:"Memberikan kemuliaan kepada siapa yang dikehendaki-Nya dari hamba-hamba-Nya."},
+  {n:26,ar:"الْمُذِلُّ",lat:"Al-Mudzill",art:"Yang Maha Menghinakan",d:"Menghinakan siapa yang dikehendaki-Nya karena kekufuran dan kemaksiatan."},
+  {n:27,ar:"السَّمِيعُ",lat:"As-Sami",art:"Yang Maha Mendengar",d:"Mendengar segala sesuatu, tidak ada yang tersembunyi dari pendengaran-Nya."},
+  {n:28,ar:"الْبَصِيرُ",lat:"Al-Bashir",art:"Yang Maha Melihat",d:"Melihat segala sesuatu, yang besar maupun yang kecil, yang nyata maupun yang tersembunyi."},
+  {n:29,ar:"الْحَكَمُ",lat:"Al-Hakam",art:"Yang Maha Menetapkan Hukum",d:"Hakim yang paling adil, keputusan-Nya tidak dapat dibantah dan selalu benar."},
+  {n:30,ar:"الْعَدْلُ",lat:"Al-Adl",art:"Yang Maha Adil",d:"Maha Adil dalam segala keputusan dan perbuatan-Nya, tidak pernah berlaku zalim."},
+  {n:31,ar:"اللَّطِيفُ",lat:"Al-Lathif",art:"Yang Maha Lembut",d:"Maha Lembut dalam urusan-Nya, mengetahui hal-hal yang paling halus dan tersembunyi."},
+  {n:32,ar:"الْخَبِيرُ",lat:"Al-Khabir",art:"Yang Maha Mengenal",d:"Mengetahui segala sesuatu secara mendalam, termasuk rahasia yang paling tersembunyi."},
+  {n:33,ar:"الْحَلِيمُ",lat:"Al-Halim",art:"Yang Maha Penyantun",d:"Tidak terburu-buru menghukum orang yang bermaksiat, selalu memberi kesempatan bertobat."},
+  {n:34,ar:"الْعَظِيمُ",lat:"Al-Adzim",art:"Yang Maha Agung",d:"Memiliki keagungan yang tidak terbatas, jauh melebihi segala sesuatu yang ada."},
+  {n:35,ar:"الْغَفُورُ",lat:"Al-Ghafur",art:"Yang Maha Pengampun",d:"Mengampuni dosa-dosa hamba yang bertobat dengan sebenar-benar tobat."},
+  {n:36,ar:"الشَّكُورُ",lat:"Asy-Syakur",art:"Yang Maha Mensyukuri",d:"Membalas amal kebaikan hamba dengan balasan yang berlipat ganda dan sempurna."},
+  {n:37,ar:"الْعَلِيُّ",lat:"Al-Ali",art:"Yang Maha Tinggi",d:"Maha Tinggi dari segala sesuatu, baik secara Zat maupun kedudukan dan kekuasaan."},
+  {n:38,ar:"الْكَبِيرُ",lat:"Al-Kabir",art:"Yang Maha Besar",d:"Kebesaran-Nya tidak terbatas dan tidak dapat dijangkau oleh akal dan pikiran makhluk."},
+  {n:39,ar:"الْحَفِيظُ",lat:"Al-Hafizh",art:"Yang Maha Memelihara",d:"Memelihara dan menjaga seluruh makhluk dan amal perbuatan mereka."},
+  {n:40,ar:"الْمُقِيتُ",lat:"Al-Muqit",art:"Yang Maha Pemberi Kecukupan",d:"Mencukupi kebutuhan semua makhluk dan memiliki kekuatan atas segalanya."},
+  {n:41,ar:"الْحَسِيبُ",lat:"Al-Hasib",art:"Yang Maha Membuat Perhitungan",d:"Memperhitungkan semua amal perbuatan hamba dengan sangat teliti dan tepat."},
+  {n:42,ar:"الْجَلِيلُ",lat:"Al-Jalil",art:"Yang Maha Luhur",d:"Memiliki keluhuran dan keagungan sifat yang sempurna dan tidak tertandingi."},
+  {n:43,ar:"الْكَرِيمُ",lat:"Al-Karim",art:"Yang Maha Mulia",d:"Maha Mulia dan Maha Dermawan, memberikan kebaikan tanpa batas kepada makhluk-Nya."},
+  {n:44,ar:"الرَّقِيبُ",lat:"Ar-Raqib",art:"Yang Maha Mengawasi",d:"Mengawasi seluruh makhluk-Nya setiap saat, tidak ada yang luput dari pengawasan-Nya."},
+  {n:45,ar:"الْمُجِيبُ",lat:"Al-Mujib",art:"Yang Maha Mengabulkan",d:"Mengabulkan doa dan permohonan hamba-hamba-Nya yang meminta dengan tulus."},
+  {n:46,ar:"الْوَاسِعُ",lat:"Al-Wasi",art:"Yang Maha Luas",d:"Ilmu, rahmat, dan karunia-Nya sangat luas, meliputi seluruh alam semesta."},
+  {n:47,ar:"الْحَكِيمُ",lat:"Al-Hakim",art:"Yang Maha Bijaksana",d:"Meletakkan segala sesuatu pada tempatnya dengan hikmah yang sempurna."},
+  {n:48,ar:"الْوَدُودُ",lat:"Al-Wadud",art:"Yang Maha Mencintai",d:"Mencintai hamba-hamba-Nya yang beriman dan dicintai oleh mereka dengan sepenuh hati."},
+  {n:49,ar:"الْمَجِيدُ",lat:"Al-Majid",art:"Yang Maha Mulia",d:"Memiliki kemuliaan yang sempurna dalam Zat, sifat, dan perbuatan-Nya."},
+  {n:50,ar:"الْبَاعِثُ",lat:"Al-Baits",art:"Yang Maha Membangkitkan",d:"Membangkitkan seluruh makhluk dari kubur pada hari kiamat untuk dihisab."},
+  {n:51,ar:"الشَّهِيدُ",lat:"Asy-Syahid",art:"Yang Maha Menyaksikan",d:"Menyaksikan semua yang terjadi, tidak ada yang tersembunyi dari-Nya."},
+  {n:52,ar:"الْحَقُّ",lat:"Al-Haqq",art:"Yang Maha Benar",d:"Wujud-Nya pasti dan abadi, tidak bergantung pada apapun, sumber segala kebenaran."},
+  {n:53,ar:"الْوَكِيلُ",lat:"Al-Wakil",art:"Yang Maha Pemelihara",d:"Tempat bersandar dan berserah diri, mengurus dan mencukupi semua kebutuhan hamba."},
+  {n:54,ar:"الْقَوِيُّ",lat:"Al-Qawiyy",art:"Yang Maha Kuat",d:"Memiliki kekuatan yang sempurna dan tidak terbatas, tidak pernah lemah selamanya."},
+  {n:55,ar:"الْمَتِينُ",lat:"Al-Matin",art:"Yang Maha Kokoh",d:"Kekuatan-Nya kokoh dan tidak dapat digoyahkan oleh apapun di alam semesta."},
+  {n:56,ar:"الْوَلِيُّ",lat:"Al-Waliyy",art:"Yang Maha Melindungi",d:"Pelindung dan penolong bagi hamba-hamba-Nya yang beriman."},
+  {n:57,ar:"الْحَمِيدُ",lat:"Al-Hamid",art:"Yang Maha Terpuji",d:"Berhak mendapatkan segala pujian atas semua nikmat dan kebaikan yang diberikan-Nya."},
+  {n:58,ar:"الْمُحْصِي",lat:"Al-Muhshi",art:"Yang Maha Menghitung",d:"Menghitung dan mencatat segala sesuatu dengan sangat teliti tanpa ada yang terlewat."},
+  {n:59,ar:"الْمُبْدِئُ",lat:"Al-Mubdi",art:"Yang Maha Memulai",d:"Menciptakan makhluk pertama kali tanpa ada contoh sebelumnya."},
+  {n:60,ar:"الْمُعِيدُ",lat:"Al-Muid",art:"Yang Maha Mengembalikan",d:"Mengembalikan makhluk kepada kehidupan setelah kematian di akhirat kelak."},
+  {n:61,ar:"الْمُحْيِي",lat:"Al-Muhyi",art:"Yang Maha Menghidupkan",d:"Memberikan kehidupan kepada makhluk dan menghidupkan kembali yang telah mati."},
+  {n:62,ar:"الْمُمِيتُ",lat:"Al-Mumit",art:"Yang Maha Mematikan",d:"Mematikan semua makhluk pada waktu yang telah ditentukan-Nya."},
+  {n:63,ar:"الْحَيُّ",lat:"Al-Hayy",art:"Yang Maha Hidup",d:"Hidup dengan kehidupan yang sempurna, tidak bermula dan tidak berakhir selamanya."},
+  {n:64,ar:"الْقَيُّومُ",lat:"Al-Qayyum",art:"Yang Maha Berdiri Sendiri",d:"Berdiri sendiri tanpa membutuhkan siapapun dan memelihara semua makhluk-Nya."},
+  {n:65,ar:"الْوَاجِدُ",lat:"Al-Wajid",art:"Yang Maha Menemukan",d:"Kaya dan tidak membutuhkan sesuatu, menemukan apa yang dikehendaki-Nya kapanpun."},
+  {n:66,ar:"الْمَاجِدُ",lat:"Al-Majid",art:"Yang Maha Mulia",d:"Memiliki kemuliaan dan keluhuran yang tiada berbatas dalam setiap sifat-Nya."},
+  {n:67,ar:"الْوَاحِدُ",lat:"Al-Wahid",art:"Yang Maha Esa",d:"Esa dalam Zat, sifat, dan perbuatan-Nya, tidak ada yang menyerupai-Nya."},
+  {n:68,ar:"الأَحَدُ",lat:"Al-Ahad",art:"Yang Maha Tunggal",d:"Tunggal secara mutlak, tidak memiliki sekutu, tandingan, maupun yang serupa."},
+  {n:69,ar:"الصَّمَدُ",lat:"Ash-Shamad",art:"Yang Maha Dibutuhkan",d:"Tempat bergantung semua makhluk dalam segala kebutuhan mereka tanpa terkecuali."},
+  {n:70,ar:"الْقَادِرُ",lat:"Al-Qadir",art:"Yang Maha Menentukan",d:"Berkuasa atas segala sesuatu, tidak ada yang dapat menghalangi kehendak-Nya."},
+  {n:71,ar:"الْمُقْتَدِرُ",lat:"Al-Muqtadir",art:"Yang Maha Berkuasa",d:"Memiliki kemampuan dan kekuasaan yang sempurna atas segala sesuatu di alam semesta."},
+  {n:72,ar:"الْمُقَدِّمُ",lat:"Al-Muqaddim",art:"Yang Maha Mendahulukan",d:"Mendahulukan siapa yang dikehendaki-Nya dalam kedudukan dan derajat."},
+  {n:73,ar:"الْمُؤَخِّرُ",lat:"Al-Muakhkhir",art:"Yang Maha Mengakhirkan",d:"Mengakhirkan siapa yang dikehendaki-Nya sesuai dengan hikmah-Nya yang sempurna."},
+  {n:74,ar:"الأَوَّلُ",lat:"Al-Awwal",art:"Yang Maha Awal",d:"Tidak ada awal bagi-Nya, ada sebelum segala sesuatu ada di alam semesta ini."},
+  {n:75,ar:"الآخِرُ",lat:"Al-Akhir",art:"Yang Maha Akhir",d:"Tidak ada akhir bagi-Nya, tetap ada setelah segala sesuatu tiada dan binasa."},
+  {n:76,ar:"الظَّاهِرُ",lat:"Adh-Dhahir",art:"Yang Maha Nyata",d:"Nyata dengan dalil-dalil dan tanda-tanda kekuasaan-Nya yang tidak terhitung jumlahnya."},
+  {n:77,ar:"الْبَاطِنُ",lat:"Al-Bathin",art:"Yang Maha Ghaib",d:"Zat-Nya tidak dapat dijangkau oleh penglihatan dan akal makhluk manapun."},
+  {n:78,ar:"الْوَالِي",lat:"Al-Wali",art:"Yang Maha Memerintah",d:"Mengatur dan memerintah seluruh alam semesta dengan kekuasaan yang penuh."},
+  {n:79,ar:"الْمُتَعَالِي",lat:"Al-Mutaali",art:"Yang Maha Tinggi",d:"Maha Tinggi dari segala sifat yang tidak pantas bagi keagungan dan kebesaran-Nya."},
+  {n:80,ar:"الْبَرُّ",lat:"Al-Barr",art:"Yang Maha Dermawan",d:"Sangat baik dan dermawan kepada hamba-hamba-Nya dengan berbagai kebaikan."},
+  {n:81,ar:"التَّوَّابُ",lat:"At-Tawwab",art:"Yang Maha Menerima Tobat",d:"Selalu menerima tobat hamba yang kembali kepada-Nya dengan tulus dan sungguh-sungguh."},
+  {n:82,ar:"الْمُنْتَقِمُ",lat:"Al-Muntaqim",art:"Yang Maha Pemberi Balasan",d:"Memberikan balasan yang setimpal kepada orang-orang yang berbuat zalim."},
+  {n:83,ar:"الْعَفُوُّ",lat:"Al-Afuww",art:"Yang Maha Pemaaf",d:"Memaafkan kesalahan hamba-hamba-Nya dan menghapus bekas-bekas dosa mereka."},
+  {n:84,ar:"الرَّؤُوفُ",lat:"Ar-Rauf",art:"Yang Maha Pengasih",d:"Sangat belas kasih kepada hamba-hamba-Nya, kasih-Nya melampaui kasih ibu kepada anaknya."},
+  {n:85,ar:"مَالِكُ الْمُلْكِ",lat:"Malikul Mulk",art:"Yang Maha Memiliki Kerajaan",d:"Pemilik mutlak seluruh kerajaan langit dan bumi, tidak ada yang dapat mengambilnya."},
+  {n:86,ar:"ذُو الْجَلالِ وَالإِكْرَامِ",lat:"Dzul Jalali Wal Ikram",art:"Yang Memiliki Kebesaran dan Kemuliaan",d:"Memiliki keagungan yang sempurna dan senantiasa memuliakan hamba-hamba-Nya."},
+  {n:87,ar:"الْمُقْسِطُ",lat:"Al-Muqsith",art:"Yang Maha Adil",d:"Menegakkan keadilan dan kesetaraan di antara makhluk-Nya dengan sempurna."},
+  {n:88,ar:"الْجَامِعُ",lat:"Al-Jami",art:"Yang Maha Mengumpulkan",d:"Mengumpulkan semua makhluk di hari kiamat dan menyatukan yang berselisih."},
+  {n:89,ar:"الْغَنِيُّ",lat:"Al-Ghani",art:"Yang Maha Kaya",d:"Tidak membutuhkan siapapun dan apapun, segala kebutuhan makhluk bergantung kepada-Nya."},
+  {n:90,ar:"الْمُغْنِي",lat:"Al-Mughni",art:"Yang Maha Pemberi Kekayaan",d:"Memberikan kecukupan dan kekayaan kepada siapa yang dikehendaki-Nya."},
+  {n:91,ar:"الْمَانِعُ",lat:"Al-Mani",art:"Yang Maha Mencegah",d:"Mencegah dan melindungi hamba-Nya dari bahaya dan musibah yang tidak dikehendaki."},
+  {n:92,ar:"الضَّارُّ",lat:"Adh-Dharr",art:"Yang Maha Pemberi Bahaya",d:"Memberikan bahaya dan kesulitan kepada siapa yang dikehendaki-Nya dengan penuh hikmah."},
+  {n:93,ar:"النَّافِعُ",lat:"An-Nafi",art:"Yang Maha Memberi Manfaat",d:"Memberikan manfaat dan kebaikan kepada siapa yang dikehendaki-Nya."},
+  {n:94,ar:"النُّورُ",lat:"An-Nur",art:"Yang Maha Bercahaya",d:"Cahaya langit dan bumi, petunjuk bagi yang sesat dan penerang bagi yang gelap."},
+  {n:95,ar:"الْهَادِي",lat:"Al-Hadi",art:"Yang Maha Pemberi Petunjuk",d:"Memberikan petunjuk kepada hamba-hamba-Nya menuju jalan yang lurus dan benar."},
+  {n:96,ar:"الْبَدِيعُ",lat:"Al-Badi",art:"Yang Maha Pencipta yang Indah",d:"Menciptakan sesuatu yang belum pernah ada contohnya, dengan cara yang luar biasa indah."},
+  {n:97,ar:"الْبَاقِي",lat:"Al-Baqi",art:"Yang Maha Kekal",d:"Kekal selamanya tanpa akhir, sementara semua makhluk pasti akan binasa pada waktunya."},
+  {n:98,ar:"الْوَارِثُ",lat:"Al-Warits",art:"Yang Maha Mewarisi",d:"Mewarisi segala sesuatu setelah semua makhluk binasa, Dialah yang kekal abadi."},
+  {n:99,ar:"الرَّشِيدُ",lat:"Ar-Rasyid",art:"Yang Maha Cendekiawan",d:"Menjalankan urusan makhluk-Nya dengan penuh hikmah dan menuju pada tujuan yang benar."}
+];
+
+let mem=JSON.parse(localStorage.getItem('ah_mem')||'[]');
+let qs=0,qi=0,showing=[...D];
+
+function render(list){
+  showing=list;
+  const g=document.getElementById('grid');
+  if(!list.length){g.innerHTML='<div class="empty" style="grid-column:1/-1"><i class="fas fa-search"></i><p>Tidak ditemukan</p></div>';return;}
+  g.innerHTML=list.map((d,i)=>`
+    <div class="card ${mem.includes(d.n)?'mem':''}" data-n="${d.n}" style="animation-delay:${i*0.02}s" onclick="this.classList.toggle('exp')">
+      <div class="ct">
+        <span class="cn">${d.n}</span>
+        <button class="cmb ${mem.includes(d.n)?'on':''}" onclick="event.stopPropagation();tog(${d.n},this)" title="Tandai hafal"><i class="fas fa-check"></i></button>
+      </div>
+      <div class="ca">${d.ar}</div>
+      <div class="cl">${d.lat}</div>
+      <div class="cme">${d.art}</div>
+      <button class="cex" onclick="event.stopPropagation();this.closest('.card').classList.toggle('exp')">Lihat makna ▾</button>
+      <div class="cdesc">${d.d}</div>
+    </div>`).join('');
+  upProg();
+}
+
+function tog(n,btn){
+  mem.includes(n)?mem=mem.filter(x=>x!==n):mem.push(n);
+  localStorage.setItem('ah_mem',JSON.stringify(mem));
+  btn.classList.toggle('on',mem.includes(n));
+  btn.closest('.card').classList.toggle('mem',mem.includes(n));
+  upProg();
+  toast(mem.includes(n)?'<i class="fas fa-check-circle"></i> Ditandai hafal':'Dihapus dari hafalan');
+}
+function upProg(){const p=(mem.length/99)*100;document.getElementById('pFil').style.width=p+'%';document.getElementById('pLbl').textContent=mem.length+' / 99';}
+function fAll(el){document.querySelectorAll('.fp').forEach(f=>f.classList.remove('on'));el.classList.add('on');document.getElementById('searchIn').value='';render(D);}
+function fMem(el){document.querySelectorAll('.fp').forEach(f=>f.classList.remove('on'));el.classList.add('on');render(D.filter(d=>mem.includes(d.n)));}
+function doSearch(q){const ql=q.toLowerCase();render(!q.trim()?D:D.filter(d=>d.lat.toLowerCase().includes(ql)||d.art.toLowerCase().includes(ql)||String(d.n).includes(ql)));}
+
+function renderQ(){
+  const q=D[Math.floor(Math.random()*D.length)];
+  const opts=[q.art];
+  while(opts.length<4){const r=D[Math.floor(Math.random()*D.length)].art;if(!opts.includes(r))opts.push(r);}
+  opts.sort(()=>Math.random() - .5);
+  document.getElementById('qc').innerHTML=`
+    <div class="qar">${q.ar}</div>
+    <div class="qq">Apa arti dari nama Allah di atas?</div>
+    <div class="qopts">${opts.map(o=>`<div class="qo" onclick="chkQ(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.art)}')">${o}</div>`).join('')}</div>
+    <div class="qsc">Skor: ${qs} / ${qi}</div>`;
+}
+function chkQ(el,ch,co){
+  const c=decodeURIComponent(ch),r=decodeURIComponent(co);
+  document.querySelectorAll('.qo').forEach(o=>{o.onclick=null;if(o.textContent===r)o.classList.add('ok');});
+  el.classList.add(c===r?'ok':'no');
+  if(c===r){qs++;toast('<i class="fas fa-check-circle"></i> Benar!');}else toast('<i class="fas fa-times-circle"></i> Salah');
+  qi++;
+  const b=document.createElement('button');b.className='qnxt';b.textContent='Soal Berikutnya →';b.onclick=renderQ;
+  document.getElementById('qc').appendChild(b);
+}
+function toast(m){const t=document.getElementById('toast');t.innerHTML=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
+render(D);
+</script>
+</body>
+</html>
