@@ -4020,6 +4020,17 @@ app.get("/confess", requireAuth, (req, res) => {
   });
 });
 
+app.get("/quran", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "ngaji.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
 app.get("/music", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "search-music.html");
   fs.readFile(filePath, "utf8", (err, html) => {

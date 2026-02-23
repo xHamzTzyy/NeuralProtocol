@@ -857,6 +857,60 @@
                 transform: translateY(0);
             }
         }
+
+        /* --- SKIP BUTTON --- */
+        .skip-video-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            background: rgba(255, 45, 45, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid var(--accent-pink);
+            padding: 12px 24px;
+            border-radius: 50px;
+            color: white;
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(255, 45, 45, 0.3);
+            animation: skipBtnPulse 2s infinite;
+        }
+
+        .skip-video-btn:hover {
+            background: var(--accent-pink);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 45, 45, 0.6);
+        }
+
+        .skip-video-btn:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes skipBtnPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 45, 45, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 45, 45, 0.6);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skip-video-btn {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 
@@ -1015,8 +1069,11 @@
 
     </div>
     <div class="intro-overlay" id="introOverlay">
-        <video class="intro-video" id="introVideo" playsinline>
-            <source src="https://a.top4top.io/m_3705myxhl1.mp4" type="video/mp4">
+        <button class="skip-video-btn" id="skipVideoBtn" onclick="skipIntroVideo()">
+            SKIP <i class="fas fa-forward"></i>
+        </button>
+        <video class="intro-video" id="introVideo" playsinline preload="auto" webkit-playsinline>
+            <!-- Video sources akan diisi via JavaScript -->
         </video>
         <!-- teks di bawah video -->
         <div class="intro-text-box">
@@ -1034,6 +1091,24 @@
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         let isAuto = false;
+        let pendingRedirectUrl = null; // SIMPAN URL REDIRECT BUAT SKIP BUTTON
+
+        // ARRAY VIDEO INTRO - RANDOM ANJING!
+        const introVideos = [
+            'https://a.top4top.io/m_3705myxhl1.mp4',
+            'https://api.zenitsu.web.id/get/ONMGC.mp4',
+            'https://api.zenitsu.web.id/get/DTdug.mp4'
+        ];
+        
+        // SHUFFLE ARRAY BIAR BENERAN RANDOM ANJING
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         // FUNGSI 1 AKUN 1 DEVICE: MENDAPATKAN ATAU MEMBUAT DEVICE ID
         function getDeviceId() {
@@ -1090,23 +1165,70 @@
         function showIntroVideo(redirectUrl) {
             const overlay = document.getElementById('introOverlay');
             const video = document.getElementById('introVideo');
+            const skipBtn = document.getElementById('skipVideoBtn');
 
-            window.isIntroPlaying = true; // kasih tau audio jangan nyala
+            window.isIntroPlaying = true; 
             bgMusic.pause();
             bgMusic.currentTime = 0;
+            
+            // SIMPEN URL BUAT SKIP BUTTON ANJING
+            pendingRedirectUrl = redirectUrl;
 
-            overlay.classList.add('active');
-            video.currentTime = 0;
-            video.muted = false;
-            video.volume = 1.0;
+            // SHUFFLE VIDEO BIAR RANDOM BENERAN ANJING
+            const shuffledVideos = shuffleArray(introVideos);
+            let currentVideoIndex = 0;
+            
+            function tryPlayVideo() {
+                if (currentVideoIndex >= shuffledVideos.length) {
+                    console.log('Semua video gagal anjing, langsung redirect');
+                    window.location.href = redirectUrl;
+                    return;
+                }
+                
+                const currentVideo = shuffledVideos[currentVideoIndex];
+                console.log(`Trying video ${currentVideoIndex + 1}/${shuffledVideos.length}: ${currentVideo}`);
+                
+                // CLEAR SOURCE DULU BIAR GA BENTROK
+                video.innerHTML = '';
+                
+                // BIKIN SOURCE ELEMENT BARU
+                const source = document.createElement('source');
+                source.src = currentVideo;
+                source.type = 'video/mp4';
+                video.appendChild(source);
 
-            // block semua klik di overlay biar ga trigger audio
+                overlay.classList.add('active');
+                skipBtn.style.display = 'flex'; // SHOW SKIP BUTTON
+                video.currentTime = 0;
+                video.muted = false;
+                video.volume = 1.0;
+                
+                // LOAD VIDEO PAKSA BUAT APK ANJING
+                video.load();
+                
+                // EVENT KALO VIDEO ERROR, COBA YANG LAIN
+                video.onerror = function() {
+                    console.log(`Video ${currentVideo} error, coba yang lain...`);
+                    currentVideoIndex++;
+                    setTimeout(() => tryPlayVideo(), 500);
+                };
+                
+                // PLAY VIDEO DENGAN FALLBACK KALO GAGAL
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Video playing successfully: ' + currentVideo);
+                    }).catch((error) => {
+                        console.log('Play error: ' + error + ', trying next video...');
+                        currentVideoIndex++;
+                        setTimeout(() => tryPlayVideo(), 500);
+                    });
+                }
+            }
+
             overlay.addEventListener('click', (e) => {
                 e.stopPropagation();
-            });
-
-            video.play().catch(() => {
-                window.location.href = redirectUrl;
             });
 
             let redirected = false;
@@ -1115,6 +1237,7 @@
                 if (redirected) return;
                 redirected = true;
                 window.isIntroPlaying = false;
+                skipBtn.style.display = 'none'; // HIDE SKIP BUTTON
                 overlay.classList.add('fadeout');
                 setTimeout(() => {
                     window.location.href = redirectUrl;
@@ -1127,6 +1250,41 @@
                 const duration = video.duration * 1000;
                 setTimeout(() => doRedirect(), duration + 300);
             });
+
+            // TIMEOUT FAILSAFE KALO VIDEO STUCK
+            setTimeout(() => {
+                if (!redirected) {
+                    console.log('Video timeout, force redirect');
+                    doRedirect();
+                }
+            }, 15000); // 15 detik max
+            
+            // MULAI COBA PLAY VIDEO PERTAMA
+            tryPlayVideo();
+        }
+        
+        // FUNGSI SKIP VIDEO ANJING
+        function skipIntroVideo() {
+            console.log('Skip button clicked, redirecting to dashboard...');
+            const overlay = document.getElementById('introOverlay');
+            const video = document.getElementById('introVideo');
+            const skipBtn = document.getElementById('skipVideoBtn');
+            
+            // STOP VIDEO
+            video.pause();
+            video.currentTime = 0;
+            
+            // HIDE BUTTON
+            skipBtn.style.display = 'none';
+            
+            // FADEOUT DAN REDIRECT
+            window.isIntroPlaying = false;
+            overlay.classList.add('fadeout');
+            
+            setTimeout(() => {
+                // KALO ADA PENDING URL PAKE ITU, KALO ENGGA PAKE /dashboard
+                window.location.href = pendingRedirectUrl || '/dashboard';
+            }, 500);
         }
 
         async function checkAutoLogin() {
@@ -1178,7 +1336,7 @@
                     body: JSON.stringify({
                         username: username,
                         password: password,
-                        newDeviceId: getDeviceId() // Kirim ID device ini agar server menandainya sebagai yang aktif
+                        newDeviceId: getDeviceId()
                     })
                 });
                 const result = await response.json();
@@ -1243,7 +1401,7 @@
                 formData.append('username', username);
                 formData.append('key', password);
                 formData.append('remember', isAuto.toString());
-                formData.append('deviceId', getDeviceId()); // MENGIRIM ID DEVICE KE SERVER
+                formData.append('deviceId', getDeviceId());
 
                 const response = await fetch('/auth', {
                     method: 'POST',
@@ -1251,21 +1409,15 @@
                     body: formData.toString()
                 });
 
-                // Cek jika server mengirimkan instruksi redirect (Dashboard)
                 if (response.redirected) {
                     if (isAuto) {
                         localStorage.setItem('indictive_username', username);
                         localStorage.setItem('indictive_password', password);
                     }
-                    // simpan dulu url dashboard nya
                     const dashUrl = response.url;
                     showIntroVideo(dashUrl);
                 } else {
-                    // Jika login gagal (biasanya karena device conflict ditandai via URL param)
-                    // Logic ini bergantung pada backend Anda mengirimkan redirect ke /login?msg=...
                     const resultText = await response.text();
-
-                    // Fallback jika tidak redirect tapi ada error
                     if (!isAutoLogin) {
                         showNotification("SYSTEM ERROR", "Login failed or Device conflict", "error");
                         loginBtn.innerHTML = originalText; loginBtn.disabled = false;
