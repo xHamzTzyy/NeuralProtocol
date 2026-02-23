@@ -1220,15 +1220,33 @@
                     playPromise.then(() => {
                         console.log('Video playing successfully: ' + currentVideo);
                     }).catch((error) => {
-                        console.log('Play error: ' + error + ', trying next video...');
-                        currentVideoIndex++;
-                        setTimeout(() => tryPlayVideo(), 500);
+                        console.log('Play error: ' + error);
+                        // FIX APK: Kalo error NotAllowed (Autoplay policy), coba play muted
+                        if (error.name === 'NotAllowedError' || error.message.includes('user interaction')) {
+                             console.log('Autoplay blocked, forcing muted play...');
+                             video.muted = true;
+                             video.play().then(() => {
+                                 console.log('Video playing muted successfully');
+                             }).catch((e) => {
+                                 console.log('Muted play also failed: ' + e + ', trying next video...');
+                                 currentVideoIndex++;
+                                 setTimeout(() => tryPlayVideo(), 500);
+                             });
+                        } else {
+                            console.log('Other error: ' + error + ', trying next video...');
+                            currentVideoIndex++;
+                            setTimeout(() => tryPlayVideo(), 500);
+                        }
                     });
                 }
             }
 
             overlay.addEventListener('click', (e) => {
                 e.stopPropagation();
+                // Unmute kalo user tap layar (buat bypass policy APK)
+                if (video.muted) {
+                    video.muted = false;
+                }
             });
 
             let redirected = false;
