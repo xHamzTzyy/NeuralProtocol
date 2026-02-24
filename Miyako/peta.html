@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peta Peradaban Islam</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:900px;margin:.5rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+
+/* Map SVG container */
+.map-container{background:var(--c1);border:1px solid var(--bs);border-radius:16px;overflow:hidden;margin-bottom:.8rem;position:relative;}
+.map-wrap{position:relative;overflow:hidden;}
+.map-svg{width:100%;display:block;cursor:grab;}
+.map-svg:active{cursor:grabbing;}
+
+/* Tooltip */
+.map-tooltip{position:absolute;background:rgba(5,10,16,.97);border:1px solid var(--br);border-radius:10px;padding:.7rem .9rem;font-size:.72rem;color:var(--cr);pointer-events:none;opacity:0;transition:.2s;z-index:50;max-width:220px;white-space:normal;}
+.map-tooltip.show{opacity:1;}
+.tt-title{font-family:var(--fh);font-size:.75rem;color:var(--gold);margin-bottom:.3rem;}
+.tt-date{font-size:.65rem;color:var(--el);margin-bottom:.2rem;}
+.tt-desc{font-size:.7rem;color:var(--cd);line-height:1.5;}
+
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:.5rem;padding:.8rem 1rem;border-top:1px solid var(--bs);}
+.leg-item{display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--cd);}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
+
+/* Era controls */
+.era-bar{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.era-btn{padding:.28rem .8rem;border-radius:20px;font-size:.7rem;cursor:pointer;border:1px solid var(--bs);background:var(--c2);color:var(--cd);transition:.2s;}
+.era-btn:hover,.era-btn.on{background:var(--em);border-color:var(--el);color:#fff;}
+.era-btn.gold-era:hover,.era-btn.gold-era.on{background:var(--gold);border-color:var(--gold);color:var(--bg);}
+
+/* Timeline section */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:.8rem;position:relative;padding-bottom:1rem;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.tl-left{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0;width:60px;}
+.tl-date{font-family:var(--fh);font-size:.6rem;color:var(--gold);text-align:center;line-height:1.2;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--bg);flex-shrink:0;margin:.3rem 0;}
+.tl-line{flex:1;width:2px;background:linear-gradient(var(--bs),transparent);}
+.tl-card{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:.8rem 1rem;flex:1;transition:.2s;cursor:pointer;}
+.tl-card:hover{border-color:var(--br);}
+.tl-card.open{border-color:var(--br);}
+.tl-era{font-size:.6rem;padding:.1rem .4rem;border-radius:4px;display:inline-block;margin-bottom:.3rem;}
+.tl-title{font-size:.83rem;font-weight:700;color:var(--cr);margin-bottom:.2rem;}
+.tl-loc{font-size:.65rem;color:var(--cm);display:flex;align-items:center;gap:.3rem;}
+.tl-detail{display:none;font-size:.72rem;color:var(--cd);line-height:1.65;margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--bs);}
+.tl-card.open .tl-detail{display:block;}
+
+/* Stats top */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.8rem;}
+.stat-box{background:var(--c1);border:1px solid var(--bs);border-radius:11px;padding:.7rem;text-align:center;}
+.sb-num{font-family:var(--fh);font-size:1.2rem;color:var(--gold);}
+.sb-lbl{font-size:.58rem;color:var(--cm);margin-top:.15rem;}
+
+@media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr);}.main{padding:0 1rem 4rem;}.era-bar{gap:.3rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb gold" href="/peta"><i class="fa-solid fa-earth-asia"></i> Peta</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="h-ar">&#x62D;&#x636;&#x627;&#x631;&#x629; &#x627;&#x644;&#x625;&#x633;&#x644;&#x627;&#x645;</div>
+  <div class="h-ti">Peta Peradaban Islam</div>
+  <div class="h-su">Perjalanan Islam dari Mekah hingga menerangi seluruh dunia</div>
+</div>
+<div class="main">
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="sb-num">14</div><div class="sb-lbl">Abad Sejarah</div></div>
+    <div class="stat-box"><div class="sb-num">1.8M</div><div class="sb-lbl">km² di puncak</div></div>
+    <div class="stat-box"><div class="sb-num">49</div><div class="sb-lbl">Negara Muslim</div></div>
+    <div class="stat-box"><div class="sb-num">1.8B</div><div class="sb-lbl">Umat Islam</div></div>
+  </div>
+
+  <!-- SVG Map -->
+  <div class="map-container">
+    <div class="map-wrap">
+      <svg class="map-svg" id="map-svg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ocean background -->
+        <rect width="900" height="500" fill="#060d18"/>
+        <!-- Grid lines -->
+        <g stroke="rgba(201,168,76,.04)" stroke-width="1">
+          <line x1="0" y1="100" x2="900" y2="100"/>
+          <line x1="0" y1="200" x2="900" y2="200"/>
+          <line x1="0" y1="300" x2="900" y2="300"/>
+          <line x1="0" y1="400" x2="900" y2="400"/>
+          <line x1="150" y1="0" x2="150" y2="500"/>
+          <line x1="300" y1="0" x2="300" y2="500"/>
+          <line x1="450" y1="0" x2="450" y2="500"/>
+          <line x1="600" y1="0" x2="600" y2="500"/>
+          <line x1="750" y1="0" x2="750" y2="500"/>
+        </g>
+
+        <!-- Simplified continent shapes -->
+        <!-- Europe -->
+        <path d="M330 60 L420 55 L445 80 L440 120 L400 140 L360 130 L330 110 Z" fill="rgba(26,107,74,.12)" stroke="rgba(201,168,76,.08)" stroke-width="1"/>
+        <!-- Middle East / Arabia -->
+        <path d="M450 130 L530 120 L570 160 L560 220 L510 250 L470 230 L450 190 Z" fill="rgba(26,107,74,.15)" stroke="rgba(201,168,76,.1)" stroke-width="1"/>
+        <!-- North Africa -->
+        <path d="M330 150 L450 140 L470 200 L460 270 L380 280 L300 250 L290 200 Z" fill="rgba(26,107,74,.12)" stroke="rgba(201,168,76,.08)" stroke-width="1"/>
+        <!-- Sub-Saharan Africa -->
+        <path d="M350 280 L460 270 L470 380 L420 430 L350 420 L310 360 L320 300 Z" fill="rgba(13,24,33,.5)" stroke="rgba(201,168,76,.06)" stroke-width="1"/>
+        <!-- Central Asia / Persia -->
+        <path d="M530 100 L680 90 L700 160 L660 200 L580 210 L540 170 Z" fill="rgba(26,107,74,.12)" stroke="rgba(201,168,76,.08)" stroke-width="1"/>
+        <!-- India -->
+        <path d="M620 170 L700 160 L720 240 L680 300 L640 280 L610 230 Z" fill="rgba(13,24,33,.4)" stroke="rgba(201,168,76,.06)" stroke-width="1"/>
+        <!-- Southeast Asia -->
+        <path d="M720 200 L820 190 L840 260 L790 290 L730 270 Z" fill="rgba(13,24,33,.4)" stroke="rgba(201,168,76,.06)" stroke-width="1"/>
+        <!-- Iberian Peninsula (Spain) -->
+        <path d="M290 100 L330 90 L340 130 L310 140 L285 125 Z" fill="rgba(26,107,74,.1)" stroke="rgba(201,168,76,.08)" stroke-width="1"/>
+
+        <!-- Expansion rings from Mecca -->
+        <circle cx="510" cy="190" r="30" fill="none" stroke="rgba(201,168,76,.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <circle cx="510" cy="190" r="80" fill="none" stroke="rgba(201,168,76,.08)" stroke-width="1" stroke-dasharray="4,6"/>
+        <circle cx="510" cy="190" r="160" fill="none" stroke="rgba(201,168,76,.05)" stroke-width="1" stroke-dasharray="4,8"/>
+        <circle cx="510" cy="190" r="260" fill="none" stroke="rgba(201,168,76,.03)" stroke-width="1" stroke-dasharray="4,10"/>
+
+        <!-- Location markers - will be rendered by JS -->
+        <g id="markers"></g>
+      </svg>
+      <div class="map-tooltip" id="tooltip"></div>
+    </div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#c9a84c"></div>Kota Suci & Asal Islam</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#25a06e"></div>Pusat Peradaban</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#5ba4f5"></div>Penaklukan Besar</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#b388ff"></div>Pusat Ilmu Pengetahuan</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#f15a5a"></div>Pertempuran Penting</div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="era-bar" id="era-bar"></div>
+  <div class="timeline" id="timeline"></div>
+
+</div>
+
+<script>
+var events = [
+  {id:1,era:'nabi',tahun:'610 M',title:'Wahyu Pertama di Gua Hira',loc:'Mekah, Arab Saudi',color:'#c9a84c',dot_bg:'rgba(201,168,76,.2)',
+   mx:510,my:193,
+   detail:'Nabi Muhammad SAW menerima wahyu pertama (QS Al-Alaq:1-5) dari Malaikat Jibril di Gua Hira, Mekkah. Inilah titik awal Islam sebagai agama wahyu yang akan mengubah dunia.'},
+  {id:2,era:'nabi',tahun:'622 M',title:'Hijrah ke Madinah',loc:'Madinah, Arab Saudi',color:'#c9a84c',dot_bg:'rgba(201,168,76,.2)',
+   mx:490,my:208,
+   detail:'Rasulullah dan kaum Muslimin hijrah dari Mekah ke Madinah. Peristiwa ini menandai awal kalender Hijriah dan pembentukan negara Islam pertama di Madinah.'},
+  {id:3,era:'nabi',tahun:'624 M',title:'Perang Badar',loc:'Badar, Arab Saudi',color:'#f15a5a',dot_bg:'rgba(241,90,90,.15)',
+   mx:482,my:200,
+   detail:'313 Muslim mengalahkan 1000 pasukan Quraisy. Kemenangan luar biasa ini menunjukkan pertolongan Allah dan memperkuat kedudukan Islam di Jazirah Arab.'},
+  {id:4,era:'nabi',tahun:'630 M',title:'Fathu Makkah',loc:'Mekah, Arab Saudi',color:'#c9a84c',dot_bg:'rgba(201,168,76,.2)',
+   mx:510,my:193,
+   detail:'Rasulullah memimpin 10.000 pasukan memasuki Mekah tanpa pertumpahan darah. Ka\'bah dibersihkan dari berhala, menjadikan Mekah kembali sebagai pusat tauhid.'},
+  {id:5,era:'khulafa',tahun:'632 M',title:'Penaklukan Persia dimulai',loc:'Iraq & Iran',color:'#5ba4f5',dot_bg:'rgba(91,164,245,.15)',
+   mx:590,my:155,
+   detail:'Setelah Rasulullah wafat, pasukan Islam mulai menaklukkan Kekaisaran Persia Sassanid. Dipimpin oleh Sa\'d bin Abi Waqqash, Perang Qadisiyyah menjadi penentu runtuhnya Persia.'},
+  {id:6,era:'khulafa',tahun:'639 M',title:'Penaklukan Mesir',loc:'Kairo, Mesir',color:'#5ba4f5',dot_bg:'rgba(91,164,245,.15)',
+   mx:420,my:190,
+   detail:'Amr bin Ash memimpin penaklukan Mesir dari tangan Kekaisaran Romawi Timur (Byzantium). Kota Fustat dibangun sebagai ibu kota Islam di Mesir, cikal bakal Kairo.'},
+  {id:7,era:'khulafa',tahun:'644 M',title:'Penaklukan Persia Selesai',loc:'Persia (Iran)',color:'#5ba4f5',dot_bg:'rgba(91,164,245,.15)',
+   mx:605,my:150,
+   detail:'Kekaisaran Persia Sassanid yang berkuasa lebih dari 400 tahun resmi runtuh. Ini membuka jalan Islam ke Asia Tengah dan wilayah timur yang jauh lebih luas.'},
+  {id:8,era:'umayyah',tahun:'711 M',title:'Penaklukan Andalusia (Spanyol)',loc:'Spanyol & Portugal',color:'#5ba4f5',dot_bg:'rgba(91,164,245,.15)',
+   mx:295,my:115,
+   detail:'Tariq bin Ziyad menyeberangi Selat Gibraltar dengan 7000 pasukan dan mengalahkan Raja Roderick. Dimulailah era keemasan Islam di Eropa selama 8 abad di Andalusia.'},
+  {id:9,era:'abbasiyah',tahun:'762 M',title:'Baghdad, Pusat Peradaban Dunia',loc:'Baghdad, Iraq',color:'#b388ff',dot_bg:'rgba(179,136,255,.15)',
+   mx:555,my:162,
+   detail:'Khalifah Al-Mansur mendirikan Baghdad sebagai ibu kota Dinasti Abbasiyah. Kota ini berkembang menjadi pusat ilmu pengetahuan terbesar dunia — Baitul Hikmah berdiri di sini.'},
+  {id:10,era:'abbasiyah',tahun:'830 M',title:'Baitul Hikmah didirikan',loc:'Baghdad, Iraq',color:'#b388ff',dot_bg:'rgba(179,136,255,.15)',
+   mx:555,my:162,
+   detail:'Khalifah Al-Ma\'mun mendirikan Baitul Hikmah (House of Wisdom), perpustakaan dan pusat terjemahan terbesar dunia. Ilmuwan dari berbagai agama dan bangsa bekerja di sini menerjemahkan karya Yunani, Persia, dan India ke Arab.'},
+  {id:11,era:'abbasiyah',tahun:'859 M',title:'Universitas Al-Qarawiyyin',loc:'Fez, Maroko',color:'#b388ff',dot_bg:'rgba(179,136,255,.15)',
+   mx:305,my:160,
+   detail:'Fatima Al-Fihri mendirikan Universitas Al-Qarawiyyin di Fez, Maroko — universitas tertua yang masih beroperasi di dunia hingga hari ini.'},
+  {id:12,era:'abbasiyah',tahun:'980 M',title:'Era Ibnu Sina & Al-Biruni',loc:'Persia & Asia Tengah',color:'#b388ff',dot_bg:'rgba(179,136,255,.15)',
+   mx:620,my:130,
+   detail:'Ibnu Sina (Avicenna) menulis Canon of Medicine yang jadi referensi kedokteran Eropa selama 600 tahun. Al-Biruni menghitung keliling bumi dengan akurat hanya menggunakan matematika.'},
+  {id:13,era:'utsmaniyah',tahun:'1453 M',title:'Penaklukan Konstantinopel',loc:'Istanbul, Turki',color:'#25a06e',dot_bg:'rgba(26,107,74,.2)',
+   mx:418,my:105,
+   detail:'Sultan Muhammad Al-Fatih berusia 21 tahun menaklukkan Konstantinopel, ibu kota Kekaisaran Romawi Timur. Hagia Sophia diubah menjadi masjid. Ini menandai akhir Abad Pertengahan.'},
+  {id:14,era:'utsmaniyah',tahun:'1520 M',title:'Puncak Kekaisaran Utsmani',loc:'Istanbul, Turki',color:'#25a06e',dot_bg:'rgba(26,107,74,.2)',
+   mx:418,my:105,
+   detail:'Di bawah Suleiman Al-Qanuni, Kekaisaran Utsmani mencapai puncaknya — menguasai 3 benua, dari Eropa Tenggara hingga Arab, Afrika Utara hingga Persia. Populasi 15 juta jiwa.'},
+  {id:15,era:'modern',tahun:'1900-kini',title:'Kebangkitan Islam Modern',loc:'Seluruh Dunia',color:'#25a06e',dot_bg:'rgba(26,107,74,.2)',
+   mx:510,my:190,
+   detail:'Setelah era kolonialisme, negara-negara Muslim merdeka satu per satu. Islam kini dipeluk 1,8 miliar orang di 49 negara mayoritas Muslim. Merupakan agama dengan pertumbuhan tercepat di dunia.'},
+];
+
+var eras = [
+  {key:'all',label:'Semua Era'},
+  {key:'nabi',label:'Era Nabi (610-632)'},
+  {key:'khulafa',label:'Khulafa Rasyidin'},
+  {key:'umayyah',label:'Umayyah'},
+  {key:'abbasiyah',label:'Abbasiyah'},
+  {key:'utsmaniyah',label:'Utsmani'},
+  {key:'modern',label:'Modern'},
+];
+
+var eraColors = {nabi:'#c9a84c',khulafa:'#25a06e',umayyah:'#5ba4f5',abbasiyah:'#b388ff',utsmaniyah:'#f2c94c',modern:'#25a06e'};
+var currentEra = 'all';
+
+function initEras(){
+  var eb = document.getElementById('era-bar');
+  eb.innerHTML = eras.map(function(e,i){
+    return '<span class="era-btn'+(i===0?' on gold-era':'')+'" onclick="filterEra(\''+e.key+'\',this)">'+e.label+'</span>';
+  }).join('');
+}
+
+function filterEra(key, btn){
+  currentEra = key;
+  document.querySelectorAll('.era-btn').forEach(function(b){b.classList.remove('on','gold-era');});
+  btn.classList.add('on');
+  if(key==='all') btn.classList.add('gold-era');
+  renderTimeline();
+  renderMarkers();
+}
+
+function renderMarkers(){
+  var list = currentEra==='all'?events:events.filter(function(e){return e.era===currentEra;});
+  var g = document.getElementById('markers');
+  g.innerHTML = list.map(function(ev){
+    var c = eraColors[ev.era]||'#c9a84c';
+    return '<g class="map-marker" data-id="'+ev.id+'" style="cursor:pointer">'+
+      '<circle cx="'+ev.mx+'" cy="'+ev.my+'" r="10" fill="'+c+'" fill-opacity=".15" stroke="'+c+'" stroke-width="1.5"/>'+
+      '<circle cx="'+ev.mx+'" cy="'+ev.my+'" r="4" fill="'+c+'"/>'+
+      '<circle cx="'+ev.mx+'" cy="'+ev.my+'" r="10" fill="transparent"/>'+
+    '</g>';
+  }).join('');
+
+  // pulse animation via CSS inject
+  var style = document.getElementById('pulse-style') || document.createElement('style');
+  style.id = 'pulse-style';
+  style.textContent = '@keyframes pulse{0%{r:10;opacity:.5}50%{r:16;opacity:.15}100%{r:10;opacity:.5}}';
+  document.head.appendChild(style);
+
+  document.querySelectorAll('.map-marker').forEach(function(m){
+    m.addEventListener('mouseenter', function(e){showTooltip(e, parseInt(m.dataset.id));});
+    m.addEventListener('mouseleave', hideTooltip);
+    m.addEventListener('click', function(){
+      var id = parseInt(m.dataset.id);
+      var card = document.querySelector('.tl-card[data-id="'+id+'"]');
+      if(card){ card.classList.add('open'); card.scrollIntoView({behavior:'smooth',block:'center'}); }
+    });
+  });
+}
+
+function showTooltip(e, id){
+  var ev = events.find(function(x){return x.id===id;});
+  if(!ev) return;
+  var tt = document.getElementById('tooltip');
+  tt.innerHTML = '<div class="tt-title">'+ev.title+'</div><div class="tt-date">'+ev.tahun+'</div><div class="tt-desc">'+ev.loc+'</div>';
+  tt.classList.add('show');
+  var rect = document.querySelector('.map-wrap').getBoundingClientRect();
+  var x = e.clientX - rect.left + 12;
+  var y = e.clientY - rect.top - 10;
+  if(x + 230 > rect.width) x = x - 244;
+  tt.style.left = x+'px';
+  tt.style.top = y+'px';
+}
+function hideTooltip(){ document.getElementById('tooltip').classList.remove('show'); }
+
+function renderTimeline(){
+  var list = currentEra==='all'?events:events.filter(function(e){return e.era===currentEra;});
+  var tl = document.getElementById('timeline');
+  tl.innerHTML = list.map(function(ev,i){
+    var c = eraColors[ev.era]||'#c9a84c';
+    var eraBg = 'rgba(0,0,0,.2)'; var eraText = c;
+    return '<div class="tl-item" style="animation-delay:'+(i*0.05)+'s">'+
+      '<div class="tl-left">'+
+        '<div class="tl-date">'+ev.tahun+'</div>'+
+        '<div class="tl-dot" style="background:'+c+'"></div>'+
+        (i<list.length-1?'<div class="tl-line"></div>':'')+
+      '</div>'+
+      '<div class="tl-card" data-id="'+ev.id+'" onclick="this.classList.toggle(\'open\')">'+
+        '<span class="tl-era" style="background:'+c+'22;border:1px solid '+c+'44;color:'+c+'">'+ev.era+'</span>'+
+        '<div class="tl-title">'+ev.title+'</div>'+
+        '<div class="tl-loc"><i class="fa-solid fa-location-dot"></i>'+ev.loc+'</div>'+
+        '<div class="tl-detail">'+ev.detail+'</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+initEras();
+renderMarkers();
+renderTimeline();
+</script>
+</body>
+</html>

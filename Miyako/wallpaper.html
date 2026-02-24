@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallpaper & Kaligrafi Islami</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:700px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+
+/* Canvas preview */
+.canvas-wrap{background:var(--c1);border:1px solid var(--bs);border-radius:16px;padding:1.2rem;margin-bottom:.8rem;}
+.canvas-title{font-family:var(--fh);font-size:.75rem;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+#preview-canvas{width:100%;border-radius:10px;display:block;cursor:pointer;}
+.canvas-actions{display:flex;gap:.6rem;margin-top:.8rem;}
+.btn{flex:1;padding:.7rem;border:none;border-radius:10px;cursor:pointer;font-family:var(--fb);font-size:.8rem;font-weight:600;transition:.2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.btn-dl{background:linear-gradient(135deg,var(--em),var(--el));color:#fff;}
+.btn-dl:hover{opacity:.9;}
+.btn-regen{background:var(--gd);border:1px solid var(--br);color:var(--gold);}
+.btn-regen:hover{background:var(--gold);color:var(--bg);}
+
+/* Controls */
+.controls{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.2rem;margin-bottom:.8rem;}
+.ctrl-title{font-family:var(--fh);font-size:.72rem;color:var(--gold);margin-bottom:.8rem;}
+.ctrl-row{margin-bottom:.7rem;}
+.ctrl-label{font-size:.7rem;color:var(--cd);margin-bottom:.3rem;display:block;}
+.ctrl-pills{display:flex;flex-wrap:wrap;gap:.4rem;}
+.pill{padding:.25rem .7rem;border-radius:20px;font-size:.68rem;cursor:pointer;border:1px solid var(--bs);background:var(--c2);color:var(--cd);transition:.2s;}
+.pill:hover,.pill.on{background:var(--em);border-color:var(--el);color:#fff;}
+.pill.gold-pill:hover,.pill.gold-pill.on{background:var(--gold);border-color:var(--gold);color:var(--bg);}
+.color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem;}
+.color-dot{width:32px;height:32px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:.2s;}
+.color-dot.on,.color-dot:hover{border-color:var(--gold);transform:scale(1.1);}
+
+/* Text list */
+.text-list{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.titem{background:var(--c2);border:1px solid var(--bs);border-radius:10px;padding:.7rem;cursor:pointer;transition:.2s;text-align:center;}
+.titem:hover,.titem.on{border-color:var(--br);background:var(--gd);}
+.titem-ar{font-family:var(--fa);font-size:1.4rem;color:var(--gl);line-height:1.3;}
+.titem-id{font-size:.62rem;color:var(--cm);margin-top:.2rem;}
+
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:480px){.text-list{grid-template-columns:1fr;}.color-grid{grid-template-columns:repeat(5,1fr);}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb gold" href="/wallpaper"><i class="fa-solid fa-image"></i> Wallpaper</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="h-ar">&#x643;&#x627;&#x644;&#x650;&#x63A;&#x631;&#x627;&#x641;&#x650;&#x64A;</div>
+  <div class="h-ti">Wallpaper & Kaligrafi</div>
+  <div class="h-su">Generate wallpaper kaligrafi arab islami, download gratis</div>
+</div>
+<div class="main">
+
+  <div class="canvas-wrap">
+    <div class="canvas-title"><i class="fa-solid fa-image"></i> Preview Wallpaper</div>
+    <canvas id="preview-canvas" width="800" height="500"></canvas>
+    <div class="canvas-actions">
+      <button class="btn btn-regen" onclick="generate()"><i class="fa-solid fa-rotate"></i> Generate Ulang</button>
+      <button class="btn btn-dl" onclick="download()"><i class="fa-solid fa-download"></i> Download</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-title"><i class="fa-solid fa-sliders"></i> Pilih Teks</div>
+    <div class="text-list" id="text-list"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-title"><i class="fa-solid fa-palette"></i> Tema Warna</div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Background</span>
+      <div class="color-grid" id="bg-colors"></div>
+    </div>
+    <div class="ctrl-row" style="margin-bottom:0">
+      <span class="ctrl-label">Style</span>
+      <div class="ctrl-pills" id="style-pills"></div>
+    </div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var texts = [
+  {ar:'\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650', id:'Bismillahirrahmanirrahim'},
+  {ar:'\u0627\u0644\u062d\u0645\u062f \u0644\u0644\u0647', id:'Alhamdulillah'},
+  {ar:'\u0633\u0628\u062d\u0627\u0646 \u0627\u0644\u0644\u0647', id:'Subhanallah'},
+  {ar:'\u0644\u0627 \u0625\u0644\u0647 \u0625\u0644\u0627 \u0627\u0644\u0644\u0647', id:'Laa Ilaaha Illallah'},
+  {ar:'\u0627\u0644\u0644\u0647 \u0623\u0643\u0628\u0631', id:'Allahu Akbar'},
+  {ar:'\u0645\u0627\u0634\u0627\u0621 \u0627\u0644\u0644\u0647', id:'Masya Allah'},
+  {ar:'\u0625\u0646\u0651\u0627 \u0644\u0644\u0647\u0650 \u0648\u0625\u0646\u0651\u0627 \u0625\u0644\u064a\u0647\u0650 \u0631\u0627\u062c\u0639\u0648\u0646', id:'Inna lillahi wa inna ilaihi raji\'un'},
+  {ar:'\u062a\u0648\u0643\u0644\u062a\u064f \u0639\u0644\u0649 \u0627\u0644\u0644\u0647', id:'Tawakkaltu \'alallah'},
+  {ar:'\u062c\u0632\u0627\u0643\u0627\u0644\u0644\u0647\u064f \u062e\u064a\u0631\u0627\u064b', id:'Jazakallahu Khairan'},
+  {ar:'\u0633\u064f\u0628\u062d\u0627\u0646\u064e \u0627\u0644\u0644\u0647\u0650 \u0648\u0628\u062d\u0645\u062f\u0647\u0650', id:'Subhanallahi wa bihamdihi'},
+];
+
+var bgs = [
+  {name:'Hitam', val:'#04080d'},
+  {name:'Navy', val:'#060d18'},
+  {name:'Hijau Tua', val:'#051209'},
+  {name:'Ungu Tua', val:'#0d0818'},
+  {name:'Merah Tua', val:'#150506'},
+  {name:'Abu Tua', val:'#0e0e12'},
+];
+
+var styles = ['Geometric','Minimal','Ornate','Grid'];
+
+var selText = 0;
+var selBg = 0;
+var selStyle = 0;
+
+function initControls(){
+  // text list
+  var tl = document.getElementById('text-list');
+  tl.innerHTML = texts.map(function(t,i){
+    return '<div class="titem'+(i===0?' on':'')+'" onclick="selText='+i+';setActive(this,\'titem\');generate()">'+
+      '<div class="titem-ar">'+t.ar+'</div>'+
+      '<div class="titem-id">'+t.id+'</div></div>';
+  }).join('');
+
+  // bg colors
+  var bc = document.getElementById('bg-colors');
+  bc.innerHTML = bgs.map(function(b,i){
+    return '<div class="color-dot'+(i===0?' on':'')+'" style="background:'+b.val+';border-color:'+(i===0?'var(--gold)':'transparent')+'" onclick="selBg='+i+';setActiveDot(this);generate()" title="'+b.name+'"></div>';
+  }).join('');
+
+  // styles
+  var sp = document.getElementById('style-pills');
+  sp.innerHTML = styles.map(function(s,i){
+    return '<span class="pill'+(i===0?' on':'')+'" onclick="selStyle='+i+';setActive(this,\'pill\');generate()">'+s+'</span>';
+  }).join('');
+}
+
+function setActive(el, cls){
+  el.closest('.controls, .canvas-wrap, .main').querySelectorAll('.'+cls).forEach(function(e){e.classList.remove('on');});
+  el.classList.add('on');
+}
+function setActiveDot(el){
+  document.querySelectorAll('.color-dot').forEach(function(e){e.classList.remove('on');e.style.borderColor='transparent';});
+  el.classList.add('on');
+  el.style.borderColor='var(--gold)';
+}
+
+function generate(){
+  var canvas = document.getElementById('preview-canvas');
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var bg = bgs[selBg].val;
+  var text = texts[selText];
+
+  ctx.clearRect(0,0,W,H);
+
+  // background
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,W,H);
+
+  // style pattern
+  if(selStyle===0){ // Geometric
+    ctx.strokeStyle = 'rgba(201,168,76,0.08)';
+    ctx.lineWidth = 1;
+    var step = 50;
+    for(var x=0;x<W+H;x+=step){
+      ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(0,x);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(W-x,0);ctx.lineTo(W,x);ctx.stroke();
+    }
+  } else if(selStyle===1){ // Minimal
+    var grad = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W/2);
+    grad.addColorStop(0,'rgba(201,168,76,0.06)');
+    grad.addColorStop(1,'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H);
+  } else if(selStyle===2){ // Ornate
+    for(var i=0;i<8;i++){
+      ctx.strokeStyle = 'rgba(201,168,76,'+(0.04+i*0.01)+')';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(i*18,i*12,W-i*36,H-i*24);
+    }
+    // corner diamonds
+    [[0,0],[W,0],[0,H],[W,H]].forEach(function(p){
+      ctx.save();ctx.translate(p[0],p[1]);
+      ctx.strokeStyle='rgba(201,168,76,0.15)';
+      ctx.beginPath();ctx.moveTo(0,60);ctx.lineTo(60,0);ctx.lineTo(0,-60);ctx.lineTo(-60,0);ctx.closePath();ctx.stroke();
+      ctx.restore();
+    });
+  } else { // Grid
+    ctx.strokeStyle='rgba(201,168,76,0.05)';ctx.lineWidth=1;
+    for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+  }
+
+  // glow center
+  var cg = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,220);
+  cg.addColorStop(0,'rgba(201,168,76,0.1)');
+  cg.addColorStop(1,'transparent');
+  ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
+
+  // arabic text
+  ctx.save();
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  var fontSize = text.ar.length > 20 ? 52 : 72;
+  ctx.font = fontSize+'px "Scheherazade New", serif';
+  // shadow glow
+  ctx.shadowColor='rgba(201,168,76,0.6)';ctx.shadowBlur=30;
+  ctx.fillStyle='#e8cc7a';
+  ctx.fillText(text.ar, W/2, H/2 - 20);
+  ctx.restore();
+
+  // latin subtitle
+  ctx.save();
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='500 20px "DM Sans", sans-serif';
+  ctx.fillStyle='rgba(245,240,232,0.45)';
+  ctx.fillText(text.id, W/2, H/2 + 60);
+  ctx.restore();
+
+  // IslamiHub watermark
+  ctx.save();
+  ctx.textAlign='right';ctx.textBaseline='bottom';
+  ctx.font='14px "Cinzel", serif';
+  ctx.fillStyle='rgba(201,168,76,0.3)';
+  ctx.fillText('IslamiHub', W-20, H-14);
+  ctx.restore();
+}
+
+function download(){
+  var canvas = document.getElementById('preview-canvas');
+  var a = document.createElement('a');
+  a.download = 'islamihub-kaligrafi.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+  showToast('Wallpaper berhasil didownload');
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');},2000);
+}
+
+initControls();
+generate();
+</script>
+</body>
+</html>

@@ -4020,6 +4020,23 @@ app.get("/confess", requireAuth, (req, res) => {
   });
 });
 
+app.use(express.static(path.join(__dirname, 'Miyako'))); // atau folder kamu
+
+// 404 handler — JANGAN redirect, langsung kirim file
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'error.html'), {}, (err) => {
+        if (err) res.status(404).send('404 Not Found');
+    });
+});
+
+// 500 handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).sendFile(path.join(__dirname, 'error.html'), {}, (errFile) => {
+        if (errFile) res.status(500).send('500 Internal Server Error');
+    });
+});
+
 app.get("/quran", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "ngaji.html");
   fs.readFile(filePath, "utf8", (err, html) => {
@@ -4214,6 +4231,46 @@ app.get("/codesnap", requireAuth, (req, res) => {
       console.error("❌ Gagal membaca file codesnap.html:", err);
       return res.status(500).send("File tidak ditemukan");
     }
+    res.send(html);
+  });
+});
+
+app.get("/kamus", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "kamus.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+app.get("/peta", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "peta.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+app.get("/sahabat", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "sahabat.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+app.get("/tantangan", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "tantangan.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
+    res.send(html);
+  });
+});
+
+app.get("/wallpaper", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "wallpaper.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) return res.status(500).send("❌ File tidak ditemukan");
     res.send(html);
   });
 });

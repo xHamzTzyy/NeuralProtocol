@@ -282,14 +282,12 @@
 
 <div class="page-container">
 
-    <!-- HERO -->
     <div class="hero-header">
         <div class="hero-arabic">&#x628;&#x650;&#x633;&#x652;&#x645;&#x650; &#x627;&#x644;&#x644;&#x647;&#x650;</div>
         <div class="hero-title">IslamiHub</div>
         <div class="hero-sub">Panduan lengkap ibadah sehari-hari</div>
     </div>
 
-    <!-- ===== RAMADHAN SECTION ===== -->
     <div class="section-title ramadhan-title"><i class="fa-solid fa-star" style="margin-right:6px;font-size:.65rem;color:#c9a84c"></i>Spesial Ramadhan</div>
 
     <!-- Banner Ramadhan -->
@@ -369,6 +367,12 @@
             <p>sebab turunnya ayat</p>
             <span class="card-ar">&#x627;&#x644;&#x646;&#x632;&#x648;&#x644;</span>
         </div>
+        <div class="tool-box" onclick="openSheet('asmaul')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>Asmaul Husna</h3>
+            <p>99 nama Allah</p>
+            <span class="card-ar">&#x627;&#x633;&#x645;&#x627;&#x621; &#x627;&#x644;&#x62D;&#x633;&#x646;&#x629;</span>
+        </div>
     </div>
 
     <!-- Ibadah & Panduan -->
@@ -402,6 +406,17 @@
             <h3>Arah Qiblat</h3>
             <p>kompas menuju mekah</p>
             <span class="card-ar">&#x627;&#x644;&#x642;&#x628;&#x644;&#x629;</span>
+        </div>
+    </div>
+
+    <!-- Ekstra -->
+    <div class="section-title">Ekstra</div>
+    <div class="tools-grid">
+        <div class="tool-box" onclick="openSheet('tools')">
+            <div class="icon-wrap igb"><i class="fa-solid fa-toolbox"></i></div>
+            <h3>Fitur Lainnya</h3>
+            <p>kamus, peta, sahabat, dll</p>
+            <span class="card-ar">&#x623;&#x62F;&#x648;&#x627;&#x62A;</span>
         </div>
     </div>
 
@@ -506,6 +521,13 @@ var sheets = {
             {name:'Semua Asbabun Nuzul', desc:'Browse lengkap beserta hikmah',   icon:'fa-solid fa-scroll', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/asbabun-nuzul'}
         ]
     },
+    asmaul: {
+        title: 'Asmaul Husna',
+        ar: '\u0623\u0633\u064E\u0645\u064F \u0627\u0644\u062D\u064E\u0627',
+        items: [
+            {name:'Semua Asmaul Husna', desc:'Browse lengkap beserta hikmah',   icon:'fa-solid fa-graduation-cap', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/asmaul-husna'}
+        ]
+    },
     sholat: {
         title: 'Panduan Sholat',
         ar: '\u0627\u0644\u0635\u064E\u0644\u0627\u0629',
@@ -515,6 +537,22 @@ var sheets = {
             {name:'Sholat Subuh',        desc:'Panduan 2 rakaat subuh',            icon:'fa-solid fa-sun',           color:'#f2c94c', bg:'rgba(242,201,76,.1)',  link:'/panduan-sholat'},
             {name:'Sholat Dzuhur & Ashar',desc:'Panduan 4 rakaat',                icon:'fa-solid fa-cloud-sun',     color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/panduan-sholat'},
             {name:'Sholat Maghrib & Isya',desc:'Panduan 3 & 4 rakaat',            icon:'fa-solid fa-moon',          color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/panduan-sholat'}
+        ]
+    },
+    tools: {
+        title: 'Fitur Ekstra',
+        ar: '\u0623\u064E\u062F\u064E\u0648\u064E\u0627\u062A\u064C',
+        items: [
+            {name:'Waktu Sholat',        desc:'Jadwal & info 5 waktu sholat',     icon:'fa-solid fa-clock',         color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-sholat'},
+            {name:'Tata Cara Sholat',    desc:'Rukun, bacaan & gerakan lengkap',   icon:'fa-solid fa-person-praying',color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/panduan-sholat'},
+            {name:'Sholat Subuh',        desc:'Panduan 2 rakaat subuh',            icon:'fa-solid fa-sun',           color:'#f2c94c', bg:'rgba(242,201,76,.1)',  link:'/panduan-sholat'},
+            {name:'Sholat Dzuhur & Ashar',desc:'Panduan 4 rakaat',                icon:'fa-solid fa-cloud-sun',     color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/panduan-sholat'},
+            {name:'Sholat Maghrib & Isya',desc:'Panduan 3 & 4 rakaat',            icon:'fa-solid fa-moon',          color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/panduan-sholat'},
+            {name:'Kamus Islami',        desc:'Istilah & Bahasa Arab',            icon:'fa-solid fa-book-atlas',    color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/kamus'},
+            {name:'Peta Sejarah',        desc:'Peta penyebaran Islam',            icon:'fa-solid fa-map-location-dot',color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/peta'},
+            {name:'Kisah Sahabat',       desc:'Biografi Sahabat Nabi',            icon:'fa-solid fa-users',         color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/sahabat'},
+            {name:'Tantangan Ibadah',    desc:'Tracker ibadah harian',            icon:'fa-solid fa-list-check',    color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/tantangan'},
+            {name:'Wallpaper Islami',    desc:'Galeri gambar islami HD',          icon:'fa-solid fa-image',         color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/wallpaper'}
         ]
     },
     wudhu: {

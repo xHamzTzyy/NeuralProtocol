@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kamus Istilah Islam</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:800px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.search-wrap{position:relative;margin-bottom:.8rem;}
+.search-wrap input{width:100%;padding:.7rem 1rem .7rem 2.4rem;background:var(--c1);border:1px solid var(--bs);border-radius:12px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.search-wrap input:focus{border-color:var(--br);}
+.search-wrap input::placeholder{color:var(--cm);}
+.search-wrap i{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--cm);font-size:.85rem;}
+.alpha-bar{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.8rem;}
+.alpha-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--bs);background:var(--c2);color:var(--cm);font-size:.68rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.alpha-btn:hover,.alpha-btn.on{background:var(--em);border-color:var(--el);color:#fff;}
+.cat-pills{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.cp{padding:.25rem .75rem;border-radius:20px;font-size:.7rem;cursor:pointer;border:1px solid var(--bs);background:var(--c2);color:var(--cd);transition:.2s;}
+.cp:hover,.cp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.kamus-list{display:flex;flex-direction:column;gap:.5rem;}
+.k-card{background:var(--c1);border:1px solid var(--bs);border-radius:13px;padding:1rem 1.1rem;transition:.22s;animation:fadeIn .25s ease both;cursor:pointer;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.k-card:hover{border-color:var(--br);}
+.k-card.open{border-color:var(--br);background:rgba(13,24,33,.8);}
+.k-head{display:flex;align-items:center;gap:.8rem;}
+.k-letter{width:34px;height:34px;background:var(--gd);border:1px solid var(--br);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.75rem;color:var(--gold);flex-shrink:0;}
+.k-title-wrap{flex:1;}
+.k-ar{font-family:var(--fa);font-size:1.2rem;color:var(--gl);line-height:1.2;}
+.k-latin{font-size:.72rem;color:var(--cm);font-style:italic;}
+.k-arti-short{font-size:.8rem;font-weight:600;color:var(--cr);}
+.k-cat-badge{font-size:.6rem;padding:.1rem .4rem;border-radius:4px;}
+.k-body{display:none;margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--bs);}
+.k-card.open .k-body{display:block;}
+.k-detail{font-size:.75rem;color:var(--cd);line-height:1.7;margin-bottom:.5rem;}
+.k-contoh{background:var(--eg);border:1px solid rgba(37,160,110,.15);border-radius:7px;padding:.5rem .7rem;font-size:.7rem;color:var(--cd);line-height:1.6;}
+.k-contoh-label{font-size:.62rem;color:var(--el);font-weight:600;margin-bottom:.2rem;}
+.k-related{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.5rem;}
+.k-rel-tag{font-size:.62rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .4rem;border-radius:4px;cursor:pointer;}
+.k-rel-tag:hover{background:var(--gold);color:var(--bg);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+.count-info{font-size:.7rem;color:var(--cm);margin-bottom:.6rem;}
+@media(max-width:600px){.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb gold" href="/kamus"><i class="fa-solid fa-book-open"></i> Kamus</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="h-ar">&#x642;&#x627;&#x645;&#x64F;&#x648;&#x633;</div>
+  <div class="h-ti">Kamus Istilah Islam</div>
+  <div class="h-su">Arti & penjelasan lengkap istilah-istilah dalam agama Islam</div>
+</div>
+<div class="main">
+  <div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="search" placeholder="Cari istilah, contoh: sunnah, makruh, wajib..." oninput="doSearch()"></div>
+  <div class="cat-pills" id="cat-pills"></div>
+  <div class="count-info" id="count-info"></div>
+  <div class="kamus-list" id="kamus-list"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-magnifying-glass" style="display:block;font-size:2rem;opacity:.3;margin-bottom:.5rem"></i>Istilah tidak ditemukan</div>
+</div>
+<script>
+var kamus = [
+  {id:1,ar:'\u0633\u064f\u0646\u0651\u064e\u0629',latin:'Sunnah',arti:'Ajaran & perbuatan Nabi',cat:'fiqih',detail:'Dalam fiqih, sunnah adalah perbuatan yang apabila dikerjakan mendapat pahala, apabila ditinggalkan tidak berdosa. Dalam konteks lebih luas, sunnah merujuk pada semua ucapan, perbuatan, dan ketetapan Nabi Muhammad SAW.',contoh:'Sholat sunnah rawatib, membaca basmalah sebelum makan.',related:['Hadits','Mustahab','Mandub']},
+  {id:2,ar:'\u0648\u064e\u0627\u062c\u0650\u0628',latin:'Wajib',arti:'Perintah yang harus dilakukan',cat:'fiqih',detail:'Hukum wajib (fardhu) adalah perintah yang apabila dikerjakan mendapat pahala, apabila ditinggalkan mendapat dosa. Wajib terbagi dua: Fardhu Ain (wajib tiap individu) dan Fardhu Kifayah (wajib kolektif).',contoh:'Sholat 5 waktu, puasa Ramadhan, zakat bagi yang mampu.',related:['Fardhu','Fardhu Ain','Fardhu Kifayah']},
+  {id:3,ar:'\u062d\u064e\u0631\u064e\u0627\u0645',latin:'Haram',arti:'Dilarang keras, berdosa jika dilakukan',cat:'fiqih',detail:'Haram adalah larangan yang apabila dilakukan mendapat dosa besar, apabila ditinggalkan mendapat pahala. Ini adalah hukum paling berat dalam Islam setelah kewajiban.',contoh:'Memakan babi, minum khamr, berzina, mencuri, membunuh tanpa hak.',related:['Makruh','Mubah','Hukum Syara']},
+  {id:4,ar:'\u0645\u064f\u0628\u064e\u0627\u062d',latin:'Mubah',arti:'Boleh dilakukan atau ditinggalkan',cat:'fiqih',detail:'Mubah adalah perkara yang tidak ada pahala maupun dosa ketika dilakukan atau ditinggalkan. Ini adalah status hukum default untuk semua hal yang tidak ada dalil khusus.',contoh:'Makan nasi, minum air, tidur siang, jalan-jalan.',related:['Sunnah','Makruh','Halal']},
+  {id:5,ar:'\u0645\u064e\u0643\u0652\u0631\u064f\u0648\u0647',latin:'Makruh',arti:'Lebih baik ditinggalkan',cat:'fiqih',detail:'Makruh adalah perkara yang apabila ditinggalkan mendapat pahala, apabila dikerjakan tidak berdosa tapi tidak disukai. Ada makruh tanzih (ringan) dan makruh tahrim (mendekati haram).',contoh:'Makan bawang mentah sebelum sholat, membuang-buang air wudhu.',related:['Haram','Sunnah','Mubah']},
+  {id:6,ar:'\u0628\u0650\u062f\u0652\u0639\u064e\u0629',latin:"Bid'ah",arti:'Perkara baru yang tidak ada dasarnya',cat:'akidah',detail:"Bid'ah adalah perkara baru dalam agama yang tidak ada contoh dari Nabi SAW. Bid'ah dibagi dua oleh sebagian ulama: bid'ah dhalalah (sesat) dan bid'ah hasanah (baik). Ulama lain berpendapat semua bid'ah dalam ibadah adalah sesat.",contoh:"Maulid Nabi (khilafiyah), sholat yang tidak ada dalilnya.",related:['Sunnah','Hukum Syara','Ijtihad']},
+  {id:7,ar:'\u0625\u062c\u0652\u062a\u0650\u0647\u064e\u0627\u062f',latin:'Ijtihad',arti:'Upaya sungguh-sungguh menggali hukum',cat:'ushulfiqih',detail:'Ijtihad adalah upaya sungguh-sungguh seorang mujtahid (ahli) dalam menggali dan merumuskan hukum Islam dari sumber-sumbernya (Al-Quran, Hadits, Ijma, Qiyas). Syarat mujtahid sangat berat.',contoh:'Penetapan hukum transplantasi organ, hukum cryptocurrency.',related:['Fatwa','Ijma','Qiyas']},
+  {id:8,ar:'\u0625\u062c\u0652\u0645\u064e\u0627\u0639',latin:"Ijma'",arti:'Kesepakatan para ulama',cat:'ushulfiqih',detail:"Ijma adalah kesepakatan seluruh mujtahid pada suatu masa atas suatu hukum syariat. Ijma merupakan sumber hukum Islam ketiga setelah Al-Quran dan Sunnah.",contoh:"Ijma sahabat tentang pengumpulan mushaf Al-Quran oleh Abu Bakar.",related:['Ijtihad','Qiyas','Fatwa']},
+  {id:9,ar:'\u0642\u0650\u064a\u064e\u0627\u0633',latin:'Qiyas',arti:'Analogi dari dalil yang ada',cat:'ushulfiqih',detail:'Qiyas adalah menetapkan hukum perkara baru yang belum ada nashnya dengan menganalogikan pada perkara yang sudah ada hukumnya karena kesamaan illat (alasan hukum).',contoh:'Hukum narkoba diqiyaskan dengan khamr karena sama-sama memabukkan.',related:["Ijma'",'Ijtihad','Illat']},
+  {id:10,ar:'\u0646\u0650\u0641\u064e\u0627\u0642',latin:'Nifaq',arti:'Kemunafikan, pura-pura beriman',cat:'akidah',detail:'Nifaq adalah berpura-pura beriman di luar padahal kafir di dalam (nifaq i\'tiqadi), atau melakukan perbuatan yang bertentangan dengan keimanan (nifaq amali). Keduanya adalah dosa besar.',contoh:'Berkata jujur padahal berbohong dalam hati, berjanji tapi tidak ditepati.',related:['Kufur','Riddah','Iman']},
+  {id:11,ar:'\u062a\u064e\u0648\u064e\u0643\u0651\u064f\u0644',latin:'Tawakkal',arti:'Berserah diri kepada Allah setelah berusaha',cat:'akhlak',detail:'Tawakkal bukan berarti pasif dan tidak berusaha. Tawakkal adalah menyerahkan hasil setelah melakukan usaha semaksimal mungkin kepada Allah. Tawakkal tanpa usaha disebut tawadul (kelalaian).',contoh:'Berdagang sungguh-sungguh lalu berdoa agar Allah berkahkan hasilnya.',related:['Sabar','Ridha','Qanaah']},
+  {id:12,ar:'\u0635\u064e\u0628\u0652\u0631',latin:'Sabar',arti:'Menahan diri dari keluh kesah atas ujian',cat:'akhlak',detail:'Sabar dalam Islam terbagi tiga: sabar dalam ketaatan (melaksanakan ibadah), sabar dari kemaksiatan (menahan diri dari dosa), dan sabar menghadapi musibah (tidak berkeluh kesah berlebihan).',contoh:'Tetap sholat meski sibuk, menahan marah, menerima takdir dengan lapang.',related:['Tawakkal','Syukur','Ridha']},
+  {id:13,ar:'\u0634\u064f\u0643\u0652\u0631',latin:'Syukur',arti:'Berterima kasih kepada Allah atas nikmat',cat:'akhlak',detail:'Syukur dilakukan dengan tiga cara: syukur hati (mengakui nikmat dari Allah), syukur lisan (mengucapkan Alhamdulillah), dan syukur perbuatan (menggunakan nikmat untuk kebaikan).',contoh:'Mengucapkan Alhamdulillah, menggunakan harta di jalan Allah.',related:['Sabar','Qanaah','Tawakkal']},
+  {id:14,ar:'\u062e\u064f\u0634\u064f\u0648\u0639',latin:'Khusyuk',arti:'Konsentrasi dan kehadiran hati dalam ibadah',cat:'ibadah',detail:'Khusyuk adalah kondisi hati yang hadir, fokus, dan merasakan keagungan Allah saat beribadah terutama sholat. Khusyuk adalah ruh dari sholat.',contoh:'Memahami makna bacaan sholat, menghindari gerakan dan pikiran yang tidak perlu.',related:['Sholat','Tawadhu','Ikhlas']},
+  {id:15,ar:'\u0625\u062e\u0652\u0644\u064e\u0627\u0635',latin:'Ikhlas',arti:'Tulus beribadah hanya karena Allah',cat:'akhlak',detail:'Ikhlas adalah memurnikan niat ibadah hanya untuk mencari ridha Allah, bukan untuk pujian manusia (riya), bukan untuk keuntungan dunia. Ikhlas adalah syarat diterimanya amal.',contoh:'Sedekah tanpa ingin diketahui orang lain, beribadah bukan karena kebiasaan saja.',related:['Riya','Niat','Khusyuk']},
+  {id:16,ar:'\u0631\u0650\u064a\u064e\u0627\u0621',latin:"Riya'",arti:'Beribadah untuk dilihat orang lain',cat:'akhlak',detail:"Riya adalah melakukan ibadah dengan niat agar dilihat dan dipuji manusia. Riya disebut syirik kecil karena menyekutukan ridha Allah dengan ridha manusia.",contoh:'Sholat rajin karena ada atasan, sedekah agar dipuji di media sosial.',related:['Ikhlas','Ujub','Sum\'ah']},
+  {id:17,ar:'\u062a\u064e\u0648\u064e\u0627\u0636\u064f\u0639',latin:'Tawadhu',arti:'Rendah hati, tidak sombong',cat:'akhlak',detail:'Tawadhu adalah sikap rendah hati yang tumbuh dari kesadaran bahwa semua kelebihan berasal dari Allah. Tawadhu bukan merendahkan diri secara palsu (tadzallul) tapi ketulusan hati.',contoh:'Tidak memamerkan ilmu atau harta, mau bergaul dengan semua kalangan.',related:['Takabbur','Ikhlas','Sabar']},
+  {id:18,ar:'\u0642\u064e\u0636\u064e\u0627\u0621',latin:'Qadha',arti:'Mengganti ibadah yang terlewat',cat:'fiqih',detail:'Qadha adalah mengerjakan ibadah yang wajib dilakukan namun terlewat waktunya. Berbeda dengan ada (dikerjakan tepat waktu) dan iqadha (mengerjakan di waktu makruh).',contoh:'Mengqadha sholat yang tertinggal, mengqadha puasa Ramadhan yang ditinggalkan.',related:['Fidyah','Kaffarah','Sholat']},
+  {id:19,ar:'\u0643\u064e\u0641\u0651\u064e\u0627\u0631\u064e\u0629',latin:'Kaffarah',arti:'Denda atas pelanggaran tertentu',cat:'fiqih',detail:'Kaffarah adalah denda yang wajib dibayar atas pelanggaran tertentu dalam ibadah. Bentuknya bisa berupa memerdekakan budak (zaman dahulu), puasa, atau memberi makan orang miskin.',contoh:'Kaffarah sumpah, kaffarah dhihar (menyamakan istri dengan ibu), kaffarah berhubungan saat puasa.',related:['Fidyah','Qadha','Zakat']},
+  {id:20,ar:'\u0641\u062f\u064a\u0629',latin:'Fidyah',arti:'Pengganti ibadah yang tidak bisa dikerjakan',cat:'fiqih',detail:'Fidyah adalah tebusan yang diberikan sebagai pengganti ibadah yang tidak mampu dilaksanakan karena uzur yang tidak bisa hilang (seperti sakit menahun, lansia).',contoh:'Memberi makan 1 orang miskin per hari puasa bagi yang tidak mampu berpuasa.',related:['Kaffarah','Qadha','Zakat']},
+  {id:21,ar:'\u0646\u0650\u064a\u064e\u0651\u0629',latin:'Niyyah / Niat',arti:'Kehendak hati untuk melakukan ibadah',cat:'fiqih',detail:'Niat adalah maksud dan kehendak hati untuk melakukan suatu ibadah. Niat berada di hati, bukan dilafazkan. Melafazkan niat adalah sunnah dalam sebagian madzhab.',contoh:'Niat sholat di dalam hati sebelum takbiratul ihram.',related:['Ikhlas','Riya','Ibadah']},
+  {id:22,ar:'\u0634\u0650\u0631\u0652\u0643',latin:'Syirik',arti:'Menyekutukan Allah dengan selain-Nya',cat:'akidah',detail:'Syirik adalah dosa terbesar dalam Islam. Terbagi dua: syirik akbar (besar — menyembah selain Allah, tidak terampuni kecuali bertaubat sebelum mati) dan syirik asghar (kecil — seperti riya, sumpah selain Allah).',contoh:'Menyembah berhala, meminta tolong kepada arwah, percaya jimat secara berlebihan.',related:["Riya'",'Nifaq','Tauhid']},
+  {id:23,ar:'\u062a\u064e\u0648\u062d\u0650\u064a\u062f',latin:'Tauhid',arti:'Mengesakan Allah dalam segala hal',cat:'akidah',detail:'Tauhid terbagi tiga: Tauhid Rububiyah (meyakini Allah satu-satunya Pencipta), Tauhid Uluhiyah (hanya menyembah Allah), dan Tauhid Asma wa Sifat (nama dan sifat Allah sesuai Al-Quran dan Sunnah).',contoh:'Mengucapkan laa ilaaha illallah dengan keyakinan penuh.',related:['Syirik','Iman','Akidah']},
+  {id:24,ar:'\u0641\u064e\u062a\u0652\u0648\u064e\u0649',latin:'Fatwa',arti:'Penjelasan hukum dari ulama',cat:'ushulfiqih',detail:'Fatwa adalah jawaban atas pertanyaan hukum yang diberikan oleh seorang mufti (ahli hukum Islam) berdasarkan Al-Quran, Sunnah, dan ijtihad. Fatwa bersifat mengikat bagi yang meminta secara pribadi.',contoh:'Fatwa MUI tentang halal-haram suatu produk, fatwa hukum vaksin.',related:['Ijtihad','Mufti','Mazhab']},
+  {id:25,ar:'\u0645\u064e\u0630\u0652\u0647\u064e\u0628',latin:'Mazhab',arti:'Aliran fiqih Islam',cat:'ushulfiqih',detail:'Mazhab adalah aliran atau metode pemikiran fiqih yang mengikuti seorang imam mujtahid. Empat mazhab utama Sunni: Hanafi (Imam Abu Hanifah), Maliki (Imam Malik), Syafii (Imam Syafii), Hanbali (Imam Ahmad).',contoh:'Indonesia mayoritas mengikuti Mazhab Syafii.',related:['Ijtihad','Fatwa','Fiqih']},
+];
+
+var cats = ['semua','fiqih','akidah','akhlak','ushulfiqih','ibadah'];
+var currentCat = 'semua';
+var currentSearch = '';
+
+function initCats(){
+  var cp = document.getElementById('cat-pills');
+  cp.innerHTML = cats.map(function(c,i){
+    return '<span class="cp'+(i===0?' on':'')+'" onclick="filterCat(\''+c+'\',this)">'+c.charAt(0).toUpperCase()+c.slice(1)+'</span>';
+  }).join('');
+}
+
+function filterCat(cat, el){
+  currentCat = cat;
+  document.querySelectorAll('.cp').forEach(function(e){e.classList.remove('on');});
+  el.classList.add('on');
+  doRender();
+}
+
+function doSearch(){
+  currentSearch = document.getElementById('search').value.toLowerCase();
+  doRender();
+}
+
+function doRender(){
+  var list = kamus.filter(function(k){
+    var matchCat = currentCat==='semua' || k.cat===currentCat;
+    var matchSearch = !currentSearch ||
+      k.latin.toLowerCase().includes(currentSearch) ||
+      k.arti.toLowerCase().includes(currentSearch) ||
+      k.detail.toLowerCase().includes(currentSearch);
+    return matchCat && matchSearch;
+  });
+
+  var g = document.getElementById('kamus-list');
+  var e = document.getElementById('empty');
+  var ci = document.getElementById('count-info');
+  ci.textContent = list.length + ' istilah ditemukan';
+
+  if(!list.length){ g.innerHTML=''; e.style.display='block'; return; }
+  e.style.display='none';
+
+  var catColor = {fiqih:'var(--gold)',akidah:'#5ba4f5',akhlak:'#b388ff',ushulfiqih:'var(--el)',ibadah:'#f2c94c'};
+  var catBg = {fiqih:'var(--gd)',akidah:'rgba(91,164,245,.1)',akhlak:'rgba(179,136,255,.1)',ushulfiqih:'var(--eg)',ibadah:'rgba(242,201,76,.1)'};
+
+  g.innerHTML = list.map(function(k,i){
+    var rel = k.related.map(function(r){return '<span class="k-rel-tag" onclick="searchRelated(\''+r+'\')">'+r+'</span>';}).join('');
+    return '<div class="k-card" style="animation-delay:'+(i*0.03)+'s" onclick="toggleCard(this)">'+
+      '<div class="k-head">'+
+        '<div class="k-letter">'+k.latin.charAt(0)+'</div>'+
+        '<div class="k-title-wrap">'+
+          '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem">'+
+            '<span class="k-arti-short">'+k.latin+'</span>'+
+            '<span class="k-cat-badge" style="background:'+catBg[k.cat]+';border:1px solid rgba(0,0,0,.1);color:'+catColor[k.cat]+'">'+k.cat+'</span>'+
+          '</div>'+
+          '<div class="k-ar">'+k.ar+'</div>'+
+          '<div class="k-latin">'+k.arti+'</div>'+
+        '</div>'+
+        '<i class="fa-solid fa-chevron-down" style="color:var(--cm);font-size:.7rem;flex-shrink:0;transition:.2s"></i>'+
+      '</div>'+
+      '<div class="k-body">'+
+        '<div class="k-detail">'+k.detail+'</div>'+
+        '<div class="k-contoh"><div class="k-contoh-label"><i class="fa-solid fa-lightbulb"></i> Contoh</div>'+k.contoh+'</div>'+
+        (k.related.length?'<div class="k-related">'+rel+'</div>':'')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleCard(el){
+  el.classList.toggle('open');
+  var chevron = el.querySelector('.fa-chevron-down');
+  chevron.style.transform = el.classList.contains('open')?'rotate(180deg)':'rotate(0)';
+}
+
+function searchRelated(term){
+  document.getElementById('search').value = term;
+  currentSearch = term.toLowerCase();
+  doRender();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+initCats();
+doRender();
+</script>
+</body>
+</html>

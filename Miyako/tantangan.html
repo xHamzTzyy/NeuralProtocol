@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tantangan Ibadah</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;cursor:pointer;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:700px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+
+/* Stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.8rem;}
+.stat-card{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:.9rem;text-align:center;}
+.stat-num{font-family:var(--fh);font-size:1.5rem;color:var(--gold);}
+.stat-label{font-size:.62rem;color:var(--cm);margin-top:.2rem;}
+
+/* Progress ring */
+.progress-wrap{background:var(--c1);border:1px solid var(--bs);border-radius:16px;padding:1.4rem;margin-bottom:.8rem;display:flex;align-items:center;gap:1.2rem;}
+.ring-wrap{position:relative;flex-shrink:0;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:1.1rem;color:var(--gold);text-align:center;}
+.ring-sub{font-size:.55rem;color:var(--cm);display:block;}
+.progress-text{}
+.pt-title{font-size:.95rem;font-weight:700;color:var(--cr);margin-bottom:.3rem;}
+.pt-sub{font-size:.72rem;color:var(--cd);line-height:1.6;}
+.pt-day{font-family:var(--fh);font-size:.68rem;color:var(--gold);margin-top:.4rem;}
+
+/* Tabs */
+.tabs{display:flex;gap:.4rem;margin-bottom:.8rem;overflow-x:auto;padding-bottom:.2rem;}
+.tab{padding:.3rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;border:1px solid var(--bs);background:var(--c2);color:var(--cd);white-space:nowrap;transition:.2s;}
+.tab.on{background:var(--em);border-color:var(--el);color:#fff;}
+
+/* Challenge cards */
+.challenge-list{display:flex;flex-direction:column;gap:.6rem;}
+.ch-card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1rem 1.1rem;transition:.22s;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ch-card.done{border-left:3px solid var(--el);opacity:.7;}
+.ch-card:hover{border-color:var(--br);}
+.ch-top{display:flex;align-items:flex-start;gap:.9rem;}
+.ch-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ch-info{flex:1;}
+.ch-title{font-size:.85rem;font-weight:700;color:var(--cr);margin-bottom:.15rem;}
+.ch-card.done .ch-title{text-decoration:line-through;color:var(--cm);}
+.ch-desc{font-size:.68rem;color:var(--cm);line-height:1.5;}
+.ch-meta{display:flex;gap:.4rem;margin-top:.4rem;align-items:center;}
+.ch-pts{font-size:.62rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .4rem;border-radius:4px;}
+.ch-cat{font-size:.62rem;color:var(--el);background:var(--eg);border:1px solid rgba(37,160,110,.2);padding:.1rem .4rem;border-radius:4px;}
+.ch-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:.2s;flex-shrink:0;}
+.ch-btn:hover,.ch-btn.done{background:var(--eg);border-color:var(--el);color:var(--el);}
+.ch-streak{display:flex;gap:3px;margin-top:.6rem;flex-wrap:wrap;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c3);}
+.dot.filled{background:var(--el);}
+.dot.today{background:var(--gold);}
+
+/* Level badge */
+.level-badge{background:linear-gradient(135deg,var(--gd),var(--eg));border:1px solid var(--br);border-radius:12px;padding:.8rem 1rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem;}
+.lv-icon{width:42px;height:42px;background:var(--gd);border:1px solid var(--br);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--gold);}
+.lv-info{}
+.lv-title{font-family:var(--fh);font-size:.8rem;color:var(--gold);}
+.lv-sub{font-size:.68rem;color:var(--cd);margin-top:.15rem;}
+.lv-bar{height:4px;background:var(--c3);border-radius:2px;margin-top:.5rem;width:200px;max-width:100%;}
+.lv-fill{height:100%;background:linear-gradient(90deg,var(--el),var(--gold));border-radius:2px;transition:width .5s;}
+
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:480px){.stats-bar{grid-template-columns:repeat(3,1fr);}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb gold" href="/tantangan"><i class="fa-solid fa-trophy"></i> Tantangan</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="h-ar">&#x62A;&#x62D;&#x62F;&#x651;&#x650;</div>
+  <div class="h-ti">Tantangan Ibadah</div>
+  <div class="h-su">30 hari challenge ibadah, raih poin & tingkatkan level</div>
+</div>
+<div class="main">
+
+  <div class="level-badge" id="level-badge"></div>
+
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Selesai Hari Ini</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-streak">0</div><div class="stat-label">Hari Streak</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-pts">0</div><div class="stat-label">Total Poin</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="ring-wrap">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(245,240,232,.07)" stroke-width="8"/>
+        <circle id="ring-circle" cx="40" cy="40" r="32" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201"/>
+        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#25a06e"/><stop offset="100%" stop-color="#c9a84c"/></linearGradient></defs>
+      </svg>
+      <div class="ring-pct" id="ring-pct">0%<span class="ring-sub">hari ini</span></div>
+    </div>
+    <div class="progress-text">
+      <div class="pt-title" id="pt-title">Mulai Tantanganmu</div>
+      <div class="pt-sub" id="pt-sub">Selesaikan tantangan harian untuk tingkatkan level ibadahmu</div>
+      <div class="pt-day" id="pt-day">Hari ke-1 dari 30</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <span class="tab on" onclick="filterCh('all',this)">Semua</span>
+    <span class="tab" onclick="filterCh('sholat',this)">Sholat</span>
+    <span class="tab" onclick="filterCh('quran',this)">Al-Quran</span>
+    <span class="tab" onclick="filterCh('dzikir',this)">Dzikir</span>
+    <span class="tab" onclick="filterCh('akhlak',this)">Akhlak</span>
+    <span class="tab" onclick="filterCh('sedekah',this)">Sedekah</span>
+  </div>
+
+  <div class="challenge-list" id="ch-list"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var challenges = [
+  {id:1,cat:'sholat',icon:'fa-solid fa-person-praying',color:'#25a06e',bg:'rgba(26,107,74,.2)',title:'Sholat 5 Waktu Tepat Waktu',desc:'Kerjakan semua sholat wajib tepat pada waktunya, tidak dijamak kecuali darurat',pts:20},
+  {id:2,cat:'sholat',icon:'fa-solid fa-mosque',color:'#c9a84c',bg:'rgba(201,168,76,.12)',title:'Sholat Berjamaah di Masjid',desc:'Minimal 1 waktu sholat berjamaah di masjid hari ini',pts:15},
+  {id:3,cat:'sholat',icon:'fa-solid fa-moon',color:'#b388ff',bg:'rgba(179,136,255,.15)',title:'Sholat Sunnah Rawatib',desc:'Kerjakan sholat sunnah sebelum/sesudah sholat wajib (minimal 4 rakaat)',pts:10},
+  {id:4,cat:'quran',icon:'fa-solid fa-book-quran',color:'#c9a84c',bg:'rgba(201,168,76,.12)',title:'Baca Al-Quran 1 Halaman',desc:'Baca minimal 1 halaman Al-Quran dengan tartil dan penuh penghayatan',pts:10},
+  {id:5,cat:'quran',icon:'fa-solid fa-book-open',color:'#5ba4f5',bg:'rgba(91,164,245,.15)',title:'Baca Terjemah Al-Quran',desc:'Baca Al-Quran beserta terjemahannya untuk memahami makna',pts:12},
+  {id:6,cat:'quran',icon:'fa-solid fa-graduation-cap',color:'#25a06e',bg:'rgba(26,107,74,.2)',title:'Hafal 1 Ayat Baru',desc:'Hafalkan satu ayat Al-Quran yang belum pernah dihafal sebelumnya',pts:25},
+  {id:7,cat:'dzikir',icon:'fa-solid fa-circle-dot',color:'#e8cc7a',bg:'rgba(232,204,122,.12)',title:'Dzikir Pagi & Petang',desc:'Baca dzikir pagi setelah Subuh dan dzikir petang setelah Ashar',pts:15},
+  {id:8,cat:'dzikir',icon:'fa-solid fa-infinity',color:'#25a06e',bg:'rgba(26,107,74,.2)',title:'100x Istighfar',desc:'Baca istighfar minimal 100 kali sepanjang hari',pts:10},
+  {id:9,cat:'dzikir',icon:'fa-solid fa-star',color:'#gold',bg:'rgba(201,168,76,.12)',title:'Sholawat 100x',desc:'Baca sholawat Nabi minimal 100 kali hari ini',pts:10},
+  {id:10,cat:'akhlak',icon:'fa-solid fa-heart',color:'#f15a5a',bg:'rgba(241,90,90,.12)',title:'Berbuat Baik ke Orang Tua',desc:'Hubungi, kunjungi, atau bantu orang tua hari ini dengan tulus',pts:20},
+  {id:11,cat:'akhlak',icon:'fa-solid fa-face-smile',color:'#f2c94c',bg:'rgba(242,201,76,.12)',title:'Jaga Lisan Seharian',desc:'Tidak berkata buruk, ghibah, bohong, atau menyakiti orang lain seharian',pts:20},
+  {id:12,cat:'akhlak',icon:'fa-solid fa-handshake',color:'#5ba4f5',bg:'rgba(91,164,245,.15)',title:'Silaturahmi',desc:'Hubungi atau kunjungi saudara, kerabat, atau teman yang lama tidak disapa',pts:15},
+  {id:13,cat:'sedekah',icon:'fa-solid fa-hand-holding-heart',color:'#25a06e',bg:'rgba(26,107,74,.2)',title:'Sedekah Hari Ini',desc:'Berikan sedekah kepada yang membutuhkan, berapapun nilainya',pts:20},
+  {id:14,cat:'sedekah',icon:'fa-solid fa-utensils',color:'#c9a84c',bg:'rgba(201,168,76,.12)',title:'Beri Makan Orang Lain',desc:'Berbagi makanan kepada tetangga, fakir miskin, atau siapapun yang membutuhkan',pts:18},
+  {id:15,cat:'sedekah',icon:'fa-solid fa-droplet',color:'#5ba4f5',bg:'rgba(91,164,245,.15)',title:'Sedekah Jariyah',desc:'Kontribusi pada pembangunan masjid, sumur, atau wakaf produktif',pts:30},
+];
+
+var KEY = 'tantangan-v1';
+var data = JSON.parse(localStorage.getItem(KEY) || '{}');
+// data: { dateStr: {done: [ids], pts: n} }
+
+var today = new Date().toISOString().slice(0,10);
+if(!data[today]) data[today] = {done:[], pts:0};
+
+var currentCat = 'all';
+
+var levels = [
+  {name:'Mubtadi (Pemula)', min:0, max:200},
+  {name:'Mutawassith (Menengah)', min:200, max:500},
+  {name:'Mutaqaddim (Mahir)', min:500, max:1000},
+  {name:'Mujahid (Pejuang)', min:1000, max:2000},
+  {name:'Wali Allah', min:2000, max:9999},
+];
+
+function totalPts(){
+  return Object.values(data).reduce(function(s,d){return s+(d.pts||0);},0);
+}
+function todayDone(){ return (data[today].done||[]).length; }
+function streakDays(){
+  var streak=0, d=new Date();
+  for(var i=0;i<30;i++){
+    var ds = d.toISOString().slice(0,10);
+    if(data[ds] && data[ds].done && data[ds].done.length>0) streak++;
+    else if(i>0) break;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+function getLevel(pts){
+  for(var i=levels.length-1;i>=0;i--){if(pts>=levels[i].min) return {lv:i,info:levels[i]};}
+  return {lv:0,info:levels[0]};
+}
+
+function updateStats(){
+  var pts = totalPts();
+  var done = todayDone();
+  var streak = streakDays();
+  var total = (currentCat==='all'?challenges:challenges.filter(function(c){return c.cat===currentCat;})).length;
+
+  document.getElementById('stat-done').textContent = done+'/'+challenges.length;
+  document.getElementById('stat-streak').textContent = streak;
+  document.getElementById('stat-pts').textContent = pts;
+
+  // ring
+  var pct = Math.round(done/total*100);
+  var circ = 201;
+  document.getElementById('ring-circle').style.strokeDashoffset = circ - (circ*pct/100);
+  document.getElementById('ring-pct').innerHTML = pct+'%<span class="ring-sub">hari ini</span>';
+
+  // progress text
+  var dayNum = Math.max(1,streak);
+  document.getElementById('pt-title').textContent = done===0?'Yuk mulai tantangan hari ini!':done===challenges.length?'Semua tantangan selesai!':'Terus semangat!';
+  document.getElementById('pt-sub').textContent = done+' dari '+challenges.length+' tantangan hari ini sudah diselesaikan';
+  document.getElementById('pt-day').textContent = 'Hari ke-'+dayNum+' dari 30';
+
+  // level
+  var lv = getLevel(pts);
+  var nextLv = levels[Math.min(lv.lv+1, levels.length-1)];
+  var pctLv = Math.min(100, Math.round((pts-lv.info.min)/(nextLv.min-lv.info.min)*100));
+  document.getElementById('level-badge').innerHTML =
+    '<div class="lv-icon"><i class="fa-solid fa-trophy"></i></div>'+
+    '<div class="lv-info">'+
+      '<div class="lv-title">'+lv.info.name+'</div>'+
+      '<div class="lv-sub">'+pts+' poin '+(lv.lv<levels.length-1?'— '+nextLv.min+' poin untuk naik level':'— Level Tertinggi!')+'</div>'+
+      '<div class="lv-bar"><div class="lv-fill" style="width:'+pctLv+'%"></div></div>'+
+    '</div>';
+}
+
+function render(list){
+  var el = document.getElementById('ch-list');
+  var done = data[today].done||[];
+  el.innerHTML = list.map(function(ch,i){
+    var isDone = done.includes(ch.id);
+    // streak dots (last 7 days)
+    var dots = '';
+    for(var d=6;d>=0;d--){
+      var dd = new Date(); dd.setDate(dd.getDate()-d);
+      var ds = dd.toISOString().slice(0,10);
+      var dayDone = data[ds] && data[ds].done && data[ds].done.includes(ch.id);
+      var cls = d===0?(isDone?'dot filled today':'dot today'):dayDone?'dot filled':'dot';
+      dots += '<div class="'+cls+'" title="'+(d===0?'Hari ini':d+' hari lalu')+'"></div>';
+    }
+    return '<div class="ch-card'+(isDone?' done':'')+'" style="animation-delay:'+(i*0.04)+'s" id="card-'+ch.id+'">'+
+      '<div class="ch-top">'+
+        '<div class="ch-icon" style="background:'+ch.bg+';color:'+ch.color+'"><i class="'+ch.icon+'"></i></div>'+
+        '<div class="ch-info">'+
+          '<div class="ch-title">'+ch.title+'</div>'+
+          '<div class="ch-desc">'+ch.desc+'</div>'+
+          '<div class="ch-meta"><span class="ch-pts">+'+ch.pts+' poin</span><span class="ch-cat">'+ch.cat+'</span></div>'+
+        '</div>'+
+        '<button class="ch-btn'+(isDone?' done':'')+'" onclick="toggleDone('+ch.id+',this)">'+
+          '<i class="fa-solid fa-'+(isDone?'check':'circle-dot')+'"></i>'+
+        '</button>'+
+      '</div>'+
+      '<div class="ch-streak">'+dots+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleDone(id, btn){
+  var done = data[today].done||[];
+  var ch = challenges.find(function(c){return c.id===id;});
+  if(done.includes(id)){
+    data[today].done = done.filter(function(x){return x!==id;});
+    data[today].pts -= ch.pts;
+    showToast('Tantangan dibatalkan');
+  } else {
+    data[today].done.push(id);
+    data[today].pts = (data[today].pts||0) + ch.pts;
+    showToast('+'+ch.pts+' poin! Mantap huy');
+  }
+  localStorage.setItem(KEY, JSON.stringify(data));
+  var card = document.getElementById('card-'+id);
+  card.classList.toggle('done');
+  btn.classList.toggle('done');
+  btn.innerHTML = '<i class="fa-solid fa-'+(data[today].done.includes(id)?'check':'circle-dot')+'"></i>';
+  updateStats();
+}
+
+function filterCh(cat, btn){
+  currentCat = cat;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  btn.classList.add('on');
+  var list = cat==='all'?challenges:challenges.filter(function(c){return c.cat===cat;});
+  render(list);
+  updateStats();
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');},2000);
+}
+
+updateStats();
+render(challenges);
+</script>
+</body>
+</html>

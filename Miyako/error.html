@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IslamiHub — Error</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #04080d;
+            --card-bg: rgba(13, 24, 33, 0.6);
+            --accent-gold: #c9a84c;
+            --accent-green: #1a6b4a;
+            --accent-light-green: #25a06e;
+            --text-main: #f5f0e8;
+            --text-sub: #7a8a99;
+            --glass-border: rgba(201, 168, 76, 0.1);
+            --gold-glow: rgba(201, 168, 76, 0.2);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 50% -20%, rgba(26,107,74,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(201,168,76,0.08) 0%, transparent 35%),
+                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(201,168,76,.015) 40px, rgba(201,168,76,.015) 41px),
+                repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(201,168,76,.015) 40px, rgba(201,168,76,.015) 41px);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            width: 100%; max-width: 450px;
+            display: flex; flex-direction: column;
+            align-items: center; text-align: center;
+            animation: pageIn 0.5s ease;
+        }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .ornament {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem; color: rgba(232,204,122,0.2);
+            letter-spacing: 8px; margin-bottom: 28px;
+        }
+
+        .error-icon-wrap {
+            width: 110px; height: 110px; border-radius: 30px;
+            background: var(--card-bg);
+            border: 1px solid rgba(201,168,76,0.18);
+            backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.8rem; margin: 0 auto 26px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(201,168,76,0.08);
+            animation: float 3.5s ease-in-out infinite;
+        }
+        .error-icon-wrap::before {
+            content: ''; position: absolute; inset: -1px; border-radius: 30px;
+            background: linear-gradient(135deg, rgba(201,168,76,.2), transparent, rgba(26,107,74,.1));
+            z-index: -1;
+        }
+        .error-icon-wrap::after {
+            content: ''; position: absolute; inset: -8px; border-radius: 36px;
+            border: 1px solid rgba(201,168,76,0.07);
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+
+        .error-code {
+            font-family: 'Cinzel', serif; font-size: 4.5rem; font-weight: 600;
+            letter-spacing: 0.05em; line-height: 1; margin-bottom: 6px;
+            background: linear-gradient(135deg, #e8cc7a, #c9a84c, #a07830);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .error-title  { font-family: 'Cinzel', serif; font-size: 1.05rem; letter-spacing: 0.1em; color: var(--text-main); margin-bottom: 8px; }
+        .error-arabic { font-family: 'Scheherazade New', serif; font-size: 1.3rem; color: rgba(232,204,122,0.5); margin-bottom: 14px; }
+        .error-desc   { font-size: 0.78rem; color: var(--text-sub); line-height: 1.7; max-width: 320px; margin: 0 auto 28px; }
+
+        /* detail card */
+        .error-detail-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 20px;
+            backdrop-filter: blur(15px);
+            margin-bottom: 10px;
+            text-align: left; position: relative; overflow: hidden;
+        }
+        .error-detail-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,.03), transparent);
+            pointer-events: none;
+        }
+        .edc-label {
+            font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--text-sub); font-weight: 700;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .edc-label::after {
+            content: ''; height: 1px; flex: 1;
+            background: linear-gradient(90deg, rgba(201,168,76,0.2), transparent);
+        }
+        .edc-code {
+            font-family: 'Courier New', monospace; font-size: 0.75rem;
+            color: #5ba4f5;
+            background: rgba(91,164,245,0.06);
+            border: 1px solid rgba(91,164,245,0.1);
+            border-radius: 10px; padding: 12px 14px;
+            line-height: 1.8; word-break: break-all;
+            white-space: pre-wrap;
+        }
+        .edc-code .lbl         { color: var(--text-sub); font-size: 0.68rem; }
+        .edc-code .method      { color: #f2c94c; }
+        .edc-code .path        { color: #e8cc7a; }
+        .edc-code .status-gold { color: #c9a84c; }
+        .edc-code .status-red  { color: #f15a5a; }
+        .edc-code .hint        { color: #25a06e; }
+
+        .timestamp-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-top: 10px; padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ts-left  { font-size: 0.6rem; color: var(--text-sub); }
+        .ts-right { font-size: 0.6rem; color: rgba(201,168,76,0.5); font-family: 'Courier New', monospace; }
+
+        /* buttons */
+        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 20px 0 28px; }
+        .btn-primary {
+            width: 100%; padding: 16px; border-radius: 18px; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, rgba(26,107,74,0.6), rgba(37,160,110,0.4));
+            color: #f5f0e8; border: 1px solid rgba(26,107,74,0.5);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26,107,74,0.4), 0 0 15px rgba(37,160,110,0.2);
+            border-color: var(--accent-light-green);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary {
+            width: 100%; padding: 14px; border-radius: 18px;
+            border: 1px solid var(--glass-border); cursor: pointer;
+            font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--card-bg); color: var(--text-sub); backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+            border-color: rgba(201,168,76,0.35); color: var(--text-main);
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .btn-secondary.hidden { display: none; }
+
+        /* section divider */
+        .section-title {
+            font-size: 0.65rem; letter-spacing: 3px; color: var(--text-sub);
+            text-transform: uppercase; font-weight: 700;
+            display: flex; align-items: center; width: 100%; margin-bottom: 14px;
+        }
+        .section-title::after {
+            content: ''; height: 1px; flex: 1; margin-left: 12px;
+            background: linear-gradient(90deg, rgba(201,168,76,0.2), transparent);
+        }
+
+        /* quick links */
+        .quick-links { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; width: 100%; margin-bottom: 28px; }
+        .quick-link {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            border-radius: 18px; padding: 14px 12px;
+            text-decoration: none; color: var(--text-main);
+            display: flex; align-items: center; gap: 11px;
+            transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .quick-link:hover {
+            border-color: rgba(201,168,76,0.35); transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 12px var(--gold-glow);
+        }
+        .ql-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; flex-shrink: 0;
+            background: rgba(201,168,76,.12); color: #c9a84c;
+            border: 1px solid rgba(201,168,76,.12);
+        }
+        .ql-name { font-size: 0.78rem; font-weight: 700; display: block; margin-bottom: 1px; }
+        .ql-sub  { font-size: 0.6rem; color: var(--text-sub); }
+
+        /* hikmah */
+        .hikmah-box {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(201,168,76,.06), rgba(26,107,74,.06));
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 20px; padding: 18px 20px; text-align: center;
+        }
+        .hikmah-ar   { font-family: 'Scheherazade New', serif; font-size: 1.4rem; color: rgba(232,204,122,.6); margin-bottom: 6px; }
+        .hikmah-text { font-size: 0.68rem; color: var(--text-sub); font-style: italic; line-height: 1.6; }
+        .hikmah-src  { font-size: 0.58rem; color: rgba(201,168,76,0.45); margin-top: 4px; }
+
+        /* navbar */
+        .navbar {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 50px); max-width: 400px;
+            background: rgba(5,10,16,0.75);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            height: 72px; border-radius: 25px; display: flex;
+            justify-content: space-around; align-items: center;
+            border: 1px solid rgba(201,168,76,0.12);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.04);
+            z-index: 9999; padding: 0 10px;
+        }
+        .nav-link {
+            position: relative; text-align: center; color: rgba(245,240,232,0.3);
+            text-decoration: none; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; flex: 1;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1); height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
+        }
+        .nav-link i { font-size: 20px; transition: all 0.3s ease; }
+        .nav-link:hover { color: rgba(245,240,232,0.7); }
+        .nav-link:hover i { transform: translateY(-3px); }
+
+        body::after {
+            content: ''; position: fixed; bottom: 0; left: 0; right: 0; height: 100px;
+            background: linear-gradient(transparent, rgba(4,8,13,0.9));
+            pointer-events: none; z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="ornament">— ✦ —</div>
+
+    <div class="error-icon-wrap">
+        <i id="errorIcon" class="fa-solid fa-triangle-exclamation" style="color:#c9a84c;"></i>
+    </div>
+
+    <div class="error-code"   id="errorCode">---</div>
+    <div class="error-title"  id="errorTitle">Terjadi Kesalahan</div>
+    <div class="error-arabic" id="errorArabic">خَطَأٌ</div>
+    <p class="error-desc"     id="errorDesc">Memuat informasi error…</p>
+
+    <div class="error-detail-card">
+        <div class="edc-label">Detail Error</div>
+        <div class="edc-code" id="errorDetailCode">Memuat…</div>
+        <div class="timestamp-row">
+            <span class="ts-left"><i class="fa-regular fa-clock" style="margin-right:4px;"></i>Waktu kejadian</span>
+            <span class="ts-right" id="errorTime">—</span>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-primary" onclick="window.location.href='/'">
+            <i class="fa-solid fa-house"></i>
+            Kembali ke Beranda
+        </button>
+        <button class="btn-secondary" id="btnBack" onclick="window.history.back()">
+            <i class="fa-solid fa-arrow-left"></i>
+            Halaman Sebelumnya
+        </button>
+    </div>
+
+    <div class="section-title">Mungkin kamu mencari</div>
+    <div class="quick-links">
+        <a href="/" class="quick-link">
+            <div class="ql-icon"><i class="fa-solid fa-book-quran"></i></div>
+            <div><span class="ql-name">Doa & Dzikir</span><span class="ql-sub">Doa harian & hafalan</span></div>
+        </a>
+        <a href="/" class="quick-link">
+            <div class="ql-icon" style="background:rgba(26,107,74,.2);color:#25a06e;border-color:rgba(26,107,74,.2)">
+                <i class="fa-solid fa-person-praying"></i>
+            </div>
+            <div><span class="ql-name">Panduan Sholat</span><span class="ql-sub">Tata cara & waktu</span></div>
+        </a>
+        <a href="/" class="quick-link">
+            <div class="ql-icon" style="background:rgba(91,164,245,.1);color:#5ba4f5;border-color:rgba(91,164,245,.1)">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+            <div><span class="ql-name">Arah Qiblat</span><span class="ql-sub">Kompas interaktif</span></div>
+        </a>
+        <a href="/" class="quick-link">
+            <div class="ql-icon" style="background:rgba(179,136,255,.12);color:#b388ff;border-color:rgba(179,136,255,.12)">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+            <div><span class="ql-name">Ramadhan</span><span class="ql-sub">Fitur spesial bulan puasa</span></div>
+        </a>
+    </div>
+
+    <div class="hikmah-box" id="hikmahBox">
+        <div class="hikmah-ar">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+        <div class="hikmah-text">"Sesungguhnya bersama kesulitan ada kemudahan."</div>
+        <div class="hikmah-src">Q.S. Al-Insyirah: 6</div>
+    </div>
+
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="/islam-menu" class="nav-link"><i class="fa-solid fa-house"></i><span>Beranda</span></a>
+    <a href="/quran" class="nav-link"><i class="fa-solid fa-book-quran"></i><span>Quran</span></a>
+    <a href="/qiblat" class="nav-link"><i class="fa-solid fa-compass"></i><span>Qiblat</span></a>
+    <a href="/profil" class="nav-link"><i class="fa-regular fa-circle-user"></i><span>Profil</span></a>
+</nav>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+//  Database error — icon, teks, dan hikmah per kode HTTP
+// ─────────────────────────────────────────────────────────────
+const ERROR_MAP = {
+    '400': {
+        title:'Bad Request', arabic:'طَلَبٌ خَاطِئٌ',
+        desc:'Permintaan tidak dapat diproses karena format atau data yang dikirimkan tidak valid.',
+        icon:'fa-solid fa-circle-exclamation', iconColor:'#f2c94c',
+        hint:'Periksa data yang dikirimkan — ada parameter yang tidak sesuai format.',
+        hikmahAr:'تَأَنَّ فِي أَمْرِكَ',
+        hikmahText:'"Berhati-hatilah dalam setiap urusanmu."',
+        hikmahSrc:'Pepatah Arab'
+    },
+    '401': {
+        title:'Unauthorized', arabic:'غَيْرُ مُصَرَّحٍ',
+        desc:'Kamu perlu login terlebih dahulu untuk mengakses halaman ini.',
+        icon:'fa-solid fa-user-lock', iconColor:'#b388ff',
+        hint:'Silakan login dan coba lagi.',
+        hikmahAr:'كُلُّ نَفْسٍ بِمَا كَسَبَتْ رَهِينَةٌ',
+        hikmahText:'"Setiap jiwa bertanggung jawab atas apa yang ia kerjakan."',
+        hikmahSrc:'Q.S. Al-Muddatstsir: 38'
+    },
+    '403': {
+        title:'Access Forbidden', arabic:'مَحْظُورٌ',
+        desc:'Akses ke halaman ini tidak diizinkan. Kamu tidak memiliki hak akses yang diperlukan.',
+        icon:'fa-solid fa-lock', iconColor:'#b388ff',
+        hint:'Login dengan akun yang memiliki izin, atau hubungi admin.',
+        hikmahAr:'وَلَا تَقْرَبُوا الْفَوَاحِشَ',
+        hikmahText:'"Dan janganlah kamu mendekati hal-hal yang terlarang."',
+        hikmahSrc:"Q.S. Al-An'am: 151"
+    },
+    '404': {
+        title:'Page Not Found', arabic:'لَمْ يُوجَدْ',
+        desc:'Halaman yang kamu cari tidak ditemukan. Mungkin sudah dipindahkan, dihapus, atau URL-nya tidak tepat.',
+        icon:'fa-solid fa-triangle-exclamation', iconColor:'#c9a84c',
+        hint:'Periksa kembali URL, atau kembali ke beranda.',
+        hikmahAr:'إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+        hikmahText:'"Sesungguhnya bersama kesulitan ada kemudahan."',
+        hikmahSrc:'Q.S. Al-Insyirah: 6'
+    },
+    '405': {
+        title:'Method Not Allowed', arabic:'الطَّرِيقَةُ غَيْرُ مَسْمُوحٍ بِهَا',
+        desc:'HTTP method yang digunakan tidak diizinkan untuk endpoint ini.',
+        icon:'fa-solid fa-ban', iconColor:'#f15a5a',
+        hint:'Cek apakah kamu menggunakan GET, POST, atau method yang tepat.',
+        hikmahAr:'كُلُّ شَيْءٍ بِقَدَرٍ',
+        hikmahText:'"Segala sesuatu ada ukuran dan caranya."',
+        hikmahSrc:'Pepatah Arab'
+    },
+    '408': {
+        title:'Request Timeout', arabic:'انْتَهَتِ الْمُهْلَةُ',
+        desc:'Server tidak menerima permintaan dalam waktu yang ditentukan. Koneksi mungkin lambat.',
+        icon:'fa-solid fa-hourglass-end', iconColor:'#f2c94c',
+        hint:'Periksa koneksi internetmu dan coba lagi.',
+        hikmahAr:'الْوَقْتُ كَالسَّيْفِ',
+        hikmahText:'"Waktu itu bagaikan pedang — jika kamu tidak memanfaatkannya, ia yang akan memotongmu."',
+        hikmahSrc:"Imam Syafi'i"
+    },
+    '429': {
+        title:'Too Many Requests', arabic:'طَلَبَاتٌ كَثِيرَةٌ',
+        desc:'Terlalu banyak permintaan dalam waktu singkat. Tunggu sebentar sebelum mencoba lagi.',
+        icon:'fa-solid fa-gauge-high', iconColor:'#f15a5a',
+        hint:'Tunggu beberapa saat lalu refresh halaman.',
+        hikmahAr:'الصَّبْرُ مِفْتَاحُ الْفَرَجِ',
+        hikmahText:'"Sabar adalah kunci kelapangan."',
+        hikmahSrc:'Pepatah Arab'
+    },
+    '500': {
+        title:'Internal Server Error', arabic:'خَطَأُ الْخَادِم',
+        desc:'Terjadi kesalahan internal pada server. Tim kami sedang menangani masalah ini.',
+        icon:'fa-solid fa-server', iconColor:'#f15a5a',
+        hint:'Coba refresh atau kembali beberapa menit lagi.',
+        hikmahAr:'وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ',
+        hikmahText:'"Boleh jadi kamu membenci sesuatu, padahal ia amat baik bagimu."',
+        hikmahSrc:'Q.S. Al-Baqarah: 216'
+    },
+    '502': {
+        title:'Bad Gateway', arabic:'بَوَّابَةٌ خَاطِئَةٌ',
+        desc:'Server menerima respons tidak valid dari server upstream. Masalah sementara pada jaringan.',
+        icon:'fa-solid fa-network-wired', iconColor:'#f15a5a',
+        hint:'Coba lagi dalam beberapa menit.',
+        hikmahAr:'إِنَّ اللَّهَ مَعَ الصَّابِرِينَ',
+        hikmahText:'"Sesungguhnya Allah bersama orang-orang yang sabar."',
+        hikmahSrc:'Q.S. Al-Baqarah: 153'
+    },
+    '503': {
+        title:'Service Unavailable', arabic:'غَيْرُ مُتَاح',
+        desc:'Layanan sedang tidak tersedia — kemungkinan sedang dalam maintenance atau kelebihan beban.',
+        icon:'fa-solid fa-tower-broadcast', iconColor:'#5ba4f5',
+        hint:'Server sedang maintenance, coba beberapa menit lagi.',
+        hikmahAr:'إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+        hikmahText:'"Sesungguhnya bersama kesulitan ada kemudahan."',
+        hikmahSrc:'Q.S. Al-Insyirah: 6'
+    },
+    '504': {
+        title:'Gateway Timeout', arabic:'انْتَهَتْ مُهْلَةُ الْبَوَّابَةِ',
+        desc:'Server tidak mendapat respons tepat waktu dari server lain. Coba lagi dalam beberapa saat.',
+        icon:'fa-solid fa-stopwatch', iconColor:'#f2c94c',
+        hint:'Masalah sementara — refresh halaman atau coba lagi nanti.',
+        hikmahAr:'الصَّبْرُ مِفْتَاحُ الْفَرَجِ',
+        hikmahText:'"Sabar adalah kunci kelapangan."',
+        hikmahSrc:'Pepatah Arab'
+    }
+};
+
+// ─────────────────────────────────────────────────────────────
+//  Ambil parameter dari URL yang di-set oleh .htaccess
+//  Contoh URL: /error.html?code=404&message=Not+Found
+//
+//  Apache juga menyimpan path asli di header X-Original-URL
+//  dan env var REDIRECT_URL, tapi dari sisi HTML kita bisa
+//  baca via document.referrer (kalau tersedia) atau
+//  parameter `path` jika diteruskan manual.
+// ─────────────────────────────────────────────────────────────
+(function init() {
+    const params = new URLSearchParams(window.location.search);
+
+    // Kode error dari query param (diisi .htaccess via ErrorDocument)
+    const code    = (params.get('code') || '404').trim();
+
+    // Path asli yang gagal diakses
+    // Bisa dari: ?path= (jika diteruskan manual) atau document.referrer
+    const urlPath = params.get('path')
+        || (document.referrer && document.referrer !== window.location.href
+            ? (() => { try { return new URL(document.referrer).pathname; } catch(e) { return null; } })()
+            : null)
+        || '—';
+
+    // HTTP method — browser selalu GET kecuali form POST;
+    // Apache tidak meneruskan method ke ErrorDocument secara default,
+    // tapi kita bisa baca dari header via fetch (lihat catatan di bawah)
+    const method = params.get('method') || 'GET';
+
+    // Timestamp real-time
+    const now = new Date();
+    document.getElementById('errorTime').textContent =
+        now.toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' }) +
+        '  ' +
+        now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+
+    // Cari data di map, fallback jika kode tidak dikenal
+    const msgParam = (params.get('message') || '').replace(/\+/g,' ');
+    const e = ERROR_MAP[code] || {
+        title: msgParam || 'Unknown Error',
+        arabic: 'خَطَأٌ غَيْرُ مَعْرُوفٍ',
+        desc: 'Terjadi kesalahan yang tidak dikenali. Silakan kembali ke beranda.',
+        icon: 'fa-solid fa-circle-question',
+        iconColor: '#7a8a99',
+        hint: 'Hubungi admin jika masalah berlanjut.',
+        hikmahAr: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+        hikmahText: '"Sesungguhnya bersama kesulitan ada kemudahan."',
+        hikmahSrc: 'Q.S. Al-Insyirah: 6'
+    };
+
+    // ── Update <title> ──
+    document.title = `IslamiHub — ${code} ${e.title}`;
+
+    // ── Update hero ──
+    document.getElementById('errorCode').textContent   = code;
+    document.getElementById('errorTitle').textContent  = e.title;
+    document.getElementById('errorArabic').textContent = e.arabic;
+    document.getElementById('errorDesc').textContent   = e.desc;
+
+    // ── Update icon ──
+    const iconEl = document.getElementById('errorIcon');
+    iconEl.className   = e.icon;
+    iconEl.style.color = e.iconColor;
+
+    // ── Update detail code block ──
+    const isClientErr  = parseInt(code) >= 400 && parseInt(code) < 500;
+    const statusClass  = isClientErr ? 'status-gold' : 'status-red';
+    document.getElementById('errorDetailCode').innerHTML =
+        `<span class="lbl">Method  </span><span class="method">${esc(method)}</span>\n` +
+        `<span class="lbl">Path    </span><span class="path">${esc(urlPath)}</span>\n` +
+        `<span class="lbl">Status  </span><span class="${statusClass}">${esc(code)} ${esc(e.title)}</span>\n` +
+        `<span class="lbl">Hint    </span><span class="hint">→ ${esc(e.hint)}</span>`;
+
+    // ── Update hikmah ──
+    document.getElementById('hikmahBox').innerHTML =
+        `<div class="hikmah-ar">${e.hikmahAr}</div>` +
+        `<div class="hikmah-text">${e.hikmahText}</div>` +
+        `<div class="hikmah-src">${e.hikmahSrc}</div>`;
+
+    // ── Sembunyikan tombol "back" jika tidak ada history ──
+    if (window.history.length <= 1) {
+        document.getElementById('btnBack').classList.add('hidden');
+    }
+})();
+
+function esc(str) {
+    return String(str)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

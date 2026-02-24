@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ensiklopedi Sahabat</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.main{max-width:900px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.search-wrap{position:relative;margin-bottom:.8rem;}
+.search-wrap input{width:100%;padding:.65rem 1rem .65rem 2.3rem;background:var(--c1);border:1px solid var(--bs);border-radius:11px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.search-wrap input:focus{border-color:var(--br);}
+.search-wrap input::placeholder{color:var(--cm);}
+.search-wrap i{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--cm);font-size:.8rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.7rem;}
+.s-card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;overflow:hidden;transition:all .22s;animation:fadeIn .3s ease both;cursor:pointer;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.s-card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+.s-card.open{border-color:var(--br);}
+.s-header{padding:1rem 1rem .7rem;display:flex;gap:.8rem;align-items:flex-start;}
+.s-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:1rem;flex-shrink:0;border:1px solid rgba(255,255,255,.08);}
+.s-info{flex:1;}
+.s-ar{font-family:var(--fa);font-size:1.3rem;color:var(--gl);line-height:1.2;}
+.s-name{font-size:.85rem;font-weight:700;color:var(--cr);margin-bottom:.15rem;}
+.s-title{font-size:.67rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .4rem;border-radius:4px;display:inline-block;margin-bottom:.2rem;}
+.s-dates{font-size:.65rem;color:var(--cm);}
+.s-tags{display:flex;gap:.3rem;flex-wrap:wrap;padding:0 1rem .7rem;}
+.s-tag{font-size:.6rem;padding:.1rem .4rem;border-radius:4px;}
+.s-body{padding:0 1rem .9rem;display:none;border-top:1px solid var(--bs);padding-top:.7rem;margin-top:.3rem;}
+.s-card.open .s-body{display:block;}
+.s-bio{font-size:.73rem;color:var(--cd);line-height:1.7;margin-bottom:.6rem;}
+.s-keutamaan{background:var(--gd);border:1px solid var(--br);border-radius:8px;padding:.6rem .8rem;margin-bottom:.5rem;}
+.sk-title{font-size:.62rem;color:var(--gold);font-weight:600;margin-bottom:.2rem;}
+.sk-text{font-size:.7rem;color:var(--cd);line-height:1.6;}
+.s-facts{display:flex;flex-direction:column;gap:.3rem;}
+.s-fact{display:flex;gap:.6rem;font-size:.68rem;color:var(--cm);}
+.s-fact i{color:var(--gold);width:12px;flex-shrink:0;margin-top:.1rem;}
+.chevron{color:var(--cm);font-size:.7rem;transition:.2s;flex-shrink:0;margin-top:.3rem;}
+.s-card.open .chevron{transform:rotate(180deg);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb gold" href="/sahabat"><i class="fa-solid fa-users"></i> Sahabat</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="h-ar">&#x627;&#x644;&#x635;&#x651;&#x62D;&#x627;&#x628;&#x629;</div>
+  <div class="h-ti">Ensiklopedi Sahabat</div>
+  <div class="h-su">Profil lengkap para sahabat Nabi SAW, pejuang Islam terdepan</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filter('all',this)">Semua</button>
+    <button class="fp" onclick="filter('khulafa',this)">Khulafa Rasyidin</button>
+    <button class="fp" onclick="filter('asharaMubasysyarah',this)">Asyarah Mubasysyarah</button>
+    <button class="fp" onclick="filter('wanita',this)">Sahabiyah</button>
+    <button class="fp" onclick="filter('pahlawan',this)">Panglima Perang</button>
+  </div>
+</div>
+<div class="main">
+  <div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="srch" placeholder="Cari nama sahabat..." oninput="doRender()"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-users" style="display:block;font-size:2rem;opacity:.3;margin-bottom:.5rem"></i>Sahabat tidak ditemukan</div>
+</div>
+<script>
+var sahabat = [
+  {id:1,cat:'khulafa',ar:'\u0623\u0628\u0648 \u0628\u0643\u0631',name:'Abu Bakar Ash-Shiddiq RA',title:'Khalifah Pertama',dates:'573 M - 634 M',avatar_color:'#c9a84c',avatar_bg:'rgba(201,168,76,.15)',icon:'fa-solid fa-crown',
+   tags:['Khulafa Rasyidin','Asyarah Mubasysyarah','Ash-Shiddiq'],
+   tag_colors:['var(--gold)','var(--el)','#5ba4f5'],
+   bio:'Abu Bakar Abdullah bin Abi Quhafah adalah sahabat paling mulia dan khalifah pertama Islam. Orang dewasa pertama yang masuk Islam, beliau adalah sahabat setia Rasulullah dalam segala keadaan, termasuk hijrah ke Madinah. Gelar "Ash-Shiddiq" (yang sangat membenarkan) diberikan karena beliau langsung membenarkan Isra Miraj Nabi tanpa ragu.',
+   keutamaan:'Rasulullah SAW bersabda: "Tidak ada orang yang pernah bersamaku kecuali aku telah membalasnya, kecuali Abu Bakar. Sesungguhnya aku punya hutang kepadanya dan Allah yang akan membalasnya." (HR. Tirmidzi)',
+   facts:['Memerintah sebagai khalifah selama 2 tahun 3 bulan (632-634 M)','Mengumpulkan Al-Quran menjadi satu mushaf pertama kali','Memimpin perang Riddah (perang melawan para murtad dan nabi palsu)','Orang kaya yang menginfakkan seluruh hartanya untuk Islam']},
+  {id:2,cat:'khulafa',ar:'\u0639\u0645\u0631',name:'Umar bin Khattab RA',title:'Khalifah Kedua',dates:'584 M - 644 M',avatar_color:'#25a06e',avatar_bg:'rgba(26,107,74,.2)',icon:'fa-solid fa-scale-balanced',
+   tags:['Khulafa Rasyidin','Asyarah Mubasysyarah','Al-Faruq'],
+   tag_colors:['var(--gold)','var(--el)','#b388ff'],
+   bio:'Umar bin Khattab Al-Faruq (Sang Pembeda) awalnya adalah musuh Islam yang paling keras. Setelah mendengar adiknya membaca Al-Quran, hatinya luluh dan ia masuk Islam. Keislaman Umar memperkuat umat Muslim secara luar biasa. Khalifah yang terkenal dengan keadilannya, zuhudnya, dan kepeduliannya pada rakyat kecil.',
+   keutamaan:'Rasulullah bersabda: "Andaikan ada nabi setelahku, niscaya Umar bin Khattab." (HR. Tirmidzi). Beliau juga dikenal sebagai khalifah pertama yang bergelar "Amirul Mukminin".',
+   facts:['Memperluas wilayah Islam hingga Persia, Mesir, dan Syam','Mendirikan Baitul Mal (kas negara) dan sistem administrasi Islam','Menetapkan kalender Hijriah berdasarkan hijrah Nabi','Tidur beralaskan pelepah kurma meski jadi penguasa']},
+  {id:3,cat:'khulafa',ar:'\u0639\u062b\u0645\u0627\u0646',name:'Utsman bin Affan RA',title:'Khalifah Ketiga',dates:'579 M - 656 M',avatar_color:'#5ba4f5',avatar_bg:'rgba(91,164,245,.15)',icon:'fa-solid fa-book-quran',
+   tags:['Khulafa Rasyidin','Asyarah Mubasysyarah','Dzun Nurain'],
+   tag_colors:['var(--gold)','var(--el)','#f2c94c'],
+   bio:'Utsman bin Affan dikenal dengan gelar "Dzun Nurain" (Pemilik Dua Cahaya) karena menikahi dua putri Rasulullah secara berturut-turut: Ruqayyah dan Ummu Kulsum. Beliau adalah saudagar kaya yang sangat dermawan, mendanai banyak kebutuhan dakwah Islam dari hartanya sendiri.',
+   keutamaan:'Nabi SAW bersabda: "Setiap Nabi punya teman akrab di surga, dan teman akrabku di surga adalah Utsman." Utsman juga dikenal karena malu yang sangat tinggi hingga malaikat pun malu kepadanya.',
+   facts:['Membukukan Al-Quran dalam satu mushaf standar (Mushaf Utsmani)','Membeli sumur Raumah dan wakafkan untuk seluruh umat Islam','Mendanai sepertiga pasukan Tabuk dari hartanya sendiri','Memperluas Masjidil Haram dengan membeli tanah sekitarnya']},
+  {id:4,cat:'khulafa',ar:'\u0639\u0644\u064a',name:"Ali bin Abi Thalib RA",title:'Khalifah Keempat',dates:'601 M - 661 M',avatar_color:'#b388ff',avatar_bg:'rgba(179,136,255,.15)',icon:'fa-solid fa-sword',
+   tags:['Khulafa Rasyidin','Asyarah Mubasysyarah','Karramallahu Wajhah'],
+   tag_colors:['var(--gold)','var(--el)','#5ba4f5'],
+   bio:'Ali bin Abi Thalib adalah sepupu sekaligus menantu Rasulullah, suami dari Fatimah Az-Zahra. Pemuda pertama yang masuk Islam. Dikenal sebagai salah satu pendekar terbaik Islam, juga cendekiawan dan qadhi (hakim) yang sangat bijaksana. Nabi memberinya gelar "Gerbang Ilmu".',
+   keutamaan:'Rasulullah bersabda: "Aku adalah kota ilmu dan Ali adalah pintunya." Dalam pertempuran, Ali membawa panji Islam di garis terdepan. Beliau juga dikenal hafalan Al-Qurannya yang luar biasa.',
+   facts:['Hakim agung Islam yang keputusannya jadi rujukan','Tidur di tempat tidur Nabi saat hijrah sebagai pengalih perhatian','Menikahi Fatimah Az-Zahra, putri tercinta Rasulullah','Penulis Al-Quran dan surat-surat Rasulullah']},
+  {id:5,cat:'pahlawan',ar:'\u062e\u0627\u0644\u062f',name:'Khalid bin Walid RA',title:'Pedang Allah',dates:'585 M - 642 M',avatar_color:'#f15a5a',avatar_bg:'rgba(241,90,90,.12)',icon:'fa-solid fa-shield-halved',
+   tags:['Pedang Allah','Panglima Perang','Asya`arah Mubasysyarah'],
+   tag_colors:['#f15a5a','var(--el)','var(--gold)'],
+   bio:'Khalid bin Walid awalnya adalah salah satu panglima Quraisy yang paling ditakuti. Setelah masuk Islam, ia menjadi panglima paling gemilang dalam sejarah Islam. Tidak pernah kalah dalam ratusan pertempuran yang dipimpinnya. Gelar "Saifullah" (Pedang Allah) diberikan langsung oleh Rasulullah.',
+   keutamaan:'Rasulullah memberinya langsung gelar "Saifullah Al-Maslul" (Pedang Allah yang Terhunus). Beliau memimpin lebih dari 100 pertempuran tanpa sekalipun kalah.',
+   facts:['Memimpin penaklukan Irak, Suriah, dan sebagian Persia','Berhasil membalikkan keadaan di Perang Uhud sebelum masuk Islam','Masuk Islam bersama Amr bin Ash dan Utsman bin Thalhah','Meninggal di atas ranjang, bukan di medan perang — sesuatu yang ia sesali']},
+  {id:6,cat:'pahlawan',ar:'\u0639\u0645\u0631\u0648',name:"Amr bin Ash RA",title:'Penakluk Mesir',dates:'573 M - 663 M',avatar_color:'#f2c94c',avatar_bg:'rgba(242,201,76,.12)',icon:'fa-solid fa-flag',
+   tags:['Panglima Perang','Gubernur Mesir','Diplomat Ulung'],
+   tag_colors:['var(--el)','#5ba4f5','var(--gold)'],
+   bio:'Amr bin Ash adalah seorang diplomat dan panglima perang yang luar biasa cerdik. Sebelum Islam ia adalah negosiator Quraisy yang dikirim ke Habasyah. Setelah masuk Islam ia memimpin penaklukan Mesir dengan pasukan yang jauh lebih kecil dari pasukan Romawi.',
+   keutamaan:'Penaklukan Mesir di bawah kepemimpinannya membuka peradaban Islam di Afrika Utara. Rasulullah pernah berkata tentangnya: "Sebaik-baik pasukan adalah pasukan Amr bin Ash."',
+   facts:['Menaklukkan Mesir tahun 640 M dengan pasukan kecil','Mendirikan kota Fustat, cikal bakal Kairo modern','Gubernur Mesir dua kali di era berbeda','Masuk Islam hanya 3 tahun sebelum Fathul Makkah']},
+  {id:7,cat:'wanita',ar:'\u062e\u062f\u064a\u062c\u0629',name:'Khadijah binti Khuwailid RA',title:'Ummul Mukminin Pertama',dates:'555 M - 620 M',avatar_color:'#c9a84c',avatar_bg:'rgba(201,168,76,.15)',icon:'fa-solid fa-heart',
+   tags:['Ummul Mukminin','Muslimah Pertama','Sayyidah'],
+   tag_colors:['var(--gold)','var(--el)','#b388ff'],
+   bio:'Khadijah adalah wanita pertama yang masuk Islam, istri pertama dan paling dicintai Rasulullah. Seorang pengusaha sukses yang kaya raya, ia mengerahkan seluruh hartanya untuk dakwah Islam. Saat Nabi menerima wahyu pertama dan ketakutan, Khadijah adalah orang pertama yang menenangkan dan mendukungnya.',
+   keutamaan:'Allah SWT menyampaikan salam kepada Khadijah melalui Jibril dan Rasulullah. Nabi bersabda: "Khadijah beriman kepadaku ketika semua orang mengingkariku, ia membenarkanku ketika semua mendustakanku."',
+   facts:['Satu-satunya istri Nabi yang tidak dipoligami semasa hidupnya','Mengorbankan seluruh kekayaannya untuk dakwah Islam','Melahirkan semua anak Rasulullah kecuali Ibrahim','Meninggal 3 tahun sebelum hijrah, tahun kesedihan Nabi']},
+  {id:8,cat:'wanita',ar:'\u0639\u0627\u0626\u0634\u0629',name:"Aisyah binti Abu Bakar RA",title:'Ummul Mukminin',dates:'614 M - 678 M',avatar_color:'#5ba4f5',avatar_bg:'rgba(91,164,245,.15)',icon:'fa-solid fa-graduation-cap',
+   tags:['Ummul Mukminin','Ahli Hadits','Fakih'],
+   tag_colors:['var(--gold)','var(--el)','#5ba4f5'],
+   bio:'Aisyah adalah istri Rasulullah yang paling banyak meriwayatkan hadits dan paling luas ilmunya. Seorang intelektual yang luar biasa, para sahabat senior sering bertanya kepadanya soal fiqih dan hadits. Rasulullah wafat di pangkuannya dan dimakamkan di kamarnya.',
+   keutamaan:'Rasulullah bersabda: "Keutamaan Aisyah atas wanita lain seperti keutamaan tsarid (makanan) atas makanan lain." Beliau meriwayatkan lebih dari 2.000 hadits.',
+   facts:['Meriwayatkan 2.210 hadits, terbanyak dari kalangan wanita','Para sahabat menyebutnya "Al-Humaira" (yang kemerah-merahan)','Mengajar di balik tirai kepada ratusan murid pria dan wanita','Putri Abu Bakar Ash-Shiddiq, mertua sekaligus istri Nabi']},
+  {id:9,cat:'asharaMubasysyarah',ar:'\u0637\u0644\u062d\u0629',name:'Thalhah bin Ubaidillah RA',title:'Syahid yang Masih Hidup',dates:'594 M - 656 M',avatar_color:'#25a06e',avatar_bg:'rgba(26,107,74,.2)',icon:'fa-solid fa-medal',
+   tags:['Asyarah Mubasysyarah','Dermawan','Syuhada'],
+   tag_colors:['var(--gold)','var(--el)','#f15a5a'],
+   bio:'Thalhah bin Ubaidillah dikenal sebagai "Thalhah Al-Fayyadh" (yang dermawan mengalir) karena kedermawanannya yang luar biasa. Dalam Perang Uhud, ia melindungi Rasulullah dengan tubuhnya sendiri, tangannya lumpuh akibat luka yang diterimanya.',
+   keutamaan:'Rasulullah menyebutnya termasuk 10 sahabat yang dijamin masuk surga. Dalam Perang Uhud, Thalhah menerima 79 luka untuk melindungi Nabi.',
+   facts:['Tangannya cacat permanen karena melindungi Nabi di Uhud','Sering menyedekahkan ribuan dirham dalam sekali waktu','Digelari "Thalhah Al-Khair" dan "Thalhah Al-Jud" oleh Nabi','Satu dari 6 anggota syura yang ditunjuk Umar sebelum wafat']},
+  {id:10,cat:'asharaMubasysyarah',ar:'\u0633\u0639\u062f',name:"Sa'd bin Abi Waqqash RA",title:'Panah Islam',dates:'595 M - 674 M',avatar_color:'#b388ff',avatar_bg:'rgba(179,136,255,.15)',icon:'fa-solid fa-bullseye',
+   tags:['Asyarah Mubasysyarah','Panglima Perang','Penakluk Persia'],
+   tag_colors:['var(--gold)','var(--el)','#5ba4f5'],
+   bio:"Sa'd bin Abi Waqqash adalah paman Rasulullah dari pihak ibu, dan orang ketiga yang masuk Islam. Ia adalah pemanah terbaik di kalangan sahabat. Nabi mendoakannya khusus: \"Ya Allah, tepatkanlah anak panahnya dan kabulkan doanya.\" Doa ini menjadikannya panah Islam yang tidak pernah meleset.",
+   keutamaan:"Rasulullah bersabda tentang Sa'd: \"Ini adalah pamanku, tunjukkan padaku siapa pamanmu!\" Nabi juga memberikan anak panahnya dan berkata \"Bidiklah, ayah dan ibuku jadi tebusanmu\" — sesuatu yang tidak dikatakan kepada sahabat lain.",
+   facts:['Memimpin Perang Qadisiyyah, menghancurkan Kekaisaran Persia','Membangun Kufah, kota Islam pertama di Irak','Orang yang doanya paling mustajab di kalangan sahabat','Masuk Islam pada usia 17 tahun, salah satu yang paling awal']},
+  {id:11,cat:'pahlawan',ar:'\u0632\u064a\u062f',name:'Zaid bin Haritsah RA',title:'Kekasih Rasulullah',dates:'581 M - 629 M',avatar_color:'#f2c94c',avatar_bg:'rgba(242,201,76,.12)',icon:'fa-solid fa-star',
+   tags:['Panglima Perang','Anak Angkat Nabi','Syahid'],
+   tag_colors:['var(--el)','var(--gold)','#f15a5a'],
+   bio:'Zaid bin Haritsah adalah budak yang dimerdekakan Rasulullah, dan menjadi anak angkatnya. Satu-satunya sahabat yang namanya disebut dalam Al-Quran (QS Al-Ahzab:37). Diangkat menjadi panglima dalam Perang Mu\'tah, gugur syahid bersama Ja\'far bin Abi Thalib dan Abdullah bin Rawahah.',
+   keutamaan:'Zaid adalah sahabat yang paling dicintai Rasulullah secara personal, sehingga dipanggil "Hibbur Rasulullah" (kekasih Rasulullah). Namanya diabadikan dalam Al-Quran — satu-satunya sahabat yang mendapat kehormatan ini.',
+   facts:["Satu-satunya sahabat yang namanya disebut di Al-Quran",'Ayah dari Usamah bin Zaid, panglima termuda Islam','Rasulullah menangis saat mendengar berita syahidnya','Pernah memilih tetap bersama Nabi daripada pulang ke keluarganya']},
+  {id:12,cat:'wanita',ar:'\u0641\u0627\u0637\u0645\u0629',name:'Fatimah Az-Zahra RA',title:'Penghulu Wanita Surga',dates:'605 M - 632 M',avatar_color:'#e8cc7a',avatar_bg:'rgba(232,204,122,.12)',icon:'fa-solid fa-gem',
+   tags:['Putri Nabi','Ahlul Bait','Sayyidah'],
+   tag_colors:['var(--gold)','#b388ff','#f15a5a'],
+   bio:'Fatimah Az-Zahra adalah putri bungsu Rasulullah yang paling dicintai beliau. Menikah dengan Ali bin Abi Thalib dan menjadi ibu dari Hasan dan Husain. Dikenal karena kesederhanaan, kesabaran, dan kecintaannya kepada Allah. Meninggal hanya 6 bulan setelah wafatnya Rasulullah.',
+   keutamaan:'Rasulullah bersabda: "Fatimah adalah bagian dari diriku. Siapa yang menyakitinya berarti menyakitiku." Beliau juga dinobatkan sebagai penghulu wanita di surga bersama Maryam, Asiyah, dan Khadijah.',
+   facts:['Meninggal paling cepat di antara semua keluarga Nabi setelah beliau wafat','Nenek dari seluruh keturunan Nabi yang masih ada hingga kini (Sayyid/Syarifah)','Sering menepung dan memasak sendiri meski tangan lecet-lecet','Meminta Nabi untuk menjaga rahasianya, dan Nabi pun menangis']},
+];
+
+var currentCat = 'all';
+
+function filter(cat, btn){
+  currentCat = cat;
+  document.querySelectorAll('.fp').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  doRender();
+}
+
+function doRender(){
+  var srch = document.getElementById('srch').value.toLowerCase();
+  var list = sahabat.filter(function(s){
+    var matchCat = currentCat==='all' || s.cat===currentCat;
+    var matchSearch = !srch || s.name.toLowerCase().includes(srch) || s.bio.toLowerCase().includes(srch);
+    return matchCat && matchSearch;
+  });
+  var g = document.getElementById('grid');
+  var e = document.getElementById('empty');
+  if(!list.length){g.innerHTML='';e.style.display='block';return;}
+  e.style.display='none';
+  g.innerHTML = list.map(function(s,i){
+    var tags = s.tags.map(function(t,ti){
+      return '<span class="s-tag" style="background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.07);color:'+s.tag_colors[ti]+'">'+t+'</span>';
+    }).join('');
+    var facts = s.facts.map(function(f){
+      return '<div class="s-fact"><i class="fa-solid fa-circle-dot"></i>'+f+'</div>';
+    }).join('');
+    return '<div class="s-card" style="animation-delay:'+(i*0.04)+'s" onclick="toggleCard(this)">'+
+      '<div class="s-header">'+
+        '<div class="s-avatar" style="background:'+s.avatar_bg+';color:'+s.avatar_color+'"><i class="'+s.icon+'"></i></div>'+
+        '<div class="s-info">'+
+          '<div class="s-ar">'+s.ar+'</div>'+
+          '<div class="s-name">'+s.name+'</div>'+
+          '<span class="s-title">'+s.title+'</span>'+
+          '<div class="s-dates"><i class="fa-solid fa-calendar-days" style="font-size:.6rem;margin-right:.3rem"></i>'+s.dates+'</div>'+
+        '</div>'+
+        '<i class="fa-solid fa-chevron-down chevron"></i>'+
+      '</div>'+
+      '<div class="s-tags">'+tags+'</div>'+
+      '<div class="s-body">'+
+        '<div class="s-bio">'+s.bio+'</div>'+
+        '<div class="s-keutamaan"><div class="sk-title"><i class="fa-solid fa-star" style="margin-right:.3rem"></i>Keutamaan</div><div class="sk-text">'+s.keutamaan+'</div></div>'+
+        '<div class="s-facts">'+facts+'</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleCard(el){
+  el.classList.toggle('open');
+  var ch = el.querySelector('.chevron');
+  ch.style.transform = el.classList.contains('open')?'rotate(180deg)':'';
+}
+
+doRender();
+</script>
+</body>
+</html>
