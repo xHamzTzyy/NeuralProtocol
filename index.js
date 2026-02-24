@@ -4108,6 +4108,61 @@ app.get("/doa", requireAuth, (req, res) => {
   });
 });
 
+app.get("/zakat", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "zakat.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/qadar", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "qadar.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/ilmu-ramadhan", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "ilmu-ramadhan.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/hadits-ramadhan", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "hadits-ramadhan.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
+app.get("/doa-ramadhan", requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, "Miyako", "doa-ramadhan.html");
+  fs.readFile(filePath, "utf8", (err, html) => {
+    if (err) {
+      console.error("❌ Gagal membaca file confess.html:", err);
+      return res.status(500).send("File tidak ditemukan");
+    }
+    res.send(html);
+  });
+});
+
 app.get("/islam-menu", requireAuth, (req, res) => {
   const filePath = path.join(__dirname, "Miyako", "islamic-menu.html");
   fs.readFile(filePath, "utf8", (err, html) => {

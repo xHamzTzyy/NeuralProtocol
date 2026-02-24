@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lailatul Qadar</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.main{max-width:700px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+/* Countdown section */
+.countdown-wrap{background:linear-gradient(135deg,rgba(26,107,74,.2),rgba(201,168,76,.1));border:1px solid var(--br);border-radius:18px;padding:1.5rem;text-align:center;margin-bottom:1rem;}
+.cw-label{font-family:var(--fh);font-size:.7rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.8rem;}
+.cw-malam{font-family:var(--fa);font-size:1.8rem;color:var(--gl);margin-bottom:.3rem;}
+.cw-sub{font-size:.72rem;color:var(--cd);}
+.malam-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-bottom:1rem;}
+.malam-card{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:.7rem .4rem;text-align:center;transition:.2s;cursor:pointer;}
+.malam-card:hover,.malam-card.highlight{border-color:var(--br);background:var(--gd);}
+.malam-card.highlight .mc-num{color:var(--gold);}
+.malam-card.utama{border-color:rgba(201,168,76,.4);background:var(--gd);}
+.mc-num{font-family:var(--fh);font-size:1rem;color:var(--cr);margin-bottom:.2rem;}
+.mc-label{font-size:.58rem;color:var(--cm);}
+.mc-star{font-size:.7rem;color:var(--gold);}
+/* Surah Al-Qadr */
+.surah-box{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.2rem;margin-bottom:.8rem;}
+.sb-title{font-family:var(--fh);font-size:.75rem;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.ayat{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--bs);}
+.ayat:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.ayat-ar{font-family:var(--fa);font-size:1.8rem;color:var(--gl);text-align:right;direction:rtl;line-height:1.6;margin-bottom:.3rem;}
+.ayat-num{font-family:var(--fh);font-size:.62rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .4rem;border-radius:4px;display:inline-block;margin-bottom:.25rem;}
+.ayat-art{font-size:.75rem;color:var(--cd);line-height:1.6;}
+/* Keutamaan */
+.keutamaan-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.8rem;}
+.keutamaan-item{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:1rem;display:flex;gap:.8rem;align-items:flex-start;}
+.ki-icon{width:36px;height:36px;background:var(--gd);border:1px solid var(--br);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ki-text{}
+.ki-title{font-size:.82rem;font-weight:600;color:var(--cr);margin-bottom:.2rem;}
+.ki-desc{font-size:.72rem;color:var(--cd);line-height:1.6;}
+/* Amalan */
+.amalan-section{margin-bottom:.8rem;}
+.section-title{font-family:var(--fh);font-size:.75rem;color:var(--gold);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+.amalan-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.amalan-card{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:.9rem;}
+.ac-icon{font-size:1.2rem;margin-bottom:.4rem;}
+.ac-title{font-size:.78rem;font-weight:600;color:var(--cr);margin-bottom:.2rem;}
+.ac-desc{font-size:.67rem;color:var(--cd);line-height:1.55;}
+/* Tanda Lailatul Qadar */
+.tanda-box{background:rgba(201,168,76,.05);border:1px solid var(--br);border-radius:14px;padding:1.2rem;margin-bottom:.8rem;}
+.tanda-item{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.7rem;}
+.tanda-item:last-child{margin-bottom:0;}
+.ti-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;margin-top:.35rem;flex-shrink:0;}
+.ti-text{font-size:.74rem;color:var(--cd);line-height:1.6;}
+.ti-text strong{color:var(--cr);}
+@media(max-width:480px){.amalan-grid{grid-template-columns:1fr;}.malam-grid{grid-template-columns:repeat(5,1fr);}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb" href="/doa-ramadhan"><i class="fa-solid fa-moon"></i> Doa</a>
+    <a class="nb gold" href="/qadar"><i class="fa-solid fa-star"></i> Lailatul Qadar</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">لَيْلَةُ الْقَدْر</div>
+  <div class="h-ti">Lailatul Qadar</div>
+  <div class="h-su">Malam lebih baik dari seribu bulan — panduan lengkap</div>
+</div>
+
+<div class="main">
+
+  <div class="countdown-wrap">
+    <div class="cw-label">Malam Terbaik untuk Mencarinya</div>
+    <div class="cw-malam">10 Malam Terakhir Ramadhan</div>
+    <div class="cw-sub">Terutama malam-malam ganjil: 21, 23, 25, 27, 29</div>
+  </div>
+
+  <div class="section-title" style="margin-bottom:.6rem"><i class="fa-solid fa-moon"></i> Malam Ganjil 10 Terakhir</div>
+  <div class="malam-grid">
+    <div class="malam-card"><div class="mc-num">21</div><div class="mc-label">Malam ke</div><div class="mc-star">&#x2605;</div></div>
+    <div class="malam-card"><div class="mc-num">23</div><div class="mc-label">Malam ke</div><div class="mc-star">&#x2605;</div></div>
+    <div class="malam-card utama"><div class="mc-num">25</div><div class="mc-label">Malam ke</div><div class="mc-star">&#x2605;&#x2605;</div></div>
+    <div class="malam-card utama"><div class="mc-num">27</div><div class="mc-label">Malam ke</div><div class="mc-star">&#x2605;&#x2605;&#x2605;</div></div>
+    <div class="malam-card"><div class="mc-num">29</div><div class="mc-label">Malam ke</div><div class="mc-star">&#x2605;</div></div>
+  </div>
+
+  <div class="surah-box">
+    <div class="sb-title"><i class="fa-solid fa-book-quran"></i> Surah Al-Qadr (QS 97:1-5)</div>
+    <div class="ayat"><span class="ayat-num">Ayat 1</span><div class="ayat-ar">إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ</div><div class="ayat-art">Sesungguhnya Kami telah menurunkannya (Al-Qur'an) pada malam Lailatul Qadar.</div></div>
+    <div class="ayat"><span class="ayat-num">Ayat 2</span><div class="ayat-ar">وَمَا أَدْرَاكَ مَا لَيْلَةُ الْقَدْرِ</div><div class="ayat-art">Dan tahukah kamu apakah malam Lailatul Qadar itu?</div></div>
+    <div class="ayat"><span class="ayat-num">Ayat 3</span><div class="ayat-ar">لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ</div><div class="ayat-art">Malam Lailatul Qadar itu lebih baik dari seribu bulan.</div></div>
+    <div class="ayat"><span class="ayat-num">Ayat 4</span><div class="ayat-ar">تَنَزَّلُ الْمَلَائِكَةُ وَالرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ</div><div class="ayat-art">Pada malam itu turun para malaikat dan Ruh (Jibril) dengan izin Tuhannya untuk mengatur semua urusan.</div></div>
+    <div class="ayat"><span class="ayat-num">Ayat 5</span><div class="ayat-ar">سَلَامٌ هِيَ حَتَّى مَطْلَعِ الْفَجْرِ</div><div class="ayat-art">Malam itu penuh kesejahteraan sampai terbit fajar.</div></div>
+  </div>
+
+  <div class="section-title"><i class="fa-solid fa-gem"></i> Keutamaan Lailatul Qadar</div>
+  <div class="keutamaan-list">
+    <div class="keutamaan-item"><div class="ki-icon">&#x1F319;</div><div class="ki-text"><div class="ki-title">Lebih baik dari 1000 Bulan</div><div class="ki-desc">Ibadah di malam ini setara dengan ibadah selama 83 tahun lebih. Allah mengkhususkan malam ini sebagai anugerah luar biasa untuk umat Nabi Muhammad SAW.</div></div></div>
+    <div class="keutamaan-item"><div class="ki-icon">&#x1F54B;</div><div class="ki-text"><div class="ki-title">Al-Quran Pertama Kali Diturunkan</div><div class="ki-desc">Wahyu pertama surat Al-Alaq turun pada malam Lailatul Qadar kepada Nabi Muhammad SAW di Gua Hira. Menjadi awal dari risalah Islam.</div></div></div>
+    <div class="keutamaan-item"><div class="ki-icon">&#x1F47C;</div><div class="ki-text"><div class="ki-title">Malaikat Turun ke Bumi</div><div class="ki-desc">Para malaikat termasuk Jibril AS turun ke bumi dalam jumlah yang sangat banyak membawa kebaikan, rahmat, dan keberkahan bagi umat manusia.</div></div></div>
+    <div class="keutamaan-item"><div class="ki-icon">&#x1F4DC;</div><div class="ki-text"><div class="ki-title">Semua Takdir Ditetapkan</div><div class="ki-desc">Pada malam ini Allah menetapkan semua urusan setahun ke depan: rezeki, ajal, musibah, dan segala takdir. Inilah makna "qadar" dalam nama malam ini.</div></div></div>
+    <div class="keutamaan-item"><div class="ki-icon">&#x2728;</div><div class="ki-text"><div class="ki-title">Pengampunan Dosa</div><div class="ki-desc">Barang siapa mendirikan sholat di malam Lailatul Qadar dengan iman dan mengharap ridha Allah, diampuni dosanya yang telah lalu. (HR. Bukhari Muslim)</div></div></div>
+  </div>
+
+  <div class="amalan-section">
+    <div class="section-title"><i class="fa-solid fa-list-check"></i> Amalan yang Dianjurkan</div>
+    <div class="amalan-grid">
+      <div class="amalan-card"><div class="ac-icon">&#x1F64F;</div><div class="ac-title">Perbanyak Doa</div><div class="ac-desc">Terutama doa: "Allahumma innaka afuwwun tuhibbul afwa fa'fu anni"</div></div>
+      <div class="amalan-card"><div class="ac-icon">&#x1F4D6;</div><div class="ac-title">Tadarus Al-Quran</div><div class="ac-desc">Baca Al-Quran sebanyak-banyaknya, fokus pemahaman dan penghayatan makna</div></div>
+      <div class="amalan-card"><div class="ac-icon">&#x1F303;</div><div class="ac-title">Iktikaf</div><div class="ac-desc">Berdiam diri di masjid di 10 malam terakhir mengikuti sunnah Nabi SAW</div></div>
+      <div class="amalan-card"><div class="ac-icon">&#x1F4FF;</div><div class="ac-title">Dzikir & Istighfar</div><div class="ac-desc">Perbanyak tasbih, tahmid, tahlil, dan istighfar sepanjang malam</div></div>
+      <div class="amalan-card"><div class="ac-icon">&#x1F935;</div><div class="ac-title">Sholat Malam</div><div class="ac-desc">Sholat tahajud, witir, dan sholat sunnah lainnya sepanjang malam</div></div>
+      <div class="amalan-card"><div class="ac-icon">&#x1F4B0;</div><div class="ac-title">Sedekah & Infaq</div><div class="ac-desc">Perbanyak sedekah karena pahalanya berlipat ganda di malam mulia ini</div></div>
+    </div>
+  </div>
+
+  <div class="section-title"><i class="fa-solid fa-eye"></i> Tanda-Tanda Lailatul Qadar</div>
+  <div class="tanda-box">
+    <div class="tanda-item"><div class="ti-dot"></div><div class="ti-text"><strong>Malam yang tenang dan sejuk</strong> — Tidak terlalu panas dan tidak terlalu dingin, udaranya terasa tentram dan damai.</div></div>
+    <div class="tanda-item"><div class="ti-dot"></div><div class="ti-text"><strong>Langit cerah tanpa mendung tebal</strong> — Bintang-bintang terlihat jelas, langit tampak bersih dan bercahaya.</div></div>
+    <div class="tanda-item"><div class="ti-dot"></div><div class="ti-text"><strong>Matahari terbit tanpa sinar menyengat</strong> — Pagi hari setelah malam Qadar, matahari terbit dengan cahaya yang lembut seperti bulan purnama. (HR. Muslim)</div></div>
+    <div class="tanda-item"><div class="ti-dot"></div><div class="ti-text"><strong>Hati terasa tenang dan khusyuk</strong> — Orang yang beribadah merasakan kekhusyukan dan ketenteraman hati yang luar biasa.</div></div>
+    <div class="tanda-item"><div class="ti-dot"></div><div class="ti-text"><strong>Catatan dari Imam Ahmad</strong> — Beliau menyebutkan bahwa air laut terasa tawar pada malam itu dan para anjing tidak menggonggong.</div></div>
+  </div>
+
+</div>
+</body>
+</html>

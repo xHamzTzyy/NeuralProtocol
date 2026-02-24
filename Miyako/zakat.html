@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Zakat</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.tabs{display:flex;justify-content:center;gap:.4rem;margin-top:1.2rem;padding:0 1rem;flex-wrap:wrap;}
+.tab{padding:.32rem 1rem;border-radius:20px;font-size:.75rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.tab.on{background:var(--em);border-color:var(--el);color:#fff;}
+.main{max-width:600px;margin:1.2rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.zakat-form{background:var(--c1);border:1px solid var(--bs);border-radius:16px;padding:1.4rem;margin-bottom:.8rem;}
+.zf-title{font-family:var(--fh);font-size:.8rem;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.form-row{margin-bottom:.9rem;}
+.form-label{font-size:.72rem;color:var(--cd);margin-bottom:.35rem;display:block;}
+.form-input{width:100%;padding:.6rem .9rem;background:var(--c2);border:1px solid var(--bs);border-radius:9px;color:var(--cr);font-family:var(--fb);font-size:.85rem;outline:none;transition:.25s;}
+.form-input:focus{border-color:var(--br);}
+.form-input::placeholder{color:var(--cm);}
+select.form-input{cursor:pointer;}
+.form-hint{font-size:.65rem;color:var(--cm);margin-top:.25rem;}
+.nisab-info{background:var(--eg);border:1px solid rgba(37,160,110,.2);border-radius:9px;padding:.7rem .9rem;font-size:.72rem;color:var(--el);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;}
+.btn-hitung{width:100%;padding:.8rem;background:linear-gradient(135deg,var(--em),var(--el));border:none;border-radius:11px;color:#fff;font-family:var(--fh);font-size:.9rem;cursor:pointer;transition:.2s;letter-spacing:.05em;}
+.btn-hitung:hover{opacity:.9;transform:translateY(-1px);}
+.result-box{background:var(--c1);border:1px solid var(--br);border-radius:16px;padding:1.4rem;margin-top:.8rem;display:none;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-title{font-family:var(--fh);font-size:.75rem;color:var(--gold);margin-bottom:1rem;text-align:center;}
+.result-wajib{text-align:center;margin-bottom:1rem;}
+.result-label{font-size:.72rem;color:var(--cm);margin-bottom:.3rem;}
+.result-amount{font-family:var(--fh);font-size:1.8rem;color:var(--gl);}
+.result-divider{height:1px;background:var(--bs);margin:.8rem 0;}
+.result-row{display:flex;justify-content:space-between;font-size:.75rem;padding:.3rem 0;}
+.result-key{color:var(--cm);}
+.result-val{color:var(--cr);font-weight:600;}
+.result-val.green{color:var(--el);}
+.result-val.red{color:#e17055;}
+.status-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:.5rem;}
+.wajib{background:var(--eg);border:1px solid rgba(37,160,110,.3);color:var(--el);}
+.tidak-wajib{background:rgba(201,168,76,.1);border:1px solid var(--br);color:var(--gold);}
+.info-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem;}
+.info-card{background:var(--c1);border:1px solid var(--bs);border-radius:12px;padding:.9rem;}
+.ic-icon{font-size:1.1rem;margin-bottom:.4rem;}
+.ic-label{font-size:.65rem;color:var(--cm);margin-bottom:.15rem;}
+.ic-val{font-size:.8rem;font-weight:600;color:var(--cr);}
+.ic-val.gold{color:var(--gold);}
+.mustahiq{margin-top:.8rem;}
+.mustahiq-title{font-family:var(--fh);font-size:.72rem;color:var(--gold);margin-bottom:.5rem;}
+.mustahiq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;}
+.mq{background:var(--c2);border-radius:8px;padding:.5rem;text-align:center;font-size:.62rem;color:var(--cd);}
+.mq-ar{font-family:var(--fa);font-size:1rem;color:var(--gl);display:block;margin-bottom:.2rem;}
+@media(max-width:480px){.info-cards{grid-template-columns:1fr;}.mustahiq-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb" href="/doa-ramadhan"><i class="fa-solid fa-moon"></i> Doa</a>
+    <a class="nb gold" href="/zakat"><i class="fa-solid fa-hand-holding-heart"></i> Zakat</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">الزَّكَاة</div>
+  <div class="h-ti">Kalkulator Zakat</div>
+  <div class="h-su">Hitung zakat fitrah, mal, dan penghasilan dengan mudah</div>
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('fitrah',this)">Zakat Fitrah</button>
+    <button class="tab" onclick="switchTab('mal',this)">Zakat Mal</button>
+    <button class="tab" onclick="switchTab('penghasilan',this)">Zakat Penghasilan</button>
+  </div>
+</div>
+
+<div class="main">
+  <div id="tab-content"></div>
+
+  <div class="mustahiq">
+    <div class="mustahiq-title">8 Golongan Penerima Zakat (Mustahiq)</div>
+    <div class="mustahiq-grid">
+      <div class="mq"><span class="mq-ar">الفُقَرَاء</span>Fakir</div>
+      <div class="mq"><span class="mq-ar">المَسَاكِين</span>Miskin</div>
+      <div class="mq"><span class="mq-ar">العَامِلِين</span>Amil</div>
+      <div class="mq"><span class="mq-ar">المُؤَلَّفَة</span>Muallaf</div>
+      <div class="mq"><span class="mq-ar">الرِّقَاب</span>Riqab</div>
+      <div class="mq"><span class="mq-ar">الغَارِمِين</span>Gharimin</div>
+      <div class="mq"><span class="mq-ar">فِي سَبِيلِ اللّٰه</span>Fisabilillah</div>
+      <div class="mq"><span class="mq-ar">اِبْنُ السَّبِيل</span>Ibnu Sabil</div>
+    </div>
+  </div>
+</div>
+
+<script>
+var HARGA_BERAS = 15000;
+var HARGA_EMAS = 1100000;
+var HARGA_PERAK = 12000;
+var NISAB_EMAS_GRAM = 85;
+var NISAB_PERAK_GRAM = 595;
+var NISAB_MAL = NISAB_EMAS_GRAM * HARGA_EMAS;
+var NISAB_PENGHASILAN = NISAB_MAL / 12;
+
+var tabs = {
+  fitrah: function() {
+    return '<div class="zakat-form">' +
+      '<div class="zf-title"><i class="fa-solid fa-users"></i> Zakat Fitrah</div>' +
+      '<div class="nisab-info"><i class="fa-solid fa-info-circle"></i> Wajib bagi setiap Muslim yang mampu, dibayar sebelum sholat Idul Fitri</div>' +
+      '<div class="form-row"><label class="form-label">Jumlah Jiwa (Anggota Keluarga)</label><input class="form-input" type="number" id="f-jiwa" value="1" min="1" placeholder="1"><div class="form-hint">Termasuk diri sendiri, istri, anak yang dinafkahi</div></div>' +
+      '<div class="form-row"><label class="form-label">Jenis Pembayaran</label><select class="form-input" id="f-jenis"><option value="beras">Beras (2,5 kg / orang)</option><option value="uang">Uang (Senilai Beras)</option><option value="kurma">Kurma / Gandum (3,1 liter)</option></select></div>' +
+      '<div class="form-row" id="f-harga-row"><label class="form-label">Harga Beras per kg (Rp)</label><input class="form-input" type="number" id="f-harga" value="15000" placeholder="15000"><div class="form-hint">Sesuaikan dengan harga beras di daerahmu</div></div>' +
+      '<button class="btn-hitung" onclick="hitungFitrah()"><i class="fa-solid fa-calculator"></i> Hitung Zakat Fitrah</button></div>' +
+      '<div class="result-box" id="result-fitrah"></div>';
+  },
+  mal: function() {
+    return '<div class="info-cards">' +
+      '<div class="info-card"><div class="ic-icon">&#x1F947;</div><div class="ic-label">Nisab Emas</div><div class="ic-val gold">' + (NISAB_EMAS_GRAM * HARGA_EMAS).toLocaleString('id') + '</div><div class="ic-label" style="margin-top:.2rem">' + NISAB_EMAS_GRAM + ' gram emas</div></div>' +
+      '<div class="info-card"><div class="ic-icon">&#x1F948;</div><div class="ic-label">Nisab Perak</div><div class="ic-val gold">' + (NISAB_PERAK_GRAM * HARGA_PERAK).toLocaleString('id') + '</div><div class="ic-label" style="margin-top:.2rem">' + NISAB_PERAK_GRAM + ' gram perak</div></div></div>' +
+      '<div class="zakat-form">' +
+      '<div class="zf-title"><i class="fa-solid fa-coins"></i> Zakat Mal (Harta)</div>' +
+      '<div class="form-row"><label class="form-label">Total Harta yang dimiliki (Rp)</label><input class="form-input" type="number" id="m-harta" placeholder="Contoh: 100000000"><div class="form-hint">Uang tunai + tabungan + piutang + emas + aset lancar</div></div>' +
+      '<div class="form-row"><label class="form-label">Hutang yang harus dibayar (Rp)</label><input class="form-input" type="number" id="m-hutang" placeholder="0" value="0"></div>' +
+      '<div class="form-row"><label class="form-label">Sudah mencapai Haul? (1 tahun penuh)</label><select class="form-input" id="m-haul"><option value="ya">Ya, sudah 1 tahun</option><option value="tidak">Belum 1 tahun</option></select></div>' +
+      '<button class="btn-hitung" onclick="hitungMal()"><i class="fa-solid fa-calculator"></i> Hitung Zakat Mal</button></div>' +
+      '<div class="result-box" id="result-mal"></div>';
+  },
+  penghasilan: function() {
+    return '<div class="zakat-form">' +
+      '<div class="zf-title"><i class="fa-solid fa-briefcase"></i> Zakat Penghasilan / Profesi</div>' +
+      '<div class="nisab-info"><i class="fa-solid fa-info-circle"></i> Nisab: Rp ' + Math.round(NISAB_PENGHASILAN).toLocaleString('id') + '/bulan atau Rp ' + NISAB_MAL.toLocaleString('id') + '/tahun. Kadar zakat 2,5%</div>' +
+      '<div class="form-row"><label class="form-label">Penghasilan Bulanan (Rp)</label><input class="form-input" type="number" id="p-gaji" placeholder="Contoh: 5000000"></div>' +
+      '<div class="form-row"><label class="form-label">Penghasilan Tambahan per Bulan (Rp)</label><input class="form-input" type="number" id="p-tambahan" placeholder="0" value="0"></div>' +
+      '<div class="form-row"><label class="form-label">Kebutuhan Pokok per Bulan (Rp)</label><input class="form-input" type="number" id="p-kebutuhan" placeholder="0" value="0"><div class="form-hint">Opsional. Sebagian ulama memperbolehkan dikurangi kebutuhan pokok</div></div>' +
+      '<div class="form-row"><label class="form-label">Cara Hitung</label><select class="form-input" id="p-cara"><option value="bruto">Bruto (dari total gaji)</option><option value="neto">Neto (gaji - kebutuhan pokok)</option></select></div>' +
+      '<button class="btn-hitung" onclick="hitungPenghasilan()"><i class="fa-solid fa-calculator"></i> Hitung Zakat Penghasilan</button></div>' +
+      '<div class="result-box" id="result-penghasilan"></div>';
+  }
+};
+
+function switchTab(key, btn) {
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('tab-content').innerHTML = tabs[key]();
+}
+
+function showResult(id, html) {
+  var el = document.getElementById(id);
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+function rupiah(n) { return 'Rp ' + Math.round(n).toLocaleString('id'); }
+
+function hitungFitrah() {
+  var jiwa = parseInt(document.getElementById('f-jiwa').value) || 1;
+  var jenis = document.getElementById('f-jenis').value;
+  var harga = parseInt(document.getElementById('f-harga') ? document.getElementById('f-harga').value : 15000) || 15000;
+  var berasPerOrang = 2.5;
+  var totalBeras = jiwa * berasPerOrang;
+  var totalUang = totalBeras * harga;
+  var html = '<div class="result-title">Hasil Perhitungan Zakat Fitrah</div>' +
+    '<div class="result-wajib"><div class="result-label">Total Zakat Fitrah</div>' +
+    '<div class="result-amount">' + (jenis === 'uang' ? rupiah(totalUang) : totalBeras + ' kg') + '</div>' +
+    '<span class="status-badge wajib"><i class="fa-solid fa-check"></i> Wajib dibayar</span></div>' +
+    '<div class="result-divider"></div>' +
+    '<div class="result-row"><span class="result-key">Jumlah Jiwa</span><span class="result-val">' + jiwa + ' orang</span></div>' +
+    '<div class="result-row"><span class="result-key">Per Orang</span><span class="result-val">' + berasPerOrang + ' kg beras</span></div>' +
+    '<div class="result-row"><span class="result-key">Total Beras</span><span class="result-val green">' + totalBeras + ' kg</span></div>' +
+    '<div class="result-row"><span class="result-key">Setara Uang</span><span class="result-val green">' + rupiah(totalUang) + '</span></div>' +
+    '<div class="result-divider"></div>' +
+    '<div style="font-size:.7rem;color:var(--cm);line-height:1.6">Bayarkan sebelum sholat Idul Fitri. Sangat dianjurkan dibayar sejak awal Ramadhan agar lebih bermanfaat bagi penerima.</div>';
+  showResult('result-fitrah', html);
+}
+
+function hitungMal() {
+  var harta = parseFloat(document.getElementById('m-harta').value) || 0;
+  var hutang = parseFloat(document.getElementById('m-hutang').value) || 0;
+  var haul = document.getElementById('m-haul').value;
+  var hartaBersih = harta - hutang;
+  var wajib = haul === 'ya' && hartaBersih >= NISAB_MAL;
+  var zakatMal = wajib ? hartaBersih * 0.025 : 0;
+  var html = '<div class="result-title">Hasil Perhitungan Zakat Mal</div>' +
+    '<div class="result-wajib"><div class="result-label">Zakat yang harus dibayar</div>' +
+    '<div class="result-amount">' + (wajib ? rupiah(zakatMal) : 'Rp 0') + '</div>' +
+    '<span class="status-badge ' + (wajib ? 'wajib' : 'tidak-wajib') + '">' +
+    '<i class="fa-solid ' + (wajib ? 'fa-check' : 'fa-info-circle') + '"></i> ' + (wajib ? 'Wajib Zakat' : 'Belum Wajib Zakat') + '</span></div>' +
+    '<div class="result-divider"></div>' +
+    '<div class="result-row"><span class="result-key">Total Harta</span><span class="result-val">' + rupiah(harta) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Hutang</span><span class="result-val">' + rupiah(hutang) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Harta Bersih</span><span class="result-val ' + (hartaBersih >= NISAB_MAL ? 'green' : '') + '">' + rupiah(hartaBersih) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Nisab</span><span class="result-val">' + rupiah(NISAB_MAL) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Mencapai Nisab</span><span class="result-val ' + (hartaBersih >= NISAB_MAL ? 'green' : 'red') + '">' + (hartaBersih >= NISAB_MAL ? 'Ya' : 'Belum') + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Haul Terpenuhi</span><span class="result-val ' + (haul === 'ya' ? 'green' : 'red') + '">' + (haul === 'ya' ? 'Ya' : 'Belum') + '</span></div>' +
+    (wajib ? '<div class="result-row"><span class="result-key">Kadar Zakat</span><span class="result-val">2,5%</span></div>' : '') +
+    '<div class="result-divider"></div>' +
+    '<div style="font-size:.7rem;color:var(--cm);line-height:1.6">' + (wajib ? 'Segera tunaikan zakatmu melalui lembaga zakat terpercaya atau langsung ke mustahiq.' : 'Harta belum mencapai nisab atau belum mencapai haul. Terus tingkatkan rezeki dan jangan lupa sedekah.') + '</div>';
+  showResult('result-mal', html);
+}
+
+function hitungPenghasilan() {
+  var gaji = parseFloat(document.getElementById('p-gaji').value) || 0;
+  var tambahan = parseFloat(document.getElementById('p-tambahan').value) || 0;
+  var kebutuhan = parseFloat(document.getElementById('p-kebutuhan').value) || 0;
+  var cara = document.getElementById('p-cara').value;
+  var totalBruto = gaji + tambahan;
+  var dasar = cara === 'neto' ? Math.max(0, totalBruto - kebutuhan) : totalBruto;
+  var wajib = dasar >= NISAB_PENGHASILAN;
+  var zakatBulan = wajib ? dasar * 0.025 : 0;
+  var zakatTahun = zakatBulan * 12;
+  var html = '<div class="result-title">Hasil Perhitungan Zakat Penghasilan</div>' +
+    '<div class="result-wajib"><div class="result-label">Zakat per Bulan</div>' +
+    '<div class="result-amount">' + (wajib ? rupiah(zakatBulan) : 'Rp 0') + '</div>' +
+    '<span class="status-badge ' + (wajib ? 'wajib' : 'tidak-wajib') + '"><i class="fa-solid ' + (wajib ? 'fa-check' : 'fa-info-circle') + '"></i> ' + (wajib ? 'Wajib Zakat' : 'Belum Wajib') + '</span></div>' +
+    '<div class="result-divider"></div>' +
+    '<div class="result-row"><span class="result-key">Gaji Pokok</span><span class="result-val">' + rupiah(gaji) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Penghasilan Tambahan</span><span class="result-val">' + rupiah(tambahan) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Total Penghasilan</span><span class="result-val">' + rupiah(totalBruto) + '</span></div>' +
+    (cara === 'neto' ? '<div class="result-row"><span class="result-key">Kebutuhan Pokok</span><span class="result-val">' + rupiah(kebutuhan) + '</span></div>' : '') +
+    '<div class="result-row"><span class="result-key">Dasar Hitung</span><span class="result-val green">' + rupiah(dasar) + '</span></div>' +
+    '<div class="result-row"><span class="result-key">Nisab / Bulan</span><span class="result-val">' + rupiah(NISAB_PENGHASILAN) + '</span></div>' +
+    (wajib ? '<div class="result-row"><span class="result-key">Zakat Setahun</span><span class="result-val green">' + rupiah(zakatTahun) + '</span></div>' : '') +
+    '<div class="result-divider"></div>' +
+    '<div style="font-size:.7rem;color:var(--cm);line-height:1.6">' + (wajib ? 'Bayarkan setiap bulan saat menerima gaji. Bisa juga diakumulasi setahun penuh.' : 'Penghasilan belum mencapai nisab. Tetap semangat dan perbanyak sedekah.') + '</div>';
+  showResult('result-penghasilan', html);
+}
+
+switchTab('fitrah', document.querySelector('.tab'));
+</script>
+</body>
+</html>

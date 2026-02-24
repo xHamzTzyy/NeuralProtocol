@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hadits Ramadhan</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.main{max-width:800px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.3rem;margin-bottom:.7rem;transition:all .22s;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--br);box-shadow:0 4px 16px rgba(201,168,76,.06);}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;}
+.hadits-num{font-family:var(--fh);font-size:.65rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.12rem .5rem;border-radius:5px;}
+.hadits-rawi{font-size:.65rem;color:var(--cm);}
+.hadits-ar{font-family:var(--fa);font-size:1.5rem;color:var(--gl);text-align:right;direction:rtl;line-height:1.7;padding:.8rem;background:var(--c2);border-radius:10px;margin-bottom:.7rem;border:1px solid var(--bs);}
+.hadits-text{font-size:.8rem;color:var(--cr);line-height:1.7;margin-bottom:.6rem;font-style:italic;}
+.hadits-text::before{content:'"';color:var(--gold);font-size:1.2rem;vertical-align:-.1em;}
+.hadits-text::after{content:'"';color:var(--gold);font-size:1.2rem;vertical-align:-.1em;}
+.sumber{display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem;}
+.sumber-badge{font-size:.65rem;color:var(--el);background:var(--eg);border:1px solid rgba(37,160,110,.2);padding:.1rem .45rem;border-radius:4px;}
+.tema-badge{font-size:.65rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.1rem .45rem;border-radius:4px;}
+.faidah{background:var(--eg);border:1px solid rgba(37,160,110,.15);border-radius:9px;padding:.7rem .9rem;font-size:.71rem;color:var(--cd);line-height:1.65;display:none;}
+.card.exp .faidah{display:block;}
+.faidah-title{font-size:.65rem;color:var(--el);font-weight:600;margin-bottom:.25rem;}
+.cex{font-size:.65rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.5rem;display:block;}
+.cbtn{width:26px;height:26px;border-radius:6px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:.2s;}
+.cbtn:hover,.cbtn.on{background:var(--eg);border-color:var(--el);color:var(--el);}
+.daily-box{background:linear-gradient(135deg,var(--gd),rgba(26,107,74,.15));border:1px solid var(--br);border-radius:14px;padding:1.2rem;margin-bottom:1rem;text-align:center;}
+.db-label{font-family:var(--fh);font-size:.68rem;color:var(--gold);margin-bottom:.3rem;}
+.db-date{font-size:.72rem;color:var(--cm);margin-bottom:.8rem;}
+.db-hadits{font-family:var(--fa);font-size:1.6rem;color:var(--gl);direction:rtl;line-height:1.5;margin-bottom:.5rem;}
+.db-text{font-size:.75rem;color:var(--cd);font-style:italic;line-height:1.6;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:600px){.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb" href="/qadar"><i class="fa-solid fa-star"></i> Qadar</a>
+    <a class="nb gold" href="/hadits-ramadhan"><i class="fa-solid fa-book"></i> Hadits</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">أَحَادِيثُ رَمَضَان</div>
+  <div class="h-ti">Hadits Ramadhan</div>
+  <div class="h-su">Kumpulan hadits shahih seputar puasa, tarawih & keutamaan Ramadhan</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filterHadits('all',this)">Semua</button>
+    <button class="fp" onclick="filterHadits('puasa',this)">Puasa</button>
+    <button class="fp" onclick="filterHadits('keutamaan',this)">Keutamaan</button>
+    <button class="fp" onclick="filterHadits('tarawih',this)">Tarawih</button>
+    <button class="fp" onclick="filterHadits('sahur',this)">Sahur & Buka</button>
+    <button class="fp" onclick="filterHadits('sedekah',this)">Sedekah</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="daily-box" id="daily-box"></div>
+  <div id="grid"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var hadits = [
+  {id:1,cat:'keutamaan',num:'H-01',ar:'إِذَا جَاءَ رَمَضَانُ فُتِّحَتْ أَبْوَابُ الْجَنَّةِ وَغُلِّقَتْ أَبْوَابُ النَّارِ وَصُفِّدَتِ الشَّيَاطِينُ',text:'Apabila bulan Ramadhan tiba, pintu-pintu surga dibuka, pintu-pintu neraka ditutup, dan setan-setan dibelenggu.',sumber:'HR. Bukhari & Muslim',rawi:'Dari Abu Hurairah RA',faidah:'Ini menunjukkan betapa agungnya bulan Ramadhan. Pembukaan pintu surga bermakna amalan lebih mudah diterima. Pembelengguan setan berarti pengaruh jahat berkurang, tapi nafsu manusia tetap ada.'},
+  {id:2,cat:'keutamaan',num:'H-02',ar:'مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ',text:'Barangsiapa berpuasa Ramadhan karena iman dan mengharap pahala dari Allah, maka diampuni dosa-dosanya yang telah lalu.',sumber:'HR. Bukhari & Muslim',rawi:'Dari Abu Hurairah RA',faidah:'Syarat pengampunan ini adalah IMAN (keyakinan bahwa puasa itu perintah Allah) dan IHTISAB (mengharap pahala dari Allah semata, bukan sekadar tradisi atau ikut-ikutan).'},
+  {id:3,cat:'puasa',num:'H-03',ar:'الصِّيَامُ جُنَّةٌ فَلَا يَرْفُثْ وَلَا يَجْهَلْ',text:'Puasa adalah perisai, maka janganlah berkata kotor dan jangan pula berlaku bodoh (emosional).',sumber:'HR. Bukhari',rawi:'Dari Abu Hurairah RA',faidah:'Puasa bukan hanya menahan lapar dan haus, tapi juga menahan lisan dari kata-kata buruk dan menahan diri dari perilaku emosional. Puasa adalah latihan pengendalian diri total.'},
+  {id:4,cat:'sahur',num:'H-04',ar:'تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً',text:'Makan sahurlah kalian, karena dalam sahur terdapat keberkahan.',sumber:'HR. Bukhari & Muslim',rawi:'Dari Anas bin Malik RA',faidah:'Sahur dianjurkan bukan semata soal energi fisik, tapi karena di dalamnya ada keberkahan dari Allah. Bahkan meneguk seteguk air saja sudah cukup sebagai sahur.'},
+  {id:5,cat:'sahur',num:'H-05',ar:'فَصْلُ مَا بَيْنَ صِيَامِنَا وَصِيَامِ أَهْلِ الْكِتَابِ أَكْلَةُ السَّحَرِ',text:'Pembeda antara puasa kita dengan puasa Ahli Kitab adalah makan sahur.',sumber:'HR. Muslim',rawi:'Dari Amr bin Ash RA',faidah:'Ini menunjukkan bahwa sahur adalah identitas puasa Muslim. Nabi SAW sangat menganjurkan sahur bahkan bagi yang tidak lapar sekalipun.'},
+  {id:6,cat:'sahur',num:'H-06',ar:'عَجِّلُوا الْفِطْرَ فَإِنَّ الْيَهُودَ يُؤَخِّرُونَ',text:'Segerakanlah berbuka, karena sesungguhnya orang Yahudi mengakhirkan (buka puasa).',sumber:'HR. Abu Dawud',rawi:'Dari Abu Hurairah RA',faidah:'Sunnah menyegerakan buka puasa begitu masuk waktu Maghrib. Tidak perlu menunggu adzan selesai, cukup ketika yakin masuk waktu Maghrib.'},
+  {id:7,cat:'keutamaan',num:'H-07',ar:'لِلصَّائِمِ فَرْحَتَانِ يَفْرَحُهُمَا فَرْحَةٌ عِنْدَ فِطْرِهِ وَفَرْحَةٌ عِنْدَ لِقَاءِ رَبِّهِ',text:'Orang yang berpuasa memiliki dua kegembiraan: kegembiraan ketika berbuka puasa dan kegembiraan ketika berjumpa Tuhannya.',sumber:'HR. Bukhari & Muslim',rawi:'Dari Abu Hurairah RA',faidah:'Kegembiraan saat berbuka adalah fitrah manusia. Kegembiraan saat bertemu Allah adalah puncak dari seluruh ibadah puasa. Keduanya adalah motivasi bagi setiap muslim berpuasa.'},
+  {id:8,cat:'tarawih',num:'H-08',ar:'مَنْ قَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ',text:'Barangsiapa mendirikan sholat malam di bulan Ramadhan (tarawih) karena iman dan mengharap pahala, diampuni dosa-dosanya yang telah lalu.',sumber:'HR. Bukhari & Muslim',rawi:'Dari Abu Hurairah RA',faidah:'Hadits ini menunjukkan keutamaan sholat tarawih yang setara dengan puasanya. Syaratnya sama: iman dan ihtisab (mencari ridha Allah).'},
+  {id:9,cat:'puasa',num:'H-09',ar:'رُبَّ صَائِمٍ لَيْسَ لَهُ مِنْ صِيَامِهِ إِلَّا الْجُوعُ وَرُبَّ قَائِمٍ لَيْسَ لَهُ مِنْ قِيَامِهِ إِلَّا السَّهَرُ',text:'Betapa banyak orang berpuasa yang tidak mendapatkan dari puasanya kecuali lapar. Dan betapa banyak orang sholat malam yang tidak mendapatkan dari sholatnya kecuali begadang.',sumber:'HR. Ibnu Majah',rawi:'Dari Abu Hurairah RA',faidah:'Peringatan keras dari Nabi SAW agar puasa disertai menjaga lisan, perilaku, dan niat. Puasa yang hanya menahan lapar tanpa menjaga akhlak tidak bernilai di sisi Allah.'},
+  {id:10,cat:'sedekah',num:'H-10',ar:'كَانَ النَّبِيُّ أَجْوَدَ النَّاسِ وَكَانَ أَجْوَدُ مَا يَكُونُ فِي رَمَضَانَ',text:'Nabi SAW adalah orang yang paling dermawan, dan beliau paling dermawan di bulan Ramadhan.',sumber:'HR. Bukhari',rawi:'Dari Ibnu Abbas RA',faidah:'Ramadhan adalah bulan kebaikan dan kedermawanan. Nabi SAW mencontohkan dengan memperbanyak sedekah di bulan ini. Pahala sedekah di Ramadhan berlipat ganda.'},
+  {id:11,cat:'sedekah',num:'H-11',ar:'مَنْ فَطَّرَ صَائِمًا كَانَ لَهُ مِثْلُ أَجْرِهِ غَيْرَ أَنَّهُ لَا يَنْقُصُ مِنْ أَجْرِ الصَّائِمِ شَيْءٌ',text:'Barangsiapa memberi makan orang yang berbuka puasa maka baginya pahala seperti pahala orang yang berpuasa itu, tanpa mengurangi sedikitpun pahalanya.',sumber:'HR. Tirmidzi',rawi:'Dari Zaid bin Khalid RA',faidah:'Ini adalah kabar gembira untuk yang memberi takjil atau makanan buka puasa. Pahalanya sama dengan pahala puasa orang yang diberi makan, tanpa mengurangi pahala orang tersebut.'},
+  {id:12,cat:'puasa',num:'H-12',ar:'مَنْ لَمْ يَدَعْ قَوْلَ الزُّورِ وَالْعَمَلَ بِهِ فَلَيْسَ لِلَّهِ حَاجَةٌ فِي أَنْ يَدَعَ طَعَامَهُ وَشَرَابَهُ',text:'Barangsiapa tidak meninggalkan perkataan dusta dan perbuatan keji, maka Allah tidak butuh dia meninggalkan makanan dan minumannya.',sumber:'HR. Bukhari',rawi:'Dari Abu Hurairah RA',faidah:'Hadits yang sangat tegas. Puasa yang tidak disertai menjaga lisan dari dusta dan perbuatan dari keji, tidak ada nilainya di sisi Allah. Esensi puasa adalah perubahan akhlak.'},
+];
+
+var saved = JSON.parse(localStorage.getItem('hadits-rm') || '[]');
+var currentCat = 'all';
+
+function renderDaily() {
+  var today = new Date().getDate();
+  var idx = today % hadits.length;
+  var h = hadits[idx];
+  var db = document.getElementById('daily-box');
+  db.innerHTML = '<div class="db-label">&#x2B50; Hadits Hari Ini</div>' +
+    '<div class="db-date">' + new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'}) + '</div>' +
+    '<div class="db-hadits">' + h.ar + '</div>' +
+    '<div class="db-text">' + h.text + '</div>' +
+    '<div style="margin-top:.5rem;font-size:.65rem;color:var(--el)">' + h.sumber + '</div>';
+}
+
+function render(list) {
+  var g = document.getElementById('grid');
+  g.innerHTML = list.map(function(h, i) {
+    return '<div class="card" style="animation-delay:' + (i*0.04) + 's">' +
+      '<div class="card-head">' +
+        '<div style="display:flex;gap:.4rem;align-items:center">' +
+          '<span class="hadits-num">' + h.num + '</span>' +
+          '<span class="tema-badge">' + h.cat + '</span>' +
+        '</div>' +
+        '<button class="cbtn' + (saved.includes(h.id) ? ' on' : '') + '" onclick="toggleSave(' + h.id + ',this)"><i class="fa-solid fa-bookmark"></i></button>' +
+      '</div>' +
+      '<div class="hadits-ar">' + h.ar + '</div>' +
+      '<div class="hadits-text">' + h.text + '</div>' +
+      '<div class="sumber">' +
+        '<span class="sumber-badge"><i class="fa-solid fa-check-circle"></i> ' + h.sumber + '</span>' +
+      '</div>' +
+      '<div style="font-size:.67rem;color:var(--cm);">' + h.rawi + '</div>' +
+      '<div class="faidah"><div class="faidah-title"><i class="fa-solid fa-lightbulb"></i> Faidah & Penjelasan</div>' + h.faidah + '</div>' +
+      '<button class="cex" onclick="toggleExp(this)">Lihat faidah &#9662;</button></div>';
+  }).join('');
+}
+
+function toggleExp(btn) {
+  btn.closest('.card').classList.toggle('exp');
+  btn.textContent = btn.closest('.card').classList.contains('exp') ? 'Tutup \u25b2' : 'Lihat faidah \u25be';
+}
+
+function toggleSave(id, btn) {
+  if (saved.includes(id)) saved = saved.filter(function(x){return x!==id;});
+  else saved.push(id);
+  localStorage.setItem('hadits-rm', JSON.stringify(saved));
+  btn.classList.toggle('on');
+  showToast(saved.includes(id) ? 'Hadits disimpan' : 'Dihapus dari simpanan');
+}
+
+function filterHadits(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.fp').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  render(cat === 'all' ? hadits : hadits.filter(function(h){return h.cat===cat;}));
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');}, 2000);
+}
+
+renderDaily();
+render(hadits);
+</script>
+</body>
+</html>

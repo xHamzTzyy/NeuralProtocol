@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilmu Ramadhan</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.main{max-width:900px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.7rem;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;overflow:hidden;transition:all .22s;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+
+/* banner pakai icon FA, bukan emoji */
+.card-banner{height:70px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.card-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;z-index:1;border:1px solid rgba(255,255,255,.08);}
+.cat-badge{position:absolute;top:.5rem;left:.7rem;font-family:var(--fh);font-size:.6rem;padding:.12rem .5rem;border-radius:4px;}
+.cat-sejarah{background:rgba(201,168,76,.15);border:1px solid var(--br);color:var(--gold);}
+.cat-fiqih{background:var(--eg);border:1px solid rgba(37,160,110,.2);color:var(--el);}
+.cat-sains{background:rgba(91,164,245,.1);border:1px solid rgba(91,164,245,.2);color:#5ba4f5;}
+.cat-kisah{background:rgba(179,136,255,.1);border:1px solid rgba(179,136,255,.2);color:#b388ff;}
+.cat-fakta{background:rgba(242,201,76,.1);border:1px solid rgba(242,201,76,.2);color:#f2c94c;}
+.card-body{padding:1rem;}
+.card-title{font-size:.88rem;font-weight:700;color:var(--cr);margin-bottom:.4rem;line-height:1.4;}
+.card-preview{font-size:.72rem;color:var(--cd);line-height:1.6;}
+.card-full{font-size:.72rem;color:var(--cm);line-height:1.68;border-top:1px solid var(--bs);padding-top:.7rem;margin-top:.7rem;display:none;}
+.card.exp .card-full{display:block;}
+.card-full p{margin-bottom:.5rem;}
+.card-full p:last-child{margin-bottom:0;}
+.card-full strong{color:var(--cr);}
+.card-full .highlight{background:var(--gd);border:1px solid var(--br);border-radius:6px;padding:.4rem .6rem;margin:.4rem 0;font-size:.7rem;color:var(--cd);}
+.cex{font-size:.65rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.5rem;display:block;}
+
+/* banner backgrounds per kategori */
+.banner-sejarah{background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(26,107,74,.1));}
+.banner-fiqih{background:linear-gradient(135deg,rgba(26,107,74,.2),rgba(13,24,33,.5));}
+.banner-sains{background:linear-gradient(135deg,rgba(91,164,245,.1),rgba(13,24,33,.5));}
+.banner-kisah{background:linear-gradient(135deg,rgba(179,136,255,.1),rgba(13,24,33,.5));}
+.banner-fakta{background:linear-gradient(135deg,rgba(242,201,76,.1),rgba(13,24,33,.5));}
+
+/* icon warna per kategori */
+.icon-sejarah{background:rgba(201,168,76,.15);color:var(--gold);}
+.icon-fiqih{background:rgba(26,107,74,.25);color:var(--el);}
+.icon-sains{background:rgba(91,164,245,.15);color:#5ba4f5;}
+.icon-kisah{background:rgba(179,136,255,.15);color:#b388ff;}
+.icon-fakta{background:rgba(242,201,76,.15);color:#f2c94c;}
+
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb" href="/hadits-ramadhan"><i class="fa-solid fa-book"></i> Hadits</a>
+    <a class="nb gold" href="/ilmu-ramadhan"><i class="fa-solid fa-graduation-cap"></i> Ilmu</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">&#x639;&#x650;&#x644;&#x652;&#x645;&#x64F; &#x631;&#x645;&#x636;&#x627;&#x646;</div>
+  <div class="h-ti">Ilmu & Wawasan Ramadhan</div>
+  <div class="h-su">Sejarah, fiqih, sains, kisah inspiratif & fakta menarik seputar Ramadhan</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filterIlmu('all',this)">Semua</button>
+    <button class="fp" onclick="filterIlmu('sejarah',this)">Sejarah</button>
+    <button class="fp" onclick="filterIlmu('fiqih',this)">Fiqih</button>
+    <button class="fp" onclick="filterIlmu('sains',this)">Sains</button>
+    <button class="fp" onclick="filterIlmu('kisah',this)">Kisah</button>
+    <button class="fp" onclick="filterIlmu('fakta',this)">Fakta</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-wind" style="display:block;font-size:2rem;opacity:.3;margin-bottom:.5rem"></i>Konten tidak ditemukan</div>
+</div>
+
+<script>
+// icon FA per item, ganti total dari emoji
+var konten = [
+  {id:1, cat:'sejarah', icon:'fa-solid fa-scroll',
+   title:'Sejarah Pertama Kali Puasa Ramadhan Diwajibkan',
+   preview:'Puasa Ramadhan tidak langsung diwajibkan sejak awal Islam. Ada sejarah panjang sebelum akhirnya menjadi rukun Islam.',
+   full:'<p>Puasa Ramadhan diwajibkan pada tahun kedua Hijriah (624 M), sekitar 18 bulan setelah hijrah ke Madinah. Ayat yang mewajibkannya adalah QS Al-Baqarah:183.</p><p>Sebelum Ramadhan diwajibkan, umat Islam berpuasa pada hari Asyura (10 Muharram), yang juga dipuasakan oleh orang Yahudi sebagai peringatan keselamatan Nabi Musa dari Firaun.</p><p>Ketika Ramadhan diwajibkan, puasa Asyura menjadi sunnah. Nabi SAW bersabda: <strong>"Puasa yang paling utama setelah Ramadhan adalah Muharram."</strong></p><div class="highlight">Kaum Muslimin pertama berpuasa Ramadhan di Madinah, dan pada Ramadhan tahun 2 H itu pula terjadi Perang Badar yang monumental.</div>'},
+
+  {id:2, cat:'sejarah', icon:'fa-solid fa-shield-halved',
+   title:'Perang Besar yang Terjadi di Bulan Ramadhan',
+   preview:'Ramadhan bukan bulan berleha-leha. Beberapa peristiwa militer terbesar dalam sejarah Islam justru terjadi di bulan ini.',
+   full:'<p><strong>Perang Badar (17 Ramadhan 2 H)</strong> — Perang pertama kaum Muslimin. 313 orang mengalahkan 1000 lebih pasukan Quraisy. Disebut Yaumul Furqan (hari pembeda haq dan batil).</p><p><strong>Fathu Makkah (20 Ramadhan 8 H)</strong> — Pembebasan Kota Mekah tanpa pertumpahan darah besar. Nabi SAW memasuki Mekah dengan kepala menunduk tawadhu.</p><p><strong>Perang Tabuk (Rajab-Ramadhan 9 H)</strong> — Ekspedisi terbesar Nabi SAW menghadapi ancaman Romawi Timur.</p><p><strong>Penaklukan Andalusia (92 H)</strong> — Tariq bin Ziyad menyeberangi Selat Gibraltar memulai penaklukan Spanyol di bulan Ramadhan.</p><div class="highlight">Puasa tidak menghalangi semangat jihad. Para sahabat berperang sambil berpuasa karena iman yang kuat.</div>'},
+
+  {id:3, cat:'sejarah', icon:'fa-solid fa-book-quran',
+   title:'Al-Quran dan Ramadhan: Hubungan yang Tak Terpisahkan',
+   preview:'Ramadhan disebut sebagai bulan Al-Quran. Tapi tahukah kamu mengapa hubungan keduanya begitu istimewa?',
+   full:'<p>Al-Quran pertama kali diturunkan di bulan Ramadhan, tepatnya pada malam Lailatul Qadar. Wahyu pertama adalah QS Al-Alaq:1-5 di Gua Hira kepada Nabi Muhammad SAW berusia 40 tahun.</p><p><strong>Tradisi Jibril mengulang Al-Quran:</strong> Setiap Ramadhan, Malaikat Jibril mendatangi Nabi SAW dan mengulang seluruh Al-Quran bersama beliau. Ini disebut "Aradah" atau "Mudarasah".</p><p>Pada tahun terakhir hidup Nabi (Ramadhan 10 H), Jibril mengulang Al-Quran dua kali bersama beliau. Ini pertanda ajal Nabi SAW sudah dekat.</p><p>Dari sini lahir tradisi <strong>khatam Al-Quran di bulan Ramadhan</strong>. Imam Syafii dikabarkan khatam 60 kali dalam satu Ramadhan.</p><div class="highlight">QS Al-Baqarah:185 menyebut Ramadhan sebagai bulan diturunkannya Al-Quran sebagai petunjuk bagi manusia.</div>'},
+
+  {id:4, cat:'fiqih', icon:'fa-solid fa-scale-balanced',
+   title:'Hal-hal yang Membatalkan Puasa dan yang Tidak',
+   preview:'Banyak yang salah paham soal apa yang membatalkan puasa. Ini ringkasan fiqih yang perlu kamu tahu.',
+   full:'<p><strong>Yang MEMBATALKAN puasa (disepakati):</strong></p><p>1. Makan dan minum dengan sengaja<br>2. Berhubungan suami istri di siang hari<br>3. Muntah dengan sengaja<br>4. Keluar darah haid atau nifas<br>5. Murtad (keluar dari Islam)</p><p><strong>Yang TIDAK membatalkan puasa:</strong></p><p>1. Makan/minum karena lupa<br>2. Berkumur atau gosok gigi (tidak ditelan)<br>3. Suntik yang bukan untuk nutrisi<br>4. Mimpi basah<br>5. Muntah tidak disengaja<br>6. Menghirup aroma makanan</p><div class="highlight">Syarat membatalkan puasa: dilakukan dengan sengaja, tahu hukumnya, dan tidak dalam keadaan terpaksa.</div>'},
+
+  {id:5, cat:'fiqih', icon:'fa-solid fa-person-circle-question',
+   title:'Siapa yang Boleh Tidak Berpuasa?',
+   preview:'Islam sangat memperhatikan kondisi umatnya. Ada golongan yang diizinkan tidak berpuasa dengan aturan tertentu.',
+   full:'<p><strong>1. Orang Sakit</strong> — Jika puasa membahayakan kesehatan. Wajib qadha setelah sembuh.</p><p><strong>2. Musafir</strong> — Perjalanan minimal 83 km. Boleh berbuka, wajib qadha.</p><p><strong>3. Wanita Hamil dan Menyusui</strong> — Jika khawatir membahayakan diri atau bayinya. Wajib qadha.</p><p><strong>4. Lansia yang lemah</strong> — Tidak mampu berpuasa dan tidak bisa qadha. Wajib fidyah.</p><p><strong>5. Wanita Haid dan Nifas</strong> — Haram berpuasa, wajib qadha.</p><div class="highlight">Fidyah = memberi makan 1 orang miskin per hari puasa yang ditinggalkan. Nilainya sekitar 2,5 kg beras per hari.</div>'},
+
+  {id:6, cat:'fiqih', icon:'fa-solid fa-person-praying',
+   title:'Sholat Tarawih: Berapa Rakaat yang Benar?',
+   preview:'Ini salah satu topik yang sering diperdebatkan. Mari kita lihat dalil dan pendapat ulama secara objektif.',
+   full:'<p>Sholat tarawih adalah sholat sunnah khusus Ramadhan yang dilakukan setelah Isya.</p><p><strong>Pendapat 8 rakaat:</strong> Berdasarkan hadits Aisyah RA bahwa Nabi SAW tidak pernah sholat malam lebih dari 11 rakaat. (HR. Bukhari Muslim)</p><p><strong>Pendapat 20 rakaat:</strong> Berdasarkan praktek Umar bin Khattab RA. Para ulama 4 madzhab umumnya memilih 20 rakaat.</p><p><strong>Kesimpulan ulama:</strong> Kedua-duanya boleh. Perbedaan ini adalah rahmat, bukan sumber perpecahan.</p><div class="highlight">Imam Ahmad bin Hanbal: "Dalam masalah tarawih ada kelonggaran, silakan 20, silakan 36, silakan 13, silakan 11."</div>'},
+
+  {id:7, cat:'sains', icon:'fa-solid fa-flask',
+   title:'Apa yang Terjadi pada Tubuh Saat Berpuasa?',
+   preview:'Sains modern membuktikan banyak manfaat luar biasa dari puasa. Inilah yang terjadi secara ilmiah.',
+   full:'<p><strong>Jam 0-4 puasa:</strong> Tubuh menggunakan glukosa sisa dari makanan terakhir. Kadar gula darah mulai stabil.</p><p><strong>Jam 4-8 puasa:</strong> Cadangan glikogen di hati mulai digunakan. Tubuh mulai beralih ke pembakaran lemak.</p><p><strong>Jam 8-16 puasa:</strong> Autofagi aktif — proses pembersihan sampah seluler. Memenangkan Nobel Kedokteran 2016 (Yoshinori Ohsumi).</p><p><strong>Manfaat ilmiah:</strong> Menurunkan insulin, memicu regenerasi sel, menurunkan kolesterol LDL, meningkatkan HGH hingga 5x lipat, mengurangi peradangan.</p><div class="highlight">Puasa Ramadhan rata-rata 13-15 jam. Penelitian menunjukkan puasa 12+ jam sudah memicu autofagi dan manfaat metabolik signifikan.</div>'},
+
+  {id:8, cat:'sains', icon:'fa-solid fa-brain',
+   title:'Puasa dan Kesehatan Mental',
+   preview:'Selain manfaat fisik, berpuasa ternyata juga berdampak besar pada kesehatan psikologis dan otak.',
+   full:'<p><strong>Peningkatan BDNF</strong> — Puasa meningkatkan protein ini yang melindungi neuron otak dan membantu pertumbuhan sel saraf baru.</p><p><strong>Pengurangan stres dan depresi</strong> — Kadar kortisol lebih terkontrol. Studi menunjukkan puasa meningkatkan mood secara keseluruhan.</p><p><strong>Peningkatan fokus</strong> — Otak beralih ke ketosis ringan yang meningkatkan kejernihan berpikir dan memori kerja.</p><p><strong>Aspek spiritual:</strong> Sholat 5 waktu + tarawih merupakan bentuk meditasi terstruktur yang menurunkan kecemasan.</p><div class="highlight">Penelitian di Turki (2014) menemukan bahwa selama Ramadhan, pasien dengan gangguan kecemasan melaporkan perbaikan gejala yang signifikan.</div>'},
+
+  {id:9, cat:'kisah', icon:'fa-solid fa-crown',
+   title:'Kisah Umar bin Khattab: Seorang Pemimpin di Bulan Ramadhan',
+   preview:'Bagaimana khalifah terbesar Islam menjalani Ramadhan? Kisahnya mengajarkan keteladanan yang luar biasa.',
+   full:'<p>Umar bin Khattab RA adalah khalifah kedua yang dikenal keras dalam menegakkan keadilan, namun sangat lembut dalam beribadah terutama di bulan Ramadhan.</p><p>Beliau memperbanyak sholat malam hingga separuh malam lalu berkeliling kota Madinah memastikan rakyatnya baik-baik saja.</p><p>Suatu malam Umar menemukan janda tua memasak batu untuk mengelabui anak-anaknya yang kelaparan. Umar menangis, langsung mengambil gandum dari Baitul Mal dan mengantarnya sendiri sambil memikul karung di punggungnya.</p><p>Saat pembantunya menawarkan diri, Umar berkata: <strong>"Akan siapa yang menanggung dosaku di hari kiamat nanti?"</strong></p><div class="highlight">Umar pula yang menyatukan umat Islam sholat tarawih berjamaah di masjid. Beliau berkata: "Sebaik-baik bid\'ah adalah ini."</div>'},
+
+  {id:10, cat:'kisah', icon:'fa-solid fa-landmark',
+   title:'Salahuddin Al-Ayyubi: Membebaskan Yerusalem di Bulan Ramadhan',
+   preview:'Pembebasan Baitul Maqdis adalah salah satu momen paling dramatis dalam sejarah. Dan itu terjadi di Ramadhan.',
+   full:'<p>Pada <strong>27 Ramadhan 583 H</strong>, Yerusalem (Al-Quds) berhasil dibebaskan setelah 88 tahun berada di tangan Tentara Salib.</p><p>Yang membuat dunia kagum adalah cara Salahuddin membebaskan kota itu. Ia tidak membalas pembantaian Tentara Salib tahun 1099 M. Ia mengumumkan amnesti umum dan memperbolehkan penduduk Kristen pergi dengan aman.</p><p>Seorang ksatria Salib, Balian of Ibelin, meminta jaminan keamanan untuk ribuan penduduk sipil. Salahuddin memenuhinya bahkan membebaskan ribuan tawanan.</p><div class="highlight">Salahuddin berkata: "Yerusalem adalah kota suci kita, bukan kota yang kita perebutkan karena kebencian. Kita rebut karena kewajiban agama."</div>'},
+
+  {id:11, cat:'kisah', icon:'fa-solid fa-star-and-crescent',
+   title:'Kisah Sahabat: Puasa Pertama Mereka yang Luar Biasa',
+   preview:'Bagaimana para sahabat Nabi menjalani Ramadhan pertama mereka? Kisah-kisah yang penuh semangat dan keimanan.',
+   full:'<p><strong>Abdullah bin Umar RA:</strong> Tidak pernah buka puasa sendirian. Selalu mengundang orang miskin atau yatim untuk berbuka bersamanya.</p><p><strong>Abu Bakar Ash-Shiddiq RA:</strong> Pada Ramadhan pertama kewajiban puasa, beliau yang pertama mengajak keluarga dan sahabat dekatnya segera melaksanakan puasa begitu ayat kewajiban turun.</p><p><strong>Bilal bin Rabah RA:</strong> Mantan budak yang menjadi muadzin Rasulullah ini dikenal sangat dermawan. Meski hidupnya sederhana, tidak pernah melewatkan satu hari pun tanpa bersedekah di Ramadhan.</p><div class="highlight">Para sahabat menyambut Ramadhan 6 bulan sebelumnya dengan doa: "Ya Allah sampaikan kami ke Ramadhan." Dan 6 bulan setelahnya: "Ya Allah terimalah amal kami di Ramadhan."</div>'},
+
+  {id:12, cat:'fakta', icon:'fa-solid fa-earth-asia',
+   title:'Fakta Menarik Ramadhan dari Seluruh Dunia',
+   preview:'Bagaimana Muslim di berbagai belahan dunia merayakan Ramadhan? Ada banyak keunikan yang mengejutkan.',
+   full:'<p><strong>Lamanya puasa berbeda tiap negara:</strong> Di Islandia di musim panas, puasa bisa mencapai 22 jam. Di Argentina saat musim dingin bisa hanya 9 jam.</p><p><strong>Indonesia:</strong> Tradisi "ngabuburit", membunyikan bedug, pawai obor, dan makanan khas seperti kolak dan es buah.</p><p><strong>Turki:</strong> Tradisi "davulcu" — penabuh drum yang berkeliling kampung membangunkan warga untuk sahur. Tradisi ini sudah ada ratusan tahun.</p><p><strong>Mesir:</strong> Lentera khas Ramadhan yang disebut "fanous" menghiasi seluruh kota.</p><p><strong>Maroko:</strong> Ada "nafar" — orang yang berkeliling membunyikan terompet untuk membangunkan sahur.</p><div class="highlight">Sekitar 1,8 miliar Muslim di seluruh dunia berpuasa Ramadhan setiap tahunnya, menjadikannya praktik ibadah bersama terbesar di dunia.</div>'},
+
+  {id:13, cat:'fakta', icon:'fa-solid fa-bowl-food',
+   title:'Makna di Balik Makanan Buka Puasa Nabi SAW',
+   preview:'Nabi SAW punya kebiasaan buka puasa yang sederhana tapi penuh hikmah. Ada sunnah di balik setiap suapan.',
+   full:'<p><strong>Kurma dan Air:</strong> Nabi SAW biasa berbuka dengan kurma basah (ruthab). Jika tidak ada, kurma kering (tamr). Jika tidak ada, seteguk air putih. Selalu ganjil: 3 atau 5 butir.</p><p><strong>Kenapa kurma?</strong> Gula alami kurma sangat cepat diserap tubuh, meningkatkan kadar gula darah setelah seharian puasa. Seratnya mencegah lonjakan gula berlebihan.</p><p>Nabi SAW tidak langsung makan besar saat berbuka. Beliau sholat Maghrib dulu setelah kurma dan air, baru makan malam. Ini selaras dengan anjuran kedokteran modern.</p><div class="highlight">Penelitian modern membuktikan kurma mengandung 20+ mineral esensial, antioksidan tinggi, dan kalium yang membantu memulihkan elektrolit setelah berpuasa.</div>'},
+
+  {id:14, cat:'sejarah', icon:'fa-solid fa-mosque',
+   title:'Sejarah Sholat Tarawih Berjamaah',
+   preview:'Sholat tarawih berjamaah yang kita kenal sekarang tidak langsung ada sejak awal. Ada sejarah menarik di baliknya.',
+   full:'<p>Pada zaman Nabi SAW, tarawih dilakukan di rumah masing-masing atau berjamaah secara spontan. Suatu malam banyak sahabat mengikuti Nabi sholat di masjid 3 malam, lalu Nabi menghentikannya.</p><p>Nabi bersabda: <strong>"Aku khawatir kalau terus dilakukan, ia akan diwajibkan atas kalian."</strong></p><p>Pada masa Umar bin Khattab, beliau melihat orang-orang sholat tarawih sendiri-sendiri dan berpencar. Maka Umar mengumpulkan mereka di bawah imam Ubay bin Kaab RA.</p><div class="highlight">Sejak saat itu, sholat tarawih berjamaah menjadi tradisi yang dilestarikan hingga hari ini di seluruh dunia Islam.</div>'},
+
+  {id:15, cat:'fakta', icon:'fa-solid fa-moon',
+   title:'Mengapa Puasa Dimulai Saat Terlihat Hilal?',
+   preview:'Penentuan awal Ramadhan sering menjadi perbedaan di berbagai negara. Ini penjelasan ilmiah dan syariahnya.',
+   full:'<p>Kalender Islam adalah kalender lunar (berdasarkan bulan). Satu bulan dimulai ketika hilal pertama kali terlihat setelah bulan baru (new moon).</p><p><strong>Dua metode:</strong><br>1. <strong>Rukyatul hilal</strong> — Melihat langsung hilal dengan mata. Mengikuti sunnah Nabi SAW.<br>2. <strong>Hisab astronomi</strong> — Perhitungan matematis posisi bulan. Akurat tapi masih diperdebatkan.</p><p>Inilah mengapa kadang Indonesia, Arab Saudi, dan Malaysia bisa berbeda 1 hari memulai Ramadhan.</p><div class="highlight">Banyak negara kini menggunakan kombinasi hisab dan rukyah. Teknologi memungkinkan prediksi yang sangat akurat kapan hilal bisa dilihat.</div>'},
+];
+
+var currentCat = 'all';
+
+// map warna icon per kategori
+var iconColor = {
+  sejarah: 'icon-sejarah',
+  fiqih:   'icon-fiqih',
+  sains:   'icon-sains',
+  kisah:   'icon-kisah',
+  fakta:   'icon-fakta'
+};
+
+function render(list) {
+  var g = document.getElementById('grid');
+  var e = document.getElementById('empty');
+  if (!list.length) { g.innerHTML = ''; e.style.display = 'block'; return; }
+  e.style.display = 'none';
+  g.innerHTML = list.map(function(item, i) {
+    return '<div class="card" style="animation-delay:' + (i*0.04) + 's">' +
+      '<div class="card-banner banner-' + item.cat + '">' +
+        '<span class="cat-badge cat-' + item.cat + '">' + item.cat.toUpperCase() + '</span>' +
+        '<div class="card-icon ' + iconColor[item.cat] + '"><i class="' + item.icon + '"></i></div>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-title">' + item.title + '</div>' +
+        '<div class="card-preview">' + item.preview + '</div>' +
+        '<div class="card-full">' + item.full + '</div>' +
+        '<button class="cex" onclick="toggleExp(this)">Baca selengkapnya &#9662;</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function toggleExp(btn) {
+  btn.closest('.card').classList.toggle('exp');
+  btn.textContent = btn.closest('.card').classList.contains('exp') ? 'Tutup \u25b2' : 'Baca selengkapnya \u25be';
+}
+
+function filterIlmu(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.fp').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  render(cat === 'all' ? konten : konten.filter(function(k){return k.cat===cat;}));
+}
+
+render(konten);
+</script>
+</body>
+</html>

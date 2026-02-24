@@ -56,6 +56,14 @@
             margin-left: 15px;
         }
 
+        /* Ramadhan section title special */
+        .section-title.ramadhan-title {
+            color: #c9a84c;
+        }
+        .section-title.ramadhan-title::after {
+            background: linear-gradient(90deg, rgba(201,168,76,0.5), transparent);
+        }
+
         .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
         .tool-box {
@@ -76,6 +84,19 @@
         }
         .tool-box:active { transform: scale(0.95); }
 
+        /* Ramadhan card variant */
+        .tool-box.rm {
+            border-color: rgba(201,168,76,0.18);
+            background: linear-gradient(135deg, rgba(201,168,76,.06), rgba(13,24,33,0.6));
+        }
+        .tool-box.rm::before {
+            background: linear-gradient(135deg, rgba(201,168,76,.08), transparent);
+        }
+        .tool-box.rm:hover {
+            border-color: rgba(201,168,76,0.55);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 25px rgba(201,168,76,0.25);
+        }
+
         .icon-wrap {
             width: 48px; height: 48px; margin: 0 auto 16px auto;
             display: flex; align-items: center; justify-content: center;
@@ -83,18 +104,75 @@
             border: 1px solid rgba(201,168,76,.15);
         }
         .tool-box:hover .icon-wrap { transform: scale(1.1); }
-        .ig { background: rgba(201,168,76,.12); color: #c9a84c; }
-        .igg { background: rgba(26,107,74,.2); color: #25a06e; }
-        .igb { background: rgba(30,90,160,.2); color: #5ba4f5; }
+        .ig  { background: rgba(201,168,76,.12); color: #c9a84c; }
+        .igg { background: rgba(26,107,74,.2);   color: #25a06e; }
+        .igb { background: rgba(30,90,160,.2);   color: #5ba4f5; }
+        .igp { background: rgba(179,136,255,.15);color: #b388ff; }
+        .igr { background: rgba(241,90,90,.12);  color: #f15a5a; }
 
         .tool-box h3 { margin: 0 0 7px 0; font-size: .95rem; font-weight: 700; color: var(--text-main); }
-        .tool-box p { margin: 0; font-size: 0.62rem; color: var(--text-sub); line-height: 1.5; }
+        .tool-box p  { margin: 0; font-size: 0.62rem; color: var(--text-sub); line-height: 1.5; }
+
         .card-ar {
             font-family: 'Scheherazade New', serif; font-size: 1.4rem;
             color: rgba(232,204,122,.4); position: absolute; bottom: 6px;
             right: 12px; line-height: 1; pointer-events: none;
         }
 
+        /* Ramadhan banner */
+        .ramadhan-banner {
+            background: linear-gradient(135deg, rgba(201,168,76,.12), rgba(26,107,74,.12));
+            border: 1px solid rgba(201,168,76,.3);
+            border-radius: 20px;
+            padding: 16px 18px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ramadhan-banner::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(201,168,76,.15), transparent 70%);
+            pointer-events: none;
+        }
+        .rb-icon {
+            width: 46px;
+            height: 46px;
+            background: rgba(201,168,76,.15);
+            border: 1px solid rgba(201,168,76,.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #e8cc7a;
+            flex-shrink: 0;
+        }
+        .rb-text {}
+        .rb-title {
+            font-family: 'Cinzel', serif;
+            font-size: .85rem;
+            color: #e8cc7a;
+            margin-bottom: 2px;
+        }
+        .rb-sub {
+            font-size: .65rem;
+            color: var(--text-sub);
+        }
+        .rb-ar {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: rgba(232,204,122,.35);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* OVERLAY */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -155,6 +233,7 @@
         .si-desc { font-size: 0.65rem; color: var(--text-sub); }
         .si-arrow { color: rgba(255,255,255,0.2); font-size: 12px; }
 
+        /* NAVBAR */
         .navbar {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 50px); max-width: 400px;
@@ -187,7 +266,7 @@
         .nav-link:active { transform: scale(0.9); }
 
         @keyframes lineGlow { from { opacity: 0.6; width: 10px; } to { opacity: 1; width: 18px; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 
         body::after {
             content: ''; position: fixed; bottom: 0; left: 0; right: 0; height: 100px;
@@ -203,12 +282,79 @@
 
 <div class="page-container">
 
+    <!-- HERO -->
     <div class="hero-header">
         <div class="hero-arabic">&#x628;&#x650;&#x633;&#x652;&#x645;&#x650; &#x627;&#x644;&#x644;&#x647;&#x650;</div>
         <div class="hero-title">IslamiHub</div>
         <div class="hero-sub">Panduan lengkap ibadah sehari-hari</div>
     </div>
 
+    <!-- ===== RAMADHAN SECTION ===== -->
+    <div class="section-title ramadhan-title"><i class="fa-solid fa-star" style="margin-right:6px;font-size:.65rem;color:#c9a84c"></i>Spesial Ramadhan</div>
+
+    <!-- Banner Ramadhan -->
+    <div class="ramadhan-banner">
+        <div class="rb-icon"><i class="fa-solid fa-moon"></i></div>
+        <div class="rb-text">
+            <div class="rb-title">Bulan Ramadhan</div>
+            <div class="rb-sub">Panduan ibadah & ilmu khusus Ramadhan</div>
+        </div>
+        <div class="rb-ar">&#x631;&#x645;&#x636;&#x627;&#x646;</div>
+    </div>
+
+    <div class="tools-grid" style="margin-top:12px">
+        <!-- Zakat -->
+        <div class="tool-box rm" onclick="openSheet('zakat')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <h3>Kalkulator Zakat</h3>
+            <p>fitrah, mal & penghasilan</p>
+            <span class="card-ar">&#x627;&#x644;&#x632;&#x643;&#x627;&#x629;</span>
+        </div>
+        <!-- Doa Ramadhan -->
+        <div class="tool-box rm" onclick="openSheet('doaRamadhan')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-moon"></i></div>
+            <h3>Doa Ramadhan</h3>
+            <p>sahur, buka & tarawih</p>
+            <span class="card-ar">&#x62F;&#x639;&#x627;&#x621;</span>
+        </div>
+        <!-- Lailatul Qadar -->
+        <div class="tool-box rm" onclick="openSheet('qadar')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-star"></i></div>
+            <h3>Lailatul Qadar</h3>
+            <p>malam 1000 bulan</p>
+            <span class="card-ar">&#x627;&#x644;&#x642;&#x62F;&#x631;</span>
+        </div>
+        <!-- Hadits Ramadhan -->
+        <div class="tool-box rm" onclick="openSheet('haditsRamadhan')">
+            <div class="icon-wrap ig"><i class="fa-solid fa-book"></i></div>
+            <h3>Hadits Ramadhan</h3>
+            <p>hadits shahih pilihan</p>
+            <span class="card-ar">&#x623;&#x62D;&#x627;&#x62F;&#x64A;&#x62B;</span>
+        </div>
+        <!-- Ilmu Ramadhan — full width -->
+        <div class="tool-box rm" style="grid-column:1/-1; padding:20px 22px; text-align:left; display:flex; align-items:center; gap:16px;" onclick="openSheet('ilmuRamadhan')">
+            <div class="icon-wrap ig" style="margin:0; flex-shrink:0"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+                <h3 style="margin-bottom:3px">Ilmu & Wawasan Ramadhan</h3>
+                <p>Sejarah, fiqih, sains, kisah inspiratif & fakta menarik</p>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="margin-left:auto;color:rgba(201,168,76,.4);font-size:.8rem;flex-shrink:0"></i>
+            <span class="card-ar" style="position:static;opacity:.4">&#x639;&#x644;&#x645;</span>
+        </div>
+        <!-- Al-Quran Digital -->
+        <div class="tool-box rm" style="grid-column:1/-1; padding:20px 22px; text-align:left; display:flex; align-items:center; gap:16px;" onclick="openSheet('quranDigital')">
+            <div class="icon-wrap ig" style="margin:0; flex-shrink:0"><i class="fa-solid fa-quran"></i></div>
+            <div>
+                <h3 style="margin-bottom:3px">Al-Quran Digital</h3>
+                <p>Lantunkan ayat suci dan perdalam iman melalui kisah inspiratif serta rahasia sains Al-Quran.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="margin-left:auto;color:rgba(201,168,76,.4);font-size:.8rem;flex-shrink:0"></i>
+            <span class="card-ar" style="position:static;opacity:.4">&#x627;&#x644;&#x642;&#x64F;&#x631;&#x622;&#x646;</span>
+        </div>
+    </div>
+    <!-- ===== END RAMADHAN ===== -->
+
+    <!-- Al-Quran & Doa -->
     <div class="section-title">Al-Quran & Doa</div>
     <div class="tools-grid">
         <div class="tool-box" onclick="openSheet('doa')">
@@ -225,6 +371,7 @@
         </div>
     </div>
 
+    <!-- Ibadah & Panduan -->
     <div class="section-title">Ibadah & Panduan</div>
     <div class="tools-grid">
         <div class="tool-box" onclick="openSheet('sholat')">
@@ -241,6 +388,7 @@
         </div>
     </div>
 
+    <!-- Sejarah & Arah -->
     <div class="section-title">Sejarah & Arah</div>
     <div class="tools-grid">
         <div class="tool-box" onclick="openSheet('nabi')">
@@ -257,7 +405,7 @@
         </div>
     </div>
 
-</div>
+</div><!-- end page-container -->
 
 <div class="overlay" id="overlay" onclick="closeSheet()"></div>
 
@@ -273,73 +421,140 @@
 </div>
 
 <nav class="navbar">
-    <a href="/dashboard" class="nav-link active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="/doa" class="nav-link"><i class="fa-solid fa-book-quran"></i><span>Doa</span></a>
-    <a href="/panduan-sholat" class="nav-link"><i class="fa-solid fa-person-praying"></i><span>Sholat</span></a>
-    <a href="/qiblat" class="nav-link"><i class="fa-solid fa-compass"></i><span>Qiblat</span></a>
+    <a href="/dashboard" class="nav-link active"><i class="fas fa-star-and-crescent"></i><span></span></a>
+    <a href="/doa" class="nav-link"><i class="fa-solid fa-book-quran"></i><span></span></a>
+    <a href="/panduan-sholat" class="nav-link"><i class="fa-solid fa-person-praying"></i><span></span></a>
+    <a href="/qiblat" class="nav-link"><i class="fa-solid fa-compass"></i><span></span></a>
 </nav>
 
 <script>
-// Semua data di sini, bukan di HTML attribute
-// Solusi biar ga error karena karakter arab & tanda kutip di onclick
 var sheets = {
+
+    /* ========== RAMADHAN ========== */
+    zakat: {
+        title: 'Kalkulator Zakat',
+        ar: '\u0627\u0644\u0632\u0643\u0627\u0629',
+        items: [
+            {name:'Zakat Fitrah',      desc:'Hitung zakat per jiwa keluarga',        icon:'fa-solid fa-users',              color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/zakat'},
+            {name:'Zakat Mal',         desc:'Zakat harta & nisab otomatis',           icon:'fa-solid fa-coins',              color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/zakat'},
+            {name:'Zakat Penghasilan', desc:'Hitung dari gaji bruto atau neto',       icon:'fa-solid fa-briefcase',          color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/zakat'},
+            {name:'8 Mustahiq',        desc:'Golongan yang berhak menerima zakat',    icon:'fa-solid fa-hand-holding-heart', color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/zakat'}
+        ]
+    },
+    doaRamadhan: {
+        title: 'Doa Ramadhan',
+        ar: '\u062F\u0639\u0627\u0621 \u0631\u0645\u0636\u0627\u0646',
+        items: [
+            {name:'Niat & Doa Sahur',    desc:'Niat puasa & doa saat sahur',         icon:'fa-solid fa-utensils',    color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/doa-ramadhan'},
+            {name:'Doa Buka Puasa',      desc:'Doa saat berbuka & setelahnya',        icon:'fa-solid fa-bowl-food',   color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/doa-ramadhan'},
+            {name:'Doa Tarawih',         desc:'Dzikir & doa setelah witir',           icon:'fa-solid fa-moon',        color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/doa-ramadhan'},
+            {name:'Doa Lailatul Qadar',  desc:'Doa terbaik di malam-malam ganjil',   icon:'fa-solid fa-star',        color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/doa-ramadhan'},
+            {name:'Doa Umum Ramadhan',   desc:'Doa mohon surga, ampunan & taubat',   icon:'fa-solid fa-hands-praying',color:'#5ba4f5',bg:'rgba(91,164,245,.1)',  link:'/doa-ramadhan'}
+        ]
+    },
+    qadar: {
+        title: 'Lailatul Qadar',
+        ar: '\u0644\u064A\u0644\u0629 \u0627\u0644\u0642\u062F\u0631',
+        items: [
+            {name:'Surah Al-Qadr',        desc:'5 ayat lengkap + terjemahan',          icon:'fa-solid fa-book-quran',   color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/qadar'},
+            {name:'Keutamaan Malam Qadar',desc:'Mengapa lebih baik dari 1000 bulan',   icon:'fa-solid fa-gem',          color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/qadar'},
+            {name:'Malam Ganjil 10 Akhir',desc:'Panduan malam 21, 23, 25, 27, 29',    icon:'fa-solid fa-moon',         color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/qadar'},
+            {name:'Amalan yang Dianjurkan',desc:'Apa saja yang dilakukan di malam ini',icon:'fa-solid fa-list-check',   color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/qadar'},
+            {name:'Tanda-Tanda Qadar',    desc:'Ciri malam Lailatul Qadar',            icon:'fa-solid fa-eye',          color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/qadar'}
+        ]
+    },
+    haditsRamadhan: {
+        title: 'Hadits Ramadhan',
+        ar: '\u0623\u062D\u0627\u062F\u064A\u062B \u0631\u0645\u0636\u0627\u0646',
+        items: [
+            {name:'Keutamaan Ramadhan',  desc:'Hadits tentang keistimewaan bulan ini', icon:'fa-solid fa-star-and-crescent',color:'#c9a84c',bg:'rgba(201,168,76,.12)', link:'/hadits-ramadhan'},
+            {name:'Hadits Puasa',        desc:'Makna & hukum seputar puasa',           icon:'fa-solid fa-droplet',          color:'#5ba4f5',bg:'rgba(91,164,245,.1)',  link:'/hadits-ramadhan'},
+            {name:'Hadits Tarawih',      desc:'Keutamaan sholat malam Ramadhan',       icon:'fa-solid fa-moon',             color:'#b388ff',bg:'rgba(179,136,255,.1)', link:'/hadits-ramadhan'},
+            {name:'Hadits Sahur & Buka', desc:'Sunnah makan sahur dan buka puasa',     icon:'fa-solid fa-utensils',         color:'#e8cc7a',bg:'rgba(232,204,122,.1)', link:'/hadits-ramadhan'},
+            {name:'Hadits Sedekah',      desc:'Anjuran bersedekah di bulan Ramadhan',  icon:'fa-solid fa-hand-holding-heart',color:'#25a06e',bg:'rgba(26,107,74,.2)', link:'/hadits-ramadhan'},
+            {name:'Hadits Hari Ini',     desc:'Hadits pilihan yang berganti tiap hari',icon:'fa-solid fa-calendar-day',     color:'#f2c94c',bg:'rgba(242,201,76,.1)',  link:'/hadits-ramadhan'}
+        ]
+    },
+    ilmuRamadhan: {
+        title: 'Ilmu Ramadhan',
+        ar: '\u0639\u0644\u0645 \u0631\u0645\u0636\u0627\u0646',
+        items: [
+            {name:'Sejarah Ramadhan',    desc:'Asal-usul & peristiwa bersejarah',      icon:'fa-solid fa-landmark',        color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/ilmu-ramadhan'},
+            {name:'Fiqih Puasa',         desc:'Hukum, syarat & yang membatalkan',      icon:'fa-solid fa-scale-balanced',  color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/ilmu-ramadhan'},
+            {name:'Sains & Puasa',       desc:'Manfaat ilmiah berpuasa bagi tubuh',    icon:'fa-solid fa-flask',           color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/ilmu-ramadhan'},
+            {name:'Kisah Inspiratif',    desc:'Umar, Salahuddin & para sahabat',       icon:'fa-solid fa-scroll',          color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/ilmu-ramadhan'},
+            {name:'Fakta Unik Ramadhan', desc:'Tradisi & fakta dari seluruh dunia',    icon:'fa-solid fa-earth-asia',      color:'#f2c94c', bg:'rgba(242,201,76,.1)',  link:'/ilmu-ramadhan'}
+        ]
+    },
+
+    /* ========== EXISTING ========== */
     doa: {
         title: 'Doa & Dzikir',
         ar: '\u0623\u064E\u062F\u0652\u0639\u0650\u064A\u064E\u0629',
         items: [
-            {name:'Doa Harian', desc:'Doa pagi, sore, tidur, makan', icon:'fa-solid fa-book-open', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/doa'},
-            {name:'Dzikir Al-Quran', desc:'Kumpulan dzikir dari ayat Al-Quran', icon:'fa-solid fa-book-quran', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/doa'},
-            {name:'Quiz Hafalan', desc:'Uji hafalan doa kamu', icon:'fa-solid fa-circle-check', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/doa'}
+            {name:'Doa Harian',    desc:'Doa pagi, sore, tidur, makan',         icon:'fa-solid fa-book-open',   color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/doa'},
+            {name:'Dzikir Al-Quran',desc:'Kumpulan dzikir dari ayat Al-Quran',  icon:'fa-solid fa-book-quran',  color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/doa'},
+            {name:'Quiz Hafalan',   desc:'Uji hafalan doa kamu',                 icon:'fa-solid fa-circle-check',color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/doa'}
         ]
     },
     asbabun: {
         title: 'Asbabun Nuzul',
         ar: '\u0623\u0633\u0628\u064E\u0627\u0628\u064F \u0627\u0644\u0646\u064F\u0632\u064F\u0648\u0644',
         items: [
-            {name:'Surah Makkiyah', desc:'Ayat yang turun di Mekah', icon:'fa-solid fa-kaaba', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/asbabun-nuzul'},
-            {name:'Surah Madaniyah', desc:'Ayat yang turun di Madinah', icon:'fa-solid fa-mosque', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/asbabun-nuzul'},
-            {name:'Semua Asbabun Nuzul', desc:'Browse lengkap beserta hikmah', icon:'fa-solid fa-scroll', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/asbabun-nuzul'}
+            {name:'Surah Makkiyah',      desc:'Ayat yang turun di Mekah',        icon:'fa-solid fa-kaaba',  color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/asbabun-nuzul'},
+            {name:'Surah Madaniyah',     desc:'Ayat yang turun di Madinah',      icon:'fa-solid fa-mosque', color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/asbabun-nuzul'},
+            {name:'Semua Asbabun Nuzul', desc:'Browse lengkap beserta hikmah',   icon:'fa-solid fa-scroll', color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/asbabun-nuzul'}
         ]
     },
     sholat: {
         title: 'Panduan Sholat',
         ar: '\u0627\u0644\u0635\u064E\u0644\u0627\u0629',
         items: [
-            {name:'Waktu Sholat', desc:'Jadwal & info 5 waktu sholat', icon:'fa-solid fa-clock', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-sholat'},
-            {name:'Tata Cara Sholat', desc:'Rukun, bacaan & gerakan lengkap', icon:'fa-solid fa-person-praying', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/panduan-sholat'},
-            {name:'Sholat Subuh', desc:'Panduan 2 rakaat subuh', icon:'fa-solid fa-sun', color:'#f2c94c', bg:'rgba(242,201,76,.1)', link:'/panduan-sholat'},
-            {name:'Sholat Dzuhur & Ashar', desc:'Panduan 4 rakaat', icon:'fa-solid fa-cloud-sun', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/panduan-sholat'},
-            {name:'Sholat Maghrib & Isya', desc:'Panduan 3 & 4 rakaat', icon:'fa-solid fa-moon', color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/panduan-sholat'}
+            {name:'Waktu Sholat',        desc:'Jadwal & info 5 waktu sholat',     icon:'fa-solid fa-clock',         color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-sholat'},
+            {name:'Tata Cara Sholat',    desc:'Rukun, bacaan & gerakan lengkap',   icon:'fa-solid fa-person-praying',color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/panduan-sholat'},
+            {name:'Sholat Subuh',        desc:'Panduan 2 rakaat subuh',            icon:'fa-solid fa-sun',           color:'#f2c94c', bg:'rgba(242,201,76,.1)',  link:'/panduan-sholat'},
+            {name:'Sholat Dzuhur & Ashar',desc:'Panduan 4 rakaat',                icon:'fa-solid fa-cloud-sun',     color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/panduan-sholat'},
+            {name:'Sholat Maghrib & Isya',desc:'Panduan 3 & 4 rakaat',            icon:'fa-solid fa-moon',          color:'#b388ff', bg:'rgba(179,136,255,.1)', link:'/panduan-sholat'}
         ]
     },
     wudhu: {
         title: 'Panduan Wudhu',
         ar: '\u0627\u0644\u0648\u064F\u0636\u064F\u0648\u0621',
         items: [
-            {name:'Rukun Wudhu', desc:'6 rukun wajib yang harus dilakukan', icon:'fa-solid fa-droplet', color:'#5ba4f5', bg:'rgba(91,164,245,.12)', link:'/panduan-wudhu'},
-            {name:'Sunnah Wudhu', desc:'9 amalan sunnah saat berwudhu', icon:'fa-solid fa-star', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-wudhu'},
-            {name:'Pembatal Wudhu', desc:'Hal-hal yang membatalkan wudhu', icon:'fa-solid fa-circle-xmark', color:'#e17055', bg:'rgba(225,112,85,.1)', link:'/panduan-wudhu'}
+            {name:'Rukun Wudhu',   desc:'6 rukun wajib yang harus dilakukan', icon:'fa-solid fa-droplet',    color:'#5ba4f5', bg:'rgba(91,164,245,.12)', link:'/panduan-wudhu'},
+            {name:'Sunnah Wudhu',  desc:'9 amalan sunnah saat berwudhu',      icon:'fa-solid fa-star',       color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/panduan-wudhu'},
+            {name:'Pembatal Wudhu',desc:'Hal-hal yang membatalkan wudhu',      icon:'fa-solid fa-circle-xmark',color:'#e17055',bg:'rgba(225,112,85,.1)',  link:'/panduan-wudhu'}
         ]
     },
     nabi: {
         title: 'Kisah Para Nabi',
         ar: '\u0642\u0650\u0635\u064E\u0635\u064F \u0627\u0644\u0623\u064E\u0646\u0652\u0628\u0650\u064A\u064E\u0627\u0621',
         items: [
-            {name:'25 Nabi & Rasul', desc:'Semua kisah & mukjizat nabi', icon:'fa-solid fa-star-and-crescent', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/kisah-nabi'},
-            {name:'Ulul Azmi', desc:'5 nabi dengan keteguhan tertinggi', icon:'fa-solid fa-crown', color:'#e8cc7a', bg:'rgba(232,204,122,.12)', link:'/kisah-nabi'},
-            {name:'Nabi Bani Israel', desc:'Para nabi dari keturunan Israel', icon:'fa-solid fa-scroll', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/kisah-nabi'},
-            {name:'Nabi Arab', desc:'Nabi-nabi dari tanah Arab', icon:'fa-solid fa-kaaba', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/kisah-nabi'}
+            {name:'25 Nabi & Rasul',  desc:'Semua kisah & mukjizat nabi',          icon:'fa-solid fa-star-and-crescent',color:'#c9a84c',bg:'rgba(201,168,76,.12)', link:'/kisah-nabi'},
+            {name:'Ulul Azmi',        desc:'5 nabi dengan keteguhan tertinggi',     icon:'fa-solid fa-crown',            color:'#e8cc7a',bg:'rgba(232,204,122,.12)',link:'/kisah-nabi'},
+            {name:'Nabi Bani Israel',  desc:'Para nabi dari keturunan Israel',      icon:'fa-solid fa-scroll',           color:'#5ba4f5',bg:'rgba(91,164,245,.1)', link:'/kisah-nabi'},
+            {name:'Nabi Arab',         desc:'Nabi-nabi dari tanah Arab',            icon:'fa-solid fa-kaaba',            color:'#25a06e',bg:'rgba(26,107,74,.2)',  link:'/kisah-nabi'}
         ]
     },
     qiblat: {
         title: 'Arah Qiblat',
         ar: '\u0627\u0644\u0642\u0650\u0628\u0644\u064E\u0629',
         items: [
-            {name:'Kompas Qiblat', desc:'Kompas interaktif menuju Mekah', icon:'fa-solid fa-compass', color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/qiblat'},
-            {name:'Deteksi Lokasi', desc:'Temukan qiblat dari GPS kamu', icon:'fa-solid fa-location-crosshairs', color:'#25a06e', bg:'rgba(26,107,74,.2)', link:'/qiblat'},
-            {name:'Pilih Kota', desc:'Arah qiblat dari kota di Indonesia', icon:'fa-solid fa-city', color:'#5ba4f5', bg:'rgba(91,164,245,.1)', link:'/qiblat'}
+            {name:'Kompas Qiblat',  desc:'Kompas interaktif menuju Mekah',       icon:'fa-solid fa-compass',            color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/qiblat'},
+            {name:'Deteksi Lokasi', desc:'Temukan qiblat dari GPS kamu',          icon:'fa-solid fa-location-crosshairs',color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/qiblat'},
+            {name:'Pilih Kota',     desc:'Arah qiblat dari kota di Indonesia',    icon:'fa-solid fa-city',               color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/qiblat'}
         ]
-    }
+    },
+    quranDigital: {
+        title: 'Al-Quran Digital',
+        ar: '\u0627\u0644\u0642\u064F\u0631\u0622\u0646 \u0627\u0644\u0631\u0642\u0645\u064A',
+        items: [
+            {name:'Baca Al-Quran',  desc:'Teks lengkap dengan tajwid warna-warni',icon:'fa-solid fa-book-quran',  color:'#c9a84c', bg:'rgba(201,168,76,.12)', link:'/quran-digital'},
+            {name:'Tafsir Ayat',   desc:'Penjelasan makna & konteks ayat',       icon:'fa-solid fa-scroll',      color:'#5ba4f5', bg:'rgba(91,164,245,.1)',  link:'/quran-digital'},
+            {name:'Kisah Inspiratif',desc:'Cerita di balik ayat-ayat pilihan',    icon:'fa-solid fa-gem',        color:'#e8cc7a', bg:'rgba(232,204,122,.1)', link:'/quran-digital'},
+            {name:'Sains & Quran', desc:'Rahasia ilmiah yang terkandung dalam Al-Quran', icon:'fa-solid fa-flask', color:'#25a06e', bg:'rgba(26,107,74,.2)',   link:'/quran-digital'}
+        ]
+    },
 };
 
 function openSheet(key) {

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doa Ramadhan</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Cinzel:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#080e14;--c1:#0d1821;--c2:#142030;--c3:#1c2d42;--gold:#c9a84c;--gl:#e8cc7a;--gd:rgba(201,168,76,.15);--em:#1a6b4a;--el:#25a06e;--eg:rgba(26,107,74,.25);--cr:#f5f0e8;--cd:rgba(245,240,232,.65);--cm:rgba(245,240,232,.3);--br:rgba(201,168,76,.18);--bs:rgba(245,240,232,.07);--fa:'Scheherazade New',serif;--fh:'Cinzel',serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--cr);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px),repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(201,168,76,.02) 40px,rgba(201,168,76,.02) 41px);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--c1);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.nl{display:flex;align-items:center;gap:.6rem;cursor:pointer;text-decoration:none;}
+.ni{width:30px;height:30px;background:linear-gradient(135deg,var(--em),var(--el));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;}
+.nt{font-family:var(--fh);font-size:.95rem;color:var(--cr);}
+.nbtns{display:flex;gap:.4rem;}
+.nb{display:flex;align-items:center;gap:.4rem;background:none;border:1px solid var(--bs);color:var(--cd);padding:.35rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:.8rem;transition:.2s;text-decoration:none;}
+.nb:hover{border-color:var(--br);color:var(--cr);}
+.nb.gold{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;position:relative;z-index:1;}
+.h-ar{font-family:var(--fa);font-size:2.8rem;color:var(--gl);margin-bottom:.4rem;line-height:1.3;}
+.h-ti{font-family:var(--fh);font-size:1.25rem;letter-spacing:.08em;margin-bottom:.3rem;}
+.h-su{font-size:.83rem;color:var(--cd);}
+.filters{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}
+.fp{padding:.28rem .9rem;border-radius:20px;font-size:.73rem;cursor:pointer;transition:.2s;border:1px solid var(--bs);background:var(--c2);color:var(--cd);font-family:var(--fb);}
+.fp:hover,.fp.on{background:var(--em);border-color:var(--el);color:#fff;}
+.fp.gp{background:var(--gd);border-color:var(--br);color:var(--gold);}
+.fp.gp:hover,.fp.gp.on{background:var(--gold);color:var(--bg);}
+.main{max-width:800px;margin:1rem auto 0;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.7rem;}
+.card{background:var(--c1);border:1px solid var(--bs);border-radius:14px;padding:1.2rem;transition:all .22s;animation:fadeIn .3s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--br);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.07);}
+.ct{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;}
+.cn{font-family:var(--fh);font-size:.66rem;color:var(--gold);background:var(--gd);border:1px solid var(--br);padding:.12rem .5rem;border-radius:5px;}
+.cbtn{width:26px;height:26px;border-radius:6px;border:1px solid var(--bs);background:none;color:var(--cm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:.2s;}
+.cbtn:hover,.cbtn.on{background:var(--eg);border-color:var(--el);color:var(--el);}
+.car{font-family:var(--fa);font-size:1.7rem;color:var(--gl);text-align:right;direction:rtl;line-height:1.5;margin-bottom:.4rem;}
+.clat{font-size:.78rem;color:var(--cd);font-style:italic;margin-bottom:.2rem;}
+.cart{font-size:.74rem;color:var(--cr);font-weight:600;margin-bottom:.4rem;}
+.cdesc{font-size:.7rem;color:var(--cm);line-height:1.65;border-top:1px solid var(--bs);padding-top:.6rem;margin-top:.6rem;display:none;}
+.card.exp .cdesc{display:block;}
+.cex{font-size:.65rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fb);margin-top:.4rem;display:block;}
+.waktu-badge{font-size:.62rem;color:var(--el);background:var(--eg);border:1px solid rgba(37,160,110,.2);padding:.1rem .4rem;border-radius:4px;display:inline-block;margin-top:.3rem;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--c3);border:1px solid var(--br);color:var(--cr);padding:.5rem 1.3rem;border-radius:20px;font-size:.78rem;opacity:0;transition:.3s;z-index:9999;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:3rem;color:var(--cm);}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}.main{padding:0 1rem 4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/dashboard"><div class="ni"><i class="fa-solid fa-mosque"></i></div><span class="nt">IslamiHub</span></a>
+  <div class="nbtns">
+    <a class="nb" href="/zakat"><i class="fa-solid fa-hand-holding-heart"></i> Zakat</a>
+    <a class="nb gold" href="/doa-ramadhan"><i class="fa-solid fa-moon"></i> Doa Ramadhan</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="h-ar">دُعَاءُ رَمَضَان</div>
+  <div class="h-ti">Doa Khusus Ramadhan</div>
+  <div class="h-su">Kumpulan doa sahur, buka puasa, tarawih & lailatul qadar</div>
+  <div class="filters">
+    <button class="fp gp on" onclick="filterDoa('all',this)">Semua</button>
+    <button class="fp" onclick="filterDoa('sahur',this)">Sahur</button>
+    <button class="fp" onclick="filterDoa('buka',this)">Buka Puasa</button>
+    <button class="fp" onclick="filterDoa('tarawih',this)">Tarawih</button>
+    <button class="fp" onclick="filterDoa('qadar',this)">Lailatul Qadar</button>
+    <button class="fp" onclick="filterDoa('umum',this)">Umum</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><i class="fa-solid fa-wind" style="display:block;margin-bottom:.5rem;opacity:.3;font-size:2rem"></i>Doa tidak ditemukan</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var duas = [
+  {id:1,cat:'sahur',ar:'نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ فَرِيضَةِ شَهْرِ رَمَضَانَ هَذِهِ السَّنَةِ لِلّٰهِ تَعَالَى',lat:"Nawaitu shauma ghadin 'an ada'i fardhi syahri Ramadhana hadzihis sanati lillahi ta'ala",art:'Aku niat berpuasa esok hari untuk menunaikan fardhu bulan Ramadhan tahun ini karena Allah Ta\'ala',desc:'Niat puasa dibaca pada malam hari atau saat sahur sebelum waktu imsak. Cukup di dalam hati, lafaz ini sunnah.',waktu:'Malam / Sahur'},
+  {id:2,cat:'buka',ar:'اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ',lat:'Allahumma laka shumtu wa bika aamantu wa ala rizqika aftartu',art:'Ya Allah untuk-Mu aku berpuasa, kepada-Mu aku beriman, dan dengan rezeki-Mu aku berbuka',desc:'Doa buka puasa yang lebih populer. Diriwayatkan oleh Abu Dawud. Dibaca saat hendak meneguk minuman pertama.',waktu:'Saat Buka Puasa'},
+  {id:3,cat:'buka',ar:'ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الأَجْرُ إِنْ شَاءَ اللَّهُ',lat:'Dzahabazh zhama-u wabtallatil uruuqu wa tsabatal ajru insyaallah',art:'Telah hilang dahaga, urat-urat telah basah, dan pahala telah ditetapkan insyaallah',desc:'Doa setelah berbuka yang diriwayatkan dari Nabi SAW. Dibaca sesudah berbuka. (HR. Abu Dawud)',waktu:'Setelah Buka'},
+  {id:4,cat:'tarawih',ar:'سُبْحَانَ الْمَلِكِ الْقُدُّوسِ',lat:'Subhaanal malikil qudduus',art:'Maha Suci Allah Raja Yang Maha Suci',desc:'Dibaca 3 kali setiap selesai sholat witir dalam sholat tarawih. Hadits Riwayat An-Nasai.',waktu:'Setelah Witir'},
+  {id:5,cat:'tarawih',ar:'اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',lat:"Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni",art:'Ya Allah, sesungguhnya Engkau Maha Pemaaf, Engkau menyukai pemaafan, maka maafkanlah aku',desc:'Doa yang diajarkan Nabi SAW kepada Aisyah RA untuk diperbanyak di malam-malam Lailatul Qadar dan tarawih. (HR. Tirmidzi)',waktu:'Malam Ganjil / Tarawih'},
+  {id:6,cat:'qadar',ar:'اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',lat:"Allahumma innaka 'afuwwun kariimun tuhibbul 'afwa fa'fu 'anni",art:'Ya Allah, sesungguhnya Engkau Maha Pemaaf lagi Maha Mulia, Engkau menyukai pemaafan, maka maafkanlah aku',desc:'Versi lengkap doa Lailatul Qadar. Dibaca berulang-ulang di malam-malam ganjil 10 terakhir Ramadhan terutama malam 27.',waktu:'10 Malam Terakhir'},
+  {id:7,cat:'umum',ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',lat:"Rabbana aatina fid dunya hasanah wa fil aakhirati hasanah wa qina 'adzaabannaar",art:'Ya Tuhan kami berilah kami kebaikan di dunia dan kebaikan di akhirat serta peliharalah kami dari siksa neraka',desc:'Doa sapu jagat dari QS Al-Baqarah:201. Sangat dianjurkan dibaca setiap waktu terutama di bulan Ramadhan.',waktu:'Kapan Saja'},
+  {id:8,cat:'umum',ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ',lat:"Allahumma inni as'alukal jannata wa a'udzu bika minannar",art:'Ya Allah aku memohon surga kepada-Mu dan aku berlindung kepada-Mu dari neraka',desc:'Doa memohon surga dan berlindung dari neraka. Sangat dianjurkan diperbanyak di bulan Ramadhan.',waktu:'Kapan Saja'},
+  {id:9,cat:'sahur',ar:'اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ',lat:'Allahumma baarik lana fiimaa razaqtana wa qina adzaabannaar',art:'Ya Allah berkahilah kami pada apa yang Engkau rezekikan kepada kami dan jauhkan kami dari siksa neraka',desc:'Doa saat makan sahur. Memohon keberkahan pada makanan yang menjadi bekal puasa seharian.',waktu:'Saat Sahur'},
+  {id:10,cat:'tarawih',ar:'اللَّهُمَّ اجْعَلْنَا مِمَّنْ قَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا',lat:'Allahumma aj-alna mimman qaama ramadhana iimaanan wahtisaabaa',art:'Ya Allah jadikanlah kami termasuk orang yang mendirikan Ramadhan dengan iman dan mengharap ridha-Mu',desc:'Doa agar termasuk golongan yang mendirikan sholat tarawih dengan sempurna. Dibaca sebelum atau sesudah tarawih.',waktu:'Sebelum/Sesudah Tarawih'},
+  {id:11,cat:'qadar',ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ رِضَاكَ وَالْجَنَّةَ وَأَعُوذُ بِكَ مِنْ سَخَطِكَ وَالنَّارِ',lat:"Allahumma inni as'aluka ridhaaka wal jannata wa a'udzu bika min sakhatika wannaar",art:'Ya Allah aku memohon ridha-Mu dan surga, dan aku berlindung dari murka-Mu dan neraka',desc:'Doa yang sangat dianjurkan di malam Lailatul Qadar. Menggabungkan permohonan ridha, surga, dan perlindungan dari murka Allah.',waktu:'Malam Lailatul Qadar'},
+  {id:12,cat:'buka',ar:'اللَّهُمَّ لَكَ صُمْنَا وَعَلَى رِزْقِكَ أَفْطَرْنَا فَتَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ',lat:'Allahumma laka shumna wa ala rizqika aftarna fataqabbal minna innaka antas samii ul aliim',art:'Ya Allah untuk-Mu kami berpuasa dan atas rezeki-Mu kami berbuka, maka terimalah dari kami, sesungguhnya Engkau Maha Mendengar lagi Maha Mengetahui',desc:'Doa buka puasa berjemaah. Versi jamak (kami) yang digunakan saat berbuka bersama.',waktu:'Buka Bersama'},
+  {id:13,cat:'umum',ar:'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',lat:"Rabbighfir lii wa tub 'alayya innaka antat tawwaabur rahiim",art:'Ya Tuhanku ampunilah aku dan terimalah taubatku, sesungguhnya Engkau Maha Penerima Taubat lagi Maha Penyayang',desc:'Doa istighfar dan taubat. Sangat dianjurkan diperbanyak di bulan Ramadhan terutama di 10 malam terakhir.',waktu:'Kapan Saja'},
+  {id:14,cat:'qadar',ar:'سُبْحَانَ اللهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلَهَ إِلَّا اللهُ وَاللهُ أَكْبَرُ',lat:'Subhanallah wal hamdulillah wa laa ilaaha illallah wallahu akbar',art:'Maha Suci Allah, segala puji bagi Allah, tiada Tuhan selain Allah, dan Allah Maha Besar',desc:'Dzikir utama yang diperbanyak di 10 malam terakhir Ramadhan, terutama malam Lailatul Qadar. Pahalanya sangat besar.',waktu:'10 Malam Terakhir'},
+];
+
+var saved = JSON.parse(localStorage.getItem('doa-rm-saved') || '[]');
+var currentCat = 'all';
+
+function render(list) {
+  var g = document.getElementById('grid');
+  var e = document.getElementById('empty');
+  if (!list.length) { g.innerHTML = ''; e.style.display = 'block'; return; }
+  e.style.display = 'none';
+  g.innerHTML = list.map(function(d, i) {
+    return '<div class="card' + (saved.includes(d.id) ? ' mem' : '') + '" style="animation-delay:' + (i*0.04) + 's">' +
+      '<div class="ct"><span class="cn">' + d.cat.toUpperCase() + '</span>' +
+      '<button class="cbtn' + (saved.includes(d.id) ? ' on' : '') + '" onclick="toggleSave(' + d.id + ',this)"><i class="fa-solid fa-bookmark"></i></button></div>' +
+      '<div class="car">' + d.ar + '</div>' +
+      '<div class="clat">' + d.lat + '</div>' +
+      '<div class="cart">' + d.art + '</div>' +
+      '<span class="waktu-badge"><i class="fa-solid fa-clock"></i> ' + d.waktu + '</span>' +
+      '<div class="cdesc">' + d.desc + '</div>' +
+      '<button class="cex" onclick="toggleExp(this)">Lihat keterangan &#9662;</button></div>';
+  }).join('');
+}
+
+function toggleExp(btn) {
+  btn.closest('.card').classList.toggle('exp');
+  btn.textContent = btn.closest('.card').classList.contains('exp') ? 'Tutup \u25b2' : 'Lihat keterangan \u25be';
+}
+
+function toggleSave(id, btn) {
+  if (saved.includes(id)) saved = saved.filter(function(x){return x!==id;});
+  else saved.push(id);
+  localStorage.setItem('doa-rm-saved', JSON.stringify(saved));
+  btn.classList.toggle('on');
+  btn.closest('.card').classList.toggle('mem');
+  showToast(saved.includes(id) ? 'Doa disimpan' : 'Doa dihapus dari simpanan');
+}
+
+function filterDoa(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.fp').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  render(cat === 'all' ? duas : duas.filter(function(d){return d.cat===cat;}));
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');}, 2000);
+}
+
+render(duas);
+</script>
+</body>
+</html>
