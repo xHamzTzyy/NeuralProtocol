@@ -6,6 +6,7 @@
 <title>Community — IslamiHub</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
 /* ═══════════════════════════════════════════
@@ -390,7 +391,7 @@ body::before {
 /* ── message group wrapper ── */
 .msg-group {
   display: flex; gap: 8px; padding: 3px 8px;
-  position: relative; align-items: flex-end;
+  position: relative; align-items: flex-start;
 }
 .msg-group:hover { background: rgba(255,255,255,0.015); border-radius: 12px; }
 .msg-group:hover .msg-actions { opacity: 1; }
@@ -401,7 +402,7 @@ body::before {
   display: flex; align-items: center; justify-content: center;
   font-size: 0.62rem; font-weight: 800;
   letter-spacing: -0.5px; text-transform: uppercase;
-  align-self: flex-start; margin-top: 20px;
+  align-self: flex-start; margin-top: 22px;
 }
 
 /* content column */
@@ -520,15 +521,19 @@ body::before {
 .msg-file-info { flex: 1; min-width: 0; }
 .msg-file-name { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .msg-file-size { font-size: 0.65rem; color: var(--text3); }
+/* audio player wrapper */
+.msg-audio-wrap {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 10px; max-width: 260px; margin-top: 4px;
+}
+.msg-audio-icon { font-size: 1.1rem; flex-shrink: 0; color: var(--accent2); }
+.msg-audio-info { flex: 1; min-width: 0; }
+.msg-audio-name { font-size: 0.72rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 audio.msg-audio {
   display: block; width: 100%; max-width: 260px; margin-top: 4px;
-  border-radius: 30px; height: 36px;
-  background: rgba(255,255,255,0.06);
-  filter: invert(1) hue-rotate(180deg) brightness(0.85);
-}
-audio.msg-audio::-webkit-media-controls-panel {
-  background: var(--bg3);
-  border-radius: 30px;
+  border-radius: 30px; height: 32px;
+  filter: invert(1) hue-rotate(180deg) brightness(0.8) saturate(0.5);
 }
 
 /* reactions tepat dibawah bubble */
@@ -1016,6 +1021,496 @@ audio.msg-audio::-webkit-media-controls-panel {
   /* Theme panel lebih kecil */
   .theme-panel { right: 8px; top: 60px; }
 }
+
+/* ── Search Bar ── */
+.search-bar {
+  display:none; position:absolute; top:0; left:0; right:0; z-index:20;
+  background:var(--bg2); padding:8px 12px;
+  border-bottom:1px solid var(--border);
+  animation: slideDown 0.2s ease;
+}
+@keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
+.search-bar.open { display:flex; align-items:center; gap:8px; }
+.search-input {
+  flex:1; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+  border-radius:10px; padding:8px 12px; color:var(--text);
+  font-family:var(--font-body); font-size:0.85rem;
+}
+.search-input:focus { outline:none; border-color:var(--accent); }
+.search-results {
+  position:absolute; top:100%; left:0; right:0;
+  background:var(--panel); border-bottom:1px solid var(--border2);
+  max-height:300px; overflow-y:auto; z-index:19;
+}
+.search-result-item {
+  padding:10px 16px; cursor:pointer; border-bottom:1px solid var(--border);
+  transition:background 0.15s;
+}
+.search-result-item:hover { background:rgba(255,255,255,0.05); }
+.search-result-author { font-size:0.72rem; font-weight:700; color:var(--accent2); margin-bottom:2px; }
+.search-result-text { font-size:0.8rem; color:var(--text2); }
+.search-result-text mark { background:var(--accent); color:#fff; border-radius:2px; padding:0 2px; }
+.search-result-time { font-size:0.62rem; color:var(--text3); font-family:var(--font-mono); float:right; }
+
+/* ── Pinned Message ── */
+.pinned-bar {
+  display:none; align-items:center; gap:8px;
+  padding:8px 14px; background:rgba(255,200,50,0.08);
+  border-bottom:1px solid rgba(255,200,50,0.2);
+  cursor:pointer; transition:background 0.2s;
+}
+.pinned-bar.show { display:flex; }
+.pinned-bar:hover { background:rgba(255,200,50,0.14); }
+.pinned-bar i { color:#ffd166; font-size:0.8rem; flex-shrink:0; }
+.pinned-text { flex:1; font-size:0.75rem; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pinned-label { font-size:0.65rem; font-weight:700; color:#ffd166; white-space:nowrap; }
+
+/* ── Role badges ── */
+.role-owner  { background:rgba(255,180,0,0.15); color:#ffb400; border:1px solid rgba(255,180,0,0.3); }
+.role-mod    { background:rgba(80,200,255,0.12); color:#50c8ff; border:1px solid rgba(80,200,255,0.25); }
+.role-member { background:rgba(255,255,255,0.06); color:var(--text3); border:1px solid var(--border); }
+.role-badge { font-size:0.55rem; font-weight:700; padding:1px 5px; border-radius:4px; }
+
+/* ── Edit message ── */
+.msg-edited { font-size:0.6rem; color:var(--text3); margin-left:4px; font-style:italic; }
+.edit-input-wrap {
+  display:flex; gap:6px; margin-top:4px;
+}
+.edit-input {
+  flex:1; background:rgba(255,255,255,0.08); border:1px solid var(--accent);
+  border-radius:8px; padding:6px 10px; color:var(--text);
+  font-family:var(--font-body); font-size:0.85rem; resize:none;
+}
+.edit-input:focus { outline:none; }
+.edit-save-btn, .edit-cancel-btn {
+  padding:5px 10px; border-radius:8px; border:none; cursor:pointer;
+  font-size:0.75rem; font-weight:600; font-family:var(--font-body);
+}
+.edit-save-btn { background:var(--accent); color:#fff; }
+.edit-cancel-btn { background:rgba(255,255,255,0.08); color:var(--text2); }
+
+/* ── Read receipts (DM + Public) ── */
+.msg-receipt {
+  font-size: 0.62rem; margin-top: 2px;
+  display: flex; align-items: center; gap: 1px;
+}
+/* own = kanan */
+.msg-group.own .msg-receipt { justify-content: flex-end; }
+/* other = kiri */
+.msg-group:not(.own) .msg-receipt { justify-content: flex-start; display:none; }
+
+.receipt-icon { font-size: 0.7rem; line-height: 1; }
+.receipt-sent    .receipt-icon { color: var(--text3); }   /* ✓ abu - belum terkirim/1 centang */
+.receipt-delivered .receipt-icon { color: var(--text3); } /* ✓✓ abu - terkirim */
+.receipt-read    .receipt-icon { color: #22dd88; }        /* ✓✓ hijau - dibaca */
+.receipt-partial .receipt-icon { color: var(--text3); }   /* ✓✓ abu - sebagian baca */
+
+/* ── Slow mode indicator ── */
+.slow-mode-timer {
+  font-size:0.7rem; color:var(--accent); font-family:var(--font-mono);
+  text-align:center; padding:4px 0;
+}
+
+/* ── Report modal ── */
+.report-modal {
+  position:fixed; inset:0; z-index:300;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+  display:none; align-items:center; justify-content:center;
+}
+.report-modal.open { display:flex; }
+.report-box {
+  background:var(--panel); border:1px solid var(--border2);
+  border-radius:20px; padding:24px 24px 20px; max-width:320px; width:90%;
+  animation:slideUp 0.25s ease;
+}
+.report-box h3 { font-size:1rem; margin-bottom:6px; }
+.report-box p { font-size:0.78rem; color:var(--text2); margin-bottom:16px; }
+.report-reasons { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+.report-reason {
+  padding:9px 12px; border-radius:10px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.04); cursor:pointer; font-size:0.82rem;
+  transition:all 0.15s; text-align:left;
+  color:var(--text); font-family:var(--font-body);
+}
+.report-reason:hover, .report-reason.selected { border-color:var(--accent); background:rgba(220,30,60,0.1); }
+.report-cancel { width:100%; padding:10px; border-radius:12px; border:none; background:rgba(255,255,255,0.06); color:var(--text2); cursor:pointer; font-family:var(--font-body); font-size:0.85rem; }
+
+/* ── Profile edit modal ── */
+.profile-modal {
+  position:fixed; inset:0; z-index:300;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+  display:none; align-items:center; justify-content:center;
+}
+.profile-modal.open { display:flex; }
+.profile-box {
+  background:var(--panel); border:1px solid var(--border2);
+  border-radius:24px; padding:28px 24px; max-width:340px; width:92%;
+  animation:slideUp 0.25s ease;
+}
+.profile-avatar-large {
+  width:72px; height:72px; border-radius:18px; margin:0 auto 16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; font-weight:800; letter-spacing:-1px; text-transform:uppercase;
+}
+.color-picker-row {
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:12px 0;
+}
+.color-swatch {
+  width:28px; height:28px; border-radius:50%; cursor:pointer;
+  border:2px solid transparent; transition:all 0.2s;
+}
+.color-swatch.selected { border-color:#fff; transform:scale(1.15); }
+.profile-input {
+  width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border2);
+  border-radius:10px; padding:10px 14px; color:var(--text);
+  font-family:var(--font-body); font-size:0.9rem; margin-bottom:10px;
+  box-sizing:border-box;
+}
+.profile-input:focus { outline:none; border-color:var(--accent); }
+.profile-save-btn {
+  width:100%; padding:12px; border-radius:12px; border:none;
+  background:var(--accent); color:#fff; font-family:var(--font-body);
+  font-size:0.9rem; font-weight:700; cursor:pointer; transition:filter 0.2s;
+}
+.profile-save-btn:hover { filter:brightness(1.15); }
+
+/* ── Online dot on avatar ── */
+.avatar-wrap { position:relative; display:inline-flex; }
+.avatar-online-dot {
+  position:absolute; bottom:-1px; right:-1px;
+  width:10px; height:10px; border-radius:50%;
+  background:var(--online); border:2px solid var(--bg);
+}
+
+/* ── GIF Picker ── */
+.gif-picker {
+  position:absolute; bottom:100%; right:0; margin-bottom:8px;
+  width:320px; max-height:320px;
+  background:var(--panel); border:1px solid var(--border2); border-radius:14px;
+  display:none; flex-direction:column; overflow:hidden; z-index:60;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.gif-picker.open { display:flex; }
+.gif-search-wrap { padding:10px; border-bottom:1px solid var(--border); }
+.gif-search {
+  width:100%; background:rgba(255,255,255,0.07); border:1px solid var(--border);
+  border-radius:8px; padding:7px 12px; color:var(--text);
+  font-family:var(--font-body); font-size:0.82rem; box-sizing:border-box;
+}
+.gif-search:focus { outline:none; border-color:var(--accent); }
+.gif-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:4px;
+  padding:8px; overflow-y:auto; flex:1;
+}
+.gif-item { border-radius:8px; overflow:hidden; cursor:pointer; aspect-ratio:16/9; }
+.gif-item img { width:100%; height:100%; object-fit:cover; transition:opacity 0.2s; }
+.gif-item:hover img { opacity:0.85; }
+.gif-loading { text-align:center; padding:20px; color:var(--text3); font-size:0.8rem; }
+
+/* ═══════════════════════════════════════════
+   GROUP STYLES
+═══════════════════════════════════════════ */
+.group-panel {
+  display: none; flex-direction: column;
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--bg);
+}
+.group-panel.open { display: flex; }
+@media (min-width: 768px) {
+  .group-panel {
+    position: relative; inset: auto;
+    flex: 1;
+    border-left: 1px solid var(--border);
+  }
+  .group-panel.open { display: flex; }
+  .group-panel:not(.open) { display: none; }
+}
+.group-header {
+  height: 56px; background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 16px; gap: 12px;
+  backdrop-filter: blur(20px); flex-shrink: 0;
+}
+.group-header-info { flex: 1; min-width: 0; }
+.group-header-name { font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.group-header-meta { font-size: 0.68rem; color: var(--text2); }
+.group-locked-bar {
+  background: rgba(255,180,0,0.12); border-bottom: 1px solid rgba(255,180,0,0.25);
+  padding: 8px 16px; font-size: 0.75rem; color: #ffb400;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.group-locked-bar i { font-size: 0.8rem; }
+
+/* Group item in sidebar */
+.group-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+  cursor: pointer; transition: all 0.2s ease;
+  font-size: 0.85rem; color: var(--text2);
+  position: relative;
+}
+.group-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.group-item.active {
+  background: var(--own-msg); color: var(--accent2); font-weight: 600;
+}
+.group-avatar {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+  background: var(--accent); color: #fff; text-transform: uppercase;
+}
+.group-item-info { flex: 1; min-width: 0; }
+.group-item-name { font-size: 0.83rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.group-item-sub { font-size: 0.65rem; color: var(--text3); }
+
+/* Group modal overlay */
+.gmodal-overlay {
+  position: fixed; inset: 0; z-index: 80;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+}
+.gmodal-overlay.open { display: flex; }
+.gmodal {
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 24px; padding: 28px;
+  width: 100%; max-width: 400px; margin: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  animation: slideUp 0.3s ease;
+}
+.gmodal h2 {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+  margin-bottom: 6px; color: var(--accent2);
+  display: flex; align-items: center; gap: 8px;
+}
+.gmodal-sub { font-size: 0.78rem; color: var(--text2); margin-bottom: 20px; }
+.gmodal-input {
+  width: 100%; padding: 11px 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text); font-family: var(--font-body);
+  font-size: 0.85rem; outline: none; margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.gmodal-input:focus { border-color: var(--accent); }
+.gmodal-input::placeholder { color: var(--text3); }
+.gmodal-btns { display: flex; gap: 10px; margin-top: 4px; }
+.gmodal-cancel {
+  flex: 1; padding: 11px; border-radius: 12px; border: none;
+  background: rgba(255,255,255,0.06); color: var(--text2);
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.gmodal-cancel:hover { background: rgba(255,255,255,0.1); }
+.gmodal-confirm {
+  flex: 1; padding: 11px; border-radius: 12px; border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 14px var(--glow);
+}
+.gmodal-confirm:hover { filter: brightness(1.1); }
+
+/* Group member list panel */
+.group-members-panel {
+  position: absolute; top: 56px; right: 0; bottom: 0;
+  width: 240px; background: var(--bg2);
+  border-left: 1px solid var(--border);
+  overflow-y: auto; z-index: 5;
+  display: none; flex-direction: column;
+  padding: 12px 10px;
+}
+.group-members-panel.open { display: flex; }
+.gm-title {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text3);
+  padding: 0 8px; margin-bottom: 10px;
+}
+.gm-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 8px; border-radius: 8px; transition: background 0.2s;
+  font-size: 0.82rem;
+}
+.gm-item:hover { background: rgba(255,255,255,0.04); }
+.gm-role {
+  font-size: 0.55rem; font-weight: 700; padding: 2px 5px; border-radius: 4px;
+  margin-left: auto; flex-shrink: 0;
+}
+.gm-role.admin { background: rgba(220,30,60,0.2); color: var(--accent2); }
+.gm-role.member { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+/* Group manage dropdown */
+.group-manage-menu {
+  position: absolute; top: 56px; right: 0;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 14px; padding: 6px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  z-index: 30; min-width: 180px;
+  display: none;
+}
+.group-manage-menu.open { display: block; }
+.gmenu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px;
+  cursor: pointer; font-size: 0.82rem; color: var(--text2);
+  transition: all 0.15s;
+}
+.gmenu-item:hover { background: var(--own-msg); color: var(--text); }
+.gmenu-item i { width: 14px; color: var(--accent); }
+.gmenu-item.danger { color: #ff6666; }
+.gmenu-item.danger i { color: #ff6666; }
+
+/* group code badge */
+.group-code-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  border-radius: 8px; padding: 5px 10px;
+  font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent3);
+  cursor: pointer; transition: all 0.2s; margin-top: 10px;
+}
+.group-code-badge:hover { border-color: var(--accent); color: var(--accent2); }
+
+/* ── Group Settings Modal ── */
+.gsettings-overlay {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+  display: none; align-items: center; justify-content: center;
+}
+.gsettings-overlay.open { display: flex; }
+.gsettings-box {
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 24px; width: 100%; max-width: 480px; margin: 16px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+  animation: slideUp 0.3s ease; overflow: hidden;
+  display: flex; flex-direction: column; max-height: 90dvh;
+}
+.gsettings-header {
+  padding: 20px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.gsettings-header h2 {
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 700;
+  color: var(--accent2); display: flex; align-items: center; gap: 8px;
+}
+.gsettings-tabs {
+  display: flex; gap: 4px; padding: 16px 24px 0;
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.gsettings-tab {
+  padding: 8px 14px; border-radius: 10px 10px 0 0;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  color: var(--text3); border: none; background: none;
+  font-family: var(--font-body); transition: all 0.2s;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.gsettings-tab.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+.gsettings-tab:hover:not(.active) { color: var(--text); }
+.gsettings-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.gsettings-section { margin-bottom: 24px; }
+.gsettings-label {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
+}
+.gsettings-input {
+  width: 100%; padding: 10px 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text); font-family: var(--font-body);
+  font-size: 0.85rem; outline: none; margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+.gsettings-input:focus { border-color: var(--accent); }
+.gsettings-input::placeholder { color: var(--text3); }
+.gsettings-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px;
+}
+.gsettings-toggle-info { flex: 1; }
+.gsettings-toggle-title { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+.gsettings-toggle-sub { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
+.toggle-switch {
+  width: 42px; height: 24px; border-radius: 12px;
+  background: var(--border); border: none; cursor: pointer;
+  position: relative; transition: background 0.3s; flex-shrink: 0;
+}
+.toggle-switch.on { background: var(--accent); }
+.toggle-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; transition: transform 0.3s;
+}
+.toggle-switch.on::after { transform: translateX(18px); }
+
+/* member row in settings */
+.gsettings-member-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
+  margin-bottom: 6px; background: rgba(255,255,255,0.02);
+}
+.gsettings-member-actions { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+.gmember-btn {
+  padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04); color: var(--text2);
+  font-size: 0.7rem; font-weight: 600; cursor: pointer;
+  font-family: var(--font-body); transition: all 0.2s;
+}
+.gmember-btn:hover { background: var(--own-msg); border-color: var(--border2); color: var(--text); }
+.gmember-btn.danger { color: #ff6666; }
+.gmember-btn.danger:hover { background: rgba(255,50,50,0.1); border-color: rgba(255,50,50,0.3); }
+.gmember-btn.promote { color: var(--accent3); }
+.gmember-btn.promote:hover { background: var(--own-msg); border-color: var(--border2); }
+
+/* notif bell badge */
+.group-notif-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--accent); color: #fff;
+  font-size: 0.5rem; font-weight: 700; width: 14px; height: 14px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg2);
+}
+
+/* group profile avatar picker */
+.gprofile-avatar-wrap {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+}
+.gprofile-avatar-big {
+  width: 64px; height: 64px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800; flex-shrink: 0;
+  color: #fff; cursor: pointer; transition: opacity 0.2s; position: relative;
+}
+.gprofile-avatar-big:hover::after {
+  content: '\f030'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+  border-radius: 18px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: #fff;
+}
+.gcolor-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.gcolor-dot {
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;
+}
+.gcolor-dot.active { border-color: #fff; transform: scale(1.15); }
+.gsettings-save-btn {
+  width: 100%; padding: 12px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; margin-top: 4px; transition: all 0.2s;
+  box-shadow: 0 4px 14px var(--glow);
+}
+.gsettings-save-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+/* ── Link Preview ── */
+.link-preview {
+  border:1px solid var(--border); border-radius:10px; overflow:hidden;
+  margin-top:6px; max-width:280px; cursor:pointer;
+  transition:border-color 0.2s;
+}
+.link-preview:hover { border-color:var(--border2); }
+.link-preview-img { width:100%; height:100px; object-fit:cover; }
+.link-preview-body { padding:8px 10px; }
+.link-preview-domain { font-size:0.62rem; color:var(--accent2); font-weight:600; margin-bottom:2px; }
+.link-preview-title { font-size:0.78rem; font-weight:600; color:var(--text); line-height:1.3; }
+
 </style>
 </head>
 <body>
@@ -1052,15 +1547,18 @@ audio.msg-audio::-webkit-media-controls-panel {
       display:flex;flex-direction:column;justify-content:center;
       gap:5px;padding:8px;width:36px;height:36px;flex-shrink:0;
     ">
-      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
-      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
-      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
+      <span style="display:block;height:2.5px;width:22px;background:var(--accent);border-radius:2px"></span>
+      <span style="display:block;height:2.5px;width:22px;background:var(--accent);border-radius:2px"></span>
+      <span style="display:block;height:2.5px;width:22px;background:var(--accent);border-radius:2px"></span>
     </button>
     <div class="topbar-logo"><i class="fa-solid fa-fire"></i> Community</div>
     <div class="channel-name" id="channelLabel">
       <i class="fa-solid fa-hashtag"></i> <span id="channelNameText">umum</span>
     </div>
     <div class="topbar-actions">
+      <div class="icon-btn" onclick="toggleSearch()" title="Cari Pesan" id="searchBtn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="icon-btn" onclick="openWhisperModal()" title="Kirim Bisikan">
         <i class="fa-solid fa-user-secret"></i>
       </div>
@@ -1107,6 +1605,27 @@ audio.msg-audio::-webkit-media-controls-panel {
 
       <div class="divider"></div>
 
+      <!-- Groups -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">
+          Grup
+          <button onclick="openCreateGroupModal()" title="Buat Grup"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div id="groupList" style="display:flex;flex-direction:column;gap:2px"></div>
+        <div style="margin-top:6px">
+          <button onclick="openJoinGroupModal()" style="
+            width:100%;padding:7px 10px;border-radius:10px;border:1px dashed var(--border);
+            background:none;color:var(--text3);font-family:var(--font-body);font-size:0.78rem;
+            cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;
+          " onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--accent)'" 
+             onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border)'">
+            <i class="fa-solid fa-right-to-bracket" style="font-size:0.75rem"></i> Join dengan kode
+          </button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
       <!-- DM List -->
       <div class="sidebar-section">
         <div class="sidebar-label">Pesan Langsung</div>
@@ -1125,10 +1644,13 @@ audio.msg-audio::-webkit-media-controls-panel {
 
       <!-- My Profile -->
       <div class="sidebar-footer">
-        <div class="my-avatar" id="myAvatarSidebar" style="background:var(--accent);color:#fff">?</div>
-        <div class="my-info">
+        <div class="avatar-wrap" onclick="openProfileEditModal()" style="cursor:pointer">
+          <div class="my-avatar" id="myAvatarSidebar" style="background:var(--accent);color:#fff">?</div>
+          <div class="avatar-online-dot"></div>
+        </div>
+        <div class="my-info" onclick="openProfileEditModal()" style="cursor:pointer">
           <div class="my-name" id="myNameSidebar">...</div>
-          <div class="my-status">● Online</div>
+          <div id="myRoleBadgeSidebar"></div>
         </div>
         <div class="icon-btn" onclick="doLogout()" title="Keluar" style="width:30px;height:30px;border-radius:8px">
           <i class="fa-solid fa-right-from-bracket"></i>
@@ -1138,6 +1660,27 @@ audio.msg-audio::-webkit-media-controls-panel {
 
     <!-- CHAT AREA -->
     <div class="chat-area" style="position:relative">
+
+      <!-- Pinned Message Bar -->
+      <div class="pinned-bar" id="pinnedBar" onclick="scrollToPinned()">
+        <i class="fa-solid fa-thumbtack"></i>
+        <span class="pinned-label">DISEMATKAN</span>
+        <span class="pinned-text" id="pinnedText"></span>
+        <i class="fa-solid fa-chevron-right" style="color:var(--text3);font-size:0.7rem;flex-shrink:0"></i>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar" id="searchBar">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--text3);font-size:0.85rem;flex-shrink:0"></i>
+        <input class="search-input" id="searchInput" placeholder="Cari pesan..." oninput="searchMessages(this.value)">
+        <button class="icon-btn" onclick="toggleSearch()" style="width:30px;height:30px;flex-shrink:0">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="search-results" id="searchResults" style="display:none"></div>
+
+      <!-- Slow Mode Timer -->
+      <div id="slowModeTimer" style="display:none" class="slow-mode-timer"></div>
 
       <!-- Messages -->
       <div class="chat-messages" id="chatMessages">
@@ -1179,6 +1722,9 @@ audio.msg-audio::-webkit-media-controls-panel {
               <button class="input-btn" onclick="toggleEmojiPicker()" title="Emoji">
                 <i class="fa-regular fa-face-smile"></i>
               </button>
+              <button class="input-btn" onclick="toggleGifPicker()" title="GIF" id="gifBtn">
+                <span style="font-size:0.65rem;font-weight:800;letter-spacing:-0.5px">GIF</span>
+              </button>
               <button class="input-btn" onclick="document.getElementById('fileInput').click()" title="Lampiran">
                 <i class="fa-solid fa-paperclip"></i>
               </button>
@@ -1196,6 +1742,106 @@ audio.msg-audio::-webkit-media-controls-panel {
         <div class="emoji-grid" id="emojiGrid"></div>
       </div>
 
+      <!-- GIF Picker -->
+      <div class="gif-picker" id="gifPicker">
+        <div class="gif-search-wrap">
+          <input class="gif-search" id="gifSearch" placeholder="Cari GIF (Tenor)..." oninput="searchGifs(this.value)">
+        </div>
+        <div class="gif-grid" id="gifGrid">
+          <div class="gif-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat GIF...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GROUP PANEL -->
+    <div class="group-panel" id="groupPanel">
+      <div class="group-header">
+        <div class="group-avatar" id="groupPanelAvatar" style="width:36px;height:36px;border-radius:12px;font-size:0.65rem;font-weight:800;flex-shrink:0;display:flex;align-items:center;justify-content:center">G</div>
+        <div class="group-header-info">
+          <div class="group-header-name" id="groupPanelName">
+            <i class="fa-solid fa-users" style="font-size:0.75rem;color:var(--accent)"></i>
+            <span>Grup</span>
+          </div>
+          <div class="group-header-meta" id="groupPanelMeta">0 anggota</div>
+        </div>
+        <button class="icon-btn" onclick="toggleGroupMembersPanel()" id="groupMembersBtn" title="Anggota" style="width:32px;height:32px;border-radius:8px">
+          <i class="fa-solid fa-users"></i>
+        </button>
+        <button class="icon-btn" onclick="toggleGroupManageMenu()" id="groupManageBtn" title="Pengaturan" style="width:32px;height:32px;border-radius:8px">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        <button class="icon-btn" onclick="closeGroupPanel()" style="width:32px;height:32px;border-radius:8px">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Locked banner (only chat allowed for admin) -->
+      <div class="group-locked-bar" id="groupLockedBar" style="display:none">
+        <i class="fa-solid fa-lock"></i>
+        <span>Grup ini dikunci — hanya admin yang bisa mengirim pesan.</span>
+      </div>
+
+      <div class="chat-messages" id="groupMessages" style="flex:1;overflow-y:auto;padding:12px 16px"></div>
+
+      <!-- Group Reply Bar -->
+      <div class="reply-bar" id="groupReplyBar">
+        <div class="reply-bar-content" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <i class="fa-solid fa-reply" style="color:var(--accent);font-size:0.75rem;flex-shrink:0"></i>
+          <span id="groupReplyBarText" style="font-size:0.78rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span>
+        </div>
+        <button class="reply-close" onclick="cancelGroupReply()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="chat-input-area" id="groupInputArea" style="border-top:1px solid var(--border)">
+        <div class="chat-input-wrap">
+          <div class="chat-input-inner">
+            <textarea
+              class="chat-input" id="groupInput"
+              placeholder="Kirim pesan ke grup..."
+              rows="1"
+              onkeydown="handleGroupKey(event)"
+              oninput="autoResize(this)"
+            ></textarea>
+            <div class="input-actions">
+              <button class="input-btn" onclick="toggleGroupEmojiPicker()" title="Emoji">
+                <i class="fa-regular fa-face-smile"></i>
+              </button>
+            </div>
+          </div>
+          <button class="send-btn" onclick="sendGroupMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- Group Member List Panel -->
+      <div class="group-members-panel" id="groupMembersPanel">
+        <div class="gm-title">Anggota Grup</div>
+        <div id="groupMembersList"></div>
+      </div>
+
+      <!-- Group Manage Menu -->
+      <div class="group-manage-menu" id="groupManageMenu">
+        <div class="gmenu-item" onclick="copyGroupCode()">
+          <i class="fa-solid fa-copy"></i> Salin Kode Undangan
+        </div>
+        <div class="gmenu-item" id="groupSettingsMenuItem" onclick="openGroupSettingsModal()">
+          <i class="fa-solid fa-gear"></i> Pengaturan Grup
+        </div>
+        <div class="gmenu-item" id="groupLockMenuItem" onclick="toggleGroupLock()">
+          <i class="fa-solid fa-lock"></i> Kunci Grup
+        </div>
+        <div class="gmenu-item" onclick="leaveCurrentGroup()">
+          <i class="fa-solid fa-right-from-bracket"></i> Keluar Grup
+        </div>
+        <div class="gmenu-item danger" id="groupDeleteMenuItem" onclick="deleteCurrentGroup()">
+          <i class="fa-solid fa-trash"></i> Hapus Grup
+        </div>
+      </div>
+
+      <!-- Group Emoji Picker -->
+      <div class="emoji-picker" id="groupEmojiPicker" style="bottom:80px;right:16px">
+        <div class="emoji-grid" id="groupEmojiGrid"></div>
+      </div>
     </div>
 
     <!-- DM PANEL -->
@@ -1383,6 +2029,13 @@ let notifCount     = 0;
 let popupTarget    = null;
 let onlineUsers    = {};
 let allUsers       = {};
+let userRoles      = {};   // { uid: 'owner'|'mod'|'member' }
+let pinnedMessages = {};   // { channel: { key, text } }
+let slowModeTimer  = null;
+let lastSentTime   = 0;
+const SLOW_MODE_SECONDS = 0; // 0 = off, set via admin
+let reportTarget   = null;
+let searchOpen     = false;
 
 const AVATARS = ['🦅','🐉','🦁','🌙','⚡','🎯','🔥','🌊','🎸','🌺','🦊','🐺'];
 const COLORS  = ['#dc1e3c','#e0624e','#e0974e','#d4b84e','#6ab84e','#4eb8a0','#4e8ad4','#7c6ed4','#c06ed4','#d46ea0'];
@@ -1504,6 +2157,13 @@ function initApp() {
   listenTyping('umum');
   listenDMs();
   initEmojis();
+  loadRoles();
+  listenPinned('umum');
+  listenChannelReads('umum');
+  markCurrentChannelRead();
+  initColorPicker();
+  loadTrendingGifs();
+  initGroups();
 
   const savedTheme = localStorage.getItem(`theme_${currentUser.uid}`) || 'crimson';
   setTheme(savedTheme, false);
@@ -1570,6 +2230,9 @@ window.switchChannel = function(ch) {
   cancelReply();
   loadChannel(ch);
   listenTyping(ch);
+  listenPinned(ch);
+  listenChannelReads(ch);
+  markCurrentChannelRead();
 };
 
 function loadChannel(ch) {
@@ -1608,7 +2271,7 @@ function loadChannel(ch) {
     if (isAtBottom || msg.uid === currentUser?.uid) scrollToBottom();
     if (!firstLoad && msg.uid !== currentUser?.uid && document.hidden) showNotif();
     if (msg.type === 'whisper' && msg.targetUid === currentUser?.uid)
-      showToast(`💬 Bisikan dari @${getUserName(msg.uid)}`, 'whisper-toast');
+      showToast(`<i class="fa-solid fa-user-secret"></i> Bisikan dari @${getUserName(msg.uid)}`, 'whisper-toast');
   });
 
   // ★ Hapus pesan realtime (dari user lain)
@@ -1664,13 +2327,19 @@ function renderMessage(msg, key, container) {
   }
 
   const whisperBadge = isWhisper
-    ? `<span class="msg-badge" style="background:rgba(201,122,255,0.15);color:var(--whisper)">🤫 bisik→@${escHtml(getUserName(msg.targetUid))}</span>` : '';
+    ? `<span class="msg-badge" style="background:rgba(201,122,255,0.15);color:var(--whisper)"><i class="fa-solid fa-user-secret" style="margin-right:3px;font-size:0.65rem"></i>bisik→@${escHtml(getUserName(msg.targetUid))}</span>` : '';
 
   const imageHTML = msg.imageUrl
     ? `<img src="${escHtml(msg.imageUrl)}" class="msg-image" onclick="openPhotoModal('${escHtml(msg.imageUrl)}','${escHtml(name)}','${escHtml(cl)}','${escHtml(em)}','${escHtml(formatTime(msg.timestamp))}')" loading="lazy">`
     : '';
   const audioHTML = msg.audioUrl
-    ? `<audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>`
+    ? `<div class="msg-audio-wrap">
+        <span class="msg-audio-icon"><i class="fa-solid fa-music"></i></span>
+        <div class="msg-audio-info">
+          <div class="msg-audio-name">${escHtml(msg.audioName || 'Voice Note')}</div>
+          <audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>
+        </div>
+      </div>`
     : '';
   const fileHTML = msg.fileUrl
     ? `<a class="msg-file-attach" href="${escHtml(msg.fileUrl)}" download="${escHtml(msg.fileName||'file')}" target="_blank">
@@ -1726,12 +2395,17 @@ function renderMessage(msg, key, container) {
   setupSwipeReply(group, key, name, msg.text||'', msg.uid);
 
   group.innerHTML = `
-    <div class="msg-avatar" style="background:${cl};color:#fff" onclick="openProfilePopup('${msg.uid}', this)">${em}</div>
+    <div class="avatar-wrap">
+      <div class="msg-avatar" style="background:${cl};color:#fff" onclick="openProfilePopup('${msg.uid}', this)">${em}</div>
+      ${onlineUsers[msg.uid] ? '<div class="avatar-online-dot"></div>' : ''}
+    </div>
     <div class="msg-content">
       <div class="msg-header">
         <span class="msg-author" onclick="openProfilePopup('${msg.uid}', this)">${escHtml(name)}</span>
+        ${getRoleBadgeHTML(msg.uid)}
         ${whisperBadge}
         <span class="msg-time">${formatTime(msg.timestamp)}</span>
+        ${msg.edited ? '<span class="msg-edited">(diedit)</span>' : ''}
       </div>
       ${replyHTML}
       ${hasText || mediaHTML ? `
@@ -1740,13 +2414,20 @@ function renderMessage(msg, key, container) {
           ${mediaHTML}
         </div>` : ''}
       <div class="msg-reactions-wrap">${reactions ? `<div class="msg-reactions">${reactions}</div>` : ''}</div>
+      ${isOwn ? `<div class="msg-receipt receipt-sent" data-ts="${msg.timestamp}" data-key="${key}">
+        <span class="receipt-icon">✓</span>
+      </div>` : ''}
     </div>
     <div class="msg-actions">
       <button class="msg-action-btn" onclick="setReply('${key}','${escHtml(name)}','${escHtml((msg.text||'').slice(0,60))}','${msg.uid}')" title="Balas"><i class="fa-solid fa-reply"></i></button>
       <button class="msg-action-btn" onclick="addReaction('${key}','👍')" title="👍">👍</button>
       <button class="msg-action-btn" onclick="addReaction('${key}','❤️')" title="❤️">❤️</button>
       <button class="msg-action-btn" onclick="addReaction('${key}','😂')" title="😂">😂</button>
-      ${isOwn ? `<button class="msg-action-btn" onclick="deleteMessage('${key}')" title="Hapus" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>` : ''}
+      ${isOwn ? `
+        <button class="msg-action-btn" onclick="editMessage('${key}','${escHtml((msg.text||'').replace(/'/g,'\''))}')" title="Edit"><i class="fa-solid fa-pen"></i></button>
+        <button class="msg-action-btn" onclick="deleteMessage('${key}')" title="Hapus" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>
+      ` : `<button class="msg-action-btn" onclick="reportMessage('${key}','${escHtml(name)}')" title="Laporkan" style="color:#ff9900"><i class="fa-solid fa-flag"></i></button>`}
+      ${isAdmin() ? `<button class="msg-action-btn" onclick="pinMessage('${key}','${escHtml((msg.text||'[media]').slice(0,60))}')" title="Sematkan"><i class="fa-solid fa-thumbtack"></i></button>` : ''}
     </div>`;
   container.appendChild(group);
 }
@@ -1768,10 +2449,20 @@ window.sendMessage = async function() {
   const input = document.getElementById('chatInput');
   const text  = input.value.trim();
   if (!text || !currentUser) return;
+  if (!checkSlowMode()) return;
   const msgData = { uid: currentUser.uid, text, timestamp: Date.now(), type: 'public' };
   if (replyTo) msgData.replyTo = replyTo;
   input.value = ''; autoResize(input); cancelReply(); clearTyping();
-  await db.ref(`messages/${currentChannel}`).push(msgData);
+  lastSentTime = Date.now();
+  const ref = await db.ref(`messages/${currentChannel}`).push(msgData);
+  // Link preview — cek apakah ada URL
+  const urls = text.match(/(https?:\/\/[^\s]+)/g);
+  if (urls?.length) {
+    setTimeout(() => {
+      const el = document.querySelector(`[data-key="${ref.key}"]`);
+      if (el) fetchLinkPreview(urls[0], el);
+    }, 500);
+  }
 };
 
 // ── Whisper ──
@@ -1797,7 +2488,7 @@ window.sendWhisper = async function() {
   document.getElementById('whisperMessage').value = '';
   document.getElementById('whisperTarget').value  = '';
   document.getElementById('whisperModal').classList.remove('open');
-  showToast(`🤫 Bisikan terkirim ke @${targetName}`, 'whisper-toast');
+  showToast(`<i class='fa-solid fa-user-secret'></i> Bisikan terkirim ke @${targetName}`, 'whisper-toast');
 };
 
 // ── DM ──
@@ -1834,7 +2525,7 @@ function listenDMs() {
       const unread = sorted.filter(m => m.uid !== currentUser.uid && m.timestamp > lastSeen).length;
       if (unread > 0 && unread > (dmUnread[otherUid] || 0) && dmTarget !== otherUid) {
         playNotifSound();
-        showToast(`💬 ${unread} pesan baru dari @${getUserName(otherUid)}`, 'dm-toast');
+        showToast(`<i class='fa-solid fa-message'></i> ${unread} pesan baru dari @${getUserName(otherUid)}`, 'dm-toast');
       }
       dmUnread[otherUid] = unread;
       myDMs[otherUid] = { roomId, lastMsg, unread };
@@ -1856,9 +2547,9 @@ function renderDMList(myDMs) {
     const item = document.createElement('div');
     item.className = `dm-item${dmTarget === uid ? ' active' : ''}`;
     item.onclick = () => openDmPanel(uid);
-    const preview = lastMsg?.imageUrl ? '🖼️ Gambar'
-      : lastMsg?.audioUrl ? '🎵 Voice note'
-      : lastMsg?.fileUrl  ? `📎 ${lastMsg.fileName||'File'}`
+    const preview = lastMsg?.imageUrl ? '<i class="fa-solid fa-image"></i> Gambar'
+      : lastMsg?.audioUrl ? '<i class="fa-solid fa-music"></i> Voice note'
+      : lastMsg?.fileUrl  ? `<i class="fa-solid fa-paperclip"></i> ${lastMsg.fileName||'File'}`
       : (lastMsg?.text||'...');
     item.innerHTML = `
       <div class="dm-avatar" style="background:${cl};color:#fff;width:28px;height:28px;font-size:0.62rem;font-weight:800;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center">
@@ -1923,6 +2614,9 @@ function openDmPanel(uid) {
   cancelDmReply();
   initDmEmojis();
   closeProfilePopup();
+  // Read receipts
+  markDmRead(roomId);
+  listenDmReadReceipts(roomId, currentUser.uid);
 }
 
 window.closeDmPanel = function() {
@@ -1943,7 +2637,13 @@ function renderDmMessage(msg, key, container) {
     ? `<img src="${escHtml(msg.imageUrl)}" class="msg-image" onclick="openPhotoModal('${escHtml(msg.imageUrl)}','${escHtml(name)}','${escHtml(cl)}','${escHtml(em)}','${escHtml(formatTime(msg.timestamp))}')" loading="lazy">`
     : '';
   const audioHTML = msg.audioUrl
-    ? `<audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>` : '';
+    ? `<div class="msg-audio-wrap">
+        <span class="msg-audio-icon"><i class="fa-solid fa-music"></i></span>
+        <div class="msg-audio-info">
+          <div class="msg-audio-name">${escHtml(msg.audioName || 'Voice Note')}</div>
+          <audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>
+        </div>
+      </div>` : '';
   const fileHTML  = msg.fileUrl
     ? `<a class="msg-file-attach" href="${escHtml(msg.fileUrl)}" download="${escHtml(msg.fileName||'file')}" target="_blank">
         <span class="msg-file-icon">${getFileIcon(msg.fileType||'')}</span>
@@ -1979,6 +2679,9 @@ function renderDmMessage(msg, key, container) {
       ${replyHTML}
       ${hasText || mediaHTML ? `<div class="msg-bubble">${hasText ? formatText(msg.text) : ''}${mediaHTML}</div>` : ''}
       <div class="msg-reactions-wrap">${reactions ? `<div class="msg-reactions">${reactions}</div>` : ''}</div>
+      ${isOwn ? `<div class="msg-receipt receipt-sent" data-ts="${msg.timestamp}" data-key="${key}" data-dm="1">
+        <span class="receipt-icon">✓</span>
+      </div>` : ''}
     </div>
     <div class="msg-actions">
       <button class="msg-action-btn" onclick="setDmReply('${key}','${escHtml(name)}','${escHtml((msg.text||'').slice(0,60))}','${msg.uid}')" title="Balas"><i class="fa-solid fa-reply"></i></button>
@@ -2087,7 +2790,7 @@ window.deleteMessage = function(key) {
   overlay.className = 'delete-confirm';
   overlay.innerHTML = `
     <div class="delete-confirm-box">
-      <h3>🗑️ Hapus Pesan</h3>
+      <h3><i class="fa-solid fa-trash" style="color:var(--accent);margin-right:6px"></i>Hapus Pesan</h3>
       <p>Pesan ini akan dihapus permanen untuk semua orang.</p>
       <div class="delete-confirm-btns">
         <button class="delete-cancel" onclick="this.closest('.delete-confirm').remove()">Batal</button>
@@ -2257,13 +2960,13 @@ window.toggleEmojiPicker = function() { document.getElementById('emojiPicker').c
 
 // ── File ──
 function getFileIcon(mime) {
-  if (mime.startsWith('image/')) return '🖼️';
-  if (mime.startsWith('audio/')) return '🎵';
-  if (mime.startsWith('video/')) return '🎬';
-  if (mime.includes('pdf')) return '📄';
-  if (mime.includes('zip') || mime.includes('rar')) return '🗜️';
-  if (mime.includes('word') || mime.includes('doc')) return '📝';
-  return '📎';
+  if (mime.startsWith('image/')) return '<i class="fa-solid fa-image"></i>';
+  if (mime.startsWith('audio/')) return '<i class="fa-solid fa-music"></i>';
+  if (mime.startsWith('video/')) return '<i class="fa-solid fa-film"></i>';
+  if (mime.includes('pdf')) return '<i class="fa-solid fa-file-pdf"></i>';
+  if (mime.includes('zip') || mime.includes('rar')) return '<i class="fa-solid fa-file-zipper"></i>';
+  if (mime.includes('word') || mime.includes('doc')) return '<i class="fa-solid fa-file-word"></i>';
+  return '<i class="fa-solid fa-paperclip"></i>';
 }
 function formatFileSize(bytes) {
   if (bytes < 1024) return bytes + ' B';
@@ -2509,7 +3212,7 @@ window.deleteDmMessage = function(key) {
   overlay.className = 'delete-confirm';
   overlay.innerHTML = `
     <div class="delete-confirm-box">
-      <h3>🗑️ Hapus Pesan</h3>
+      <h3><i class="fa-solid fa-trash" style="color:var(--accent);margin-right:6px"></i>Hapus Pesan</h3>
       <p>Pesan ini akan dihapus permanen.</p>
       <div class="delete-confirm-btns">
         <button class="delete-cancel" onclick="this.closest('.delete-confirm').remove()">Batal</button>
@@ -2587,7 +3290,1677 @@ function initDmEmojis() {
     grid.appendChild(btn);
   });
 }
+
+
+// ════════════════════════════════════════════════
+// ── ROLES ──
+// ════════════════════════════════════════════════
+function loadRoles() {
+  db.ref('roles').on('value', snap => {
+    userRoles = snap.val() || {};
+    // Update badge di sidebar
+    const myRole = userRoles[currentUser?.uid] || 'member';
+    const badgeEl = document.getElementById('myRoleBadgeSidebar');
+    if (badgeEl) badgeEl.innerHTML = getRoleBadgeHTML(currentUser?.uid);
+  });
+}
+
+function getRoleBadgeHTML(uid) {
+  const role = userRoles[uid];
+  if (!role || role === 'member') return '';
+  const labels = { owner:'<i class="fa-solid fa-crown"></i> Owner', mod:'<i class="fa-solid fa-shield"></i> Mod' };
+  const cls    = { owner:'role-owner', mod:'role-mod' };
+  return `<span class="role-badge ${cls[role]||''}">${labels[role]||role}</span>`;
+}
+
+function isAdmin() {
+  const role = userRoles[currentUser?.uid];
+  return role === 'owner' || role === 'mod';
+}
+
+// ════════════════════════════════════════════════
+// ── SEARCH ──
+// ════════════════════════════════════════════════
+window.toggleSearch = function() {
+  searchOpen = !searchOpen;
+  const bar = document.getElementById('searchBar');
+  const results = document.getElementById('searchResults');
+  if (searchOpen) {
+    bar.classList.add('open');
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').value = '';
+    results.style.display = 'none';
+  } else {
+    bar.classList.remove('open');
+    results.style.display = 'none';
+  }
+};
+
+let searchTimer = null;
+
+window.searchMessages = function(query) {
+  const results = document.getElementById('searchResults');
+  clearTimeout(searchTimer);
+
+  if (!query || query.length < 2) {
+    results.style.display = 'none';
+    return;
+  }
+
+  // Tampilkan loading
+  results.style.display = 'block';
+  results.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text3);font-size:0.8rem"><i class="fa-solid fa-spinner fa-spin"></i> Mencari...</div>';
+
+  searchTimer = setTimeout(async () => {
+    try {
+      // Ambil semua pesan dari channel aktif langsung dari Firebase
+      const snap = await db.ref(`messages/${currentChannel}`)
+        .orderByChild('timestamp')
+        .limitToLast(300)
+        .get();
+
+      if (!snap.exists()) {
+        results.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text3);font-size:0.8rem">Tidak ditemukan</div>';
+        return;
+      }
+
+      const q = query.toLowerCase();
+      const matches = [];
+
+      snap.forEach(child => {
+        const msg = child.val();
+        if (!msg.text || msg.type === 'system') return;
+        if (msg.text.toLowerCase().includes(q)) {
+          matches.push({ key: child.key, msg, query: q });
+        }
+      });
+
+      // Balik urutan — terbaru di atas
+      matches.reverse();
+
+      if (!matches.length) {
+        results.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text3);font-size:0.8rem">Tidak ada pesan yang cocok</div>';
+        return;
+      }
+
+      window._searchMatches = matches;
+
+      results.innerHTML = matches.slice(0, 20).map((m, i) => {
+        const author = getUserName(m.msg.uid);
+        const time   = formatTime(m.msg.timestamp);
+        const text   = m.msg.text.slice(0, 100);
+        const hi     = escHtml(text).replace(
+          new RegExp(escHtml(query), 'gi'),
+          t => `<mark>${t}</mark>`
+        );
+        return `<div class="search-result-item" onclick="scrollToSearchResult(${i})">
+          <div class="search-result-author">${escHtml(author)} <span class="search-result-time">${escHtml(time)}</span></div>
+          <div class="search-result-text">${hi}</div>
+        </div>`;
+      }).join('');
+
+    } catch(e) {
+      results.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text3);font-size:0.8rem">Gagal mencari</div>';
+    }
+  }, 400);
+};
+
+window.scrollToSearchResult = function(i) {
+  const m = window._searchMatches?.[i];
+  if (!m) return;
+
+  // Tutup search UI
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('searchBar').classList.remove('open');
+  searchOpen = false;
+
+  // Cek apakah pesan sudah ada di DOM
+  const existing = document.querySelector(`[data-key="${m.key}"]`);
+  if (existing) {
+    existing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    existing.style.transition = 'background 0.3s';
+    existing.style.background = 'rgba(255,200,50,0.12)';
+    setTimeout(() => { existing.style.background = ''; }, 1500);
+    return;
+  }
+
+  // Belum ada di DOM — render sementara lalu scroll
+  showToast('<i class="fa-solid fa-location-dot"></i> Memuat pesan...');
+  const container = document.getElementById('chatMessages');
+  const tempDiv = document.createElement('div');
+  tempDiv.style.cssText = 'text-align:center;padding:8px;color:var(--text3);font-size:0.75rem';
+  tempDiv.textContent = '↑ Pesan ditemukan di atas';
+  container.prepend(tempDiv);
+  setTimeout(() => tempDiv.remove(), 2000);
+};
+
+// ════════════════════════════════════════════════
+// ── PINNED MESSAGE ──
+// ════════════════════════════════════════════════
+function listenPinned(ch) {
+  db.ref(`pinned/${ch}`).on('value', snap => {
+    const data = snap.val();
+    const bar  = document.getElementById('pinnedBar');
+    const txt  = document.getElementById('pinnedText');
+    if (data && data.text) {
+      pinnedMessages[ch] = data;
+      txt.textContent = data.text;
+      bar.classList.add('show');
+    } else {
+      pinnedMessages[ch] = null;
+      bar.classList.remove('show');
+    }
+  });
+}
+
+window.pinMessage = async function(key, text) {
+  if (!isAdmin()) return;
+  await db.ref(`pinned/${currentChannel}`).set({ key, text, pinnedBy: currentUser.uid, t: Date.now() });
+  showToast('<i class="fa-solid fa-thumbtack"></i> Pesan disematkan!');
+};
+
+window.scrollToPinned = function() {
+  const pinData = pinnedMessages[currentChannel];
+  if (!pinData) return;
+  const el = document.querySelector(`[data-key="${pinData.key}"]`);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.background='rgba(255,200,50,0.12)'; setTimeout(()=>el.style.background='',1500); }
+};
+
+// ════════════════════════════════════════════════
+// ── EDIT MESSAGE ──
+// ════════════════════════════════════════════════
+window.editMessage = function(key, currentText) {
+  const el = document.querySelector(`[data-key="${key}"]`);
+  if (!el) return;
+  const bubble = el.querySelector('.msg-bubble');
+  if (!bubble) return;
+  const origHTML = bubble.innerHTML;
+
+  bubble.innerHTML = `
+    <textarea class="edit-input" id="editInput_${key}" rows="2">${escHtml(currentText)}</textarea>
+    <div class="edit-input-wrap">
+      <button class="edit-save-btn" onclick="saveEdit('${key}')">Simpan</button>
+      <button class="edit-cancel-btn" onclick="cancelEdit('${key}','${encodeURIComponent(origHTML)}')">Batal</button>
+    </div>`;
+  const ta = document.getElementById(`editInput_${key}`);
+  if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+};
+
+window.saveEdit = async function(key) {
+  const ta = document.getElementById(`editInput_${key}`);
+  if (!ta) return;
+  const newText = ta.value.trim();
+  if (!newText) return;
+  await db.ref(`messages/${currentChannel}/${key}`).update({ text: newText, edited: true });
+  // DOM update immediately
+  const el = document.querySelector(`[data-key="${key}"]`);
+  if (el) {
+    const bubble = el.querySelector('.msg-bubble');
+    if (bubble) bubble.innerHTML = formatText(newText);
+    const header = el.querySelector('.msg-header');
+    if (header && !header.querySelector('.msg-edited')) {
+      header.insertAdjacentHTML('beforeend', '<span class="msg-edited">(diedit)</span>');
+    }
+  }
+};
+
+window.cancelEdit = function(key, origHTML) {
+  const el = document.querySelector(`[data-key="${key}"]`);
+  if (!el) return;
+  const bubble = el.querySelector('.msg-bubble');
+  if (bubble) bubble.innerHTML = decodeURIComponent(origHTML);
+};
+
+// ════════════════════════════════════════════════
+// ── REPORT MESSAGE ──
+// ════════════════════════════════════════════════
+window.reportMessage = function(key, authorName) {
+  reportTarget = { key, authorName };
+  document.getElementById('reportModal').classList.add('open');
+};
+window.closeReportModal = function() {
+  document.getElementById('reportModal').classList.remove('open');
+  document.querySelectorAll('.report-reason').forEach(b => b.classList.remove('selected'));
+  reportTarget = null;
+};
+window.selectReportReason = async function(btn, reason) {
+  document.querySelectorAll('.report-reason').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  if (!reportTarget) return;
+  await db.ref('reports').push({
+    key: reportTarget.key, author: reportTarget.authorName,
+    reason, reportedBy: currentUser.uid,
+    channel: currentChannel, timestamp: Date.now()
+  });
+  closeReportModal();
+  showToast('<i class="fa-solid fa-flag"></i> Laporan terkirim, terima kasih!');
+};
+
+// ════════════════════════════════════════════════
+// ── PROFILE EDIT ──
+// ════════════════════════════════════════════════
+const AVATAR_COLORS = ['#dc1e3c','#e0624e','#e0974e','#d4b84e','#6ab84e','#4eb8a0','#4e8ad4','#7c6ed4','#c06ed4','#d46ea0'];
+let selectedAvatarColor = null;
+
+function initColorPicker() {
+  const row = document.getElementById('colorPickerRow');
+  if (!row) return;
+  AVATAR_COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.style.background = c;
+    sw.dataset.color = c;
+    sw.onclick = () => {
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+      sw.classList.add('selected');
+      selectedAvatarColor = c;
+      const av = document.getElementById('profileEditAvatar');
+      if (av) av.style.background = c;
+    };
+    row.appendChild(sw);
+  });
+}
+
+window.openProfileEditModal = function() {
+  const modal = document.getElementById('profileEditModal');
+  const uid   = currentUser?.uid;
+  const udata = allUsers[uid] || {};
+  const color = udata.avatarColor || getAvatarColor(uid);
+  const init  = getAvatarInitial(uid);
+
+  const av = document.getElementById('profileEditAvatar');
+  av.textContent = init; av.style.background = color; av.style.color = '#fff';
+  document.getElementById('profileEditUsername').value = udata.username || '';
+  document.getElementById('profileEditBio').value = udata.bio || '';
+  selectedAvatarColor = color;
+  // Mark current color
+  document.querySelectorAll('.color-swatch').forEach(s => {
+    s.classList.toggle('selected', s.dataset.color === color);
+  });
+  modal.classList.add('open');
+};
+window.closeProfileEditModal = function() {
+  document.getElementById('profileEditModal').classList.remove('open');
+};
+
+window.saveProfile = async function() {
+  const username = document.getElementById('profileEditUsername').value.trim().toLowerCase();
+  const bio      = document.getElementById('profileEditBio').value.trim();
+  if (!username || username.length < 2) { showToast('Username minimal 2 karakter!'); return; }
+  if (!/^[a-z0-9_]+$/i.test(username)) { showToast('Username hanya huruf, angka, underscore!'); return; }
+
+  const uid = currentUser.uid;
+  // Cek username unik (kecuali milik sendiri)
+  const snap = await db.ref('users').get();
+  if (snap.exists()) {
+    const taken = Object.entries(snap.val()).find(([id, u]) => u.username === username && id !== uid);
+    if (taken) { showToast('Username sudah dipakai!'); return; }
+  }
+
+  const updates = { username, bio };
+  if (selectedAvatarColor) updates.avatarColor = selectedAvatarColor;
+  await db.ref(`users/${uid}`).update(updates);
+
+  // Update local state
+  if (!allUsers[uid]) allUsers[uid] = {};
+  Object.assign(allUsers[uid], updates);
+  localStorage.setItem('community_username', username);
+
+  // Update UI
+  document.getElementById('myNameSidebar').textContent = username;
+  const av = document.getElementById('myAvatarSidebar');
+  av.textContent = getAvatarInitial(uid);
+  if (selectedAvatarColor) av.style.background = selectedAvatarColor;
+
+  closeProfileEditModal();
+  showToast('<i class="fa-solid fa-circle-check"></i> Profil berhasil diperbarui!');
+};
+
+// ════════════════════════════════════════════════
+// ── GIF PICKER (Tenor) ──
+// ════════════════════════════════════════════════
+const TENOR_KEY = 'AIzaSyDpi1QBcl8FuuET-2u64nM32-Flaptgh4s'; // reuse API key as placeholder
+let gifSearchTimer = null;
+
+async function fetchGifs(query) {
+  const grid = document.getElementById('gifGrid');
+  grid.innerHTML = '<div class="gif-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</div>';
+  try {
+    const term = encodeURIComponent(query || 'trending');
+    // Use Tenor v2 API
+    const url = `https://tenor.googleapis.com/v2/${query?'search':'featured'}?q=${term}&key=AIzaSyC9pEpPXDfD6zAUmXJOSLIBMZzNUE5PJSI&limit=12&media_filter=gif`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (!data.results?.length) { grid.innerHTML = '<div class="gif-loading">Tidak ada hasil</div>'; return; }
+    grid.innerHTML = '';
+    data.results.forEach(gif => {
+      const url   = gif.media_formats?.gif?.url || gif.media_formats?.tinygif?.url;
+      const preview = gif.media_formats?.tinygif?.url || url;
+      if (!url) return;
+      const item = document.createElement('div');
+      item.className = 'gif-item';
+      item.innerHTML = `<img src="${preview}" loading="lazy" alt="${escHtml(gif.content_description||'')}">`;
+      item.onclick = () => sendGif(url);
+      grid.appendChild(item);
+    });
+  } catch(e) {
+    grid.innerHTML = '<div class="gif-loading">Gagal load GIF</div>';
+  }
+}
+
+function loadTrendingGifs() { /* lazy load saat picker dibuka */ }
+
+window.toggleGifPicker = function() {
+  const picker = document.getElementById('gifPicker');
+  picker.classList.toggle('open');
+  if (picker.classList.contains('open') && !document.getElementById('gifGrid').children.length) {
+    fetchGifs('');
+  }
+};
+
+window.searchGifs = function(q) {
+  clearTimeout(gifSearchTimer);
+  gifSearchTimer = setTimeout(() => fetchGifs(q), 500);
+};
+
+async function sendGif(gifUrl) {
+  document.getElementById('gifPicker').classList.remove('open');
+  // Kirim sebagai pesan dengan imageUrl (GIF URL)
+  const msgData = { uid: currentUser.uid, text:'', imageUrl: gifUrl, timestamp: Date.now(), type:'public', isGif: true };
+  if (replyTo) { msgData.replyTo = replyTo; cancelReply(); }
+  await db.ref(`messages/${currentChannel}`).push(msgData);
+}
+
+// ════════════════════════════════════════════════
+// ── DM READ RECEIPTS ──
+// ════════════════════════════════════════════════
+function updateDmReadReceipts() {
+  if (!dmTarget) return;
+  const roomId = getDmRoomId(currentUser.uid, dmTarget);
+  // Mark semua pesan milik kita sebagai dibaca oleh target
+  db.ref(`dmread/${roomId}/${dmTarget}`).set(Date.now());
+}
+
+function listenDmRead(roomId, otherUid) {
+  db.ref(`dmread/${roomId}/${otherUid}`).on('value', snap => {
+    const readTs = snap.val() || 0;
+    // Update centang biru di pesan kita
+    const dmMsgs = document.getElementById('dmMessages');
+    if (!dmMsgs) return;
+    dmMsgs.querySelectorAll('.msg-group.own').forEach(el => {
+      const key = el.dataset.key;
+      // Ambil timestamp dari data
+      const existing = el.querySelector('.dm-read-receipt');
+      if (existing) existing.remove();
+    });
+  });
+}
+
+// Panggil saat buka DM panel
+const _origOpenDmPanel = window.openDmPanel;
+
+// ════════════════════════════════════════════════
+// ── SLOW MODE ──
+// ════════════════════════════════════════════════
+function checkSlowMode() {
+  if (SLOW_MODE_SECONDS <= 0) return true;
+  const now  = Date.now();
+  const diff = Math.ceil((SLOW_MODE_SECONDS * 1000 - (now - lastSentTime)) / 1000);
+  if (diff > 0) {
+    showToast(`<i class='fa-solid fa-clock'></i> Slow mode: tunggu ${diff} detik lagi`);
+    // Countdown
+    let t = diff;
+    const timerEl = document.getElementById('slowModeTimer');
+    timerEl.style.display = 'block';
+    const iv = setInterval(() => {
+      t--;
+      timerEl.innerHTML = `<i class='fa-solid fa-clock'></i> Slow mode: ${t}s`;
+      if (t <= 0) { clearInterval(iv); timerEl.style.display='none'; }
+    }, 1000);
+    return false;
+  }
+  return true;
+}
+
+// ════════════════════════════════════════════════
+// ── LINK PREVIEW ──
+// ════════════════════════════════════════════════
+const URL_REGEX = /(https?:\/\/[^\s]+)/g;
+
+async function fetchLinkPreview(url, msgEl) {
+  // Gunakan allorigins proxy untuk bypass CORS
+  try {
+    const api = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(api);
+    const data = await res.json();
+    if (!data.contents) return;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data.contents, 'text/html');
+    const title  = doc.querySelector('meta[property="og:title"]')?.content || doc.title || '';
+    const img    = doc.querySelector('meta[property="og:image"]')?.content || '';
+    const domain = new URL(url).hostname.replace('www.','');
+    if (!title) return;
+    const preview = document.createElement('div');
+    preview.className = 'link-preview';
+    preview.onclick = () => window.open(url, '_blank');
+    preview.innerHTML = `
+      ${img ? `<img class="link-preview-img" src="${escHtml(img)}" loading="lazy" onerror="this.remove()">` : ''}
+      <div class="link-preview-body">
+        <div class="link-preview-domain">${escHtml(domain)}</div>
+        <div class="link-preview-title">${escHtml(title.slice(0,80))}</div>
+      </div>`;
+    const bubble = msgEl?.querySelector('.msg-bubble');
+    if (bubble) bubble.appendChild(preview);
+  } catch(e) { /* silent fail */ }
+}
+
+// ════════════════════════════════════════════════
+// ── CLOSE GIF/REPORT/PROFILE MODAL on outside click ──
+// ════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  const gifPicker = document.getElementById('gifPicker');
+  if (gifPicker && !gifPicker.contains(e.target) && !e.target.closest('#gifBtn')) {
+    gifPicker.classList.remove('open');
+  }
+  if (e.target === document.getElementById('reportModal')) closeReportModal();
+  if (e.target === document.getElementById('profileEditModal')) closeProfileEditModal();
+});
+
+
+// ════════════════════════════════════════════════
+// ── READ RECEIPTS ──
+// ════════════════════════════════════════════════
+
+// Helper update icon
+function setReceiptIcon(el, type) {
+  // type: 'sent' | 'delivered' | 'partial' | 'read'
+  const icons = {
+    sent:      '<span class="receipt-icon">✓</span>',
+    delivered: '<span class="receipt-icon">✓✓</span>',
+    partial:   '<span class="receipt-icon">✓✓</span>',
+    read:      '<span class="receipt-icon">✓✓</span>',
+  };
+  el.className = `msg-receipt receipt-${type}`;
+  el.innerHTML = icons[type] || icons.sent;
+}
+
+// ── PUBLIC CHAT: track siapa sudah baca channel sampai timestamp berapa ──
+function markChannelRead(channel, timestamp) {
+  if (!currentUser) return;
+  db.ref(`reads/${channel}/${currentUser.uid}`).set(timestamp);
+}
+
+function listenChannelReads(channel) {
+  db.ref(`reads/${channel}`).on('value', snap => {
+    const reads = snap.val() || {};
+    const totalOnline = Object.keys(onlineUsers).length;
+
+    // Update semua receipt di chat
+    document.querySelectorAll(`#chatMessages .msg-receipt`).forEach(el => {
+      const ts  = parseInt(el.dataset.ts || 0);
+      const key = el.dataset.key;
+      // Hitung berapa orang yg sudah baca pesan ini (ts mereka >= ts pesan)
+      const readers = Object.entries(reads).filter(([uid, rts]) =>
+        uid !== currentUser.uid && rts >= ts
+      );
+      const total = Math.max(1, totalOnline - 1); // exclude self
+      if (readers.length === 0) {
+        setReceiptIcon(el, 'delivered'); // terkirim, belum dibaca
+      } else if (readers.length >= total) {
+        setReceiptIcon(el, 'read'); // semua sudah baca
+      } else {
+        setReceiptIcon(el, 'partial'); // sebagian baca
+      }
+    });
+  });
+}
+
+// Tandai baca saat scroll ke bawah / channel aktif
+function markCurrentChannelRead() {
+  markChannelRead(currentChannel, Date.now());
+}
+
+// ── DM: track siapa baca DM room ──
+function listenDmReadReceipts(roomId, otherUid) {
+  db.ref(`dmread/${roomId}/${otherUid}`).on('value', snap => {
+    const readTs = snap.val() || 0;
+    // Update centang semua pesan own di DM
+    document.querySelectorAll(`#dmMessages .msg-receipt`).forEach(el => {
+      const ts = parseInt(el.dataset.ts || 0);
+      if (readTs >= ts) {
+        setReceiptIcon(el, 'read'); // dibaca (✓✓ hijau)
+      } else {
+        setReceiptIcon(el, 'delivered'); // terkirim belum dibaca (✓✓ abu)
+      }
+    });
+  });
+}
+
+// Tandai DM dibaca saat panel dibuka
+function markDmRead(roomId) {
+  if (!currentUser) return;
+  db.ref(`dmread/${roomId}/${currentUser.uid}`).set(Date.now());
+}
+
+// ════════════════════════════════════════════════
+// ── GROUP SYSTEM ──
+// ════════════════════════════════════════════════
+
+let currentGroupId = null;
+let groupListenerRef = null;
+let groupReplyTo = null;
+let myGroups = {};    // { groupId: groupData }
+let groupListeners = {};
+
+// ── Generate kode grup 6 karakter ──
+function genGroupCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return code;
+}
+
+// ── Init group saat login ──
+function initGroups() {
+  listenMyGroups();
+}
+
+// ── Listen grup yang user ikuti ──
+function listenMyGroups() {
+  if (!currentUser) return;
+  db.ref(`userGroups/${currentUser.uid}`).on('value', async snap => {
+    const data = snap.val() || {};
+    const ids = Object.keys(data);
+    // bersihkan yang sudah gak ada
+    Object.keys(myGroups).forEach(id => {
+      if (!ids.includes(id)) {
+        delete myGroups[id];
+        if (groupListeners[id]) {
+          db.ref(`groups/${id}`).off('value', groupListeners[id]);
+          delete groupListeners[id];
+        }
+      }
+    });
+    // load info tiap grup
+    for (const gid of ids) {
+      if (!groupListeners[gid]) {
+        const listener = db.ref(`groups/${gid}`).on('value', gsnap => {
+          if (gsnap.exists()) {
+            myGroups[gid] = gsnap.val();
+          } else {
+            // grup dihapus, keluar
+            delete myGroups[gid];
+            db.ref(`userGroups/${currentUser.uid}/${gid}`).remove();
+            if (currentGroupId === gid) closeGroupPanel();
+          }
+          renderGroupList();
+          // update header kalau grup aktif ini
+          if (currentGroupId === gid) updateGroupPanelHeader();
+        });
+        groupListeners[gid] = listener;
+      }
+    }
+    renderGroupList();
+  });
+}
+
+function renderGroupList() {
+  const list = document.getElementById('groupList');
+  if (!list) return;
+  list.innerHTML = '';
+  Object.entries(myGroups).forEach(([gid, g]) => {
+    if (!g) return;
+    const isAdmin = g.adminUid === currentUser.uid;
+    const initials = (g.name || 'G').slice(0, 2).toUpperCase();
+    const color = COLORS[(gid.charCodeAt(0) + gid.charCodeAt(1)) % COLORS.length];
+    const div = document.createElement('div');
+    div.className = 'group-item' + (currentGroupId === gid ? ' active' : '');
+    div.onclick = () => openGroupPanel(gid);
+    div.innerHTML = `
+      <div class="group-avatar" style="background:${color}">${initials}</div>
+      <div class="group-item-info">
+        <div class="group-item-name">${escHtml(g.name || 'Grup')} ${g.locked ? '<i class="fa-solid fa-lock" style="font-size:0.6rem;color:#ffb400"></i>' : ''}</div>
+        <div class="group-item-sub">${isAdmin ? 'Admin' : 'Anggota'} · ${Object.keys(g.members || {}).length} member</div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// ── Buka panel grup ──
+window.openGroupPanel = function(gid) {
+  currentGroupId = gid;
+  const panel = document.getElementById('groupPanel');
+  panel.classList.add('open');
+  // close DM if open
+  document.getElementById('dmPanel').classList.remove('open');
+
+  updateGroupPanelHeader();
+  loadGroupMessages(gid);
+  renderGroupList(); // update active state
+
+  // close sidebar on mobile
+  const sidebar = document.getElementById('sidebar');
+  if (window.innerWidth < 768) {
+    sidebar.classList.remove('open');
+    document.getElementById('sidebarOverlay').style.display = 'none';
+  }
+};
+
+function updateGroupPanelHeader() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  const isAdmin = g.adminUid === currentUser.uid;
+  const initials = (g.name || 'G').slice(0, 2).toUpperCase();
+  const color = g.color || COLORS[(currentGroupId.charCodeAt(0) + currentGroupId.charCodeAt(1)) % COLORS.length];
+
+  document.getElementById('groupPanelAvatar').style.background = color;
+  document.getElementById('groupPanelAvatar').textContent = initials;
+  document.getElementById('groupPanelName').innerHTML = `<i class="fa-solid fa-users" style="font-size:0.75rem;color:var(--accent)"></i><span>${escHtml(g.name)}</span>`;
+  const memberCount = Object.keys(g.members || {}).length;
+  const desc = g.desc ? ` · ${g.desc.slice(0,30)}` : '';
+  document.getElementById('groupPanelMeta').textContent = `${memberCount} anggota · Kode: ${g.code}${desc}`;
+
+  // Locked bar
+  const lockedBar = document.getElementById('groupLockedBar');
+  const inputArea = document.getElementById('groupInputArea');
+  if (g.locked && !isAdmin) {
+    lockedBar.style.display = 'flex';
+    inputArea.style.display = 'none';
+  } else {
+    lockedBar.style.display = 'none';
+    inputArea.style.display = 'block';
+  }
+
+  // Manage menu visibility
+  document.getElementById('groupManageBtn').style.display = 'flex';
+  document.getElementById('groupDeleteMenuItem').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('groupLockMenuItem').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('groupSettingsMenuItem').style.display = 'flex';
+  // Update lock label
+  document.getElementById('groupLockMenuItem').innerHTML = g.locked
+    ? '<i class="fa-solid fa-unlock"></i> Buka Kunci Grup'
+    : '<i class="fa-solid fa-lock"></i> Kunci Grup';
+
+  renderGroupMembersList();
+}
+
+window.closeGroupPanel = function() {
+  document.getElementById('groupPanel').classList.remove('open');
+  document.getElementById('groupMembersPanel').classList.remove('open');
+  document.getElementById('groupManageMenu').classList.remove('open');
+  if (groupListenerRef) { groupListenerRef.off(); groupListenerRef = null; }
+  document.getElementById('groupMessages').innerHTML = '';
+  currentGroupId = null;
+  renderGroupList();
+};
+
+// ── Load pesan grup ──
+function loadGroupMessages(gid) {
+  if (groupListenerRef) { groupListenerRef.off(); groupListenerRef = null; }
+  const container = document.getElementById('groupMessages');
+  container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text3)"><div class="spinner" style="margin:0 auto 12px"></div>Memuat...</div>`;
+
+  const gRef = db.ref(`groupMessages/${gid}`);
+  groupListenerRef = gRef;
+  const gQuery = gRef.orderByChild('timestamp').limitToLast(80);
+
+  gQuery.once('value', snap => {
+    const loadingEl = container.querySelector('.spinner')?.parentElement;
+    if (loadingEl) loadingEl.remove();
+    container.innerHTML = '';
+    if (!snap.exists()) {
+      container.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--text3)">
+        <div style="font-size:2rem;margin-bottom:12px"><i class="fa-solid fa-users"></i></div>
+        <div style="font-size:0.85rem">Belum ada pesan di grup ini<br>Kirim pesan pertama!</div>
+      </div>`;
+    }
+  });
+
+  gQuery.on('child_added', snap => {
+    const msg = snap.val(); if (!msg) return;
+    container.querySelector('[style*="padding:60px"]')?.remove();
+    renderGroupMessage(msg, snap.key, container);
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+    if (isAtBottom || msg.uid === currentUser?.uid) container.scrollTop = container.scrollHeight;
+  });
+
+  gQuery.on('child_removed', snap => {
+    const el = container.querySelector(`[data-key="${snap.key}"]`);
+    if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }
+  });
+
+  gQuery.on('child_changed', snap => {
+    const msg = snap.val(); if (!msg) return;
+    const existing = container.querySelector(`[data-key="${snap.key}"]`);
+    if (!existing) return;
+    const wrap = existing.querySelector('.msg-reactions-wrap');
+    if (wrap) {
+      const newReactions = msg.reactions ? renderGroupReactions(msg.reactions, snap.key) : '';
+      wrap.innerHTML = newReactions ? `<div class="msg-reactions">${newReactions}</div>` : '';
+    }
+  });
+}
+
+// ── Render pesan grup ──
+function renderGroupMessage(msg, key, container) {
+  const isOwn = msg.uid === currentUser?.uid;
+  const uname = getUserName(msg.uid);
+  const cl = allUsers[msg.uid]?.avatarColor || getAvatarColor(msg.uid);
+  const initials = getAvatarInitial(msg.uid);
+  const timeStr = new Date(msg.timestamp).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'});
+
+  const div = document.createElement('div');
+  div.className = `msg-group${isOwn ? ' own' : ''}`;
+  div.dataset.key = key;
+  div.dataset.uid = msg.uid;
+
+  let replyHtml = '';
+  if (msg.replyTo) {
+    replyHtml = `<div class="msg-reply-quote"><i class="fa-solid fa-reply" style="margin-right:5px"></i>${escHtml(msg.replyTo.name)}: ${escHtml((msg.replyTo.text||'').slice(0,60))}</div>`;
+  }
+
+  let contentHtml = '';
+  if (msg.type === 'image') {
+    contentHtml = `<img src="${escHtml(msg.imageUrl)}" style="max-width:240px;max-height:240px;border-radius:10px;display:block;cursor:pointer" onclick="openPhotoModal('${escHtml(msg.imageUrl)}','${escHtml(uname)}',${msg.timestamp})">`;
+  } else {
+    contentHtml = `<span>${formatText(msg.text || '')}</span>`;
+  }
+
+  const isGroupAdmin = myGroups[currentGroupId]?.adminUid === currentUser?.uid;
+  const canDelete = isOwn || isGroupAdmin;
+  const reactionsHtml = msg.reactions ? `<div class="msg-reactions">${renderGroupReactions(msg.reactions, key)}</div>` : '';
+
+  div.innerHTML = `
+    <div class="msg-avatar" style="background:${cl};color:#fff">${initials}</div>
+    <div class="msg-content">
+      <div class="msg-header">
+        <span class="msg-author">${escHtml(uname)}</span>
+        <span class="msg-time">${timeStr}</span>
+      </div>
+      <div class="msg-bubble">
+        ${replyHtml}
+        ${contentHtml}
+      </div>
+      <div class="msg-reactions-wrap">${reactionsHtml}</div>
+    </div>
+    <div class="msg-actions">
+      <button class="msg-action-btn" onclick="setGroupReply('${key}','${escHtml(uname)}','${escHtml((msg.text||'').slice(0,60)).replace(/'/g,"\\'")}')"><i class="fa-solid fa-reply"></i></button>
+      <button class="msg-action-btn" onclick="reactGroupMsg('${key}')"><i class="fa-regular fa-face-smile"></i></button>
+      ${canDelete ? `<button class="msg-action-btn" onclick="deleteGroupMsg('${key}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+// ── Kirim pesan grup ──
+window.sendGroupMessage = function() {
+  if (!currentGroupId || !currentUser) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  // Cek lock
+  if (g.locked && g.adminUid !== currentUser.uid) {
+    showToast('<i class="fa-solid fa-lock"></i> Grup dikunci, hanya admin yang bisa chat');
+    return;
+  }
+  const input = document.getElementById('groupInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msgData = {
+    uid: currentUser.uid,
+    text,
+    timestamp: Date.now(),
+  };
+  if (groupReplyTo) {
+    msgData.replyTo = groupReplyTo;
+    cancelGroupReply();
+  }
+
+  db.ref(`groupMessages/${currentGroupId}`).push(msgData);
+  // update last message
+  db.ref(`groups/${currentGroupId}/lastMsg`).set({ text, ts: Date.now(), uid: currentUser.uid });
+  input.value = '';
+  autoResize(input);
+};
+
+window.handleGroupKey = function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendGroupMessage(); }
+};
+
+// ── Reply di grup ──
+window.setGroupReply = function(key, name, text) {
+  groupReplyTo = { key, name, text };
+  const bar = document.getElementById('groupReplyBar');
+  document.getElementById('groupReplyBarText').textContent = `${name}: ${text}`;
+  bar.classList.add('show');
+  document.getElementById('groupInput').focus();
+};
+window.cancelGroupReply = function() {
+  groupReplyTo = null;
+  document.getElementById('groupReplyBar').classList.remove('show');
+};
+
+// ── Delete pesan grup ──
+window.deleteGroupMsg = function(key) {
+  if (!currentGroupId) return;
+  if (!confirm('Hapus pesan ini?')) return;
+  db.ref(`groupMessages/${currentGroupId}/${key}`).remove();
+};
+
+// ── React grup msg ──
+window.reactGroupMsg = function(key) {
+  const emojis = ['👍','❤️','😂','😮','😢','🔥'];
+  const picked = emojis[Math.floor(Math.random() * emojis.length)];
+  const uid = currentUser.uid;
+  const rRef = db.ref(`groupMessages/${currentGroupId}/${key}/reactions/${picked}/${uid}`);
+  rRef.once('value', snap => {
+    if (snap.exists()) rRef.remove();
+    else rRef.set(true);
+  });
+};
+
+// ── Render reactions (group style: emoji -> {uid: true}) ──
+function renderGroupReactions(reactions, key) {
+  if (!reactions) return '';
+  return Object.entries(reactions).map(([emoji, users]) => {
+    const count = Object.keys(users).length;
+    const reacted = currentUser && users[currentUser.uid];
+    return `<div class="reaction${reacted ? ' reacted' : ''}" onclick="reactGroupMsgEmoji('${key}','${emoji}')">${emoji} <span>${count}</span></div>`;
+  }).join('');
+}
+window.reactGroupMsgEmoji = function(key, emoji) {
+  if (!currentGroupId || !currentUser) return;
+  const rRef = db.ref(`groupMessages/${currentGroupId}/${key}/reactions/${emoji}/${currentUser.uid}`);
+  rRef.once('value', snap => { if (snap.exists()) rRef.remove(); else rRef.set(true); });
+};
+
+// ── Render member list ──
+function renderGroupMembersList() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  const list = document.getElementById('groupMembersList');
+  list.innerHTML = '';
+  const members = g.members || {};
+  Object.entries(members).forEach(([uid, info]) => {
+    const isAdmin = g.adminUid === uid;
+    const uname = allUsers[uid]?.username || info.username || uid.slice(0, 8);
+    const cl = allUsers[uid]?.avatarColor || getAvatarColor(uid);
+    const initials = uname.slice(0, 2).toUpperCase();
+    const div = document.createElement('div');
+    div.className = 'gm-item';
+    div.innerHTML = `
+      <div style="width:26px;height:26px;border-radius:8px;background:${cl};color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;flex-shrink:0">${initials}</div>
+      <span style="font-size:0.82rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(uname)}</span>
+      <span class="gm-role ${isAdmin ? 'admin' : 'member'}">${isAdmin ? 'Admin' : 'Member'}</span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// ── Toggle member panel ──
+window.toggleGroupMembersPanel = function() {
+  const panel = document.getElementById('groupMembersPanel');
+  panel.classList.toggle('open');
+  document.getElementById('groupManageMenu').classList.remove('open');
+  if (panel.classList.contains('open')) renderGroupMembersList();
+};
+
+// ── Toggle manage menu ──
+window.toggleGroupManageMenu = function() {
+  const menu = document.getElementById('groupManageMenu');
+  menu.classList.toggle('open');
+  document.getElementById('groupMembersPanel').classList.remove('open');
+};
+
+// ── Salin kode grup ──
+window.copyGroupCode = function() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  navigator.clipboard.writeText(g.code).then(() => {
+    showToast(`<i class="fa-solid fa-copy"></i> Kode <b>${g.code}</b> disalin!`);
+  });
+  document.getElementById('groupManageMenu').classList.remove('open');
+};
+
+// ── Toggle kunci grup (admin only) ──
+window.toggleGroupLock = function() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g || g.adminUid !== currentUser.uid) return;
+  const newLocked = !g.locked;
+  db.ref(`groups/${currentGroupId}/locked`).set(newLocked);
+  showToast(newLocked
+    ? '<i class="fa-solid fa-lock"></i> Grup dikunci. Hanya admin yang bisa chat.'
+    : '<i class="fa-solid fa-unlock"></i> Grup dibuka. Semua anggota bisa chat.');
+  document.getElementById('groupManageMenu').classList.remove('open');
+  // Kirim pesan sistem
+  db.ref(`groupMessages/${currentGroupId}`).push({
+    type: 'system',
+    text: newLocked ? `${getUserName(currentUser.uid)} mengunci grup` : `${getUserName(currentUser.uid)} membuka kunci grup`,
+    timestamp: Date.now()
+  });
+};
+
+// ── Rename grup ──
+window.openRenameGroupModal = function() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  document.getElementById('renameGroupInput').value = g?.name || '';
+  document.getElementById('renameGroupModal').classList.add('open');
+  document.getElementById('groupManageMenu').classList.remove('open');
+};
+window.closeRenameGroupModal = function() {
+  document.getElementById('renameGroupModal').classList.remove('open');
+};
+window.renameGroup = async function() {
+  const newName = document.getElementById('renameGroupInput').value.trim();
+  if (!newName || newName.length < 2) { showToast('Nama grup minimal 2 karakter!'); return; }
+  if (!currentGroupId) return;
+  await db.ref(`groups/${currentGroupId}/name`).set(newName);
+  showToast('<i class="fa-solid fa-check"></i> Nama grup diubah!');
+  closeRenameGroupModal();
+};
+
+// ── Keluar grup ──
+window.leaveCurrentGroup = async function() {
+  if (!currentGroupId || !currentUser) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  if (g.adminUid === currentUser.uid) {
+    showToast('<i class="fa-solid fa-exclamation-triangle"></i> Admin tidak bisa keluar. Hapus grup atau transfer kepemilikan.', 'warn');
+    document.getElementById('groupManageMenu').classList.remove('open');
+    return;
+  }
+  if (!confirm('Yakin mau keluar dari grup ini?')) return;
+  const gid = currentGroupId;
+  closeGroupPanel();
+  await db.ref(`groups/${gid}/members/${currentUser.uid}`).remove();
+  await db.ref(`userGroups/${currentUser.uid}/${gid}`).remove();
+  // Kirim pesan sistem
+  db.ref(`groupMessages/${gid}`).push({
+    type: 'system', text: `${getUserName(currentUser.uid)} keluar dari grup`, timestamp: Date.now()
+  });
+  showToast('<i class="fa-solid fa-right-from-bracket"></i> Kamu keluar dari grup');
+};
+
+window.deleteCurrentGroup = function() {
+  if (!currentGroupId || !currentUser) return;
+  const g = myGroups[currentGroupId];
+  if (!g || g.adminUid !== currentUser.uid) return;
+
+  const gid = currentGroupId;
+  const gName = g.name;
+  const gCode = g.code;
+  const memberUids = Object.keys(g.members || {});
+
+  Swal.fire({
+    title: 'Hapus Grup?',
+    text: `Hapus "${gName}" secara permanen? Semua pesan & data akan hilang.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Hapus Permanen',
+    cancelButtonText: 'Batal',
+    confirmButtonColor: '#dc1e3c',
+    background: '#2c2f38',
+    color: '#fff',
+  }).then(async (result) => {
+    if (!result.isConfirmed) return;
+    closeGroupPanel();
+    const updates = {};
+    memberUids.forEach(uid => { updates[`userGroups/${uid}/${gid}`] = null; });
+    updates[`groups/${gid}`] = null;
+    updates[`groupMessages/${gid}`] = null;
+    updates[`groupCodes/${gCode}`] = null;
+    updates[`groupJoinNotifs/${gid}`] = null;
+    await db.ref().update(updates);
+    showToast('<i class="fa-solid fa-trash"></i> Grup dihapus');
+  });
+};
+
+// ── Buat grup baru ──
+window.openCreateGroupModal = function() {
+  document.getElementById('createGroupName').value = '';
+  document.getElementById('createGroupDesc').value = '';
+  document.getElementById('createGroupModal').classList.add('open');
+};
+window.closeCreateGroupModal = function() {
+  document.getElementById('createGroupModal').classList.remove('open');
+};
+window.createGroup = async function() {
+  const name = document.getElementById('createGroupName').value.trim();
+  const desc = document.getElementById('createGroupDesc').value.trim();
+  if (!name || name.length < 2) { showToast('Nama grup minimal 2 karakter!'); return; }
+  if (!currentUser) return;
+
+  let code;
+  // Generate kode unik
+  for (let i = 0; i < 10; i++) {
+    code = genGroupCode();
+    const snap = await db.ref(`groupCodes/${code}`).get();
+    if (!snap.exists()) break;
+  }
+
+  const gid = db.ref('groups').push().key;
+  const now = Date.now();
+  const groupData = {
+    name, desc,
+    code,
+    adminUid: currentUser.uid,
+    createdAt: now,
+    locked: false,
+    members: {
+      [currentUser.uid]: { username: getUserName(currentUser.uid), joinedAt: now }
+    }
+  };
+
+  const updates = {};
+  updates[`groups/${gid}`] = groupData;
+  updates[`groupCodes/${code}`] = gid;
+  updates[`userGroups/${currentUser.uid}/${gid}`] = true;
+
+  await db.ref().update(updates);
+
+  // Pesan selamat datang
+  await db.ref(`groupMessages/${gid}`).push({
+    type: 'system',
+    text: `Grup "${name}" dibuat oleh ${getUserName(currentUser.uid)}. Kode undangan: ${code}`,
+    timestamp: Date.now()
+  });
+
+  closeCreateGroupModal();
+  showToast(`<i class="fa-solid fa-users"></i> Grup<b>${name}</b>berhasil dibuat! Kode:<b>${code}</b>`);
+  setTimeout(() => openGroupPanel(gid), 300);
+};
+
+// ── Join grup dengan kode ──
+window.openJoinGroupModal = function() {
+  document.getElementById('joinGroupCode').value = '';
+  document.getElementById('joinGroupModal').classList.add('open');
+};
+window.closeJoinGroupModal = function() {
+  document.getElementById('joinGroupModal').classList.remove('open');
+};
+window.joinGroup = async function() {
+  const code = document.getElementById('joinGroupCode').value.trim().toUpperCase();
+  if (!code || code.length !== 6) { showToast('Kode harus 6 karakter!'); return; }
+
+  // Lookup gid dari kode
+  const codeSnap = await db.ref(`groupCodes/${code}`).get();
+  if (!codeSnap.exists()) { showToast('<i class="fa-solid fa-xmark"></i> Kode tidak ditemukan!'); return; }
+
+  const gid = codeSnap.val();
+  // Cek sudah member belum
+  if (myGroups[gid]) {
+    showToast('<i class="fa-solid fa-info"></i> Kamu sudah bergabung di grup ini!');
+    closeJoinGroupModal();
+    openGroupPanel(gid);
+    return;
+  }
+
+  const now = Date.now();
+  const updates = {};
+  updates[`groups/${gid}/members/${currentUser.uid}`] = { username: getUserName(currentUser.uid), joinedAt: now };
+  updates[`userGroups/${currentUser.uid}/${gid}`] = true;
+  await db.ref().update(updates);
+
+  // Pesan sistem
+  db.ref(`groupMessages/${gid}`).push({
+    type: 'system', text: `${getUserName(currentUser.uid)} bergabung ke grup`, timestamp: Date.now()
+  });
+
+  closeJoinGroupModal();
+  showToast('<i class="fa-solid fa-check"></i> Berhasil bergabung ke grup!');
+  setTimeout(() => openGroupPanel(gid), 300);
+};
+
+// ── Group emoji picker ──
+window.toggleGroupEmojiPicker = function() {
+  const picker = document.getElementById('groupEmojiPicker');
+  picker.classList.toggle('open');
+  if (picker.classList.contains('open')) {
+    const grid = document.getElementById('groupEmojiGrid');
+    if (!grid.innerHTML) initGroupEmojiGrid();
+  }
+};
+function initGroupEmojiGrid() {
+  const emojis = ['😀','😂','🥹','😊','😍','🤩','😎','🤔','😅','😭','😡','🤯','🥳','😴','🤗','😬','🙄','😏','😤','🥺','👍','👎','👏','🙌','🤝','🫶','❤️','🔥','✨','💯','🎉','🎊','😈','💀','👻','🤖','💪','🧠','👀','💬'];
+  const grid = document.getElementById('groupEmojiGrid');
+  grid.innerHTML = emojis.map(e => `<button class="emoji-btn" onclick="insertGroupEmoji('${e}')">${e}</button>`).join('');
+}
+window.insertGroupEmoji = function(e) {
+  const inp = document.getElementById('groupInput');
+  inp.value += e;
+  inp.focus();
+  autoResize(inp);
+  document.getElementById('groupEmojiPicker').classList.remove('open');
+};
+
+// Close group modals on outside click
+document.addEventListener('click', e => {
+  if (e.target === document.getElementById('createGroupModal')) closeCreateGroupModal();
+  if (e.target === document.getElementById('joinGroupModal')) closeJoinGroupModal();
+  if (e.target === document.getElementById('renameGroupModal')) closeRenameGroupModal();
+  if (e.target === document.getElementById('groupSettingsModal')) closeGroupSettingsModal();
+  const manageMenu = document.getElementById('groupManageMenu');
+  if (manageMenu && !manageMenu.contains(e.target) && !e.target.closest('#groupManageBtn')) {
+    manageMenu.classList.remove('open');
+  }
+  const groupEmojiPicker = document.getElementById('groupEmojiPicker');
+  if (groupEmojiPicker && !groupEmojiPicker.contains(e.target) && !e.target.closest('[onclick="toggleGroupEmojiPicker()"]')) {
+    groupEmojiPicker.classList.remove('open');
+  }
+});
+
+// ════════════════════════════════════════════════
+// ── GROUP SETTINGS MODAL ──
+// ════════════════════════════════════════════════
+
+let gsCurrentTab = 'info';
+let gsSelectedColor = null;
+let groupJoinNotifs = []; // notif join cache
+let groupJoinNotifListener = null;
+let unreadJoinNotifCount = 0;
+
+window.openGroupSettingsModal = function() {
+  if (!currentGroupId) return;
+  document.getElementById('groupManageMenu').classList.remove('open');
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  const isAdmin = g.adminUid === currentUser.uid;
+
+  // Populate profil tab
+  document.getElementById('gsNameInput').value = g.name || '';
+  document.getElementById('gsDescInput').value = g.desc || '';
+  gsSelectedColor = g.color || COLORS[(currentGroupId.charCodeAt(0) + currentGroupId.charCodeAt(1)) % COLORS.length];
+  initGsColorPicker();
+  updateGsAvatarPreview();
+
+  // Permissions tab — non-admin can't see perms
+  const permTab = document.getElementById('stab-perms');
+  const membersTab = document.getElementById('stab-members');
+  const notifsTab = document.getElementById('stab-notifs');
+  permTab.style.display = isAdmin ? '' : 'none';
+  notifsTab.style.display = isAdmin ? '' : 'none';
+
+  // Toggle states
+  const perms = g.perms || {};
+  ['rename','desc','avatar','joinnoti'].forEach(id => {
+    const permKey = { rename:'allowMemberRename', desc:'allowMemberDesc', avatar:'allowMemberAvatar', joinnoti:'notifyAdminOnJoin' }[id];
+    const btn = document.getElementById(`perm-${id}`);
+    if (btn) { btn.classList.toggle('on', !!perms[permKey]); }
+  });
+
+  // Disable info fields if not admin and no perms
+  const canRename = isAdmin || !!perms.allowMemberRename;
+  const canDesc = isAdmin || !!perms.allowMemberDesc;
+  const canAvatar = isAdmin || !!perms.allowMemberAvatar;
+  document.getElementById('gsNameInput').disabled = !canRename;
+  document.getElementById('gsDescInput').disabled = !canDesc;
+  document.getElementById('gsColorRow').style.pointerEvents = canAvatar ? 'auto' : 'none';
+  document.getElementById('gsColorRow').style.opacity = canAvatar ? '1' : '0.4';
+  document.getElementById('gsInfoSaveBtn').style.display = (canRename || canDesc || canAvatar) ? 'block' : 'none';
+
+  // Load members tab
+  renderSettingsMemberList();
+
+  // Load notif tab
+  if (isAdmin) listenGroupJoinNotifs();
+
+  switchSettingsTab('info');
+  document.getElementById('groupSettingsModal').classList.add('open');
+};
+
+window.closeGroupSettingsModal = function() {
+  document.getElementById('groupSettingsModal').classList.remove('open');
+  if (groupJoinNotifListener) {
+    db.ref(`groupJoinNotifs/${currentGroupId}`).off('value', groupJoinNotifListener);
+    groupJoinNotifListener = null;
+  }
+};
+
+window.switchSettingsTab = function(tab) {
+  gsCurrentTab = tab;
+  ['info','perms','members','notifs'].forEach(t => {
+    document.getElementById(`stab-${t}`)?.classList.toggle('active', t === tab);
+    const c = document.getElementById(`stab-content-${t}`);
+    if (c) c.style.display = t === tab ? '' : 'none';
+  });
+  if (tab === 'members') renderSettingsMemberList();
+};
+
+// ── Color picker for group ──
+function initGsColorPicker() {
+  const row = document.getElementById('gsColorRow');
+  row.innerHTML = '';
+  COLORS.forEach(c => {
+    const dot = document.createElement('div');
+    dot.className = 'gcolor-dot' + (c === gsSelectedColor ? ' active' : '');
+    dot.style.background = c;
+    dot.onclick = () => {
+      gsSelectedColor = c;
+      document.querySelectorAll('.gcolor-dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+      updateGsAvatarPreview();
+    };
+    row.appendChild(dot);
+  });
+}
+function updateGsAvatarPreview() {
+  const g = myGroups[currentGroupId];
+  const el = document.getElementById('gsAvatarPreview');
+  el.style.background = gsSelectedColor || '#dc1e3c';
+  el.textContent = (g?.name || 'G').slice(0,2).toUpperCase();
+}
+
+// ── Save group info ──
+window.saveGroupInfo = async function() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  const isAdmin = g.adminUid === currentUser.uid;
+  const perms = g.perms || {};
+
+  const newName = document.getElementById('gsNameInput').value.trim();
+  const newDesc = document.getElementById('gsDescInput').value.trim();
+
+  if (newName.length < 2) { showToast('Nama minimal 2 karakter!'); return; }
+
+  const updates = {};
+  if ((isAdmin || perms.allowMemberRename) && newName !== g.name) updates[`groups/${currentGroupId}/name`] = newName;
+  if ((isAdmin || perms.allowMemberDesc) && newDesc !== g.desc) updates[`groups/${currentGroupId}/desc`] = newDesc;
+  if ((isAdmin || perms.allowMemberAvatar) && gsSelectedColor !== (g.color || null)) updates[`groups/${currentGroupId}/color`] = gsSelectedColor;
+
+  if (Object.keys(updates).length === 0) { showToast('Tidak ada perubahan'); return; }
+
+  await db.ref().update(updates);
+
+  if (updates[`groups/${currentGroupId}/name`]) {
+    db.ref(`groupMessages/${currentGroupId}`).push({
+      type:'system', text:`${getUserName(currentUser.uid)} mengubah nama grup menjadi "${newName}"`, timestamp: Date.now()
+    });
+  }
+
+  showToast('<i class="fa-solid fa-check"></i> Profil grup disimpan!');
+  closeGroupSettingsModal();
+};
+
+// ── Toggle permission ──
+window.toggleGroupPerm = function(permKey, btn) {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g || g.adminUid !== currentUser.uid) return;
+  const current = !!(g.perms || {})[permKey];
+  const newVal = !current;
+  db.ref(`groups/${currentGroupId}/perms/${permKey}`).set(newVal);
+  btn.classList.toggle('on', newVal);
+  showToast(newVal ? '<i class="fa-solid fa-check"></i> Izin diaktifkan' : '<i class="fa-solid fa-xmark"></i> Izin dinonaktifkan');
+};
+
+// ── Render member list in settings ──
+function renderSettingsMemberList() {
+  if (!currentGroupId) return;
+  const g = myGroups[currentGroupId];
+  if (!g) return;
+  const isAdmin = g.adminUid === currentUser.uid;
+  const container = document.getElementById('gsettingsMemberList');
+  container.innerHTML = '';
+  const members = g.members || {};
+
+  Object.entries(members).forEach(([uid, info]) => {
+    const isMemberAdmin = g.adminUid === uid;
+    const isMe = uid === currentUser.uid;
+    const uname = allUsers[uid]?.username || info?.username || uid.slice(0,8);
+    const cl = allUsers[uid]?.avatarColor || getAvatarColor(uid);
+    const initials = uname.slice(0,2).toUpperCase();
+
+    const row = document.createElement('div');
+    row.className = 'gsettings-member-row';
+
+    let actionButtons = '';
+    if (isAdmin && !isMe) {
+      if (isMemberAdmin) {
+        actionButtons = `
+          <button class="gmember-btn" onclick="unadminMember('${uid}','${escHtml(uname)}')">Hapus Admin</button>
+          <button class="gmember-btn danger" onclick="kickMember('${uid}','${escHtml(uname)}')">Kick</button>
+        `;
+      } else {
+        actionButtons = `
+          <button class="gmember-btn promote" onclick="promoteMember('${uid}','${escHtml(uname)}')">Jadikan Admin</button>
+          <button class="gmember-btn danger" onclick="kickMember('${uid}','${escHtml(uname)}')">Kick</button>
+        `;
+      }
+    }
+
+    row.innerHTML = `
+      <div style="width:30px;height:30px;border-radius:9px;background:${cl};color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:800;flex-shrink:0">${initials}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:0.83rem;font-weight:600;color:var(--text)">${escHtml(uname)} ${isMe ? '<span style="font-size:0.6rem;color:var(--text3)">(kamu)</span>' : ''}</div>
+        <div style="font-size:0.65rem;color:${isMemberAdmin ? 'var(--accent2)' : 'var(--text3)'}">${isMemberAdmin ? 'Admin' : 'Member'}</div>
+      </div>
+      <div class="gsettings-member-actions">${actionButtons}</div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ── Promote member jadi admin ──
+window.promoteMember = async function(uid, uname) {
+  if (!currentGroupId) return;
+  if (!confirm(`Jadikan ${uname} sebagai admin grup?`)) return;
+  await db.ref(`groups/${currentGroupId}/adminUid`).set(uid);
+  // Kirim pesan sistem
+  db.ref(`groupMessages/${currentGroupId}`).push({
+    type:'system', text:`${getUserName(currentUser.uid)} menjadikan ${uname} sebagai admin`, timestamp:Date.now()
+  });
+  showToast(`<i class="fa-solid fa-star"></i> ${escHtml(uname)} sekarang jadi admin!`);
+  renderSettingsMemberList();
+};
+
+// ── Unadmin member ──
+window.unadminMember = async function(uid, uname) {
+  if (!currentGroupId) return;
+  if (!confirm(`Hapus admin dari ${uname}?`)) return;
+  // Set back ke creator atau current admin
+  await db.ref(`groups/${currentGroupId}/adminUid`).set(currentUser.uid);
+  db.ref(`groupMessages/${currentGroupId}`).push({
+    type:'system', text:`${getUserName(currentUser.uid)} mencabut admin dari ${uname}`, timestamp:Date.now()
+  });
+  showToast(`<i class="fa-solid fa-xmark"></i> Admin ${escHtml(uname)} dicabut`);
+  renderSettingsMemberList();
+};
+
+// ── Kick member ──
+window.kickMember = async function(uid, uname) {
+  if (!currentGroupId) return;
+  if (!confirm(`Kick ${uname} dari grup?`)) return;
+  const updates = {};
+  updates[`groups/${currentGroupId}/members/${uid}`] = null;
+  updates[`userGroups/${uid}/${currentGroupId}`] = null;
+  await db.ref().update(updates);
+  db.ref(`groupMessages/${currentGroupId}`).push({
+    type:'system', text:`${uname} dikeluarkan dari grup oleh admin`, timestamp:Date.now()
+  });
+  showToast(`<i class="fa-solid fa-user-slash"></i> ${escHtml(uname)} dikick dari grup`);
+  renderSettingsMemberList();
+};
+
+// ── Listen notifikasi join ke admin ──
+function listenGroupJoinNotifs() {
+  if (!currentGroupId) return;
+  if (groupJoinNotifListener) {
+    db.ref(`groupJoinNotifs/${currentGroupId}`).off('value', groupJoinNotifListener);
+  }
+  groupJoinNotifListener = db.ref(`groupJoinNotifs/${currentGroupId}`)
+    .orderByChild('ts').limitToLast(50)
+    .on('value', snap => {
+      const data = snap.val() || {};
+      groupJoinNotifs = Object.entries(data).map(([k,v]) => ({key:k,...v})).sort((a,b) => b.ts-a.ts);
+      renderJoinNotifList();
+      // hitung unread
+      const g = myGroups[currentGroupId];
+      const lastRead = g?.adminLastReadNotif || 0;
+      unreadJoinNotifCount = groupJoinNotifs.filter(n => n.ts > lastRead).length;
+      updateNotifBadges();
+    });
+}
+
+function renderJoinNotifList() {
+  const container = document.getElementById('gsJoinNotifList');
+  if (!container) return;
+  if (!groupJoinNotifs.length) {
+    container.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text3);font-size:0.82rem">
+      <i class="fa-regular fa-bell" style="font-size:1.5rem;display:block;margin-bottom:8px"></i>
+      Belum ada notifikasi join
+    </div>`;
+    return;
+  }
+  const g = myGroups[currentGroupId];
+  const lastRead = g?.adminLastReadNotif || 0;
+  container.innerHTML = groupJoinNotifs.map(n => {
+    const timeStr = new Date(n.ts).toLocaleString('id-ID', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    const isNew = n.ts > lastRead;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid ${isNew ? 'var(--border2)' : 'var(--border)'};background:${isNew ? 'var(--own-msg)' : 'rgba(255,255,255,0.02)'}">
+      <div style="width:32px;height:32px;border-radius:10px;background:${n.color || getAvatarColor(n.uid)};color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:800;flex-shrink:0">${(n.username||'?').slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:0.82rem;font-weight:600;color:var(--text)"><b>${escHtml(n.username)}</b> bergabung ke grup</div>
+        <div style="font-size:0.65rem;color:var(--text3)">${timeStr}</div>
+      </div>
+      ${isNew ? '<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function updateNotifBadges() {
+  // Badge di tab notifikasi
+  const badge = document.getElementById('gsNotifBadge');
+  if (badge) {
+    badge.style.display = unreadJoinNotifCount > 0 ? 'inline' : 'none';
+    badge.textContent = unreadJoinNotifCount;
+  }
+}
+
+window.clearJoinNotifs = function() {
+  if (!currentGroupId) return;
+  db.ref(`groups/${currentGroupId}/adminLastReadNotif`).set(Date.now());
+  unreadJoinNotifCount = 0;
+  updateNotifBadges();
+  renderJoinNotifList();
+  showToast('<i class="fa-solid fa-check-double"></i> Semua notifikasi ditandai dibaca');
+};
+
+// ── Override joinGroup buat kirim notif ke admin ──
+const _origJoinGroup = window.joinGroup;
+window.joinGroup = async function() {
+  const code = document.getElementById('joinGroupCode').value.trim().toUpperCase();
+  if (!code || code.length !== 6) { showToast('Kode harus 6 karakter!'); return; }
+  const codeSnap = await db.ref(`groupCodes/${code}`).get();
+  if (!codeSnap.exists()) { showToast('<i class="fa-solid fa-xmark"></i> Kode tidak ditemukan!'); return; }
+  const gid = codeSnap.val();
+  if (myGroups[gid]) {
+    showToast('<i class="fa-solid fa-info"></i> Kamu sudah bergabung!');
+    closeJoinGroupModal(); openGroupPanel(gid); return;
+  }
+  const now = Date.now();
+  const uname = getUserName(currentUser.uid);
+  const ucl = allUsers[currentUser.uid]?.avatarColor || getAvatarColor(currentUser.uid);
+  const updates = {};
+  updates[`groups/${gid}/members/${currentUser.uid}`] = { username: uname, joinedAt: now };
+  updates[`userGroups/${currentUser.uid}/${gid}`] = true;
+  // Tambah notif join ke admin
+  const gSnap = await db.ref(`groups/${gid}`).get();
+  const gData = gSnap.val() || {};
+  if (gData.perms?.notifyAdminOnJoin !== false) {
+    updates[`groupJoinNotifs/${gid}/${currentUser.uid}_${now}`] = {
+      uid: currentUser.uid, username: uname, color: ucl, ts: now
+    };
+  }
+  await db.ref().update(updates);
+  db.ref(`groupMessages/${gid}`).push({
+    type:'system', text:`${uname} bergabung ke grup`, timestamp: Date.now()
+  });
+  closeJoinGroupModal();
+  showToast('<i class="fa-solid fa-check"></i> Berhasil bergabung ke grup!');
+  setTimeout(() => openGroupPanel(gid), 300);
+};
 </script>
+
+<!-- ═══ GROUP SETTINGS MODAL ═══ -->
+<div class="gsettings-overlay" id="groupSettingsModal">
+  <div class="gsettings-box">
+    <div class="gsettings-header">
+      <h2><i class="fa-solid fa-gear"></i> Pengaturan Grup</h2>
+      <button class="icon-btn" onclick="closeGroupSettingsModal()" style="width:30px;height:30px;border-radius:8px">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="gsettings-tabs">
+      <button class="gsettings-tab active" onclick="switchSettingsTab('info')" id="stab-info">Profil</button>
+      <button class="gsettings-tab" onclick="switchSettingsTab('perms')" id="stab-perms">Izin</button>
+      <button class="gsettings-tab" onclick="switchSettingsTab('members')" id="stab-members">Anggota</button>
+      <button class="gsettings-tab" onclick="switchSettingsTab('notifs')" id="stab-notifs">Notifikasi <span id="gsNotifBadge" style="display:none;background:var(--accent);color:#fff;font-size:0.55rem;padding:1px 5px;border-radius:8px;margin-left:4px">0</span></button>
+    </div>
+    <div class="gsettings-body">
+
+      <!-- TAB: Profil -->
+      <div id="stab-content-info">
+        <div class="gsettings-section">
+          <div class="gsettings-label">Foto & Warna Grup</div>
+          <div class="gprofile-avatar-wrap">
+            <div class="gprofile-avatar-big" id="gsAvatarPreview" style="background:#dc1e3c">G</div>
+            <div>
+              <div class="gsettings-toggle-sub" style="margin-bottom:8px">Pilih warna grup</div>
+              <div class="gcolor-row" id="gsColorRow"></div>
+            </div>
+          </div>
+        </div>
+        <div class="gsettings-section">
+          <div class="gsettings-label">Nama Grup</div>
+          <input class="gsettings-input" id="gsNameInput" placeholder="Nama grup..." maxlength="30">
+        </div>
+        <div class="gsettings-section">
+          <div class="gsettings-label">Deskripsi</div>
+          <textarea class="gsettings-input" id="gsDescInput" placeholder="Deskripsi grup (opsional)..." maxlength="150" rows="3" style="resize:none"></textarea>
+        </div>
+        <button class="gsettings-save-btn" id="gsInfoSaveBtn" onclick="saveGroupInfo()">
+          <i class="fa-solid fa-floppy-disk" style="margin-right:6px"></i>Simpan Perubahan
+        </button>
+      </div>
+
+      <!-- TAB: Izin -->
+      <div id="stab-content-perms" style="display:none">
+        <div class="gsettings-section">
+          <div class="gsettings-label">Izin Anggota</div>
+          <div class="gsettings-toggle-row">
+            <div class="gsettings-toggle-info">
+              <div class="gsettings-toggle-title">Anggota bisa ganti nama grup</div>
+              <div class="gsettings-toggle-sub">Member (bukan admin) bisa rename grup</div>
+            </div>
+            <button class="toggle-switch" id="perm-rename" onclick="toggleGroupPerm('allowMemberRename', this)"></button>
+          </div>
+          <div class="gsettings-toggle-row">
+            <div class="gsettings-toggle-info">
+              <div class="gsettings-toggle-title">Anggota bisa ganti deskripsi</div>
+              <div class="gsettings-toggle-sub">Member bisa ubah deskripsi grup</div>
+            </div>
+            <button class="toggle-switch" id="perm-desc" onclick="toggleGroupPerm('allowMemberDesc', this)"></button>
+          </div>
+          <div class="gsettings-toggle-row">
+            <div class="gsettings-toggle-info">
+              <div class="gsettings-toggle-title">Anggota bisa ganti foto/warna profil</div>
+              <div class="gsettings-toggle-sub">Member bisa ubah tampilan grup</div>
+            </div>
+            <button class="toggle-switch" id="perm-avatar" onclick="toggleGroupPerm('allowMemberAvatar', this)"></button>
+          </div>
+          <div class="gsettings-toggle-row">
+            <div class="gsettings-toggle-info">
+              <div class="gsettings-toggle-title">Notifikasi join ke admin</div>
+              <div class="gsettings-toggle-sub">Admin dapat notif saat ada member baru</div>
+            </div>
+            <button class="toggle-switch" id="perm-joinnoti" onclick="toggleGroupPerm('notifyAdminOnJoin', this)"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Anggota -->
+      <div id="stab-content-members" style="display:none">
+        <div class="gsettings-label">Daftar Anggota</div>
+        <div id="gsettingsMemberList"></div>
+      </div>
+
+      <!-- TAB: Notifikasi Join -->
+      <div id="stab-content-notifs" style="display:none">
+        <div class="gsettings-label">Pemberitahuan Anggota Baru</div>
+        <div id="gsJoinNotifList" style="display:flex;flex-direction:column;gap:8px">
+          <div style="text-align:center;padding:24px;color:var(--text3);font-size:0.82rem">
+            <i class="fa-regular fa-bell" style="font-size:1.5rem;display:block;margin-bottom:8px"></i>
+            Belum ada notifikasi join
+          </div>
+        </div>
+        <button class="gsettings-save-btn" style="margin-top:12px;background:rgba(255,255,255,0.06);box-shadow:none;color:var(--text2)" onclick="clearJoinNotifs()">
+          <i class="fa-solid fa-check-double" style="margin-right:6px"></i>Tandai Semua Sudah Dibaca
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CREATE GROUP MODAL ═══ -->
+<div class="gmodal-overlay" id="createGroupModal">
+  <div class="gmodal">
+    <h2><i class="fa-solid fa-users"></i> Buat Grup Baru</h2>
+    <div class="gmodal-sub">Buat grup chat privat dan undang teman dengan kode unik.</div>
+    <input class="gmodal-input" id="createGroupName" placeholder="Nama grup (maks. 30 karakter)..." maxlength="30">
+    <textarea class="gmodal-input" id="createGroupDesc" placeholder="Deskripsi grup (opsional)..." maxlength="100" rows="2" style="resize:none"></textarea>
+    <div class="gmodal-btns">
+      <button class="gmodal-cancel" onclick="closeCreateGroupModal()">Batal</button>
+      <button class="gmodal-confirm" onclick="createGroup()"><i class="fa-solid fa-plus" style="margin-right:6px"></i>Buat</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ JOIN GROUP MODAL ═══ -->
+<div class="gmodal-overlay" id="joinGroupModal">
+  <div class="gmodal">
+    <h2><i class="fa-solid fa-right-to-bracket"></i> Gabung Grup</h2>
+    <div class="gmodal-sub">Masukkan kode undangan yang diberikan admin grup.</div>
+    <input class="gmodal-input" id="joinGroupCode" placeholder="Kode undangan (6 karakter)..." maxlength="6" style="text-transform:uppercase;letter-spacing:4px;font-family:var(--font-mono);text-align:center;font-size:1.1rem" oninput="this.value=this.value.toUpperCase()">
+    <div class="gmodal-btns">
+      <button class="gmodal-cancel" onclick="closeJoinGroupModal()">Batal</button>
+      <button class="gmodal-confirm" onclick="joinGroup()"><i class="fa-solid fa-right-to-bracket" style="margin-right:6px"></i>Gabung</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RENAME GROUP MODAL ═══ -->
+<div class="gmodal-overlay" id="renameGroupModal">
+  <div class="gmodal">
+    <h2><i class="fa-solid fa-pen"></i> Ganti Nama Grup</h2>
+    <input class="gmodal-input" id="renameGroupInput" placeholder="Nama grup baru..." maxlength="30">
+    <div class="gmodal-btns">
+      <button class="gmodal-cancel" onclick="closeRenameGroupModal()">Batal</button>
+      <button class="gmodal-confirm" onclick="renameGroup()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REPORT MODAL ═══ -->
+<div class="report-modal" id="reportModal">
+  <div class="report-box">
+    <h3><i class="fa-solid fa-flag" style="color:var(--accent);margin-right:6px"></i>Laporkan Pesan</h3>
+    <p>Pilih alasan laporan:</p>
+    <div class="report-reasons" id="reportReasons">
+      <button class="report-reason" onclick="selectReportReason(this,'Spam')"><i class="fa-solid fa-bullhorn"></i> Spam</button>
+      <button class="report-reason" onclick="selectReportReason(this,'Konten tidak pantas')"><i class="fa-solid fa-ban"></i> Konten tidak pantas</button>
+      <button class="report-reason" onclick="selectReportReason(this,'Pelecehan/Bullying')"><i class="fa-solid fa-face-angry"></i> Pelecehan / Bullying</button>
+      <button class="report-reason" onclick="selectReportReason(this,'Informasi palsu')"><i class="fa-solid fa-circle-xmark"></i> Informasi palsu</button>
+      <button class="report-reason" onclick="selectReportReason(this,'Lainnya')"><i class="fa-solid fa-ellipsis"></i> Lainnya</button>
+    </div>
+    <button class="report-cancel" onclick="closeReportModal()">Batal</button>
+  </div>
+</div>
+
+<!-- ═══ PROFILE EDIT MODAL ═══ -->
+<div class="profile-modal" id="profileEditModal">
+  <div class="profile-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-size:1rem;margin:0"><i class="fa-solid fa-pen" style="color:var(--accent);margin-right:6px"></i>Edit Profil</h3>
+      <button class="icon-btn" onclick="closeProfileEditModal()" style="width:28px;height:28px">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="profile-avatar-large" id="profileEditAvatar" style="background:var(--accent);color:#fff">??</div>
+    <div class="color-picker-row" id="colorPickerRow"></div>
+    <input class="profile-input" id="profileEditUsername" placeholder="Username baru..." maxlength="20">
+    <input class="profile-input" id="profileEditBio" placeholder="Bio singkat (opsional)..." maxlength="80">
+    <button class="profile-save-btn" onclick="saveProfile()">Simpan Profil</button>
+  </div>
+</div>
+
 <!-- ═══ PHOTO VIEWER MODAL ═══ -->
 <div id="photoModal" class="photo-modal" style="display:none" onclick="closePhotoModal(event)">
   <div class="photo-modal-topbar" onclick="event.stopPropagation()">
