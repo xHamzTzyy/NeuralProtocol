@@ -443,12 +443,151 @@ body::before {
 
 /* gambar */
 .msg-image {
-  max-width: 240px; border-radius: 12px; margin-top: 2px;
+  max-width: min(240px, 100%); width: 100%; border-radius: 12px; margin-top: 2px;
   border: 1px solid var(--border); cursor: zoom-in; display: block;
+  object-fit: cover; object-position: center; transition: opacity 0.2s;
+}
+.msg-bubble img.msg-image { max-width: 100%; width: auto; max-height: 300px; object-fit: contain; }
+.msg-image:active { opacity: 0.8; }
+
+/* ── Photo Viewer Modal ── */
+.photo-modal {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.95);
+  display: flex; flex-direction: column;
+  animation: fadeIn 0.2s ease;
+}
+.photo-modal-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; flex-shrink: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+}
+.photo-modal-sender {
+  display: flex; align-items: center; gap: 10px;
+}
+.photo-modal-avatar {
+  width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
+  letter-spacing: -0.5px; text-transform: uppercase;
+}
+.photo-modal-info { display: flex; flex-direction: column; }
+.photo-modal-name { font-size: 0.85rem; font-weight: 700; color: #fff; }
+.photo-modal-time { font-size: 0.65rem; color: rgba(255,255,255,0.5); font-family: var(--font-mono); }
+.photo-modal-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: none;
+  color: #fff; font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.photo-modal-close:hover { background: rgba(255,255,255,0.2); }
+.photo-modal-body {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; padding: 0 16px;
+}
+.photo-modal-img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain; border-radius: 8px;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+.photo-modal-bottombar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; padding: 16px 20px 24px; flex-shrink: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+.photo-modal-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px; padding: 12px 20px; cursor: pointer; color: #fff;
+  font-family: var(--font-body); font-size: 0.72rem; font-weight: 600;
+  transition: background 0.2s; text-decoration: none; min-width: 72px;
+}
+.photo-modal-btn:hover { background: rgba(255,255,255,0.18); }
+.photo-modal-btn i { font-size: 1.1rem; }
+.photo-modal-btn.danger { background: rgba(220,30,60,0.2); border-color: rgba(220,30,60,0.3); }
+.photo-modal-btn.danger:hover { background: rgba(220,30,60,0.35); }
+.msg-file-attach {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  margin-top: 4px; cursor: pointer; transition: background 0.2s;
+  max-width: 260px; text-decoration: none;
+}
+.msg-file-attach:hover { background: rgba(255,255,255,0.1); }
+.msg-file-icon { font-size: 1.4rem; flex-shrink: 0; }
+.msg-file-info { flex: 1; min-width: 0; }
+.msg-file-name { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msg-file-size { font-size: 0.65rem; color: var(--text3); }
+audio.msg-audio {
+  display: block; width: 100%; max-width: 260px; margin-top: 4px;
+  border-radius: 30px; height: 36px;
+  background: rgba(255,255,255,0.06);
+  filter: invert(1) hue-rotate(180deg) brightness(0.85);
+}
+audio.msg-audio::-webkit-media-controls-panel {
+  background: var(--bg3);
+  border-radius: 30px;
 }
 
 /* reactions tepat dibawah bubble */
 .msg-reactions-wrap { margin-top: 4px; padding: 0 2px; }
+
+/* reaction picker popup (long press) */
+.reaction-picker {
+  position: fixed; z-index: 200;
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 50px; padding: 8px 12px;
+  display: flex; gap: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  animation: popIn 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn { from { transform: scale(0.7); opacity:0; } to { transform: scale(1); opacity:1; } }
+.reaction-picker-btn {
+  font-size: 1.4rem; padding: 4px 6px; border: none; background: none;
+  cursor: pointer; border-radius: 50%; transition: transform 0.15s;
+  line-height: 1;
+}
+.reaction-picker-btn:hover { transform: scale(1.3); }
+
+/* custom delete confirm */
+.delete-confirm {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+}
+.delete-confirm-box {
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 24px 28px;
+  max-width: 300px; width: 90%; text-align: center;
+  animation: slideUp 0.25s ease;
+}
+.delete-confirm-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.delete-confirm-box p { font-size: 0.8rem; color: var(--text2); margin-bottom: 20px; }
+.delete-confirm-btns { display: flex; gap: 10px; }
+.delete-confirm-btns button {
+  flex: 1; padding: 11px; border-radius: 12px; border: none;
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.delete-cancel { background: rgba(255,255,255,0.08); color: var(--text); }
+.delete-cancel:hover { background: rgba(255,255,255,0.14); }
+.delete-ok { background: var(--accent); color: #fff; }
+.delete-ok:hover { filter: brightness(1.15); }
+
+/* swipe reply indicator */
+.msg-group { touch-action: pan-y; user-select: none; }
+.msg-swipe-hint {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.15s;
+}
+.msg-group.own .msg-swipe-hint { right: -36px; }
+.msg-group:not(.own) .msg-swipe-hint { left: -36px; }
 .msg-reactions { display: flex; gap: 4px; flex-wrap: wrap; }
 .reaction {
   display: flex; align-items: center; gap: 3px;
@@ -908,8 +1047,14 @@ body::before {
 
   <!-- TOP BAR -->
   <div class="topbar">
-    <button class="icon-btn" onclick="toggleSidebar()" id="hamburgerBtn" style="font-size:1.1rem">
-      <i class="fa-solid fa-bars"></i>
+    <button onclick="toggleSidebar()" id="hamburgerBtn" style="
+      background:none;border:none;cursor:pointer;
+      display:flex;flex-direction:column;justify-content:center;
+      gap:5px;padding:8px;width:36px;height:36px;flex-shrink:0;
+    ">
+      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
+      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
+      <span style="display:block;height:2.5px;width:22px;background:var(--text);border-radius:2px"></span>
     </button>
     <div class="topbar-logo"><i class="fa-solid fa-fire"></i> Community</div>
     <div class="channel-name" id="channelLabel">
@@ -1037,7 +1182,7 @@ body::before {
               <button class="input-btn" onclick="document.getElementById('fileInput').click()" title="Lampiran">
                 <i class="fa-solid fa-paperclip"></i>
               </button>
-              <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileUpload(this)">
+              <input type="file" id="fileInput" accept="image/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar" style="display:none" onchange="handleFileUpload(this)">
             </div>
           </div>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Kirim">
@@ -1056,14 +1201,24 @@ body::before {
     <!-- DM PANEL -->
     <div class="dm-panel" id="dmPanel">
       <div class="dm-header">
-        <div class="dm-avatar" id="dmPanelAvatar" style="width:36px;height:36px;border-radius:12px;font-size:0.85rem;font-weight:700;flex-shrink:0">?</div>
+        <div class="dm-avatar" id="dmPanelAvatar" style="width:36px;height:36px;border-radius:12px;font-size:0.65rem;font-weight:800;flex-shrink:0;display:flex;align-items:center;justify-content:center;letter-spacing:-0.5px;text-transform:uppercase">?</div>
         <div class="dm-user-info">
           <div class="dm-user-name" id="dmPanelName">...</div>
           <div class="dm-user-status" id="dmPanelStatus">Online</div>
         </div>
         <div class="icon-btn" onclick="closeDmPanel()"><i class="fa-solid fa-xmark"></i></div>
       </div>
-      <div class="chat-messages" id="dmMessages" style="flex:1;overflow-y:auto;padding:16px"></div>
+      <div class="chat-messages" id="dmMessages" style="flex:1;overflow-y:auto;padding:12px 16px"></div>
+
+      <!-- DM Reply Bar -->
+      <div class="reply-bar" id="dmReplyBar">
+        <div class="reply-bar-content">
+          <i class="fa-solid fa-reply" style="color:var(--accent);font-size:0.75rem"></i>
+          <span id="dmReplyBarText" style="font-size:0.78rem;color:var(--text2)"></span>
+        </div>
+        <button class="reply-close" onclick="cancelDmReply()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
       <div class="chat-input-area" style="border-top:1px solid var(--border)">
         <div class="chat-input-wrap">
           <div class="chat-input-inner">
@@ -1074,9 +1229,23 @@ body::before {
               onkeydown="handleDmKey(event)"
               oninput="autoResize(this)"
             ></textarea>
+            <div class="input-actions">
+              <button class="input-btn" onclick="toggleDmEmojiPicker()" title="Emoji">
+                <i class="fa-regular fa-face-smile"></i>
+              </button>
+              <button class="input-btn" onclick="document.getElementById('dmFileInput').click()" title="Lampiran">
+                <i class="fa-solid fa-paperclip"></i>
+              </button>
+              <input type="file" id="dmFileInput" accept="image/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar" style="display:none" onchange="handleDmFileUpload(this)">
+            </div>
           </div>
           <button class="send-btn" onclick="sendDm()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
+      </div>
+
+      <!-- DM Emoji Picker -->
+      <div class="emoji-picker" id="dmEmojiPicker">
+        <div class="emoji-grid" id="dmEmojiGrid"></div>
       </div>
     </div>
 
@@ -1420,7 +1589,7 @@ function loadChannel(ch) {
     if (loadingEl) loadingEl.remove();
     if (!snap.exists()) {
       container.innerHTML = `<div id="emptyState" style="text-align:center;padding:60px 20px;color:var(--text3)">
-          <div style="font-size:2rem;margin-bottom:12px"><i class="fa-solid fa-comments"></i></div>
+        <div style="font-size:2rem;margin-bottom:12px;color:var(--text3)"><i class="fa-regular fa-message"></i></div>
         <div style="font-size:0.85rem">Belum ada pesan di #${ch}<br>Jadilah yang pertama!</div>
       </div>`;
     }
@@ -1440,6 +1609,16 @@ function loadChannel(ch) {
     if (!firstLoad && msg.uid !== currentUser?.uid && document.hidden) showNotif();
     if (msg.type === 'whisper' && msg.targetUid === currentUser?.uid)
       showToast(`💬 Bisikan dari @${getUserName(msg.uid)}`, 'whisper-toast');
+  });
+
+  // ★ Hapus pesan realtime (dari user lain)
+  chQuery.on('child_removed', snap => {
+    const el = document.querySelector(`[data-key="${snap.key}"]`);
+    if (el) {
+      el.style.transition = 'opacity 0.3s, transform 0.3s';
+      el.style.opacity = '0'; el.style.transform = 'scale(0.95)';
+      setTimeout(() => el.remove(), 300);
+    }
   });
 
   // ★ UPDATE reaksi realtime — tanpa ini reaction tidak muncul!
@@ -1487,10 +1666,65 @@ function renderMessage(msg, key, container) {
   const whisperBadge = isWhisper
     ? `<span class="msg-badge" style="background:rgba(201,122,255,0.15);color:var(--whisper)">🤫 bisik→@${escHtml(getUserName(msg.targetUid))}</span>` : '';
 
-  const imageHTML = msg.imageUrl ? `<img src="${escHtml(msg.imageUrl)}" class="msg-image" onclick="window.open(this.src)" loading="lazy">` : '';
+  const imageHTML = msg.imageUrl
+    ? `<img src="${escHtml(msg.imageUrl)}" class="msg-image" onclick="openPhotoModal('${escHtml(msg.imageUrl)}','${escHtml(name)}','${escHtml(cl)}','${escHtml(em)}','${escHtml(formatTime(msg.timestamp))}')" loading="lazy">`
+    : '';
+  const audioHTML = msg.audioUrl
+    ? `<audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>`
+    : '';
+  const fileHTML = msg.fileUrl
+    ? `<a class="msg-file-attach" href="${escHtml(msg.fileUrl)}" download="${escHtml(msg.fileName||'file')}" target="_blank">
+        <span class="msg-file-icon">${getFileIcon(msg.fileType||'')}</span>
+        <div class="msg-file-info">
+          <div class="msg-file-name">${escHtml(msg.fileName||'file')}</div>
+          <div class="msg-file-size">${escHtml(msg.fileSize||'')}</div>
+        </div>
+        <i class="fa-solid fa-download" style="color:var(--text3);font-size:0.8rem"></i>
+      </a>`
+    : '';
+  const mediaHTML = imageHTML + audioHTML + fileHTML;
   const reactions = msg.reactions ? renderReactions(msg.reactions, key) : '';
 
-  const hasText = msg.text && msg.text !== '[Gambar]';
+  const hasText = msg.text && msg.text !== '[Gambar]' && msg.text.trim() !== '';
+  // Long press & swipe handlers
+  let pressTimer = null;
+  let longPressed = false;
+
+  function startPress() {
+    longPressed = false;
+    pressTimer = setTimeout(() => {
+      longPressed = true;
+      if (navigator.vibrate) navigator.vibrate(60);
+      showReactionPicker(key, group);
+    }, 2000);
+  }
+  function cancelPress() { clearTimeout(pressTimer); }
+
+  group.addEventListener('touchstart', e => {
+    // Jangan trigger kalau klik tombol action
+    if (e.target.closest('.msg-actions, .msg-action-btn, .reaction, .msg-file-attach, audio')) return;
+    startPress();
+  }, {passive:true});
+  group.addEventListener('touchend', cancelPress, {passive:true});
+  group.addEventListener('touchmove', cancelPress, {passive:true});
+
+  // Mouse long press (desktop)
+  group.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    if (e.target.closest('.msg-actions, .msg-action-btn, .reaction, .msg-file-attach, audio')) return;
+    startPress();
+  });
+  group.addEventListener('mouseup', cancelPress);
+  group.addEventListener('mouseleave', cancelPress);
+
+  // Block click kalau longpress terjadi
+  group.addEventListener('click', e => {
+    if (longPressed) { e.stopPropagation(); e.preventDefault(); longPressed = false; }
+  }, true);
+
+  // Swipe right to reply
+  setupSwipeReply(group, key, name, msg.text||'', msg.uid);
+
   group.innerHTML = `
     <div class="msg-avatar" style="background:${cl};color:#fff" onclick="openProfilePopup('${msg.uid}', this)">${em}</div>
     <div class="msg-content">
@@ -1500,11 +1734,10 @@ function renderMessage(msg, key, container) {
         <span class="msg-time">${formatTime(msg.timestamp)}</span>
       </div>
       ${replyHTML}
-      ${hasText || imageHTML ? `
+      ${hasText || mediaHTML ? `
         <div class="msg-bubble">
-          ${replyHTML ? '' : ''}
           ${hasText ? formatText(msg.text) : ''}
-          ${imageHTML}
+          ${mediaHTML}
         </div>` : ''}
       <div class="msg-reactions-wrap">${reactions ? `<div class="msg-reactions">${reactions}</div>` : ''}</div>
     </div>
@@ -1568,6 +1801,23 @@ window.sendWhisper = async function() {
 };
 
 // ── DM ──
+// ── DM unread tracking ──
+const dmUnread = {}; // { uid: count }
+let dmLastSeen = JSON.parse(localStorage.getItem('dmLastSeen') || '{}');
+
+function playNotifSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.setValueAtTime(880, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.1);
+    g.gain.setValueAtTime(0.3, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.4);
+  } catch(e) {}
+}
+
 function listenDMs() {
   db.ref('dms').on('value', snap => {
     const dms = snap.val() || {};
@@ -1576,9 +1826,18 @@ function listenDMs() {
       if (!roomId.includes(currentUser.uid)) return;
       const otherUid = roomId.split('_').find(id => id !== currentUser.uid);
       if (!otherUid) return;
-      const msgArr = Object.values(msgs);
-      const lastMsg = msgArr.sort((a,b) => b.timestamp - a.timestamp)[0];
-      myDMs[otherUid] = { roomId, lastMsg };
+      const msgArr = Object.values(msgs || {});
+      const sorted = msgArr.sort((a,b) => b.timestamp - a.timestamp);
+      const lastMsg = sorted[0];
+      // Hitung unread: pesan dari orang lain yang lebih baru dari lastSeen
+      const lastSeen = dmLastSeen[otherUid] || 0;
+      const unread = sorted.filter(m => m.uid !== currentUser.uid && m.timestamp > lastSeen).length;
+      if (unread > 0 && unread > (dmUnread[otherUid] || 0) && dmTarget !== otherUid) {
+        playNotifSound();
+        showToast(`💬 ${unread} pesan baru dari @${getUserName(otherUid)}`, 'dm-toast');
+      }
+      dmUnread[otherUid] = unread;
+      myDMs[otherUid] = { roomId, lastMsg, unread };
     });
     renderDMList(myDMs);
   });
@@ -1589,7 +1848,7 @@ function getDmRoomId(uid1, uid2) { return [uid1, uid2].sort().join('_'); }
 function renderDMList(myDMs) {
   const list = document.getElementById('dmList');
   list.innerHTML = '';
-  Object.entries(myDMs).forEach(([uid, { lastMsg }]) => {
+  Object.entries(myDMs).forEach(([uid, { lastMsg, unread }]) => {
     const name = getUserName(uid);
     const em   = getAvatarInitial(uid);
     const cl   = allUsers[uid]?.avatarColor || getAvatarColor(uid);
@@ -1597,14 +1856,19 @@ function renderDMList(myDMs) {
     const item = document.createElement('div');
     item.className = `dm-item${dmTarget === uid ? ' active' : ''}`;
     item.onclick = () => openDmPanel(uid);
+    const preview = lastMsg?.imageUrl ? '🖼️ Gambar'
+      : lastMsg?.audioUrl ? '🎵 Voice note'
+      : lastMsg?.fileUrl  ? `📎 ${lastMsg.fileName||'File'}`
+      : (lastMsg?.text||'...');
     item.innerHTML = `
-      <div class="dm-avatar" style="background:${cl};color:#fff;width:28px;height:28px;font-size:0.7rem;border-radius:50%;position:relative">
+      <div class="dm-avatar" style="background:${cl};color:#fff;width:28px;height:28px;font-size:0.62rem;font-weight:800;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center">
         ${em}<div class="status-dot${isOnline?' online':''}"></div>
       </div>
       <div class="dm-info">
         <div class="dm-name">${escHtml(name)}</div>
-        <div class="dm-preview">${escHtml((lastMsg?.text||'...').slice(0,30))}</div>
-      </div>`;
+        <div class="dm-preview">${escHtml(preview.slice(0,30))}</div>
+      </div>
+      ${unread > 0 ? `<div class="unread-badge">${unread > 99 ? '99+' : unread}</div>` : ''}`;
     list.appendChild(item);
   });
 }
@@ -1624,13 +1888,40 @@ function openDmPanel(uid) {
   const dmMsgs = document.getElementById('dmMessages');
   dmMsgs.innerHTML = '';
 
-  if (dmListeners[roomId]) db.ref(`dms/${roomId}`).off();
+  if (dmListeners[roomId]) { db.ref(`dms/${roomId}`).off(); }
   dmListeners[roomId] = true;
-  db.ref(`dms/${roomId}`).orderByChild('timestamp').limitToLast(60).on('child_added', snap => {
+  const dmQuery = db.ref(`dms/${roomId}`).orderByChild('timestamp').limitToLast(60);
+
+  dmQuery.on('child_added', snap => {
     const msg = snap.val(); if (!msg) return;
-    renderDmMessage(msg, dmMsgs);
+    renderDmMessage(msg, snap.key, dmMsgs);
     setTimeout(() => { dmMsgs.scrollTop = dmMsgs.scrollHeight; }, 50);
   });
+
+  // Update reactions realtime
+  dmQuery.on('child_changed', snap => {
+    const msg = snap.val(); if (!msg) return;
+    const existing = dmMsgs.querySelector(`[data-key="${snap.key}"]`);
+    if (!existing) return;
+    const wrap = existing.querySelector('.msg-reactions-wrap');
+    if (wrap) {
+      const newR = msg.reactions ? renderDmReactions(msg.reactions, snap.key) : '';
+      wrap.innerHTML = newR ? `<div class="msg-reactions">${newR}</div>` : '';
+    }
+  });
+
+  // Hapus pesan realtime
+  dmQuery.on('child_removed', snap => {
+    const el = dmMsgs.querySelector(`[data-key="${snap.key}"]`);
+    if (el) { el.style.transition='opacity 0.3s,transform 0.3s'; el.style.opacity='0'; el.style.transform='scale(0.95)'; setTimeout(()=>el.remove(),300); }
+  });
+
+  // Mark as seen
+  dmLastSeen[uid] = Date.now();
+  localStorage.setItem('dmLastSeen', JSON.stringify(dmLastSeen));
+  dmUnread[uid] = 0;
+  cancelDmReply();
+  initDmEmojis();
   closeProfilePopup();
 }
 
@@ -1639,32 +1930,140 @@ window.closeDmPanel = function() {
   dmTarget = null;
 };
 
-function renderDmMessage(msg, container) {
-  const isOwn = msg.uid === currentUser.uid;
-  const em = getAvatarInitial(msg.uid);
-  const cl = allUsers[msg.uid]?.avatarColor || getAvatarColor(msg.uid);
+function renderDmMessage(msg, key, container) {
+  if (!container) container = document.getElementById('dmMessages');
+  const isOwn    = msg.uid === currentUser.uid;
+  const em       = getAvatarInitial(msg.uid);
+  const cl       = allUsers[msg.uid]?.avatarColor || getAvatarColor(msg.uid);
+  const name     = getUserName(msg.uid);
+  const hasText  = msg.text && msg.text !== '[Gambar]' && msg.text.trim() !== '';
+
+  // media
+  const imageHTML = msg.imageUrl
+    ? `<img src="${escHtml(msg.imageUrl)}" class="msg-image" onclick="openPhotoModal('${escHtml(msg.imageUrl)}','${escHtml(name)}','${escHtml(cl)}','${escHtml(em)}','${escHtml(formatTime(msg.timestamp))}')" loading="lazy">`
+    : '';
+  const audioHTML = msg.audioUrl
+    ? `<audio class="msg-audio" controls src="${escHtml(msg.audioUrl)}"></audio>` : '';
+  const fileHTML  = msg.fileUrl
+    ? `<a class="msg-file-attach" href="${escHtml(msg.fileUrl)}" download="${escHtml(msg.fileName||'file')}" target="_blank">
+        <span class="msg-file-icon">${getFileIcon(msg.fileType||'')}</span>
+        <div class="msg-file-info">
+          <div class="msg-file-name">${escHtml(msg.fileName||'file')}</div>
+          <div class="msg-file-size">${escHtml(msg.fileSize||'')}</div>
+        </div>
+        <i class="fa-solid fa-download" style="color:var(--text3);font-size:0.8rem"></i>
+      </a>` : '';
+  const mediaHTML = imageHTML + audioHTML + fileHTML;
+
+  // reply quote
+  let replyHTML = '';
+  if (msg.replyTo) {
+    const rname = getUserName(msg.replyTo.uid);
+    replyHTML = `<div class="msg-reply-quote"><i class="fa-solid fa-reply" style="margin-right:4px"></i><b>@${escHtml(rname)}</b>: ${escHtml((msg.replyTo.text||'').slice(0,60))}...</div>`;
+  }
+
+  // reactions
+  const reactions = msg.reactions ? renderDmReactions(msg.reactions, key) : '';
+
   const div = document.createElement('div');
   div.className = `msg-group${isOwn?' own':''}`;
+  div.dataset.key = key;
+
   div.innerHTML = `
     <div class="msg-avatar" style="background:${cl};color:#fff">${em}</div>
     <div class="msg-content">
       <div class="msg-header">
-        <span class="msg-author">${escHtml(getUserName(msg.uid))}</span>
+        <span class="msg-author">${escHtml(name)}</span>
         <span class="msg-time">${formatTime(msg.timestamp)}</span>
       </div>
-      <div class="msg-bubble">${escHtml(msg.text)}</div>
+      ${replyHTML}
+      ${hasText || mediaHTML ? `<div class="msg-bubble">${hasText ? formatText(msg.text) : ''}${mediaHTML}</div>` : ''}
+      <div class="msg-reactions-wrap">${reactions ? `<div class="msg-reactions">${reactions}</div>` : ''}</div>
+    </div>
+    <div class="msg-actions">
+      <button class="msg-action-btn" onclick="setDmReply('${key}','${escHtml(name)}','${escHtml((msg.text||'').slice(0,60))}','${msg.uid}')" title="Balas"><i class="fa-solid fa-reply"></i></button>
+      <button class="msg-action-btn" onclick="addDmReaction('${key}','👍')" title="👍">👍</button>
+      <button class="msg-action-btn" onclick="addDmReaction('${key}','❤️')" title="❤️">❤️</button>
+      <button class="msg-action-btn" onclick="addDmReaction('${key}','😂')" title="😂">😂</button>
+      ${isOwn ? `<button class="msg-action-btn" onclick="deleteDmMessage('${key}')" title="Hapus" style="color:var(--accent)"><i class="fa-solid fa-trash"></i></button>` : ''}
     </div>`;
+
+  // Long press reaction picker
+  let pressTimer2 = null, longPressed2 = false;
+  div.addEventListener('touchstart', e => {
+    if (e.target.closest('.msg-actions,.msg-action-btn,.reaction,audio,a')) return;
+    longPressed2 = false;
+    pressTimer2 = setTimeout(() => {
+      longPressed2 = true;
+      if (navigator.vibrate) navigator.vibrate(60);
+      showDmReactionPicker(key, div);
+    }, 2000);
+  }, {passive:true});
+  div.addEventListener('touchend',  () => clearTimeout(pressTimer2), {passive:true});
+  div.addEventListener('touchmove', () => clearTimeout(pressTimer2), {passive:true});
+  div.addEventListener('mousedown', e => {
+    if (e.button!==0 || e.target.closest('.msg-actions,.msg-action-btn,.reaction,audio,a')) return;
+    longPressed2 = false;
+    pressTimer2 = setTimeout(() => { longPressed2=true; showDmReactionPicker(key, div); }, 2000);
+  });
+  div.addEventListener('mouseup',    () => clearTimeout(pressTimer2));
+  div.addEventListener('mouseleave', () => clearTimeout(pressTimer2));
+  div.addEventListener('click', e => { if (longPressed2) { e.stopPropagation(); e.preventDefault(); longPressed2=false; } }, true);
+
+  // Swipe right to reply
+  setupSwipeReplyDm(div, key, name, msg.text||'', msg.uid);
+
   container.appendChild(div);
 }
+
+function renderDmReactions(reactions, key) {
+  const counts = {}; const myReacts = new Set();
+  Object.entries(reactions).forEach(([uid, emoji]) => {
+    counts[emoji] = (counts[emoji]||0) + 1;
+    if (uid === currentUser?.uid) myReacts.add(emoji);
+  });
+  return Object.entries(counts).map(([emoji, count]) => {
+    const safeEmoji = encodeURIComponent(emoji);
+    return `<div class="reaction${myReacts.has(emoji)?' reacted':''}" data-key="${key}" data-emoji="${safeEmoji}" onclick="addDmReactionEl(this)">${emoji} <span>${count}</span></div>`;
+  }).join('');
+}
+
+let dmReplyTo = null;
 
 window.sendDm = async function() {
   if (!dmTarget || !currentUser) return;
   const input = document.getElementById('dmInput');
-  const text  = input.value.trim(); if (!text) return;
-  input.value = ''; autoResize(input);
+  const text  = input.value.trim();
   const roomId = getDmRoomId(currentUser.uid, dmTarget);
-  await db.ref(`dms/${roomId}`).push({ uid: currentUser.uid, text, timestamp: Date.now() });
+
+  // Kirim file kalau ada pending
+  if (!text && !window._dmPendingFile) return;
+
+  const msgData = { uid: currentUser.uid, timestamp: Date.now(), text: text || '' };
+  if (dmReplyTo) msgData.replyTo = dmReplyTo;
+
+  if (window._dmPendingFile) {
+    Object.assign(msgData, window._dmPendingFile);
+    window._dmPendingFile = null;
+  }
+
+  input.value = ''; autoResize(input);
+  cancelDmReply();
+  await db.ref(`dms/${roomId}`).push(msgData);
 };
+
+window.setDmReply = function(key, name, text, uid) {
+  dmReplyTo = { key, name, text, uid };
+  document.getElementById('dmReplyBar').classList.add('show');
+  document.getElementById('dmReplyBarText').innerHTML = `<b>@${escHtml(name)}</b>: ${escHtml(text)}`;
+  document.getElementById('dmInput').focus();
+};
+window.cancelDmReply = function() {
+  dmReplyTo = null;
+  const bar = document.getElementById('dmReplyBar');
+  if (bar) bar.classList.remove('show');
+};
+
 window.handleDmKey = function(e) { if (e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendDm(); } };
 
 // ── Reactions ──
@@ -1682,9 +2081,27 @@ window.addReactionEl = function(el) {
 };
 
 // ── Delete ──
-window.deleteMessage = async function(key) {
-  if (!confirm('Hapus pesan ini?')) return;
-  await db.ref(`messages/${currentChannel}/${key}`).remove();
+window.deleteMessage = function(key) {
+  // Custom confirm UI tanpa alert browser
+  const overlay = document.createElement('div');
+  overlay.className = 'delete-confirm';
+  overlay.innerHTML = `
+    <div class="delete-confirm-box">
+      <h3>🗑️ Hapus Pesan</h3>
+      <p>Pesan ini akan dihapus permanen untuk semua orang.</p>
+      <div class="delete-confirm-btns">
+        <button class="delete-cancel" onclick="this.closest('.delete-confirm').remove()">Batal</button>
+        <button class="delete-ok" id="confirmDelBtn">Hapus</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('confirmDelBtn').onclick = async () => {
+    overlay.remove();
+    await db.ref(`messages/${currentChannel}/${key}`).remove();
+    // Hapus dari DOM langsung tanpa reload
+    const el = document.querySelector(`[data-key="${key}"]`);
+    if (el) el.remove();
+  };
 };
 
 // ── Reply ──
@@ -1786,6 +2203,8 @@ document.addEventListener('click', e => {
   if (popup.classList.contains('open') && !popup.contains(e.target) && !e.target.classList.contains('msg-author') && !e.target.classList.contains('msg-avatar')) closeProfilePopup();
   if (!document.getElementById('themePanel').contains(e.target) && !e.target.closest('#themeToggleBtn')) document.getElementById('themePanel').classList.remove('open');
   if (!document.getElementById('emojiPicker').contains(e.target) && !e.target.closest('.input-btn')) document.getElementById('emojiPicker').classList.remove('open');
+  const dmEmoji = document.getElementById('dmEmojiPicker');
+  if (dmEmoji && !dmEmoji.contains(e.target) && !e.target.closest('#dmPanel .input-btn')) dmEmoji.classList.remove('open');
 });
 
 // ── Toast ──
@@ -1837,14 +2256,43 @@ function insertEmoji(e) {
 window.toggleEmojiPicker = function() { document.getElementById('emojiPicker').classList.toggle('open'); };
 
 // ── File ──
+function getFileIcon(mime) {
+  if (mime.startsWith('image/')) return '🖼️';
+  if (mime.startsWith('audio/')) return '🎵';
+  if (mime.startsWith('video/')) return '🎬';
+  if (mime.includes('pdf')) return '📄';
+  if (mime.includes('zip') || mime.includes('rar')) return '🗜️';
+  if (mime.includes('word') || mime.includes('doc')) return '📝';
+  return '📎';
+}
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1024/1024).toFixed(1) + ' MB';
+}
 window.handleFileUpload = async function(input) {
   const file = input.files[0]; if (!file) return;
-  if (file.size > 2*1024*1024) { showToast('Gambar max 2MB!'); return; }
+  const MAX = 10*1024*1024; // 10MB
+  if (file.size > MAX) { showToast('File max 10MB!'); input.value=''; return; }
   const reader = new FileReader();
   reader.onload = async e => {
-    await db.ref(`messages/${currentChannel}`).push({
-      uid: currentUser.uid, text: '', imageUrl: e.target.result, timestamp: Date.now(), type: 'public'
-    });
+    const isImage = file.type.startsWith('image/');
+    const isAudio = file.type.startsWith('audio/');
+    const msgData = {
+      uid: currentUser.uid, timestamp: Date.now(), type: 'public', text: ''
+    };
+    if (isImage) {
+      msgData.imageUrl = e.target.result;
+    } else if (isAudio) {
+      msgData.audioUrl = e.target.result;
+      msgData.audioName = file.name;
+    } else {
+      msgData.fileUrl  = e.target.result;
+      msgData.fileName = file.name;
+      msgData.fileSize = formatFileSize(file.size);
+      msgData.fileType = file.type;
+    }
+    await db.ref(`messages/${currentChannel}`).push(msgData);
   };
   reader.readAsDataURL(file);
   input.value = '';
@@ -1878,7 +2326,294 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── Reaction Picker (long press) ──
+const QUICK_REACTS = ['❤️','😂','😮','😢','😡','👍','🔥','🙏'];
+window.showReactionPicker = function(key, groupEl) {
+  // Hapus picker lama kalau ada
+  document.querySelectorAll('.reaction-picker').forEach(p => p.remove());
+  const picker = document.createElement('div');
+  picker.className = 'reaction-picker';
+  QUICK_REACTS.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'reaction-picker-btn';
+    btn.textContent = emoji;
+    btn.onclick = () => { addReaction(key, emoji); picker.remove(); };
+    picker.appendChild(btn);
+  });
+  document.body.appendChild(picker);
+  // Posisikan di atas elemen
+  const rect = groupEl.getBoundingClientRect();
+  const pw = 280; // approx picker width
+  let left = rect.left + rect.width/2 - pw/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - pw - 8));
+  let top = rect.top - 60;
+  if (top < 60) top = rect.bottom + 8;
+  picker.style.left = left + 'px';
+  picker.style.top  = top + 'px';
+  // Tutup saat klik di luar
+  setTimeout(() => {
+    const close = e => { if (!picker.contains(e.target)) { picker.remove(); document.removeEventListener('touchstart', close); document.removeEventListener('mousedown', close); } };
+    document.addEventListener('mousedown', close, {once:false});
+    document.addEventListener('touchstart', close, {once:false, passive:true});
+  }, 100);
+};
+
+// ── Swipe right to reply ──
+function setupSwipeReply(el, key, name, text, uid) {
+  let startX = 0, startY = 0, swiping = false;
+  const threshold = 60;
+  // Create hint icon
+  const hint = document.createElement('div');
+  hint.className = 'msg-swipe-hint';
+  hint.innerHTML = '<i class="fa-solid fa-reply"></i>';
+  el.style.position = 'relative';
+  el.appendChild(hint);
+
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    swiping = false;
+  }, {passive:true});
+
+  el.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - startX;
+    const dy = Math.abs(e.touches[0].clientY - startY);
+    if (dy > 20 && !swiping) return; // vertical scroll
+    if (dx > 15) {
+      swiping = true;
+      const progress = Math.min(dx / threshold, 1);
+      el.style.transform = `translateX(${Math.min(dx * 0.4, 30)}px)`;
+      hint.style.opacity = progress;
+    }
+  }, {passive:true});
+
+  el.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    el.style.transform = '';
+    hint.style.opacity = '0';
+    if (swiping && dx > threshold) {
+      setReply(key, name, text, uid);
+      // Hapus vibrate jika support
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+    swiping = false;
+  }, {passive:true});
+}
+
+// ── Photo Viewer Modal ──
+window.openPhotoModal = function(src, name, color, initial, time) {
+  const modal = document.getElementById('photoModal');
+  const img   = document.getElementById('photoModalImg');
+  const av    = document.getElementById('photoModalAvatar');
+  const nm    = document.getElementById('photoModalName');
+  const tm    = document.getElementById('photoModalTime');
+  const save  = document.getElementById('photoModalSave');
+
+  img.src = src;
+  av.textContent = initial;
+  av.style.background = color;
+  av.style.color = '#fff';
+  nm.textContent = name;
+  tm.textContent = time;
+  save.href = src;
+  save.download = `foto_${name}_${Date.now()}.jpg`;
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closePhotoModal = function(e) {
+  if (e && e.target !== document.getElementById('photoModal') && !e.target.closest('.photo-modal-close')) return;
+  const modal = document.getElementById('photoModal');
+  modal.style.display = 'none';
+  document.getElementById('photoModalImg').src = '';
+  document.body.style.overflow = '';
+};
+
+window.copyPhotoLink = function() {
+  const src = document.getElementById('photoModalImg').src;
+  navigator.clipboard?.writeText(src).then(() => showToast('Link foto disalin!')).catch(() => showToast('Gagal salin link'));
+};
+
+window.sharePhoto = async function() {
+  const src  = document.getElementById('photoModalImg').src;
+  const name = document.getElementById('photoModalName').textContent;
+  if (navigator.share) {
+    try {
+      // Convert base64 to blob for native share
+      const res  = await fetch(src);
+      const blob = await res.blob();
+      const file = new File([blob], `foto_${name}.jpg`, { type: blob.type });
+      await navigator.share({ files: [file], title: `Foto dari ${name}` });
+    } catch(e) {
+      if (e.name !== 'AbortError') showToast('Gagal bagikan foto');
+    }
+  } else {
+    window.open(src, '_blank');
+  }
+};
+
+// Tutup modal dengan tombol back (Android)
+window.addEventListener('popstate', () => {
+  const modal = document.getElementById('photoModal');
+  if (modal.style.display !== 'none') { modal.style.display = 'none'; document.body.style.overflow = ''; }
+});
+
 document.getElementById('chatInput')?.addEventListener('keydown', e => {
   if (e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); }
 });
+
+// ── DM Reactions ──
+window.addDmReaction = async function(key, emoji) {
+  if (!currentUser || !dmTarget) return;
+  const roomId = getDmRoomId(currentUser.uid, dmTarget);
+  const rRef = db.ref(`dms/${roomId}/${key}/reactions/${currentUser.uid}`);
+  const snap = await rRef.get();
+  if (snap.exists() && snap.val() === emoji) rRef.remove();
+  else rRef.set(emoji);
+};
+window.addDmReactionEl = function(el) {
+  const key   = el.dataset.key;
+  const emoji = decodeURIComponent(el.dataset.emoji);
+  addDmReaction(key, emoji);
+};
+
+// ── DM Reaction Picker (long press) ──
+window.showDmReactionPicker = function(key, groupEl) {
+  document.querySelectorAll('.reaction-picker').forEach(p => p.remove());
+  const picker = document.createElement('div');
+  picker.className = 'reaction-picker';
+  ['❤️','😂','😮','😢','😡','👍','🔥','🙏'].forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'reaction-picker-btn';
+    btn.textContent = emoji;
+    btn.onclick = () => { addDmReaction(key, emoji); picker.remove(); };
+    picker.appendChild(btn);
+  });
+  document.body.appendChild(picker);
+  const rect = groupEl.getBoundingClientRect();
+  const pw = 280;
+  let left = Math.max(8, Math.min(rect.left + rect.width/2 - pw/2, window.innerWidth - pw - 8));
+  let top  = rect.top - 60; if (top < 60) top = rect.bottom + 8;
+  picker.style.left = left + 'px'; picker.style.top = top + 'px';
+  setTimeout(() => {
+    const close = e => { if (!picker.contains(e.target)) { picker.remove(); document.removeEventListener('mousedown',close); document.removeEventListener('touchstart',close); } };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close, {passive:true});
+  }, 100);
+};
+
+// ── DM Delete ──
+window.deleteDmMessage = function(key) {
+  const overlay = document.createElement('div');
+  overlay.className = 'delete-confirm';
+  overlay.innerHTML = `
+    <div class="delete-confirm-box">
+      <h3>🗑️ Hapus Pesan</h3>
+      <p>Pesan ini akan dihapus permanen.</p>
+      <div class="delete-confirm-btns">
+        <button class="delete-cancel" onclick="this.closest('.delete-confirm').remove()">Batal</button>
+        <button class="delete-ok" id="confirmDmDelBtn">Hapus</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('confirmDmDelBtn').onclick = async () => {
+    overlay.remove();
+    const roomId = getDmRoomId(currentUser.uid, dmTarget);
+    await db.ref(`dms/${roomId}/${key}`).remove();
+    const el = document.querySelector(`#dmMessages [data-key="${key}"]`);
+    if (el) { el.style.transition='opacity 0.3s,transform 0.3s'; el.style.opacity='0'; el.style.transform='scale(0.95)'; setTimeout(()=>el.remove(),300); }
+  };
+};
+
+// ── DM Swipe Reply ──
+function setupSwipeReplyDm(el, key, name, text, uid) {
+  let startX=0, startY=0, swiping=false;
+  const threshold=60;
+  const hint = document.createElement('div');
+  hint.className='msg-swipe-hint'; hint.innerHTML='<i class="fa-solid fa-reply"></i>';
+  el.style.position='relative'; el.appendChild(hint);
+  el.addEventListener('touchstart', e => { startX=e.touches[0].clientX; startY=e.touches[0].clientY; swiping=false; }, {passive:true});
+  el.addEventListener('touchmove', e => {
+    const dx=e.touches[0].clientX-startX, dy=Math.abs(e.touches[0].clientY-startY);
+    if (dy>20&&!swiping) return;
+    if (dx>15) { swiping=true; el.style.transform=`translateX(${Math.min(dx*0.4,30)}px)`; hint.style.opacity=Math.min(dx/threshold,1); }
+  }, {passive:true});
+  el.addEventListener('touchend', e => {
+    const dx=e.changedTouches[0].clientX-startX;
+    el.style.transform=''; hint.style.opacity='0';
+    if (swiping&&dx>threshold) { setDmReply(key,name,text,uid); if(navigator.vibrate) navigator.vibrate(40); }
+    swiping=false;
+  }, {passive:true});
+}
+
+// ── DM File Upload ──
+window.handleDmFileUpload = async function(input) {
+  const file = input.files[0]; if (!file) return;
+  if (file.size > 10*1024*1024) { showToast('File max 10MB!'); input.value=''; return; }
+  const reader = new FileReader();
+  reader.onload = async e => {
+    const isImage = file.type.startsWith('image/');
+    const isAudio = file.type.startsWith('audio/');
+    const roomId  = getDmRoomId(currentUser.uid, dmTarget);
+    const msgData = { uid: currentUser.uid, timestamp: Date.now(), text: '' };
+    if (dmReplyTo) { msgData.replyTo = dmReplyTo; cancelDmReply(); }
+    if (isImage)      msgData.imageUrl = e.target.result;
+    else if (isAudio) { msgData.audioUrl = e.target.result; msgData.audioName = file.name; }
+    else { msgData.fileUrl=e.target.result; msgData.fileName=file.name; msgData.fileSize=formatFileSize(file.size); msgData.fileType=file.type; }
+    await db.ref(`dms/${roomId}`).push(msgData);
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+};
+
+// ── DM Emoji ──
+window.toggleDmEmojiPicker = function() {
+  document.getElementById('dmEmojiPicker').classList.toggle('open');
+};
+function initDmEmojis() {
+  const grid = document.getElementById('dmEmojiGrid');
+  if (!grid || grid.children.length > 0) return;
+  ['😀','😂','😍','🥹','😎','🤔','😅','🙏','❤️','🔥','👍','👎','🎉','💯','✅','❌','🌙','⭐','🕌','📖','🤲','💪','🫡','😭','🥺','😤','🤣','😊','🙈','💀','👻','🎯','🚀','💡','🎸','🌊','🦁','🐉','🦅','🌺','🎭','🏆','🎁','💎','🔮'].forEach(e => {
+    const btn = document.createElement('button');
+    btn.className='emoji-btn'; btn.textContent=e;
+    btn.onclick = () => {
+      const inp = document.getElementById('dmInput');
+      const s=inp.selectionStart, end=inp.selectionEnd;
+      inp.value=inp.value.slice(0,s)+e+inp.value.slice(end);
+      inp.selectionStart=inp.selectionEnd=s+e.length;
+      inp.focus();
+    };
+    grid.appendChild(btn);
+  });
+}
 </script>
+<!-- ═══ PHOTO VIEWER MODAL ═══ -->
+<div id="photoModal" class="photo-modal" style="display:none" onclick="closePhotoModal(event)">
+  <div class="photo-modal-topbar" onclick="event.stopPropagation()">
+    <div class="photo-modal-sender">
+      <div class="photo-modal-avatar" id="photoModalAvatar"></div>
+      <div class="photo-modal-info">
+        <div class="photo-modal-name" id="photoModalName"></div>
+        <div class="photo-modal-time" id="photoModalTime"></div>
+      </div>
+    </div>
+    <button class="photo-modal-close" onclick="closePhotoModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  <div class="photo-modal-body">
+    <img class="photo-modal-img" id="photoModalImg" src="" alt="">
+  </div>
+  <div class="photo-modal-bottombar" onclick="event.stopPropagation()">
+    <a class="photo-modal-btn" id="photoModalSave" href="#" download="foto.jpg">
+      <i class="fa-solid fa-download"></i><span>Simpan</span>
+    </a>
+    <button class="photo-modal-btn" onclick="copyPhotoLink()">
+      <i class="fa-solid fa-link"></i><span>Salin Link</span>
+    </button>
+    <button class="photo-modal-btn" onclick="sharePhoto()">
+      <i class="fa-solid fa-share-nodes"></i><span>Bagikan</span>
+    </button>
+  </div>
+</div>
